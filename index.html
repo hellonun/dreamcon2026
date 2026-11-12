@@ -286,20 +286,21 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
 
     <section class="pane" data-pane="bricks" hidden>
       <h2>Brick build</h2>
-      <p class="lede">A low round platform with holes to sit in. All the bricks start in neat stacks on the deck, and visitors lay them into a paved, terraced landscape around the holes. Run the six days to see it change.</p>
+      <p class="lede">A low round platform with holes to sit in. All the bricks start in neat stacks on the deck, and visitors build them into small Kapla-like structures around the holes. Run the six days to see it change.</p>
       <div class="card">
-        <div class="rng"><span>Platform</span><input type="range" id="b-pdia" min="35" max="70" value="60"><output id="b-pdia-o"></output></div>
+        <div class="rng"><span>Platform</span><input type="range" id="b-pdia" min="35" max="80" value="70"><output id="b-pdia-o"></output></div>
         <div class="rng"><span>Seat height</span><input type="range" id="b-plath" min="35" max="60" value="45"><output id="b-plath-o"></output></div>
-        <div class="rng"><span>Holes to sit in</span><input type="range" id="b-holes" min="1" max="5" value="3"><output id="b-holes-o"></output></div>
+        <label class="fld">Hole layout<select id="b-holeset" class="s"><option value="opt1">Option 1 · one hole (drawing 01)</option><option value="opt2">Option 2 · two holes (drawing 02)</option><option value="opt3">Option 3 · three holes (drawing 03)</option><option value="random">Random</option></select></label>
+        <div class="rng" data-random-holes><span>Holes to sit in</span><input type="range" id="b-holes" min="1" max="5" value="3"><output id="b-holes-o"></output></div>
         <div class="row"><button class="btn" id="b-reholes">Rearrange holes</button><label class="tg"><input type="checkbox" id="b-skirt">Timber skirt to hide the scaffold</label></div>
       </div>
-      <h3>Brick landscape on top</h3>
+      <h3>Brick structures on top</h3>
       <div class="card">
-        <div class="rng"><span>Raised areas</span><input type="range" id="b-nstruct" min="0" max="12" value="6"><output id="b-nstruct-o"></output></div>
-        <div class="rng"><span>High points</span><input type="range" id="b-peaks" min="0" max="4" value="2"><output id="b-peaks-o"></output></div>
-        <div class="rng"><span>Deck paved</span><input type="range" id="b-pave" min="30" max="100" step="5" value="75"><output id="b-pave-o"></output></div>
+        <div class="chips" id="b-types"><button class="chip" data-type="cabin">Log-cabin towers</button><button class="chip" data-type="round">Round towers</button><button class="chip" data-type="wall">Curved walls</button><button class="chip" data-type="domino">Domino spirals</button><button class="chip" data-type="patch">Flat patches</button></div>
+        <div class="rng"><span>Structures</span><input type="range" id="b-nstruct" min="4" max="30" value="16"><output id="b-nstruct-o"></output></div>
+        <div class="rng"><span>Tallest</span><input type="range" id="b-maxh" min="25" max="90" step="5" value="60"><output id="b-maxh-o"></output></div>
         <div class="row"><button class="btn primary" id="b-restruct">Rearrange</button></div>
-        <p class="note">Less paving sends more bricks up into the high points. One course of bricks paves the deck around the holes, and the rest rise in stepped terraces, like Lapelytė's landscape. Sit on the edge of a hole or on the low steps.</p>
+        <p class="note">Bricks stand up and on edge like Kapla: log-cabin towers, round towers with flat lintels, curved walls and domino spirals. Bricks not used in structures pave the free deck flat.</p>
       </div>
       <h3>Brick colour</h3>
       <div class="row"><div class="chips" id="b-colmode"><button class="chip" data-cm="multi">Mixed clay</button><button class="chip" data-cm="single">One colour</button></div><div class="row" id="b-swatches"></div></div>
@@ -310,7 +311,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       </div>
       <h3>Brick stock on the deck</h3>
       <div class="card">
-        <div class="rng"><span>Courses per stack</span><input type="range" id="b-layers" min="4" max="14" value="8"><output id="b-layers-o"></output></div>
+        <div class="rng"><span>Courses per stack</span><input type="range" id="b-layers" min="6" max="30" value="16"><output id="b-layers-o"></output></div>
         <p class="note" id="b-stock"></p>
       </div>
       <h3>Input station</h3>
@@ -327,6 +328,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <div class="grid2">
         <label class="fld">How many<input type="number" id="b-count" value="1000" min="20" max="3000" step="10"></label>
         <label class="fld">Size<select id="b-size" class="s">
+          <option value="215,75,20">215 × 75 × 20 (thin brick)</option>
           <option value="230,114,65">230 × 114 × 65 (fire brick)</option>
           <option value="215,102.5,65">215 × 102.5 × 65</option>
           <option value="190,90,57">190 × 90 × 57</option>
@@ -335,9 +337,9 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         </select></label>
       </div>
       <div class="grid4">
-        <label class="fld">L mm<input type="number" id="b-L" value="230" min="40" step="1"></label>
-        <label class="fld">W mm<input type="number" id="b-W" value="114" min="20" step="0.5"></label>
-        <label class="fld">H mm<input type="number" id="b-H" value="65" min="15" step="1"></label>
+        <label class="fld">L mm<input type="number" id="b-L" value="215" min="40" step="1"></label>
+        <label class="fld">W mm<input type="number" id="b-W" value="75" min="20" step="0.5"></label>
+        <label class="fld">H mm<input type="number" id="b-H" value="20" min="15" step="1"></label>
         <label class="fld">kg/m³<input type="number" id="b-dens" value="1900" min="800" max="3000" step="50"></label>
       </div>
       <div class="row"><label class="fld" style="flex:1">Centre east (m)<input type="number" id="b-cx" value="0" step="0.1"></label><label class="fld" style="flex:1">Centre south (m)<input type="number" id="b-cz" value="0" step="0.1"></label></div>
@@ -740,7 +742,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v8';
+const KEY='dreamcon-composer-v9';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -975,22 +977,22 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1000, L:0.23, W:0.114, H:0.065, dens:1900, peaks:2, pave:0.75, maxC:18, pdia:6.0, platH:0.45, skirt:false, nHoles:3, holeSeed:0, nStruct:6, structSeed:1, types:{ mound:true, wall:true, ring:true, towers:true, pile:true },
-  layers:8, prog:0.6, cx:0, cz:0, fly:true, colorMode:'multi', single:'#B8693F',
+const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:0.6, pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:16, structSeed:1, types:{ cabin:true, round:true, wall:true, domino:true, patch:true },
+  layers:16, prog:0.6, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = ['การศึกษาฟรีที่มีคุณภาพ','อากาศสะอาดคือสิทธิ','Healthcare close to home','ขนส่งสาธารณะที่ทุกคนเข้าถึง','รัฐที่ฟังเสียงประชาชน','Equal rights, written down','ความโปร่งใสในงบประมาณ','A voice for young people','เมืองที่เดินได้และปลอดภัย','ผู้สูงอายุอยู่อย่างมีศักดิ์ศรี','Protect our rivers','ค่าแรงที่อยู่ได้จริง','Freedom to speak','ทุกเสียงเท่ากัน','Accessible for every body','ศิลปะเป็นของทุกคน','Clean, fair elections','อนาคตที่เราร่วมเขียน','Safe streets at night','บ้านที่ทุกคนมีได้'];
-const SINGLES = [['#B8693F','Terracotta'],['#E0B57E','Buff'],['#7B4B36','Brown'],['#56504C','Charcoal']];
+const SINGLES = [['#C99A86','Peach'],['#7A8E83','Sage'],['#D3B9B0','Blush'],['#A65A5A','Brick red']];
 let brickExtent = { maxR:0 };
 const MAXB = 3000;
 const plyMat = new THREE.MeshStandardMaterial({ color:'#C9A877', roughness:0.8 });
 const speckle = canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const r=rnd(3); for(let i=0;i<5000;i++){ const v=r(); c.fillStyle=v<0.5?'rgba(80,50,30,.22)':v<0.8?'rgba(255,240,220,.35)':'rgba(40,25,15,.4)'; const s=0.6+r()*2.2; c.fillRect(r()*w,r()*h,s,s);} });
 const brickMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ map:speckle, roughness:0.93, metalness:0 }), MAXB);
 brickMesh.castShadow=true; brickMesh.receiveShadow=true; brickMesh.frustumCulled=false; scene.add(brickMesh);
-const BRICK_COLS = ['#EBCB9C','#E2B47E','#D89E62','#C9854B','#B46E3F','#9A5A3A','#7B4B36','#5F4134'].map(c=>new THREE.Color(c));
+const BRICK_COLS = SINGLES.map(([c])=>new THREE.Color(c));
 function applyBrickColors(){ const r=rnd(11), col=new THREE.Color(), base=new THREE.Color(B.single);
   for(let i=0;i<MAXB;i++){ const w=r(), a=r(), b=r(), c=r();
     if(B.colorMode==='single'){ col.copy(base); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.03,(c-0.5)*0.035); }
-    else { const idx=Math.min(7,Math.floor(Math.pow(w,1.15)*8)); col.copy(BRICK_COLS[idx]); col.offsetHSL((a-0.5)*0.02,(b-0.5)*0.06,(c-0.5)*0.05); }
+    else { col.copy(BRICK_COLS[Math.floor(w*BRICK_COLS.length)%BRICK_COLS.length]); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.04,(c-0.5)*0.04); }
     brickMesh.setColorAt(i,col); } brickMesh.instanceColor.needsUpdate=true; }
 applyBrickColors();
 const platGroup = new THREE.Group(); scene.add(platGroup);
@@ -1000,66 +1002,86 @@ const deckTop = () => B.platH + 0.036;
 const buildLimit = () => B.pdia/2 - 0.08;
 
 /* the round seating platform: a timber disc with holes to sit in, and small brick structures scattered on top */
+/* Kapla-style building with thin bricks: log-cabin towers, round towers of upright bricks with flat lintels,
+   curved walls of bricks on edge, domino arcs and a few flat patches. Leftover bricks pave the deck flat. */
+const HOLESETS = {
+  opt1: [[1232,211,3800]],
+  opt2: [[-2150,510,1750],[870,360,3150]],
+  opt3: [[-761,2144,1750],[2033,526,2100],[-1206,-1013,3150]],
+};
 function holes(){ const R0=B.pdia/2;
-  if(!B.holeSeed && B.nHoles===3) return [{ x:-0.37*R0, z:-0.22*R0, r:0.35*R0 },{ x:0.6*R0, z:-0.2*R0, r:0.21*R0 },{ x:-0.16*R0, z:0.62*R0, r:0.17*R0 }];
+  if(B.holeSet && HOLESETS[B.holeSet]){ const k=R0/3.5; return HOLESETS[B.holeSet].map(([x,y,d])=>({ x:x/1000*k, z:-y/1000*k, r:d/2000*k })); }
   const r=rnd(5000+B.holeSeed*977); const sizes=[0.45,0.3,0.25,0.21,0.18].slice(0,B.nHoles).map(f=>Math.max(0.42,f*R0)); const out=[];
   for(const hr of sizes){ for(let t=0;t<600;t++){ const a=r()*Math.PI*2, d=Math.sqrt(r())*(R0-hr-0.35); const p={ x:d*Math.cos(a), z:d*Math.sin(a), r:hr }; if(out.every(q=>Math.hypot(q.x-p.x,q.z-p.z)>q.r+hr+0.5)){ out.push(p); break; } } }
   return out; }
-function discLayer(rad, y, turn, L, W, g){ const out=[], sx=L+g, sz=W+g; const nz=Math.ceil(rad/sz)+1, nx=Math.ceil(rad/sx)+2;
-  for(let k=-nz;k<=nz;k++){ const z=k*sz; const off=(Math.abs(k)%2)?sx/2:0; for(let i=-nx;i<=nx;i++){ const x=i*sx+off; if(Math.hypot(x,z)<=rad-L*0.3) out.push(turn? { x:z, z:x, y, ry:Math.PI/2 } : { x, z, y, ry:0 }); } } return out; }
-const STRUCT_NAMES = { mound:'mound', wall:'wall', ring:'ring', towers:'tower cluster', pile:'pile' };
-/* each structure gets its own patch of deck (radius rho) and a share of the bricks, so everything fits and nothing overlaps */
-function scatterPts(rho, minD, maxN, r){ const pts=[]; const lim=Math.max(0.04,rho); for(let t=0;t<3000 && pts.length<maxN;t++){ const a=r()*Math.PI*2, d=Math.sqrt(r())*lim; const p={ x:d*Math.cos(a), z:d*Math.sin(a) }; if(pts.every(q=>Math.hypot(q.x-p.x,q.z-p.z)>minD)) pts.push(p); } if(!pts.length) pts.push({ x:0, z:0 }); return pts; }
-function siteCap(s, maxC){ const { L, W } = B, g=0.004;
-  if(s.type==='mound'){ let c=0; const st=Math.min(0.06,Math.max(0.004,(s.rho-0.16)/maxC)); for(let k=0;k<maxC;k++){ const rk=s.rho-k*st; if(rk<0.14) break; c+=discLayer(rk,0,k%2===1,L,W,g).length; } return c; }
-  if(s.type==='ring'){ const rr=Math.max(0.3,s.rho-W); return Math.max(6,Math.floor(2*Math.PI*rr/(L+g)))*maxC; }
-  if(s.type==='wall'){ const per=Math.max(2,Math.floor((s.rho*2-0.1)/(L+g))); return 2*per*maxC-2*Math.floor(maxC/2); }
-  if(s.type==='towers') return s.pre.pts.length*2*maxC;
-  return s.pre.base.length*maxC; }
-function structBricks(type, n, rho, r, pre={}){ const { L, W, H } = B, g=0.004, vh=H+0.002, out=[];
-  if(type==='mound'){ const build=st=>{ const res=[]; for(let k=0;k<60;k++){ const rk=rho-k*st; if(rk<0.14) break; res.push(...discLayer(rk,H/2+k*vh,k%2===1,L,W,g)); if(res.length>=n) break; } return res; };
-    let st=0.07; if(build(st).length<n){ let lo=0.004, hi=st; for(let it=0;it<20;it++){ const mid=(lo+hi)/2; if(build(mid).length>=n) lo=mid; else hi=mid; } st=lo; } let res=build(st); if(res.length<n){ let k=Math.max(...res.map(b=>Math.round((b.y-H/2)/vh)))+1; while(res.length<n){ res.push(...discLayer(0.25,H/2+k*vh,k%2===1,L,W,g)); k++; } } return res.slice(0,n); }
-  if(type==='ring'){ const rr=Math.max(0.3,rho-W); const cnt=Math.max(6,Math.floor(2*Math.PI*rr/(L+g))); const st=Math.PI*2/cnt; for(let k=0; out.length<n; k++){ for(let i=0;i<cnt && out.length<n;i++){ const a=(k%2)*st/2+(i+0.5)*st; out.push({ x:rr*Math.cos(a), z:rr*Math.sin(a), y:H/2+k*vh, ry:Math.atan2(-Math.cos(a),-Math.sin(a)) }); } } return out; }
-  if(type==='wall'){ const per=Math.max(2,Math.floor((rho*2-0.1)/(L+g))); for(let k=0; out.length<n; k++){ const odd=k%2; for(const s of [-1,1]) for(let i=0;i<per-odd && out.length<n;i++){ out.push({ x:(i-(per-1)/2)*(L+g)+odd*(L+g)/2, z:s*(W/2+0.004), y:H/2+k*vh, ry:0 }); } } return out; }
-  if(type==='towers'){ const pts=pre.pts.map(p=>({ ...p })); const k=pts.length; const per=Array.from({length:k},(_,i)=>Math.floor(n/k)+(i<n%k?1:0)); pts.forEach((p,ti)=>{ p.rot=r()*Math.PI; let c=0, made=0; while(made<per[ti]){ const rot=p.rot+(c%2)*Math.PI/2+(r()-0.5)*0.08; for(const sgn of [-1,1]){ if(made>=per[ti]) break; const lz=sgn*(W+0.008)/2; out.push({ x:p.x+lz*Math.sin(rot), z:p.z+lz*Math.cos(rot), y:H/2+c*vh, ry:rot }); made++; } c++; } }); return out; }
-  { const base=pre.base;
-    const tops=base.map(p=>({ x:p.x, z:p.z, y:H/2, ry:r()*Math.PI })); out.push(...tops.slice(0,n).map(t=>({ ...t }))); while(out.length<n){ const lowest=Math.min(...tops.map(t=>t.y)); const cand=tops.filter(t=>t.y<lowest+2*vh); const t=cand[Math.floor(r()*cand.length)]; const nb={ x:t.x+(r()-0.5)*0.05, z:t.z+(r()-0.5)*0.05, y:t.y+vh, ry:t.ry+(r()-0.5)*1.4 }; out.push(nb); Object.assign(t,nb); } return out; }
-}
-const TYPE_W = { mound:1, pile:0.9, towers:0.6, ring:0.75, wall:0.6 };
-/* A brick landscape after Lapelytė: one course paves the deck around the holes, raised areas step up in courses,
-   and the bricks start as neat stacks whose bottom course is already part of the paving. */
-function buildTargets(){
-  const N=B.count, R0=B.pdia/2, hs=holes(), { L, W, H } = B, g=0.004, vh=H+0.002, sx=L+g, sz=W+g, y0=deckTop();
-  const r=rnd(1000+B.structSeed*7919);
-  const allowed=(x,z)=>Math.hypot(x,z)<=R0-0.05 && hs.every(h=>Math.hypot(h.x-x,h.z-z)>=h.r+0.08);
-  const corners=(x,z,turn)=>{ const a=(turn?W:L)/2, b=(turn?L:W)/2; return [[x-a,z-b],[x+a,z-b],[x+a,z+b],[x-a,z+b]]; };
-  const layerCells=(turn,test)=>{ const out=[]; const n=Math.ceil(R0/Math.min(sx,sz))+2; for(let j=-n;j<=n;j++) for(let i=-n;i<=n;i++){ let x,z; if(!turn){ z=j*sz; x=i*sx+((Math.abs(j)%2)?sx/2:0); } else { x=j*sz; z=i*sx+((Math.abs(j)%2)?sx/2:0); } if(corners(x,z,turn).every(([a,b])=>allowed(a,b)&&test(a,b))) out.push({ x, z, ry:turn?Math.PI/2:0 }); } return out; };
-  const L0all=layerCells(false,()=>true);
-  // stock heaps: 0.95 m squares sitting on the paving
-  const HS=0.95; const per=Math.max(1,Math.floor(HS/sx))*Math.max(1,Math.floor(HS/sz)); const roomFor=(x,z)=>Math.min(R0-0.05-Math.hypot(x,z), ...hs.map(h=>Math.hypot(h.x-x,h.z-z)-h.r-0.08));
-  const cand=[]; for(let x=-R0;x<=R0;x+=0.1) for(let z=-R0;z<=R0;z+=0.1) if(roomFor(x,z)>=0.72) cand.push({ x, z });
-  const heaps=[]; let nHeap=1; for(let it=0;it<12;it++){ const under=nHeap*per; const need=Math.max(0,N-under); const want=Math.max(1,Math.ceil(need/((B.layers-1)*per))); if(want===nHeap) break; nHeap=want; }
-  { let pick=cand.length? cand[Math.floor(r()*cand.length)] : null; while(pick && heaps.length<nHeap){ heaps.push({ x:pick.x, z:pick.z, rot:0, w:HS, d:HS }); let best=null; for(const c of cand){ const d=Math.min(...heaps.map(q=>Math.hypot(c.x-q.x,c.z-q.z))); const sc=d*(0.75+0.5*r()); if(d>1.5 && (!best||sc>best.s)) best={ c, s:sc }; } pick=best?.c; } }
-  const inHeap=(x,z,m=0)=>heaps.some(q=>Math.abs(x-q.x)<=q.w/2+m && Math.abs(z-q.z)<=q.d/2+m);
-  // raised areas: a few soft bumps, read as stepped courses
-  const bumps=[]; for(let i=0;i<B.nStruct+B.peaks;i++){ const peak=i<B.peaks; for(let t=0;t<300;t++){ const a=r()*Math.PI*2, d=Math.sqrt(r())*R0, x=d*Math.cos(a), z=d*Math.sin(a); if(roomFor(x,z)<(peak?0.55:0.3)) continue; if(peak && bumps.some(b=>b.peak && Math.hypot(b.x-x,b.z-z)<1.6)) continue; bumps.push(peak? { x, z, rr:0.75+r()*0.35, a:3.2+r()*1.4, peak:true } : { x, z, rr:0.55+r()*0.8, a:0.6+r()*0.8 }); break; } }
-  const field=(x,z)=>{ if(!bumps.length) return 1; let v=0; for(const b of bumps){ const t=Math.hypot(x-b.x,z-b.z)/b.rr; if(t<1) v+=b.a*(1-t*t); } return v; };
-  const near=c=>Math.min(9,...heaps.map(q=>Math.max(Math.abs(c.x-q.x)-q.w/2,Math.abs(c.z-q.z)-q.d/2,0)-0.3),...bumps.map(b=>Math.hypot(c.x-b.x,c.z-b.z)-b.rr));
-  const L0=L0all.map(c=>({ ...c, nd:near(c)+r()*0.25 })).sort((a,b)=>a.nd-b.nd).slice(0,Math.round(L0all.length*B.pave));
-  const paved=new Set(); const PC=0.06; for(const c of L0){ const hx=L/2, hz=W/2; for(let u=-hx;u<=hx+1e-6;u+=PC/2) for(let v=-hz;v<=hz+1e-6;v+=PC/2) paved.add(Math.round((c.x+u)/PC)+','+Math.round((c.z+v)/PC)); }
-  const onPaving=(a,b)=>paved.has(Math.round(a/PC)+','+Math.round(b/PC));
-  const terraces=A=>{ const lay=[]; for(let k=1;k<=B.maxC;k++){ const cells=layerCells(k%2===1,(a,b)=>Math.min(A*field(a,b),B.maxC*(0.55+0.45*Math.min(1,field(a,b)/2.5)))>=k && !inHeap(a,b,0.2) && onPaving(a,b)); if(!cells.length) break; lay.push(cells.map(c=>({ ...c, k, f:field(c.x,c.z) }))); } return lay; };
-  let usedL0=L0, upper=[];
-  if(L0.length>=N){ usedL0=L0.map(c=>({ ...c, d:Math.min(9,...heaps.map(q=>Math.hypot(c.x-q.x,c.z-q.z))) })).sort((a,b)=>a.d-b.d).slice(0,N); }
-  else { let lo=0, hi=60; for(let it=0;it<28;it++){ const mid=(lo+hi)/2; const tot=terraces(mid).reduce((s,l)=>s+l.length,0); if(L0.length+tot>=N) hi=mid; else lo=mid; } upper=terraces(hi); }
-  const under=[], rest=[]; for(const c of usedL0){ (inHeap(c.x,c.z)? under : rest).push(c); }
-  const nd=c=>Math.min(9,...heaps.map(q=>Math.hypot(c.x-q.x,c.z-q.z))); rest.sort((a,b)=>nd(a)-nd(b));
-  const out=[...under, ...rest].map(c=>({ x:B.cx+c.x, z:B.cz+c.z, y:y0+H/2, ry:c.ry }));
-  for(const lay of upper){ lay.sort((a,b)=>b.f-a.f); for(const c of lay){ if(out.length>=N) break; out.push({ x:B.cx+c.x, z:B.cz+c.z, y:y0+H/2+c.k*vh, ry:c.ry }); } }
-  const tgt=out.slice(0,N); const top=upper.length? Math.min(upper.length, Math.max(...tgt.map(b=>Math.round((b.y-y0-H/2)/vh)))+0) : 0;
-  const deckArea=Math.PI*R0*R0-hs.reduce((s,h)=>s+Math.PI*h.r*h.r,0); const cover=Math.min(1,usedL0.length*L*W/deckArea); const peakTop=bumps.some(b=>b.peak)? Math.max(...tgt.map(b=>b.y))-y0+H/2 : 0;
-  const info=`One course paves about ${Math.round(cover*100)}% of the deck around the stacks and raised areas; ${bumps.length? `${bumps.length-B.peaks} low terraces${B.peaks?` and ${B.peaks} high point${B.peaks>1?'s':''} reaching ${fmt(peakTop,2)} m above the deck`:''}` : 'the rest builds up evenly'}.${tgt.length<N?` ${N-tgt.length} bricks do not fit and stay stacked.`:''}`;
-  return { targets:tgt, info, height:(top+1)*vh, placed:bumps, stock:heaps, nUnder:Math.min(under.length,tgt.length) };
+/* orientation: flat (lying), edge (on its long edge), end (standing up) */
+const halfH = o => o==='end'? B.L/2 : o==='edge'? B.W/2 : B.H/2;
+const brk = (x,base,z,ry,o='flat') => ({ x, y:base+halfH(o), z, ry, o, base, top:base+2*halfH(o) });
+const tangentRy = a => Math.atan2(-Math.cos(a), -Math.sin(a));   // local x runs along the circle at angle a
+const KAPLA = {
+  cabin(rho, maxH, r){ const { L, W, H } = B; const a=L/2-H/2; const towers=[]; const n=Math.max(1,Math.min(9,Math.floor((rho*rho)/0.035)));
+    for(let t=0;t<200 && towers.length<n;t++){ const ang=r()*Math.PI*2, d=Math.sqrt(r())*Math.max(0,rho-L*0.75); const p={ x:d*Math.cos(ang), z:d*Math.sin(ang), rot:r()*Math.PI/2, h:0.45+0.55*r() }; if(towers.every(q=>Math.hypot(q.x-p.x,q.z-p.z)>L*1.5)) towers.push(p); }
+    const out=[]; const maxC=Math.max(2,Math.floor(maxH/W));
+    for(const tw of towers){ const C=Math.max(2,Math.round(maxC*tw.h)); const c=Math.cos(tw.rot), s=Math.sin(tw.rot);
+      for(let k=0;k<C;k++){ for(const sg of [-1,1]){ const lx= k%2? sg*a : 0, lz= k%2? 0 : sg*a; out.push(brk(tw.x+lx*c+lz*s, k*W, tw.z-lx*s+lz*c, tw.rot+(k%2?Math.PI/2:0), 'edge')); } } }
+    return out; },
+  round(rho, maxH, r){ const { L, W, H } = B; const rr=clamp(rho-0.08,0.16,0.5); const n=Math.max(5,Math.floor(2*Math.PI*rr/(W*1.8))); const step=Math.PI*2/n; const tiers=Math.max(1,Math.floor((maxH+0.01)/(L+H))); const out=[]; const off=r()*step;
+    for(let t=0;t<tiers;t++){ const base=t*(L+H); const a0=off+(t%2)*step/2;
+      for(let i=0;i<n;i++){ const a=a0+i*step; out.push(brk(rr*Math.cos(a), base, rr*Math.sin(a), tangentRy(a), 'end')); }
+      for(let i=0;i<n;i++){ const a=a0+(i+0.5)*step; out.push(brk(rr*Math.cos(a), base+L, rr*Math.sin(a), tangentRy(a), 'flat')); } }
+    return out; },
+  wall(rho, maxH, r){ const { L, W } = B; const rr=clamp(rho*1.6,0.45,1.6), span=Math.min(2.2, (2*rho-0.1)/rr); const n=Math.max(2,Math.floor(span*rr/(L+0.004))); const st=span/n; const C=Math.max(2,Math.floor(maxH*0.8/W)); const out=[];
+    const cz=-rr+rho*0.4;
+    for(let k=0;k<C;k++){ const m=k%2? n-1 : n; for(let i=0;i<m;i++){ const a=Math.PI/2-span/2+(i+0.5+(k%2)*0.5)*st; out.push(brk(rr*Math.cos(a), k*W, cz+rr*Math.sin(a), tangentRy(a), 'edge')); } }
+    return out; },
+  domino(rho, maxH, r){ const { L, W, H } = B; const out=[]; const sp=0.09; const turns=r()<0.5; const R1=Math.max(0.2,rho-0.06);
+    // a spiral of standing bricks, then a few flat bridges laid across neighbours
+    let th=0, prev=null, s=0; const pts=[]; while(pts.length<160){ const rad=R1-(th/(Math.PI*2))*0.13; if(rad<0.1) break; const p=[rad*Math.cos(th),rad*Math.sin(th)]; if(prev) s+=Math.hypot(p[0]-prev[0],p[1]-prev[1]); if(!pts.length || s>=sp){ pts.push({ x:p[0], z:p[1], a:th }); s=0; } prev=p; th+=0.02*(turns?1:-1); }
+    for(const p of pts) out.push(brk(p.x, 0, p.z, tangentRy(p.a)+Math.PI/2, 'end'));
+    for(let i=0;i+1<pts.length;i+=2){ const p=pts[i], q=pts[i+1]; out.push(brk((p.x+q.x)/2, L, (p.z+q.z)/2, Math.atan2(-(q.z-p.z), q.x-p.x), 'flat')); }
+    return out; },
+  patch(rho, maxH, r){ const { L, W, H } = B; const out=[]; const g=0.003; const lay=Math.max(1,Math.min(4,Math.floor(maxH/0.12)));
+    for(let k=0;k<lay;k++){ const rad=rho*(0.85-k*0.18); if(rad<0.15) break; const turn=k%2===1; const nx=Math.ceil(rad/(L+g))+1, nz=Math.ceil(rad/(W+g))+1;
+      for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(Math.hypot(x,z)>rad-L*0.4) continue; out.push(turn? brk(z,k*(H+0.001),x,Math.PI/2) : brk(x,k*(H+0.001),z,0)); } }
+    return out; },
+};
+const KAPLA_NAMES = { cabin:['log-cabin cluster','log-cabin clusters'], round:['round tower','round towers'], wall:['curved wall','curved walls'], domino:['domino spiral','domino spirals'], patch:['flat patch','flat patches'] };
+function buildTargets(){ return buildTargetsOnce(B.nStruct); }
+function buildTargetsOnce(nStruct){
+  const N=B.count, R0=B.pdia/2, hs=holes(), { L, W, H } = B, g=0.003, y0=deckTop(); const r=rnd(1000+B.structSeed*7919);
+  const room=(x,z)=>Math.min(R0-0.12-Math.hypot(x,z), ...hs.map(h=>Math.hypot(h.x-x,h.z-z)-h.r-0.15));
+  const grid=[]; for(let x=-R0;x<=R0;x+=0.08) for(let z=-R0;z<=R0;z+=0.08){ const jx=x+(r()-0.5)*0.06, jz=z+(r()-0.5)*0.06; const rm=room(jx,jz); if(rm>0.2) grid.push({ x:jx, z:jz, rm }); }
+  // stock stacks
+  const HS=0.7, per=Math.max(1,Math.floor(HS/(L+0.006)))*Math.max(1,Math.floor(HS/(W+0.006))); const nHeap=Math.max(1,Math.ceil(N/(per*B.layers)));
+  const heaps=[]; { const hc=grid.filter(c=>c.rm>=0.45); let pick=hc.length? hc.reduce((a,c)=>c.rm*(0.7+0.6*r())>a.s?{ c, s:c.rm }:a,{ c:null, s:-1 }).c : null;
+    while(pick && heaps.length<nHeap){ heaps.push({ x:pick.x, z:pick.z, rot:r()*Math.PI, w:HS, d:HS }); let best=null; for(const c of hc){ const d=Math.min(...heaps.map(q=>Math.hypot(c.x-q.x,c.z-q.z))); const sc=d*(0.8+0.4*r()); if(d>1.1 && (!best||sc>best.s)) best={ c, s:sc }; } pick=best?.c; } }
+  const nearHeap=(x,z)=>Math.min(9,...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.55));
+  // structure sites
+  const cand=grid.filter(c=>nearHeap(c.x,c.z)>0.25); for(const c of cand) c.d=1e9;
+  const sites=[]; if(cand.length){ let pick=cand[Math.floor(r()*cand.length)]; while(pick && sites.length<nStruct){ sites.push({ x:pick.x, z:pick.z }); let best=null; for(const c of cand){ c.d=Math.min(c.d,Math.hypot(c.x-pick.x,c.z-pick.z)); const sc=Math.min(c.d, 2*c.rm+0.3)*(0.85+0.3*r()); if(c.d>0.55 && (!best||sc>best.s)) best={ c, s:sc }; } pick=best?.c; } }
+  for(const p of sites){ const nn=Math.min(9,...sites.filter(q=>q!==p).map(q=>Math.hypot(q.x-p.x,q.z-p.z))); p.rho=Math.min(0.8, room(p.x,p.z), (nn-0.12)/2, nearHeap(p.x,p.z)-0.05); }
+  const types=Object.keys(KAPLA).filter(k=>B.types[k]); if(!types.length) types.push('cabin');
+  const order=[...types].sort(()=>r()-0.5); const placed=[];
+  sites.filter(p=>p.rho>=0.18).forEach((p,i)=>{ let type=order[i%order.length]; if(type==='round' && p.rho<0.24) type='cabin'; const rot=r()*Math.PI*2, c=Math.cos(rot), s=Math.sin(rot);
+    const bricks=KAPLA[type](p.rho, B.maxH*(0.6+0.4*r()), r).map(b=>({ ...b, x:B.cx+p.x+b.x*c+b.z*s, z:B.cz+p.z-b.x*s+b.z*c, ry:b.ry+rot, y:b.y+y0, base:b.base+y0, top:b.top+y0, si:i }));
+    placed.push({ ...p, type, bricks }); });
+  let all=placed.flatMap(p=>p.bricks);
+  // too many: trim each structure from the top, keeping the proportion
+  if(all.length>N){ const f=N/all.length; all=placed.flatMap(p=>{ const keep=[...p.bricks].sort((a,b)=>a.base-b.base); return keep.slice(0,Math.floor(keep.length*f)); }); }
+  // too few: pave the free deck flat, starting next to the stacks and structures
+  const nBuilt=all.length; let paved=0;
+  if(all.length<N){ const occ=(x,z)=>placed.some(p=>Math.hypot(x-B.cx-p.x,z-B.cz-p.z)<p.rho+0.06) || heaps.some(q=>Math.hypot(x-B.cx-q.x,z-B.cz-q.z)<0.62);
+    const corners=(x,z)=>[[x-L/2,z-W/2],[x+L/2,z-W/2],[x+L/2,z+W/2],[x-L/2,z+W/2]];
+    const cells=[]; const nx=Math.ceil(R0/(L+g))+1, nz=Math.ceil(R0/(W+g))+1;
+    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-0.04 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.06)) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
+    cells.sort((a,b)=>a.d-b.d); const used=cells.slice(0,N-all.length); for(const c of used){ all.push({ ...brk(B.cx+c.x,y0,B.cz+c.z,0), si:-1 }); paved++; }
+    for(let k=1;k<4 && all.length<N;k++) for(const c of used.slice(0,N-all.length)){ all.push({ ...brk(B.cx+c.x,y0+k*(H+0.001),B.cz+c.z,0), si:-1 }); } }
+  all.sort((a,b)=>(a.base-b.base)||(a.si-b.si));
+  const tgt=all.slice(0,N); const top=tgt.reduce((m,b)=>Math.max(m,b.top),y0)-y0;
+  const tally={}; placed.forEach(p=>tally[p.type]=(tally[p.type]||0)+1);
+  const deckArea=Math.PI*R0*R0-hs.reduce((s,h)=>s+Math.PI*h.r*h.r,0);
+  const info=`${placed.length} structures: ${Object.entries(tally).map(([k,v])=>`${v} ${KAPLA_NAMES[k][v>1?1:0]}`).join(', ')}. ${nBuilt} bricks build them, up to ${fmt(top,2)} m high${paved?`; the other ${tgt.length-nBuilt} lie flat, paving about ${Math.round(paved*L*W/deckArea*100)}% of the deck`:''}.${tgt.length<N?` ${N-tgt.length} stay stacked.`:''}`;
+  return { targets:tgt, info, height:top, placed, stock:heaps, nUnder:0 };
 }
 const SHEET=[2.44,1.22], PLY=0.036;
 const plyTopTex = canvasTex(1024,512,(c,w,h)=>{ c.fillStyle='#E2CCA2'; c.fillRect(0,0,w,h); const r=rnd(21);
@@ -1097,7 +1119,7 @@ function buildPlatform(){
 }
 function stockSlots(){
   const N=B.count, { L, W, H } = B, g=0.006, vh=H+0.002; const plm=S.modules.filter(m=>m.type==='plinth');
-  const pl = plm.length? plm.map(p=>({ x:p.x, z:p.z, rot:p.rot, w:p.w, d:p.d, base:p.y+p.h+0.018 })) : (BR.stock||[]).map(q=>({ x:B.cx+q.x, z:B.cz+q.z, rot:q.rot/DEG, w:q.w||0.72, d:q.d||0.72, base:deckTop()+B.H+0.002 }));
+  const pl = plm.length? plm.map(p=>({ x:p.x, z:p.z, rot:p.rot, w:p.w, d:p.d, base:p.y+p.h+0.018 })) : (BR.stock||[]).map(q=>({ x:B.cx+q.x, z:B.cz+q.z, rot:q.rot/DEG, w:q.w||0.72, d:q.d||0.72, base:deckTop()+(BR.nUnder? B.H+0.002 : 0) }));
   const under=plm.length?0:Math.min(BR.nUnder||0,N); const NN=N-under;
   if(!pl.length) return { slots:BR.targets.slice(0,under), layers:0, cap:0, plinths:0, perPlat:[] };
   const info=pl.map((p,pi)=>({ p, pi, A:[Math.max(1,Math.floor(p.w/(L+g))),Math.max(1,Math.floor(p.d/(W+g)))], Bb:[Math.max(1,Math.floor(p.w/(W+g))),Math.max(1,Math.floor(p.d/(L+g)))] }));
@@ -1118,7 +1140,7 @@ function updateBrickPose(){
   for(let i=0;i<MAXB;i++){
     let t=null; if(i<B.count){ t = i<placed ? BR.targets[i] : BR.slots[i]; }
     if(!t){ _m.compose(_p.set(0,-10,0),_q.identity(),_s.set(0,0,0)); brickMesh.setMatrixAt(i,_m); continue; }
-    _e.set(0,t.ry,0); _q.setFromEuler(_e); _s.set(B.L,B.H,B.W); _m.compose(_p.set(t.x,t.y,t.z),_q,_s); brickMesh.setMatrixAt(i,_m);
+    _e.set(0,t.ry,0); _q.setFromEuler(_e); if(t.o==='end') _s.set(B.W,B.L,B.H); else if(t.o==='edge') _s.set(B.L,B.W,B.H); else _s.set(B.L,B.H,B.W); _m.compose(_p.set(t.x,t.y,t.z),_q,_s); brickMesh.setMatrixAt(i,_m);
   }
   brickMesh.count=Math.min(MAXB,Math.max(B.count,1)); brickMesh.instanceMatrix.needsUpdate=true;
   const N=Math.min(B.count,BR.targets.length), p=B.prog;
@@ -1145,12 +1167,15 @@ function drawMsg(c,text,style='rest'){ const ctx=c.getContext('2d'); ctx.clearRe
 const msgMeshes = new Map(); const unitPlane = new THREE.PlaneGeometry(1,1);
 function ensureMsgMesh(m){ let o=msgMeshes.get(m.id); if(o) return o; const c=document.createElement('canvas'); c.width=512; c.height=146; drawMsg(c,m.text); const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace;
   const mesh=new THREE.Mesh(unitPlane, new THREE.MeshBasicMaterial({ map:tex, transparent:true, depthWrite:false, toneMapped:false })); mesh.renderOrder=3; mesh.rotation.order='YXZ'; msgGroup.add(mesh); o={ mesh, c, tex }; msgMeshes.set(m.id,o); return o; }
-function topPose(i){ const t=BR.targets[i]; return { x:t.x, y:t.y+B.H/2+0.003, z:t.z, ry:t.ry }; }
-function covered(i, placed){ const T=BR.targets, a=T[i], reach=(B.L+B.W)*0.42; for(let j=0;j<placed;j++){ if(j===i) continue; const b=T[j]; if(b.y>a.y+0.01 && b.y<a.y+B.H*1.6 && Math.hypot(b.x-a.x,b.z-a.z)<reach) return true; } return false; }
+function topPose(i){ const t=BR.targets[i];
+  if(!t.o || t.o==='flat') return { x:t.x, y:t.y+B.H/2+0.003, z:t.z, ry:t.ry, rx:-Math.PI/2, rz:0, w:B.L*0.96, h:B.W*0.85 };
+  let ry=t.ry; let nx=Math.sin(ry), nz=Math.cos(ry); if(nx*(t.x-B.cx)+nz*(t.z-B.cz)<0){ ry+=Math.PI; nx=-nx; nz=-nz; } const o=B.H/2+0.003;
+  return { x:t.x+nx*o, y:t.y, z:t.z+nz*o, ry, rx:0, rz:t.o==='end'? Math.PI/2 : 0, w:B.L*0.94, h:B.W*0.8 }; }
+function covered(i, placed){ const T=BR.targets, a=T[i]; if(a.o && a.o!=='flat') return false; const reach=(B.L+B.W)*0.42; for(let j=0;j<placed;j++){ if(j===i) continue; const b=T[j]; if(b.y>a.y+0.01 && b.y<a.y+B.H*1.6 && Math.hypot(b.x-a.x,b.z-a.z)<reach) return true; } return false; }
 function updateMessages(placed){ const live=new Set(B.messages.map(m=>m.id));
   for(const [id,o] of msgMeshes){ if(!live.has(id)){ msgGroup.remove(o.mesh); o.tex.dispose(); o.mesh.material.dispose(); msgMeshes.delete(id); } }
   for(const m of B.messages){ if(anim && anim.m===m) continue; const ok = BR.targets[m.brick] && m.brick<placed && !covered(m.brick,placed); const o = ok? ensureMsgMesh(m) : msgMeshes.get(m.id); if(!o) continue; if(!ok){ o.mesh.visible=false; continue; }
-    const p=topPose(m.brick); o.mesh.position.set(p.x,p.y,p.z); o.mesh.rotation.set(-Math.PI/2,p.ry,0); o.mesh.scale.set(B.L*0.96,B.W*0.85,1); o.mesh.visible=true; o.mesh.material.depthTest=true; } }
+    const p=topPose(m.brick); o.mesh.position.set(p.x,p.y,p.z); o.mesh.rotation.set(p.rx,p.ry,p.rz); o.mesh.scale.set(p.w,p.h,1); o.mesh.visible=true; o.mesh.material.depthTest=true; } }
 function seedMessages(){ const T=BR.targets; if(!T.length) return; const now=Date.now();
   B.messages=SAMPLES.map((text,k)=>({ id:'s'+k, text, brick:Math.min(T.length-1, Math.floor((0.35+0.65*(k+0.5)/SAMPLES.length)*Math.min(T.length,Math.round(B.prog*T.length)||T.length)) ), t:now-(SAMPLES.length-k)*1800e3, sample:true })); }
 
@@ -1184,7 +1209,7 @@ const dimMat = new THREE.MeshBasicMaterial({ color:'#0E1430', transparent:true, 
 const dim = new THREE.Mesh(new THREE.CircleGeometry(1,64), dimMat); dim.rotation.x=-Math.PI/2; dim.visible=false; dim.renderOrder=4; scene.add(dim);
 let anim=null;
 function startEmbed(m){ const t=BR.targets[m.brick]; if(!t) return; const o=ensureMsgMesh(m); drawMsg(o.c,m.text,'bright'); o.tex.needsUpdate=true;
-  const end=topPose(m.brick); const top=BR.targets.slice(0,placedCount()).reduce((h,b)=>Math.max(h,b.y+B.H/2),deckTop());
+  const end=topPose(m.brick); const top=BR.targets.slice(0,placedCount()).reduce((h,b)=>Math.max(h,b.top??(b.y+B.H/2)),deckTop());
   anim={ m, o, t0:performance.now(), start:{ x:B.cx, y:top+0.01, z:B.cz, ry:end.ry }, end }; o.mesh.visible=true; o.mesh.material.depthTest=false; o.mesh.renderOrder=7; }
 const ease = k => k<0.5? 4*k*k*k : 1-Math.pow(-2*k+2,3)/2;
 function tickAnim(now){
@@ -1192,10 +1217,10 @@ function tickAnim(now){
   if(!anim) return; const dt=now-anim.t0, o=anim.o, s=anim.start, e=anim.end;
   const big=Math.min(2.6, B.pdia*0.85); const dimK = dt<500? dt/500 : dt<2600? 1 : Math.max(0,1-(dt-2600)/900); dim.visible=dimK>0; dim.position.set(B.cx,s.y-0.002,B.cz); dim.scale.setScalar(B.pdia/2); dimMat.opacity=0.42*dimK;
   if(dt<600){ const k=dt/600; o.mesh.position.set(s.x,s.y,s.z); o.mesh.rotation.set(-Math.PI/2,s.ry,0); o.mesh.scale.set(big,big*0.285,1); o.mesh.material.opacity=k; ring.visible=true; ring.position.set(B.cx,s.y,B.cz); ring.scale.setScalar(B.pdia/2*(0.4+0.6*k)); ringMat.opacity=0.5*k; }
-  else if(dt<2100){ const k=ease((dt-600)/1500); o.mesh.material.opacity=1; o.mesh.position.set(s.x+(e.x-s.x)*k, s.y+(e.y-s.y)*k, s.z+(e.z-s.z)*k); o.mesh.rotation.set(-Math.PI/2,s.ry+(e.ry-s.ry)*k,0); const w=big+(B.L*0.96-big)*k; o.mesh.scale.set(w,w*(B.W*0.85/(B.L*0.96)),1);
+  else if(dt<2100){ const k=ease((dt-600)/1500); o.mesh.material.opacity=1; o.mesh.position.set(s.x+(e.x-s.x)*k, s.y+(e.y-s.y)*k, s.z+(e.z-s.z)*k); o.mesh.rotation.set(-Math.PI/2+(e.rx+Math.PI/2)*k,s.ry+(e.ry-s.ry)*k,e.rz*k); const w=big+(e.w-big)*k; o.mesh.scale.set(w,big*0.285+(e.h-big*0.285)*k,1);
     ring.position.set(B.cx+(e.x-B.cx)*k, e.y, B.cz+(e.z-B.cz)*k); ring.scale.setScalar(B.pdia/2*(1-k)+0.18*k); ringMat.opacity=0.5; }
   else { const k=clamp((dt-2100)/1500,0,1); ring.visible=k<1; ring.position.set(e.x,e.y,e.z); ring.scale.setScalar(0.18+k*0.25); ringMat.opacity=0.6*(1-k);
-    glow.visible=true; glow.position.set(e.x,e.y+0.002,e.z); glow.rotation.set(-Math.PI/2,e.ry,0); glow.scale.set(0.7,0.35,1); glow.material.opacity=Math.sin(Math.min(1,k*1.6)*Math.PI)*0.95;
+    glow.visible=true; glow.position.set(e.x,e.y+(e.rx?0.002:0),e.z); glow.rotation.set(e.rx,e.ry,e.rz); glow.scale.set(0.7,0.35,1); glow.material.opacity=Math.sin(Math.min(1,k*1.6)*Math.PI)*0.95;
     if(k>0.45 && !anim.settled){ anim.settled=true; drawMsg(o.c,anim.m.text,'rest'); o.tex.needsUpdate=true; }
     if(k>=1){ glow.visible=false; ring.visible=false; dim.visible=false; o.mesh.material.depthTest=true; o.mesh.renderOrder=3; anim=null; updateBrickPose(); } }
 }
@@ -1237,7 +1262,7 @@ function renderBrickStats(){
 }
 function syncBrickUI(){ const o=(id,v)=>{ const e=$('#'+id); if(e) e.textContent=v; };
   $('#b-pdia').value=Math.round(B.pdia*10); o('b-pdia-o',`Ø ${fmt(B.pdia,1)} m`); $('#b-plath').value=Math.round(B.platH*100); o('b-plath-o',`${Math.round(B.platH*100)} cm`); $('#b-skirt').checked=B.skirt;
-  $('#b-peaks').value=B.peaks; o('b-peaks-o',B.peaks); $('#b-pave').value=Math.round(B.pave*100); o('b-pave-o',`${Math.round(B.pave*100)}%`); $('#b-holes').value=B.nHoles; o('b-holes-o',B.nHoles); $('#b-nstruct').value=B.nStruct; o('b-nstruct-o',B.nStruct);
+  $('#b-maxh').value=Math.round(B.maxH*100); o('b-maxh-o',`${Math.round(B.maxH*100)} cm`); $('#b-holeset').value=B.holeSet||'random'; $$('[data-random-holes]').forEach(e=>e.hidden=!!B.holeSet); $('#b-holes').value=B.nHoles; o('b-holes-o',B.nHoles); $('#b-nstruct').value=B.nStruct; o('b-nstruct-o',B.nStruct);
   $$('#b-types .chip').forEach(c=>c.setAttribute('aria-pressed',String(!!B.types[c.dataset.type])));
   $$('#b-colmode .chip').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.cm===B.colorMode))); $$('#b-swatches .sw').forEach(c=>{ c.setAttribute('aria-pressed',String(c.dataset.c===B.single)); }); $('#b-swatches').hidden=B.colorMode!=='single';
   $('#msg-fly').checked=B.fly; $('#b-layers').value=B.layers; o('b-layers-o',`${B.layers}`);
@@ -1251,10 +1276,11 @@ function bindBricks(){
   $('#b-swatches').innerHTML=SINGLES.map(([c,n])=>`<button class="sw" data-c="${c}" title="${n}" aria-label="${n}" style="background:${c}"></button>`).join('');
   $$('#b-types .chip').forEach(c=>c.onclick=()=>{ B.types[c.dataset.type]=!B.types[c.dataset.type]; syncBrickUI(); rebuildBuild(); persist(); });
   $('#b-skirt').onchange=e=>{ B.skirt=e.target.checked; buildPlatform(); persist(); };
-  $('#b-reholes').onclick=()=>{ B.holeSeed=1+Math.floor(Math.random()*1e5); rebuildBuild(); persist(); };
+  $('#b-reholes').onclick=()=>{ B.holeSet=''; syncBrickUI(); B.holeSeed=1+Math.floor(Math.random()*1e5); rebuildBuild(); persist(); };
   $('#b-restruct').onclick=()=>{ B.structSeed=1+Math.floor(Math.random()*1e5); rebuildBuild(); persist(); };
   const rangeBind=(id,fn,build=true)=>{ const e=$('#'+id); e.addEventListener('input',()=>{ fn(+e.value); syncBrickUI(); build? rebuildBuild() : refreshStock(); }); e.addEventListener('change',persist); };
-  rangeBind('b-pdia',v=>B.pdia=v/10); rangeBind('b-plath',v=>B.platH=v/100); rangeBind('b-holes',v=>{ B.nHoles=v; if(v!==3 && !B.holeSeed) B.holeSeed=7; }); rangeBind('b-nstruct',v=>B.nStruct=v); rangeBind('b-peaks',v=>B.peaks=v); rangeBind('b-pave',v=>B.pave=v/100); rangeBind('b-layers',v=>B.layers=v);
+  rangeBind('b-pdia',v=>B.pdia=v/10); rangeBind('b-plath',v=>B.platH=v/100); rangeBind('b-holes',v=>{ B.nHoles=v; if(v!==3 && !B.holeSeed) B.holeSeed=7; }); rangeBind('b-nstruct',v=>B.nStruct=v); rangeBind('b-maxh',v=>B.maxH=v/100);
+  $('#b-holeset').onchange=e=>{ B.holeSet=e.target.value==='random'? '' : e.target.value; syncBrickUI(); rebuildBuild(); persist(); }; rangeBind('b-layers',v=>B.layers=v);
   $$('#b-colmode .chip').forEach(c=>c.onclick=()=>{ B.colorMode=c.dataset.cm; applyBrickColors(); syncBrickUI(); drawScreen(); persist(); });
   $$('#b-swatches .sw').forEach(c=>c.onclick=()=>{ B.single=c.dataset.c; applyBrickColors(); syncBrickUI(); drawScreen(); persist(); });
   $('#msg-fly').onchange=e=>{ B.fly=e.target.checked; persist(); };
@@ -1275,7 +1301,7 @@ let sampleIdx=0;
 
 /* ---------------- views ---------------- */
 let tween=null;
-const VIEWS = { overview:{ p:[14,15,17], t:[0,0.6,0] }, sculpt:{ p:[8.6,2.5,2.6], t:[0.4,0.6,-0.6] }, wall:{ p:[-1.6,1.6,-2.7], t:[-4.4,1.3,-7.4] }, east:{ p:[11.2,1.6,0.6], t:[0,1.2,0] }, south:{ p:[0.4,1.6,11.2], t:[0,1.2,0] } };
+const VIEWS = { overview:{ p:[14,15,17], t:[0,0.6,0] }, sculpt:{ p:[0.9,2.7,6.2], t:[0,0.45,0] }, wall:{ p:[-1.6,1.6,-2.7], t:[-4.4,1.3,-7.4] }, east:{ p:[11.2,1.6,0.6], t:[0,1.2,0] }, south:{ p:[0.4,1.6,11.2], t:[0,1.2,0] } };
 function setView(name){
   $$('[data-view]').forEach(b=>b.classList.toggle('on', b.dataset.view===name));
   if(name==='plan'){ camera=ortho; ctrlP.enabled=false; ctrlO.enabled=true; ortho.zoom=1; ortho.position.set(0,60,0); ctrlO.target.set(0,0,0); ortho.updateProjectionMatrix(); return; }
