@@ -296,9 +296,9 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <h3 style="margin-top:4px">Carpet underneath</h3>
         <label class="tg"><input type="checkbox" id="b-carpet" checked>Show carpet</label>
         <div class="row" id="b-carpet-sw"></div>
-        <div class="row"><label class="fld" style="flex:1">Any colour<input type="color" id="b-carpet-col" value="#3449CC" style="width:100%;height:34px;border:1px solid var(--line);border-radius:8px;padding:2px;background:#fff"></label>
+        <div class="row"><label class="fld" style="flex:1">Any colour<input type="color" id="b-carpet-col" value="#D8C8AE" style="width:100%;height:34px;border:1px solid var(--line);border-radius:8px;padding:2px;background:#fff"></label>
           <label class="fld" style="flex:1">Shape<select id="b-carpet-shape" class="s"><option value="circle">Round</option><option value="square">Square</option></select></label></div>
-        <div class="rng"><span>Beyond the platform</span><input type="range" id="b-carpet-m" min="0" max="25" value="10"><output id="b-carpet-m-o"></output></div>
+        <div class="rng"><span>Beyond the platform</span><input type="range" id="b-carpet-m" min="0" max="25" value="2"><output id="b-carpet-m-o"></output></div>
         <label class="fld">Hole layout<select id="b-holeset" class="s"><option value="opt1">Option 1 · one hole (drawing 01)</option><option value="opt2">Option 2 · two holes (drawing 02)</option><option value="opt3">Option 3 · three holes (drawing 03)</option><option value="random">Random</option></select></label>
         <div class="rng" data-random-holes><span>Holes to sit in</span><input type="range" id="b-holes" min="1" max="5" value="3"><output id="b-holes-o"></output></div>
         <div class="row"><button class="btn" id="b-reholes">Rearrange holes</button><label class="tg"><input type="checkbox" id="b-skirt">Timber skirt to hide the scaffold</label></div>
@@ -767,7 +767,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v11';
+const KEY='dreamcon-composer-v12';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1002,7 +1002,7 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#3449CC', carpetMargin:1.0, carpetShape:'circle', pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
+const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.2, carpetShape:'circle', pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.6, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = ['การศึกษาฟรีที่มีคุณภาพ','อากาศสะอาดคือสิทธิ','Healthcare close to home','ขนส่งสาธารณะที่ทุกคนเข้าถึง','รัฐที่ฟังเสียงประชาชน','Equal rights, written down','ความโปร่งใสในงบประมาณ','A voice for young people','เมืองที่เดินได้และปลอดภัย','ผู้สูงอายุอยู่อย่างมีศักดิ์ศรี','Protect our rivers','ค่าแรงที่อยู่ได้จริง','Freedom to speak','ทุกเสียงเท่ากัน','Accessible for every body','ศิลปะเป็นของทุกคน','Clean, fair elections','อนาคตที่เราร่วมเขียน','Safe streets at night','บ้านที่ทุกคนมีได้'];
@@ -1147,7 +1147,7 @@ function platformParts(){ const R0=B.pdia/2, h=B.platH, hs=holes(), step=0.9, ri
 const carpetGroup = new THREE.Group(); scene.add(carpetGroup);
 const carpetBump = canvasTex(512,512,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const r=rnd(9); for(let i=0;i<26000;i++){ const v=r(); c.fillStyle=v<0.5?'rgba(0,0,0,.10)':'rgba(255,255,255,.18)'; c.fillRect(r()*w,r()*h,1+r()*2,1+r()*2); } });
 carpetBump.wrapS=carpetBump.wrapT=THREE.RepeatWrapping; carpetBump.repeat.set(10,10);
-const carpetMat = new THREE.MeshStandardMaterial({ color:'#3449CC', map:carpetBump, roughness:1, metalness:0 });
+const carpetMat = new THREE.MeshStandardMaterial({ color:'#D8C8AE', map:carpetBump, roughness:1, metalness:0 });
 const CARPET_T = 0.008;
 function buildCarpet(){ carpetGroup.clear(); if(!B.carpet) return; carpetMat.color.set(B.carpetColor);
   const R=B.pdia/2+B.carpetMargin; let geo;
@@ -1339,7 +1339,7 @@ function bindBricks(){
   $('#screen-wrap').appendChild(screenCanvas);
   $('#b-swatches').innerHTML=SINGLES.map(([c,n])=>`<button class="sw" data-c="${c}" title="${n}" aria-label="${n}" style="background:${c}"></button>`).join('');
   $$('#b-types .chip').forEach(c=>c.onclick=()=>{ B.types[c.dataset.type]=!B.types[c.dataset.type]; syncBrickUI(); rebuildBuild(); persist(); });
-  const CARPETS=[['#3449CC','Royal'],['#82B4F8','Sky'],['#ADF5B0','Mint'],['#F8FB6B','Sun'],['#EB7B6B','Coral'],['#232B49','Navy'],['#8C8C88','Grey'],['#1B1B1D','Black']];
+  const CARPETS=[['#D8C8AE','Beige'],['#3449CC','Royal'],['#82B4F8','Sky'],['#ADF5B0','Mint'],['#F8FB6B','Sun'],['#EB7B6B','Coral'],['#232B49','Navy'],['#8C8C88','Grey'],['#1B1B1D','Black']];
   $('#b-carpet-sw').innerHTML=CARPETS.map(([c,n])=>`<button class="sw" data-c="${c}" title="${n}" aria-label="${n} carpet" style="background:${c}"></button>`).join('');
   const setCarpet=()=>{ syncBrickUI(); buildCarpet(); persist(); };
   $$('#b-carpet-sw .sw').forEach(c=>c.onclick=()=>{ B.carpetColor=c.dataset.c; B.carpet=true; setCarpet(); });
