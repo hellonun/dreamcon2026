@@ -179,12 +179,13 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <label class="tg"><input type="checkbox" id="lyr-booths">Partner booths</label>
         <label class="tg"><input type="checkbox" id="lyr-rings" checked>Radius rings</label>
         <label class="tg"><input type="checkbox" id="lyr-people" checked>People for scale</label>
+        <label class="tg"><input type="checkbox" id="lyr-stage" checked>Stage &amp; LED</label>
         <label class="tg"><input type="checkbox" id="lyr-labels" checked>Labels</label>
       </div>
       <div class="legend">
         <span><i style="background:var(--mint)"></i>Exhibition arc</span>
         <span><i style="background:var(--royal)"></i>Sculpture core</span>
-        <span><i style="background:#8F8CF5"></i>Stage, not in scope</span>
+        <span><i style="background:#8F8CF5"></i>Conference area</span>
         <span><i style="background:var(--navy)"></i>Partner booths (when shown)</span>
       </div>
       <h3>Checks</h3>
@@ -198,6 +199,8 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <dt>Exhibition arc</dt><dd>7.6–11.4 m from centre</dd>
         <dt>Sculpture core</dt><dd>Ø 6.0 m</dd>
         <dt>Stage line</dt><dd>south column row, 4.39 m</dd>
+        <dt>Stage</dt><dd>4.8 × 2.4 m, 8 blocks of 1.2 × 1.2 m, 0.60 m high</dd>
+        <dt>LED screen</dt><dd>4 × 2 m on the back of the stage, top at 2.60 m</dd>
       </dl>
       <p class="note">Positions are traced from a screenshot of the plan, so allow ±10–15 cm. Confirm column and door positions on site before fixing anything.</p>
     </section>
@@ -620,7 +623,7 @@ function buildRoom(){
   flat(new THREE.ShapeGeometry(st,48), '#8F8CF5', 0.2);
   const zl = (t,x,z,cls='lbl') => { const l=label(t,cls); l.position.set(x,0.15,z); zones.add(l); };
   { const [x,z]=plan2xz(9.6,114); zl('Exhibition arc',x,z); }
-  zl('Sculpture core · Ø 6 m',0,-3.3); zl('Conference stage · not in scope',0,9.4,'lbl dim');
+  zl('Sculpture core · Ø 6 m',0,-3.3); zl('Conference area',0,6.0,'lbl dim');
   // partner booths (by others): extruded sector
   const bs = new THREE.Shape(); const {r0,r1,a0,a1}=ZONE_BOOTH; for(let a=a0;a<=a1;a+=2) { const p=[r1*Math.cos(a*DEG), r1*Math.sin(a*DEG)]; a===a0?bs.moveTo(...p):bs.lineTo(...p); } for(let a=a1;a>=a0;a-=2) bs.lineTo(r0*Math.cos(a*DEG), r0*Math.sin(a*DEG)); bs.closePath();
   const booth = new THREE.Mesh(new THREE.ExtrudeGeometry(bs,{ depth:2.2, bevelEnabled:false, curveSegments:24 }), new THREE.MeshStandardMaterial({ color:PAL.navy, transparent:true, opacity:0.32, roughness:0.8, depthWrite:false }));
@@ -629,6 +632,16 @@ function buildRoom(){
   // radius rings
   const rings = new THREE.Group(); g.add(rings); layers.rings=rings;
   for(const rr of [2,4,6,8,10]){ const pts=[]; for(let a=0;a<=360;a+=3){ const [x,z]=plan2xz(rr,a); pts.push(new THREE.Vector3(x,0.01,z)); } const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color:'#7c86a3', dashSize:0.25, gapSize:0.18, transparent:true, opacity:0.7 })); ln.computeLineDistances(); rings.add(ln); const [x,z]=plan2xz(rr,203); const l=label(`r ${rr} m`,'lbl ring'); l.position.set(x,0.02,z); rings.add(l); }
+  // conference stage: 4.8 x 2.4 m from 1.2 m blocks, 0.6 m high, back to the carpark doors, LED 4 x 2 m on the back edge
+  { const st=new THREE.Group(); g.add(st); layers.stage=st; const SW=4.8, SD=2.4, SH=0.6, cz=8.9; // centre, south of the circle centre
+    const blockTop=new THREE.MeshStandardMaterial({ color:'#2A2B30', roughness:0.75 }), blockSide=new THREE.MeshStandardMaterial({ color:'#16171A', roughness:0.9 });
+    for(let i=0;i<4;i++) for(let j=0;j<2;j++){ const b=new THREE.Mesh(new THREE.BoxGeometry(1.196,SH,1.196),[blockSide,blockSide,blockTop,blockSide,blockSide,blockSide]); b.position.set(-SW/2+0.6+i*1.2, SH/2, cz-SD/2+0.6+j*1.2); b.castShadow=true; b.receiveShadow=true; st.add(b); }
+    const steps=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.3,0.4),blockSide); steps.position.set(SW/2-0.6,0.15,cz-SD/2-0.2); steps.castShadow=true; st.add(steps);
+    const ledFrame=new THREE.Mesh(new THREE.BoxGeometry(4.08,2.06,0.12),new THREE.MeshStandardMaterial({ color:'#0b0b0d', roughness:0.5, metalness:0.3 })); ledFrame.position.set(0,SH+1.03,cz+SD/2-0.12); ledFrame.castShadow=true; st.add(ledFrame);
+    const ledTex=new THREE.TextureLoader().load(ASSETS.keynote); ledTex.colorSpace=THREE.SRGBColorSpace;
+    const led=new THREE.Mesh(new THREE.PlaneGeometry(4,2),new THREE.MeshBasicMaterial({ map:ledTex, toneMapped:false })); led.position.set(0,SH+1.0,cz+SD/2-0.181); led.rotation.y=Math.PI; st.add(led);
+    for(const x of [-1.7,1.7]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.5,0.5),castorMat); leg.position.set(x,SH+0.05,cz+SD/2-0.12); st.add(leg); }
+    const sl=label('Stage 4.8 × 2.4 m · LED 4 × 2 m'); sl.position.set(0,2.85,cz); st.add(sl); (layers.labels??=[]).push(sl); }
   // people for scale
   const people = new THREE.Group(); g.add(people); layers.people=people;
   const pm = new THREE.MeshStandardMaterial({ color:'#5C6B8A', roughness:0.8 });
@@ -1375,7 +1388,7 @@ function bindUI(){
   $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
   const lyr=(id,fn)=>{ const e=$('#'+id); e.onchange=()=>fn(e.checked); fn(e.checked); };
   lyr('lyr-walls',v=>layers.walls.visible=v); lyr('lyr-ceiling',v=>layers.ceiling.visible=v); lyr('lyr-floor',v=>{ layers.floor.visible=v; layers.plainFloor.visible=!v; }); lyr('lyr-plan',v=>layers.plan.visible=v);
-  lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v);
+  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v);
   lyr('lyr-labels',v=>{ labelRenderer.domElement.style.display=v?'':'none'; });
   $$('[data-add]').forEach(b=>b.onclick=()=>addPiece(b.dataset.add));
   $$('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
