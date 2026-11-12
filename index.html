@@ -290,6 +290,12 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <div class="card">
         <div class="rng"><span>Platform</span><input type="range" id="b-pdia" min="35" max="80" value="70"><output id="b-pdia-o"></output></div>
         <div class="rng"><span>Seat height</span><input type="range" id="b-plath" min="35" max="60" value="45"><output id="b-plath-o"></output></div>
+        <h3 style="margin-top:4px">Carpet underneath</h3>
+        <label class="tg"><input type="checkbox" id="b-carpet" checked>Show carpet</label>
+        <div class="row" id="b-carpet-sw"></div>
+        <div class="row"><label class="fld" style="flex:1">Any colour<input type="color" id="b-carpet-col" value="#3449CC" style="width:100%;height:34px;border:1px solid var(--line);border-radius:8px;padding:2px;background:#fff"></label>
+          <label class="fld" style="flex:1">Shape<select id="b-carpet-shape" class="s"><option value="circle">Round</option><option value="square">Square</option></select></label></div>
+        <div class="rng"><span>Beyond the platform</span><input type="range" id="b-carpet-m" min="0" max="25" value="10"><output id="b-carpet-m-o"></output></div>
         <label class="fld">Hole layout<select id="b-holeset" class="s"><option value="opt1">Option 1 · one hole (drawing 01)</option><option value="opt2">Option 2 · two holes (drawing 02)</option><option value="opt3">Option 3 · three holes (drawing 03)</option><option value="random">Random</option></select></label>
         <div class="rng" data-random-holes><span>Holes to sit in</span><input type="range" id="b-holes" min="1" max="5" value="3"><output id="b-holes-o"></output></div>
         <div class="row"><button class="btn" id="b-reholes">Rearrange holes</button><label class="tg"><input type="checkbox" id="b-skirt">Timber skirt to hide the scaffold</label></div>
@@ -983,7 +989,7 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
+const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#3449CC', carpetMargin:1.0, carpetShape:'circle', pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.6, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = ['การศึกษาฟรีที่มีคุณภาพ','อากาศสะอาดคือสิทธิ','Healthcare close to home','ขนส่งสาธารณะที่ทุกคนเข้าถึง','รัฐที่ฟังเสียงประชาชน','Equal rights, written down','ความโปร่งใสในงบประมาณ','A voice for young people','เมืองที่เดินได้และปลอดภัย','ผู้สูงอายุอยู่อย่างมีศักดิ์ศรี','Protect our rivers','ค่าแรงที่อยู่ได้จริง','Freedom to speak','ทุกเสียงเท่ากัน','Accessible for every body','ศิลปะเป็นของทุกคน','Clean, fair elections','อนาคตที่เราร่วมเขียน','Safe streets at night','บ้านที่ทุกคนมีได้'];
@@ -1125,7 +1131,16 @@ function platformParts(){ const R0=B.pdia/2, h=B.platH, hs=holes(), step=0.9, ri
   const ringPts=posts.slice(0,posts.length-grid.size); for(const [k,p] of grid){ const [i,j]=k.split(',').map(Number); if([[1,0],[-1,0],[0,1],[0,-1]].some(([a,b])=>!grid.has((i+a)+','+(j+b)))){ let best=null, bd=1.2; for(const q of ringPts){ const d=Math.hypot(q[0]-p[0],q[1]-p[1]); if(d<bd){ bd=d; best=q; } } if(best) ledgers.push([p,best]); } }
   return { posts, ledgers, area:Math.PI*R0*R0-hs.reduce((a,q)=>a+Math.PI*q.r*q.r,0), cutLen:2*Math.PI*R0+hs.reduce((a,q)=>a+2*Math.PI*q.r,0) };
 }
-function buildPlatform(){
+const carpetGroup = new THREE.Group(); scene.add(carpetGroup);
+const carpetBump = canvasTex(512,512,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const r=rnd(9); for(let i=0;i<26000;i++){ const v=r(); c.fillStyle=v<0.5?'rgba(0,0,0,.10)':'rgba(255,255,255,.18)'; c.fillRect(r()*w,r()*h,1+r()*2,1+r()*2); } });
+carpetBump.wrapS=carpetBump.wrapT=THREE.RepeatWrapping; carpetBump.repeat.set(10,10);
+const carpetMat = new THREE.MeshStandardMaterial({ color:'#3449CC', map:carpetBump, roughness:1, metalness:0 });
+const CARPET_T = 0.008;
+function buildCarpet(){ carpetGroup.clear(); if(!B.carpet) return; carpetMat.color.set(B.carpetColor);
+  const R=B.pdia/2+B.carpetMargin; let geo;
+  if(B.carpetShape==='square') geo=new THREE.BoxGeometry(2*R,CARPET_T,2*R); else geo=new THREE.CylinderGeometry(R,R,CARPET_T,128);
+  const m=new THREE.Mesh(geo,carpetMat); m.position.set(B.cx,CARPET_T/2,B.cz); m.receiveShadow=true; carpetGroup.add(m); }
+function buildPlatform(){ buildCarpet();
   platGroup.clear(); const R0=B.pdia/2, h=B.platH, hs=holes(), top=deckTop();
   const shape=new THREE.Shape(); shape.absarc(0,0,R0,0,Math.PI*2,false); for(const q of hs){ const p=new THREE.Path(); p.absarc(q.x,-q.z,q.r,0,Math.PI*2,true); shape.holes.push(p); }
   const deck=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{ depth:PLY, bevelEnabled:false, curveSegments:72 }), [deckMat, deckEdgeMat]); deck.rotation.x=-Math.PI/2; deck.position.set(B.cx,top-PLY,B.cz); deck.castShadow=true; deck.receiveShadow=true; platGroup.add(deck);
@@ -1297,7 +1312,7 @@ function renderBrickStats(){
   const stock=$('#b-stock'); if(stock){ const left=B.count-placed; stock.textContent = `${BR.plinths} stacks, each 0.95 m square, stand on the paving. Their bottom course is already part of it, and the ${left} bricks still to lay are stacked above, ${BR.layers} courses (${fmt(BR.layers*(B.H+0.002),2)} m) high at the start.`; }
 }
 function syncBrickUI(){ const o=(id,v)=>{ const e=$('#'+id); if(e) e.textContent=v; };
-  $('#b-pdia').value=Math.round(B.pdia*10); o('b-pdia-o',`Ø ${fmt(B.pdia,1)} m`); $('#b-plath').value=Math.round(B.platH*100); o('b-plath-o',`${Math.round(B.platH*100)} cm`); $('#b-skirt').checked=B.skirt;
+  $('#b-pdia').value=Math.round(B.pdia*10); o('b-pdia-o',`Ø ${fmt(B.pdia,1)} m`); $('#b-plath').value=Math.round(B.platH*100); o('b-plath-o',`${Math.round(B.platH*100)} cm`); $('#b-skirt').checked=B.skirt; $('#b-carpet').checked=B.carpet; $('#b-carpet-col').value=B.carpetColor; $('#b-carpet-shape').value=B.carpetShape; $('#b-carpet-m').value=Math.round(B.carpetMargin*10); o('b-carpet-m-o',`${fmt(B.carpetMargin,1)} m`); $$('#b-carpet-sw .sw').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.c.toLowerCase()===B.carpetColor.toLowerCase())));
   $('#b-maxh').value=Math.round(B.maxH*100); o('b-maxh-o',`${Math.round(B.maxH*100)} cm`); $('#b-holeset').value=B.holeSet||'random'; $$('[data-random-holes]').forEach(e=>e.hidden=!!B.holeSet); $('#b-holes').value=B.nHoles; o('b-holes-o',B.nHoles); $('#b-nstruct').value=B.nStruct; o('b-nstruct-o',B.nStruct);
   $$('#b-types .chip').forEach(c=>c.setAttribute('aria-pressed',String(!!B.types[c.dataset.type])));
   $$('#b-colmode .chip').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.cm===B.colorMode))); $$('#b-swatches .sw').forEach(c=>{ c.setAttribute('aria-pressed',String(c.dataset.c===B.single)); }); $('#b-swatches').hidden=B.colorMode!=='single';
@@ -1311,6 +1326,15 @@ function bindBricks(){
   $('#screen-wrap').appendChild(screenCanvas);
   $('#b-swatches').innerHTML=SINGLES.map(([c,n])=>`<button class="sw" data-c="${c}" title="${n}" aria-label="${n}" style="background:${c}"></button>`).join('');
   $$('#b-types .chip').forEach(c=>c.onclick=()=>{ B.types[c.dataset.type]=!B.types[c.dataset.type]; syncBrickUI(); rebuildBuild(); persist(); });
+  const CARPETS=[['#3449CC','Royal'],['#82B4F8','Sky'],['#ADF5B0','Mint'],['#F8FB6B','Sun'],['#EB7B6B','Coral'],['#232B49','Navy'],['#8C8C88','Grey'],['#1B1B1D','Black']];
+  $('#b-carpet-sw').innerHTML=CARPETS.map(([c,n])=>`<button class="sw" data-c="${c}" title="${n}" aria-label="${n} carpet" style="background:${c}"></button>`).join('');
+  const setCarpet=()=>{ syncBrickUI(); buildCarpet(); persist(); };
+  $$('#b-carpet-sw .sw').forEach(c=>c.onclick=()=>{ B.carpetColor=c.dataset.c; B.carpet=true; setCarpet(); });
+  $('#b-carpet-col').addEventListener('input',e=>{ B.carpetColor=e.target.value; B.carpet=true; $('#b-carpet').checked=true; carpetMat.color.set(B.carpetColor); if(!carpetGroup.children.length) buildCarpet(); });
+  $('#b-carpet-col').addEventListener('change',setCarpet);
+  $('#b-carpet').onchange=e=>{ B.carpet=e.target.checked; setCarpet(); };
+  $('#b-carpet-shape').onchange=e=>{ B.carpetShape=e.target.value; setCarpet(); };
+  $('#b-carpet-m').addEventListener('input',e=>{ B.carpetMargin=+e.target.value/10; syncBrickUI(); buildCarpet(); }); $('#b-carpet-m').addEventListener('change',persist);
   $('#b-skirt').onchange=e=>{ B.skirt=e.target.checked; buildPlatform(); persist(); };
   $('#b-reholes').onclick=()=>{ B.holeSet=''; syncBrickUI(); B.holeSeed=1+Math.floor(Math.random()*1e5); rebuildBuild(); persist(); };
   $('#b-restruct').onclick=()=>{ B.structSeed=1+Math.floor(Math.random()*1e5); rebuildBuild(); persist(); };
