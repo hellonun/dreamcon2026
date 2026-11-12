@@ -296,11 +296,11 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       </div>
       <h3>Brick structures on top</h3>
       <div class="card">
-        <div class="chips" id="b-types"><button class="chip" data-type="cabin">Log-cabin towers</button><button class="chip" data-type="round">Round towers</button><button class="chip" data-type="wall">Curved walls</button><button class="chip" data-type="domino">Domino spirals</button><button class="chip" data-type="patch">Flat patches</button></div>
-        <div class="rng"><span>Structures</span><input type="range" id="b-nstruct" min="4" max="30" value="16"><output id="b-nstruct-o"></output></div>
-        <div class="rng"><span>Tallest</span><input type="range" id="b-maxh" min="25" max="90" step="5" value="60"><output id="b-maxh-o"></output></div>
+        <div class="chips" id="b-types"><button class="chip" data-type="pavilion">Stepped pavilions</button><button class="chip" data-type="round">Round towers</button><button class="chip" data-type="arch">Corbelled arches</button><button class="chip" data-type="twist">Twisted columns</button><button class="chip" data-type="cabin">Log-cabin towers</button><button class="chip" data-type="domino">Domino spirals</button></div>
+        <div class="rng"><span>Structures</span><input type="range" id="b-nstruct" min="4" max="30" value="12"><output id="b-nstruct-o"></output></div>
+        <div class="rng"><span>Tallest</span><input type="range" id="b-maxh" min="30" max="140" step="5" value="100"><output id="b-maxh-o"></output></div>
         <div class="row"><button class="btn primary" id="b-restruct">Rearrange</button></div>
-        <p class="note">Bricks stand up and on edge like Kapla: log-cabin towers, round towers with flat lintels, curved walls and domino spirals. Bricks not used in structures pave the free deck flat.</p>
+        <p class="note">Built like Kapla: stepped pavilions of columns and beams, narrowing round towers, corbelled arches, twisted columns, log-cabin towers and domino spirals. Bricks not used in structures pave the free deck flat.</p>
       </div>
       <h3>Brick colour</h3>
       <div class="row"><div class="chips" id="b-colmode"><button class="chip" data-cm="multi">Mixed clay</button><button class="chip" data-cm="single">One colour</button></div><div class="row" id="b-swatches"></div></div>
@@ -314,13 +314,13 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <div class="rng"><span>Courses per stack</span><input type="range" id="b-layers" min="6" max="30" value="16"><output id="b-layers-o"></output></div>
         <p class="note" id="b-stock"></p>
       </div>
-      <h3>Input station</h3>
+      <h3>Brick message station</h3>
       <div class="card">
         <label class="fld">Question on the screens<input type="text" id="b-prompt" maxlength="120"></label>
         <label class="fld">Type as a visitor would<input type="text" id="msg-in" maxlength="80" placeholder="Your answer shows on the station monitor as you type"></label>
         <div class="row"><button class="btn primary" id="msg-scan">Send</button><button class="btn" id="msg-sample">Sample answer</button><button class="btn" id="msg-reset">Reset answers</button></div>
         <label class="tg"><input type="checkbox" id="msg-fly" checked>Move the camera to the brick</label>
-        <p class="note">Sending lays the next brick and plays the projection: the answer appears large across the build, travels to that brick, flashes and settles into its top face. Later bricks laid over it hide it, so it stays inside the build. The 20 starting answers are samples.</p>
+        <p class="note">Sending plays the projection on the brick in the station's recess first, then that brick joins the build: the answer travels to its place on the platform and settles into it. Later bricks laid over it hide it, so it stays inside the build. The 20 starting answers are samples.</p>
       </div>
       <h3>Vertical screen · latest 20</h3>
       <div id="screen-wrap" class="screenwrap"></div>
@@ -630,7 +630,7 @@ function buildRoom(){
 }
 
 /* ---------------- scaffold model ---------------- */
-const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1, d:1, h:0.45, label:'Brick platform' }, station:{ w:0.9, d:0.6, h:1.6, label:'Input station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
+const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1, d:1, h:0.45, label:'Brick platform' }, station:{ w:1.2, d:0.7, h:2.12, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
 const FINISH = { silver:{ color:'#C9CED6', metalness:0.85, roughness:0.32 }, black:{ color:'#26282E', metalness:0.55, roughness:0.45 }, mint:{ color:PAL.mint, metalness:0.15, roughness:0.5 }, royal:{ color:PAL.royal, metalness:0.15, roughness:0.45 } };
 const finishMats = Object.fromEntries(Object.entries(FINISH).map(([k,v])=>[k,new THREE.MeshStandardMaterial(v)]));
 const warnMat = new THREE.MeshStandardMaterial({ color:'#ff5a36', metalness:0.3, roughness:0.4 });
@@ -656,7 +656,7 @@ function edgesOf(m){ const { w, d, h, type } = m; const X=w/2, Z=d/2, E=[]; cons
   else if(type==='frame'){ const f=0.12; for(const x of [-X,X]){ s([x,f,0],[x,h,0]); s([x,f,-Z],[x,f,Z]); } s([-X,0.32,0],[X,0.32,0]); s([-X,h,0],[X,h,0]); }
   else if(type==='post'){ s([-X,0,0],[-X,h,0]); s([-X,h-0.08,0],[X,h-0.08,0]); s([-X,0.35,0],[X,0.35,0]); s([-X,0.03,-Z],[-X,0.03,Z]); }
   else if(type==='screen'){ for(const x of [-X,X]){ s([x,0,0],[x,h,0]); s([x,0.03,-Z],[x,0.03,Z]); } s([-X,h,0],[X,h,0]); s([-X,0.3,0],[X,0.3,0]); }
-  else if(type==='station'){ for(const x of [-X,X]){ s([x,0,0],[x,h,0]); s([x,0.03,-Z],[x,0.03,Z]); } s([-X,h,0],[X,h,0]); s([-X,0.95,0],[X,0.95,0]); }
+  else if(type==='station'){ const x=X-0.06, z=Z-0.06, t=0.86; s([-x,0,-z],[-x,h,-z]); s([x,0,-z],[x,h,-z]); s([-x,0,z],[-x,t,z]); s([x,0,z],[x,t,z]); for(const y of [0.2,t-0.03]){ s([-x,y,-z],[x,y,-z]); s([-x,y,z],[x,y,z]); s([-x,y-0.055,-z],[-x,y-0.055,z]); s([x,y-0.055,-z],[x,y-0.055,z]); } s([-x,h-0.02,-z],[x,h-0.02,-z]); }
   return E; }
 function facesOf(m){ const { w, d, h, type } = m, e=0.035;
   if(BOXLIKE.has(type)) return { front:{c:[0,h/2,d/2-e],ry:0,fw:w,fh:h}, back:{c:[0,h/2,-d/2+e],ry:Math.PI,fw:w,fh:h}, right:{c:[w/2-e,h/2,0],ry:Math.PI/2,fw:d,fh:h}, left:{c:[-w/2+e,h/2,0],ry:-Math.PI/2,fw:d,fh:h} };
@@ -669,10 +669,16 @@ function addTube(g,a,b,r,mat){ const dv=new THREE.Vector3().subVectors(b,a); con
 function moduleExtras(m, g){
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
   if(m.type==='plinth'){ const deck=new THREE.Mesh(new THREE.BoxGeometry(m.w+0.02,0.018,m.d+0.02), plyMat); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck); }
-  if(m.type==='station'){ const mon=new THREE.Group(); mon.position.set(0,1.2,0.07); mon.rotation.x=-0.28; g.add(mon);
-    const body=new THREE.Mesh(new THREE.BoxGeometry(0.74,0.45,0.045),castorMat); body.castShadow=true; mon.add(body); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.7,0.4),stationMat); sc.position.z=0.0235; mon.add(sc);
-    const br=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.26,0.04),castorMat); br.position.set(0,1.06,0.03); g.add(br);
-    const shelf=new THREE.Mesh(new THREE.BoxGeometry(m.w,0.02,0.2),plyMat); shelf.position.set(0,0.96,0.12); shelf.castShadow=true; g.add(shelf); }
+  if(m.type==='station'){ const T=0.9, TT=0.036, sx=0.24, rx=-0.3;
+    const top=new THREE.Mesh(new THREE.BoxGeometry(m.w,TT,m.d),plyMat); top.position.y=T-TT/2; top.castShadow=true; top.receiveShadow=true; g.add(top);
+    const bez=new THREE.Mesh(new THREE.BoxGeometry(0.36,0.004,0.215),castorMat); bez.position.set(sx,T+0.001,0); g.add(bez);
+    const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.34,0.195),stationMat); sc.rotation.x=-Math.PI/2; sc.position.set(sx,T+0.0035,0); g.add(sc);
+    const pocket=new THREE.Mesh(new THREE.BoxGeometry(0.225,0.002,0.085),castorMat); pocket.position.set(rx,T+0.0005,0); g.add(pocket);
+    const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(rx,T+0.008,0); brick.castShadow=true; g.add(brick);
+    const proj=new THREE.Mesh(new THREE.PlaneGeometry(0.205,0.068),stationProjMat); proj.rotation.x=-Math.PI/2; proj.position.set(rx,T+0.0185,0); proj.renderOrder=3; g.add(proj);
+    const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(rx,T+0.002,0); glw.renderOrder=2; g.add(glw);
+    const can=new THREE.Mesh(new THREE.BoxGeometry(m.w,0.16,0.62),plyMat); can.position.set(0,m.h+0.08,-m.d/2+0.31); can.castShadow=true; g.add(can);
+    const lens=new THREE.Mesh(new THREE.CircleGeometry(0.03,24),castorMat); lens.rotation.x=Math.PI/2; lens.position.set(rx,m.h-0.001,0); g.add(lens); }
   if(m.type==='screen'){ const disp=new THREE.Mesh(new THREE.BoxGeometry(0.98,1.71,0.06),castorMat); disp.position.set(0,1.25,0.045); disp.castShadow=true; g.add(disp); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.94,1.67),screenMat); sc.position.set(0,1.25,0.0755); g.add(sc); }
 }
 function printSize(face, spec){ const inset = face.full? 0 : spec.mode==='full'? 0.02 : spec.mode==='laced'? Math.max(spec.inset,0.06) : spec.inset; return { pw:Math.max(0.05, face.fw-2*inset), ph:Math.max(0.05, face.fh-2*inset) }; }
@@ -742,7 +748,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v9';
+const KEY='dreamcon-composer-v11';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -762,7 +768,7 @@ function proposal(){
   mods.push(...A, ...B2);
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
   { const a=6; const [px,pz]=plan2xz(4.85,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); const tx=Math.cos(ry), tz=-Math.sin(ry);
-    mods.push(mk('station',{ x:px-tx*0.6, z:pz-tz*0.6, rot:norm(ry/DEG) })); mods.push(mk('screen',{ x:px+tx*0.62, z:pz+tz*0.62, rot:norm(ry/DEG) })); }
+    mods.push(mk('station',{ x:px-tx*0.55, z:pz-tz*0.55, rot:norm(ry/DEG) })); mods.push(mk('screen',{ x:px+tx*0.75, z:pz+tz*0.75, rot:norm(ry/DEG) })); }
   S.modules = mods; rebuildAll();
 }
 
@@ -977,7 +983,7 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:0.6, pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:16, structSeed:1, types:{ cabin:true, round:true, wall:true, domino:true, patch:true },
+const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.6, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = ['การศึกษาฟรีที่มีคุณภาพ','อากาศสะอาดคือสิทธิ','Healthcare close to home','ขนส่งสาธารณะที่ทุกคนเข้าถึง','รัฐที่ฟังเสียงประชาชน','Equal rights, written down','ความโปร่งใสในงบประมาณ','A voice for young people','เมืองที่เดินได้และปลอดภัย','ผู้สูงอายุอยู่อย่างมีศักดิ์ศรี','Protect our rivers','ค่าแรงที่อยู่ได้จริง','Freedom to speak','ทุกเสียงเท่ากัน','Accessible for every body','ศิลปะเป็นของทุกคน','Clean, fair elections','อนาคตที่เราร่วมเขียน','Safe streets at night','บ้านที่ทุกคนมีได้'];
@@ -1019,33 +1025,46 @@ const halfH = o => o==='end'? B.L/2 : o==='edge'? B.W/2 : B.H/2;
 const brk = (x,base,z,ry,o='flat') => ({ x, y:base+halfH(o), z, ry, o, base, top:base+2*halfH(o) });
 const tangentRy = a => Math.atan2(-Math.cos(a), -Math.sin(a));   // local x runs along the circle at angle a
 const KAPLA = {
-  cabin(rho, maxH, r){ const { L, W, H } = B; const a=L/2-H/2; const towers=[]; const n=Math.max(1,Math.min(9,Math.floor((rho*rho)/0.035)));
-    for(let t=0;t<200 && towers.length<n;t++){ const ang=r()*Math.PI*2, d=Math.sqrt(r())*Math.max(0,rho-L*0.75); const p={ x:d*Math.cos(ang), z:d*Math.sin(ang), rot:r()*Math.PI/2, h:0.45+0.55*r() }; if(towers.every(q=>Math.hypot(q.x-p.x,q.z-p.z)>L*1.5)) towers.push(p); }
+  /* stepped pavilion: standing columns, beams both ways, each storey set back */
+  pavilion(rho, maxH, r){ const { L, W, H } = B; const sp=L; let n=Math.max(2,Math.min(5,Math.floor((rho*1.35)/sp)+1)); const out=[]; const sh=L+2*H; const storeys=Math.max(1,Math.floor((maxH+0.01)/sh));
+    let i0=0,i1=n-1,j0=0,j1=n-1; const off=-(n-1)*sp/2;
+    for(let k=0;k<storeys;k++){ if(i1-i0<1||j1-j0<1) break; const base=k*sh; const X=i=>off+i*sp, Z=j=>off+j*sp;
+      for(let i=i0;i<=i1;i++) for(let j=j0;j<=j1;j++) out.push(brk(X(i),base,Z(j),0,'end'));
+      for(let j=j0;j<=j1;j++) for(let i=i0;i<i1;i++) out.push(brk((X(i)+X(i+1))/2,base+L,Z(j),0,'flat'));
+      for(let i=i0;i<=i1;i++) for(let j=j0;j<j1;j++) out.push(brk(X(i),base+L+H,(Z(j)+Z(j+1))/2,Math.PI/2,'flat'));
+      const step=k%4; if(step===0) i1--; else if(step===1) j0++; else if(step===2) i0++; else j1--; }
+    return out; },
+  /* round tower of standing bricks and lintels, narrowing a little with each tier */
+  round(rho, maxH, r){ const { L, W, H } = B; let rr=clamp(rho-0.06,0.18,0.5); const tiers=Math.max(1,Math.floor((maxH+0.01)/(L+H))); const out=[]; const off=r()*Math.PI;
+    for(let t=0;t<tiers;t++){ const base=t*(L+H); const n=Math.max(5,Math.floor(2*Math.PI*rr/(W*1.8))); const step=Math.PI*2/n; const a0=off+(t%2)*step/2;
+      for(let i=0;i<n;i++){ const a=a0+i*step; out.push(brk(rr*Math.cos(a), base, rr*Math.sin(a), tangentRy(a), 'end')); }
+      for(let i=0;i<n;i++){ const a=a0+(i+0.5)*step; out.push(brk(rr*Math.cos(a), base+L, rr*Math.sin(a), tangentRy(a), 'flat')); }
+      rr=Math.max(0.14, rr-0.03); }
+    return out; },
+  /* corbelled arch: two walls of bricks on edge stepping in until they meet, capped flat */
+  arch(rho, maxH, r){ const { L, W, H } = B; const half=clamp(rho*0.95,0.3,0.7); const out=[]; const over=0.045; const C=Math.min(Math.floor(maxH*0.9/W), Math.ceil((half-0.06)/over)+2);
+    let topY=0; for(let k=0;k<C;k++){ const inner=Math.max(0.03, half-L-k*over); const xc=inner+L/2; if(xc-L/2<=0.031 && k>2) { topY=k*W; break; } for(const sx of [-1,1]) for(const z of [-0.055,0.055]) out.push(brk(sx*xc, k*W, z, 0, 'edge')); topY=(k+1)*W; }
+    for(const z of [-0.08,-0.027,0.027,0.08]) out.push(brk(0, topY, z, 0, 'flat'));
+    return out; },
+  /* twisted column: pairs of flat bricks turning a few degrees each course */
+  twist(rho, maxH, r){ const { L, W, H } = B; const out=[]; const C=Math.max(4,Math.floor(maxH/(H+0.001))); const turn=(8+r()*8)*Math.PI/180*(r()<0.5?1:-1); const a0=r()*Math.PI;
+    for(let k=0;k<C;k++){ const a=a0+k*turn, c=Math.cos(a), s=Math.sin(a); for(const d of [-0.045,0.045]) out.push(brk(-d*s, k*(H+0.001), -d*c, a, 'flat')); }
+    return out; },
+  /* log-cabin towers, bricks on edge crossing in pairs */
+  cabin(rho, maxH, r){ const { L, W, H } = B; const a=L/2-H/2; const towers=[]; const n=Math.max(1,Math.min(7,Math.floor((rho*rho)/0.045)));
+    for(let t=0;t<200 && towers.length<n;t++){ const ang=r()*Math.PI*2, d=Math.sqrt(r())*Math.max(0,rho-L*0.75); const p={ x:d*Math.cos(ang), z:d*Math.sin(ang), rot:r()*Math.PI/2, h:0.35+0.65*r() }; if(towers.every(q=>Math.hypot(q.x-p.x,q.z-p.z)>L*1.5)) towers.push(p); }
     const out=[]; const maxC=Math.max(2,Math.floor(maxH/W));
     for(const tw of towers){ const C=Math.max(2,Math.round(maxC*tw.h)); const c=Math.cos(tw.rot), s=Math.sin(tw.rot);
       for(let k=0;k<C;k++){ for(const sg of [-1,1]){ const lx= k%2? sg*a : 0, lz= k%2? 0 : sg*a; out.push(brk(tw.x+lx*c+lz*s, k*W, tw.z-lx*s+lz*c, tw.rot+(k%2?Math.PI/2:0), 'edge')); } } }
     return out; },
-  round(rho, maxH, r){ const { L, W, H } = B; const rr=clamp(rho-0.08,0.16,0.5); const n=Math.max(5,Math.floor(2*Math.PI*rr/(W*1.8))); const step=Math.PI*2/n; const tiers=Math.max(1,Math.floor((maxH+0.01)/(L+H))); const out=[]; const off=r()*step;
-    for(let t=0;t<tiers;t++){ const base=t*(L+H); const a0=off+(t%2)*step/2;
-      for(let i=0;i<n;i++){ const a=a0+i*step; out.push(brk(rr*Math.cos(a), base, rr*Math.sin(a), tangentRy(a), 'end')); }
-      for(let i=0;i<n;i++){ const a=a0+(i+0.5)*step; out.push(brk(rr*Math.cos(a), base+L, rr*Math.sin(a), tangentRy(a), 'flat')); } }
-    return out; },
-  wall(rho, maxH, r){ const { L, W } = B; const rr=clamp(rho*1.6,0.45,1.6), span=Math.min(2.2, (2*rho-0.1)/rr); const n=Math.max(2,Math.floor(span*rr/(L+0.004))); const st=span/n; const C=Math.max(2,Math.floor(maxH*0.8/W)); const out=[];
-    const cz=-rr+rho*0.4;
-    for(let k=0;k<C;k++){ const m=k%2? n-1 : n; for(let i=0;i<m;i++){ const a=Math.PI/2-span/2+(i+0.5+(k%2)*0.5)*st; out.push(brk(rr*Math.cos(a), k*W, cz+rr*Math.sin(a), tangentRy(a), 'edge')); } }
-    return out; },
+  /* low spiral of standing bricks with flat bridges */
   domino(rho, maxH, r){ const { L, W, H } = B; const out=[]; const sp=0.09; const turns=r()<0.5; const R1=Math.max(0.2,rho-0.06);
-    // a spiral of standing bricks, then a few flat bridges laid across neighbours
     let th=0, prev=null, s=0; const pts=[]; while(pts.length<160){ const rad=R1-(th/(Math.PI*2))*0.13; if(rad<0.1) break; const p=[rad*Math.cos(th),rad*Math.sin(th)]; if(prev) s+=Math.hypot(p[0]-prev[0],p[1]-prev[1]); if(!pts.length || s>=sp){ pts.push({ x:p[0], z:p[1], a:th }); s=0; } prev=p; th+=0.02*(turns?1:-1); }
     for(const p of pts) out.push(brk(p.x, 0, p.z, tangentRy(p.a)+Math.PI/2, 'end'));
     for(let i=0;i+1<pts.length;i+=2){ const p=pts[i], q=pts[i+1]; out.push(brk((p.x+q.x)/2, L, (p.z+q.z)/2, Math.atan2(-(q.z-p.z), q.x-p.x), 'flat')); }
     return out; },
-  patch(rho, maxH, r){ const { L, W, H } = B; const out=[]; const g=0.003; const lay=Math.max(1,Math.min(4,Math.floor(maxH/0.12)));
-    for(let k=0;k<lay;k++){ const rad=rho*(0.85-k*0.18); if(rad<0.15) break; const turn=k%2===1; const nx=Math.ceil(rad/(L+g))+1, nz=Math.ceil(rad/(W+g))+1;
-      for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(Math.hypot(x,z)>rad-L*0.4) continue; out.push(turn? brk(z,k*(H+0.001),x,Math.PI/2) : brk(x,k*(H+0.001),z,0)); } }
-    return out; },
 };
-const KAPLA_NAMES = { cabin:['log-cabin cluster','log-cabin clusters'], round:['round tower','round towers'], wall:['curved wall','curved walls'], domino:['domino spiral','domino spirals'], patch:['flat patch','flat patches'] };
+const KAPLA_NAMES = { pavilion:['stepped pavilion','stepped pavilions'], round:['round tower','round towers'], arch:['corbelled arch','corbelled arches'], twist:['twisted column','twisted columns'], cabin:['log-cabin cluster','log-cabin clusters'], domino:['domino spiral','domino spirals'] };
 function buildTargets(){ return buildTargetsOnce(B.nStruct); }
 function buildTargetsOnce(nStruct){
   const N=B.count, R0=B.pdia/2, hs=holes(), { L, W, H } = B, g=0.003, y0=deckTop(); const r=rnd(1000+B.structSeed*7919);
@@ -1174,7 +1193,7 @@ function topPose(i){ const t=BR.targets[i];
 function covered(i, placed){ const T=BR.targets, a=T[i]; if(a.o && a.o!=='flat') return false; const reach=(B.L+B.W)*0.42; for(let j=0;j<placed;j++){ if(j===i) continue; const b=T[j]; if(b.y>a.y+0.01 && b.y<a.y+B.H*1.6 && Math.hypot(b.x-a.x,b.z-a.z)<reach) return true; } return false; }
 function updateMessages(placed){ const live=new Set(B.messages.map(m=>m.id));
   for(const [id,o] of msgMeshes){ if(!live.has(id)){ msgGroup.remove(o.mesh); o.tex.dispose(); o.mesh.material.dispose(); msgMeshes.delete(id); } }
-  for(const m of B.messages){ if(anim && anim.m===m) continue; const ok = BR.targets[m.brick] && m.brick<placed && !covered(m.brick,placed); const o = ok? ensureMsgMesh(m) : msgMeshes.get(m.id); if(!o) continue; if(!ok){ o.mesh.visible=false; continue; }
+  for(const m of B.messages){ if((anim && anim.m===m) || m.pending){ const o0=msgMeshes.get(m.id); if(o0 && m.pending) o0.mesh.visible=false; continue; } const ok = BR.targets[m.brick] && m.brick<placed && !covered(m.brick,placed); const o = ok? ensureMsgMesh(m) : msgMeshes.get(m.id); if(!o) continue; if(!ok){ o.mesh.visible=false; continue; }
     const p=topPose(m.brick); o.mesh.position.set(p.x,p.y,p.z); o.mesh.rotation.set(p.rx,p.ry,p.rz); o.mesh.scale.set(p.w,p.h,1); o.mesh.visible=true; o.mesh.material.depthTest=true; } }
 function seedMessages(){ const T=BR.targets; if(!T.length) return; const now=Date.now();
   B.messages=SAMPLES.map((text,k)=>({ id:'s'+k, text, brick:Math.min(T.length-1, Math.floor((0.35+0.65*(k+0.5)/SAMPLES.length)*Math.min(T.length,Math.round(B.prog*T.length)||T.length)) ), t:now-(SAMPLES.length-k)*1800e3, sample:true })); }
@@ -1184,6 +1203,11 @@ let draft='', stationState='idle', stationT=0;
 const stationCanvas=document.createElement('canvas'); stationCanvas.width=1280; stationCanvas.height=732;
 const stationTex=new THREE.CanvasTexture(stationCanvas); stationTex.colorSpace=THREE.SRGBColorSpace; stationTex.anisotropy=8;
 const stationMat=new THREE.MeshBasicMaterial({ map:stationTex, toneMapped:false });
+const stationBrickMat=new THREE.MeshStandardMaterial({ color:'#A65A5A', map:speckle, roughness:0.93 });
+const stationProjCanvas=document.createElement('canvas'); stationProjCanvas.width=512; stationProjCanvas.height=170;
+const stationProjTex=new THREE.CanvasTexture(stationProjCanvas); stationProjTex.colorSpace=THREE.SRGBColorSpace;
+const stationProjMat=new THREE.MeshBasicMaterial({ map:stationProjTex, transparent:true, depthWrite:false, toneMapped:false, opacity:0 });
+const stationGlowMat=new THREE.MeshBasicMaterial({ map:canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,236,190,.95)'); g.addColorStop(0.45,'rgba(255,214,140,.35)'); g.addColorStop(1,'rgba(255,200,120,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); }), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false, opacity:0 });
 function drawStation(){ const ctx=stationCanvas.getContext('2d'), W=1280, H=732; ctx.fillStyle='#F6F5EF'; ctx.fillRect(0,0,W,H);
   ctx.fillStyle=PAL.royal; ctx.fillRect(0,0,W,150); const set=px=>thai(ctx,px,700); const f=fitText(ctx,B.prompt,W-120,2,46,24,set); set(f.px); ctx.fillStyle='#fff'; ctx.textAlign='left'; ctx.textBaseline='middle'; f.lines.forEach((l,i)=>ctx.fillText(l,60,75+(i-(f.lines.length-1)/2)*f.px*1.2));
   rrect(ctx,60,185,W-120,120,18); ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle=PAL.royal; ctx.lineWidth=4; ctx.stroke();
@@ -1199,7 +1223,9 @@ function sendMessage(text){ text=(text||'').trim(); if(!text){ toast('Type a mes
   else { const used=new Set(B.messages.map(m=>m.brick)); const c=[]; for(let i=0;i<N;i++) if(!used.has(i) && !covered(i,N)) c.push(i); idx=c.length? c[Math.floor(Math.random()*c.length)] : Math.floor(Math.random()*N); }
   const m={ id:'m'+Date.now()+'-'+Math.floor(Math.random()*1e4), text:text.slice(0,80), brick:idx, t:Date.now() }; B.messages.push(m); if(B.messages.length>400) B.messages.shift();
   stationMsg=m.text; stationState='sending'; stationT=performance.now(); draft=''; drawStation();
-  startEmbed(m); updateBrickPose(); drawScreen(); persist(); if(B.fly) flyToBrick(idx);
+  m.pending=true; updateBrickPose(); drawScreen(); persist(); const st=S.modules.find(q=>q.type==='station');
+  if(st && B.fly) flyToStation(st);
+  setTimeout(()=>{ delete m.pending; startEmbed(m); updateBrickPose(); if(B.fly) flyToBrick(idx); }, st? 3200 : 0);
 }
 const glowTex = canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,240,170,1)'); g.addColorStop(0.4,'rgba(255,210,110,.5)'); g.addColorStop(1,'rgba(255,200,100,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); });
 const glow = new THREE.Mesh(unitPlane, new THREE.MeshBasicMaterial({ map:glowTex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, depthTest:false, opacity:0, toneMapped:false })); glow.visible=false; glow.renderOrder=5; glow.rotation.order='YXZ'; scene.add(glow);
@@ -1212,8 +1238,8 @@ function startEmbed(m){ const t=BR.targets[m.brick]; if(!t) return; const o=ensu
   const end=topPose(m.brick); const top=BR.targets.slice(0,placedCount()).reduce((h,b)=>Math.max(h,b.top??(b.y+B.H/2)),deckTop());
   anim={ m, o, t0:performance.now(), start:{ x:B.cx, y:top+0.01, z:B.cz, ry:end.ry }, end }; o.mesh.visible=true; o.mesh.material.depthTest=false; o.mesh.renderOrder=7; }
 const ease = k => k<0.5? 4*k*k*k : 1-Math.pow(-2*k+2,3)/2;
-function tickAnim(now){
-  if(stationState!=='idle'){ const dt=now-stationT; if(stationState==='sending' && dt>3600){ stationState='thanks'; drawStation(); } else if(stationState==='thanks' && dt>6500){ stationState='idle'; drawStation(); } }
+function tickAnim(now){ tickStation(now);
+  if(stationState!=='idle'){ const dt=now-stationT; if(stationState==='sending' && dt>3200){ stationState='thanks'; drawStation(); } else if(stationState==='thanks' && dt>6500){ stationState='idle'; drawStation(); } }
   if(!anim) return; const dt=now-anim.t0, o=anim.o, s=anim.start, e=anim.end;
   const big=Math.min(2.6, B.pdia*0.85); const dimK = dt<500? dt/500 : dt<2600? 1 : Math.max(0,1-(dt-2600)/900); dim.visible=dimK>0; dim.position.set(B.cx,s.y-0.002,B.cz); dim.scale.setScalar(B.pdia/2); dimMat.opacity=0.42*dimK;
   if(dt<600){ const k=dt/600; o.mesh.position.set(s.x,s.y,s.z); o.mesh.rotation.set(-Math.PI/2,s.ry,0); o.mesh.scale.set(big,big*0.285,1); o.mesh.material.opacity=k; ring.visible=true; ring.position.set(B.cx,s.y,B.cz); ring.scale.setScalar(B.pdia/2*(0.4+0.6*k)); ringMat.opacity=0.5*k; }
@@ -1224,6 +1250,16 @@ function tickAnim(now){
     if(k>0.45 && !anim.settled){ anim.settled=true; drawMsg(o.c,anim.m.text,'rest'); o.tex.needsUpdate=true; }
     if(k>=1){ glow.visible=false; ring.visible=false; dim.visible=false; o.mesh.material.depthTest=true; o.mesh.renderOrder=3; anim=null; updateBrickPose(); } }
 }
+function flyToStation(st){ const a=st.rot*DEG; const [rx,rz]=[st.x+(-0.3)*Math.cos(a), st.z-(-0.3)*Math.sin(a)]; const fx=Math.sin(a), fz=Math.cos(a);
+  if(camera!==persp){ camera=persp; ctrlO.enabled=false; ctrlP.enabled=true; } $$('[data-view]').forEach(b=>b.classList.remove('on'));
+  tween={ t0:performance.now(), dur:matchMedia('(prefers-reduced-motion: reduce)').matches?1:800, p0:persp.position.clone(), q0:ctrlP.target.clone(), p1:new THREE.Vector3(rx+fx*0.7-Math.cos(a)*0.25, 1.45, rz+fz*0.7+Math.sin(a)*0.25), q1:new THREE.Vector3(rx,0.9,rz) }; }
+function tickStation(now){ const dt=now-stationT; let k=0, rev=0;
+  if(stationState==='sending'){ k=Math.min(1,dt/500); rev=clamp((dt-300)/1500,0,1); } else if(stationState==='thanks'){ k=Math.max(0,1-(dt-3600)/900); rev=1; }
+  stationGlowMat.opacity=0.6*k; stationProjMat.opacity=k;
+  if(k>0 && stationProjCanvas._rev!==rev){ stationProjCanvas._rev=rev; const c=stationProjCanvas.getContext('2d'); c.clearRect(0,0,512,170); const set=px=>{ c.font=`600 ${px}px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif`; };
+    const f=fitText(c,stationMsg,470,2,64,22,set); set(f.px); c.textAlign='center'; c.textBaseline='middle'; c.shadowColor='rgba(255,210,120,1)'; c.shadowBlur=18; c.fillStyle='#FFF6D8';
+    let left=Math.ceil(graphemes(stationMsg).length*rev); const lh=f.px*1.1, y0=85-(f.lines.length-1)*lh/2; f.lines.forEach((l,i)=>{ const g=graphemes(l); const part=g.slice(0,Math.max(0,left)).join(''); left-=g.length; const fw=c.measureText(l).width; c.textAlign='left'; c.fillText(part,256-fw/2,y0+i*lh); });
+    c.strokeStyle='rgba(255,233,176,.8)'; c.lineWidth=3; c.shadowBlur=8; c.strokeRect(6,6,500,158); stationProjTex.needsUpdate=true; } }
 function flyToBrick(i){ const t=BR.targets[i]; if(!t) return; let dx=t.x-B.cx, dz=t.z-B.cz; const d=Math.hypot(dx,dz); if(d<0.2){ dx=1; dz=0.4; } const n=Math.hypot(dx,dz); dx/=n; dz/=n;
   if(camera!==persp){ camera=persp; ctrlO.enabled=false; ctrlP.enabled=true; } $$('[data-view]').forEach(b=>b.classList.remove('on'));
   const tgt=new THREE.Vector3(t.x,t.y,t.z); const pos=new THREE.Vector3(t.x+dx*1.5, t.y+1.25, t.z+dz*1.5);
