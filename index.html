@@ -969,10 +969,11 @@ function proposal(){
   const A = wallModules(), B2 = [];
   mods.push(...A, ...B2);
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
-  { // one curved counter beside the sculpture, joined on its inner face like the wall bays: red, green, beige pallets, then the station on the right
+  { // four freestanding boxes on a curve beside the sculpture, 150 mm apart: red, green, beige pallets, then the station on the right
     const d=TYPES.station.d, Ri=4.2, rc=Ri+d/2, ang=a=>{ const [qx,qz]=plan2xz(rc,a), px=qx+FLOOR_C[0], pz=qz+FLOOR_C[1];   /* arc concentric with the floor rings */ const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
     const half=w=>Math.asin(w/2/Ri)/DEG; const st=TYPES.station, a0=40+(B.rotStation||0); mods.push(mk('station',ang(a0)));
-    let a=a0-half(st.w); [...PALLET_GROUPS].reverse().forEach(gr=>{ const w=0.9; a-=half(w); mods.push(mk('plinth',{ ...ang(a), w, d, h:0.64, group:gr.id })); a-=half(w); }); }
+    const gapA=(0.15/Ri)/DEG;   /* four freestanding boxes, 150 mm apart at their inner corners */
+    let a=a0-half(st.w); [...PALLET_GROUPS].reverse().forEach(gr=>{ const w=0.9; a-=gapA+half(w); mods.push(mk('plinth',{ ...ang(a), w, d, h:0.64, group:gr.id })); a-=half(w); }); }
   S.modules = mods; rebuildAll(); buildWallArt();
 }
 
