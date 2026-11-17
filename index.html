@@ -650,7 +650,7 @@ function buildRoom(){
 }
 
 /* ---------------- scaffold model ---------------- */
-const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:1.2, d:0.7, h:2.12, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
+const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:1.2, d:0.7, h:0.9, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
 const FINISH = { silver:{ color:'#C9CED6', metalness:0.85, roughness:0.32 }, black:{ color:'#26282E', metalness:0.55, roughness:0.45 }, mint:{ color:PAL.mint, metalness:0.15, roughness:0.5 }, royal:{ color:PAL.royal, metalness:0.15, roughness:0.45 } };
 const finishMats = Object.fromEntries(Object.entries(FINISH).map(([k,v])=>[k,new THREE.MeshStandardMaterial(v)]));
 const warnMat = new THREE.MeshStandardMaterial({ color:'#ff5a36', metalness:0.3, roughness:0.4 });
@@ -676,7 +676,7 @@ function edgesOf(m){ const { w, d, h, type } = m; const X=w/2, Z=d/2, E=[]; cons
   else if(type==='frame'){ const f=0.12; for(const x of [-X,X]){ s([x,f,0],[x,h,0]); s([x,f,-Z],[x,f,Z]); } s([-X,0.32,0],[X,0.32,0]); s([-X,h,0],[X,h,0]); }
   else if(type==='post'){ s([-X,0,0],[-X,h,0]); s([-X,h-0.08,0],[X,h-0.08,0]); s([-X,0.35,0],[X,0.35,0]); s([-X,0.03,-Z],[-X,0.03,Z]); }
   else if(type==='screen'){ for(const x of [-X,X]){ s([x,0,0],[x,h,0]); s([x,0.03,-Z],[x,0.03,Z]); } s([-X,h,0],[X,h,0]); s([-X,0.3,0],[X,0.3,0]); }
-  else if(type==='station'){ const x=X-0.06, z=Z-0.06, t=0.86; s([-x,0,-z],[-x,h,-z]); s([x,0,-z],[x,h,-z]); s([-x,0,z],[-x,t,z]); s([x,0,z],[x,t,z]); for(const y of [0.2,t-0.03]){ s([-x,y,-z],[x,y,-z]); s([-x,y,z],[x,y,z]); s([-x,y-0.055,-z],[-x,y-0.055,z]); s([x,y-0.055,-z],[x,y-0.055,z]); } s([-x,h-0.02,-z],[x,h-0.02,-z]); }
+  else if(type==='station'){ const x=X-0.07, z=Z-0.07, t=0.82; for(const [a,b] of [[-x,-z],[x,-z],[x,z],[-x,z]]) s([a,0,b],[a,t,b]); for(const y of [0.12,t]){ s([-x,y,-z],[x,y,-z]); s([-x,y,z],[x,y,z]); s([-x,y,-z],[-x,y,z]); s([x,y,-z],[x,y,z]); } }
   return E; }
 function facesOf(m){ const { w, d, h, type } = m, e=0.035;
   if(BOXLIKE.has(type)) return { front:{c:[0,h/2,d/2-e],ry:0,fw:w,fh:h}, back:{c:[0,h/2,-d/2+e],ry:Math.PI,fw:w,fh:h}, right:{c:[w/2-e,h/2,0],ry:Math.PI/2,fw:d,fh:h}, left:{c:[-w/2+e,h/2,0],ry:-Math.PI/2,fw:d,fh:h} };
@@ -700,23 +700,21 @@ function moduleExtras(m, g){
   if(m.type==='plinth'){ const deck=new THREE.Mesh(new THREE.BoxGeometry(m.w+0.02,0.018,m.d+0.02), plyMat); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck);
     const gi=PALLET_GROUPS.findIndex(q=>q.id===m.group); if(gi>=0){ const lw=Math.min(m.w-0.08,0.8), lh=Math.min(m.h-0.08,0.3), ly=Math.max(lh/2+0.04, m.h-lh/2-0.08); const sign=new THREE.Mesh(new THREE.PlaneGeometry(lw,lh), new THREE.MeshStandardMaterial({ map:palletLabelTex(gi,lw/lh), roughness:0.85 })); sign.position.set(0,ly,m.d/2+0.012); g.add(sign);
       const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,ly,m.d/2+0.006); g.add(back); }
-    // low ply partitions at the ends, between the bays of the counter
-    for(const [side,sx] of [['r',1],['l',-1]]) if(m.parts && m.parts[side]){ const pt=new THREE.Mesh(new THREE.BoxGeometry(0.018,0.32,m.d+0.02),plyMat); pt.position.set(sx*(m.w/2+0.009),m.h+0.018+0.16,0); pt.castShadow=true; pt.receiveShadow=true; g.add(pt); } }
-  if(m.type==='station'){ const T=0.9, TT=0.036, bz=-0.175;
-    const top=new THREE.Mesh(new THREE.BoxGeometry(m.w,TT,m.d),plyMat); top.position.y=T-TT/2; top.castShadow=true; top.receiveShadow=true; g.add(top);
-    // projected from the canopy: the projection area round the brick, and the touch strip for choosing a topic
-    const pa=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.31),stationMat); pa.rotation.x=-Math.PI/2; pa.position.set(0,T+0.0012,-0.18); pa.renderOrder=2; g.add(pa);
-    const ts=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.11),stationTouchMat); ts.rotation.x=-Math.PI/2; ts.position.set(0,T+0.0012,0.04); ts.renderOrder=2; g.add(ts);
-    const pocket=new THREE.Mesh(new THREE.BoxGeometry(0.225,0.002,0.085),castorMat); pocket.position.set(0,T+0.0005,bz); g.add(pocket);
-    const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(0,T+0.011,bz); brick.castShadow=true; g.add(brick);
-    const proj=new THREE.Mesh(new THREE.PlaneGeometry(0.205,0.068),stationProjMat); proj.rotation.x=-Math.PI/2; proj.position.set(0,T+0.0215,bz); proj.renderOrder=3; g.add(proj);
-    const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(0,T+0.002,bz); glw.renderOrder=2; g.add(glw);
-    // physical keyboard at the front
-    const tray=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.003,0.2),castorMat); tray.position.set(0,T+0.0015,0.225); g.add(tray);
-    const kb=new THREE.Mesh(new THREE.BoxGeometry(0.44,0.02,0.14),[castorMat,castorMat,keyboardMat,castorMat,castorMat,castorMat]); kb.position.set(0,T+0.012,0.225); kb.castShadow=true; g.add(kb);
-    // canopy over the back of the table hides the projector
-    const can=new THREE.Mesh(new THREE.BoxGeometry(m.w,0.16,0.62),plyMat); can.position.set(0,m.h+0.08,-m.d/2+0.31); can.castShadow=true; g.add(can);
-    const lens=new THREE.Mesh(new THREE.CircleGeometry(0.03,24),castorMat); lens.rotation.x=Math.PI/2; lens.position.set(0,m.h-0.001,-0.1); g.add(lens); }
+  }
+  if(m.type==='station'){ const T=0.9, TT=0.036, F=0.04, bz=-0.16;
+    // white backlit top in a solid wood frame; the image comes from a projector on the floor inside, from below
+    const top=new THREE.Mesh(new THREE.BoxGeometry(m.w-2*F,0.012,m.d-2*F),diffuserMat); top.position.y=T-0.006; top.receiveShadow=true; g.add(top);
+    for(const [w,d,x,z] of [[m.w,F,0,m.d/2-F/2],[m.w,F,0,-m.d/2+F/2],[F,m.d-2*F,m.w/2-F/2,0],[F,m.d-2*F,-m.w/2+F/2,0]]){ const fr=new THREE.Mesh(new THREE.BoxGeometry(w,TT+0.006,d),oakMat); fr.position.set(x,T-TT/2+0.003,z); fr.castShadow=true; fr.receiveShadow=true; g.add(fr); }
+    // the projection area round the brick and the touch strip for choosing a topic, shown through the top
+    const pa=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.31),stationMat); pa.rotation.x=-Math.PI/2; pa.position.set(0,T+0.0008,bz); pa.renderOrder=2; g.add(pa);
+    const ts=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.11),stationTouchMat); ts.rotation.x=-Math.PI/2; ts.position.set(0,T+0.0008,0.055); ts.renderOrder=2; g.add(ts);
+    const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(0,T+0.01,bz); brick.castShadow=true; g.add(brick);
+    const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(0,T+0.0016,bz); glw.renderOrder=3; g.add(glw);
+    // white Apple keyboard at the front
+    const kb=new THREE.Mesh(new THREE.BoxGeometry(0.279,0.011,0.115),[kbBodyMat,kbBodyMat,keyboardMat,kbBodyMat,kbBodyMat,kbBodyMat]); kb.position.set(0,T+0.0055,0.225); kb.castShadow=true; g.add(kb);
+    // closed base in wood with ventilation slits, hiding the projector and the computer
+    const ph=T-TT-0.01; for(const [w,x,z,ry] of [[m.w-0.004,0,m.d/2-0.012,0],[m.w-0.004,0,-m.d/2+0.012,Math.PI],[m.d-0.03,m.w/2-0.012,0,Math.PI/2],[m.d-0.03,-m.w/2+0.012,0,-Math.PI/2]]){
+      const pn=new THREE.Mesh(new THREE.BoxGeometry(w,ph,0.018),[oakMat,oakMat,oakMat,oakMat,ventMat(w,ph),oakMat]); pn.position.set(x,0.01+ph/2,z); pn.rotation.y=ry; pn.castShadow=true; pn.receiveShadow=true; g.add(pn); } }
   if(m.type==='screen'){ const disp=new THREE.Mesh(new THREE.BoxGeometry(0.98,1.71,0.06),castorMat); disp.position.set(0,1.25,0.045); disp.castShadow=true; g.add(disp); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.94,1.67),screenMat); sc.position.set(0,1.25,0.0755); g.add(sc); }
 }
 function printSize(face, spec){ const inset = face.full? 0 : spec.mode==='full'? 0.02 : spec.mode==='laced'? Math.max(spec.inset,0.06) : spec.inset; return { pw:Math.max(0.05, face.fw-2*inset), ph:Math.max(0.05, face.fh-2*inset) }; }
@@ -786,7 +784,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v16';
+const KEY='dreamcon-composer-v17';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -809,11 +807,10 @@ function proposal(){
   ends(A,5,'gridroyal','gridroyal',41); ends(B2,7,'gridnavy','gridnavy',12);
   mods.push(...A, ...B2);
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
-  { // one curved counter beside the sculpture: the scanning station, then the three brick pallets to its left, low partitions between
-    const R=4.55, ang=a=>{ const [px,pz]=plan2xz(R,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
-    const half=w=>Math.asin(w/2/R)/DEG; const st=TYPES.station, a0=4; mods.push(mk('station',ang(a0)));
-    let a=a0-half(st.w); const widths={ red:0.8, green:0.8, beige:1.3 };
-    PALLET_GROUPS.forEach((gr,k)=>{ const w=widths[gr.id]; a-=half(w); mods.push(mk('plinth',{ ...ang(a), w, d:st.d, h:0.84, group:gr.id, parts:{ r:true, l:k===PALLET_GROUPS.length-1 } })); a-=half(w); }); }
+  { // one curved counter beside the sculpture, joined on its inner face like the wall bays: red, green, beige pallets, then the station on the right
+    const d=TYPES.station.d, Ri=4.2, rc=Ri+d/2, ang=a=>{ const [px,pz]=plan2xz(rc,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
+    const half=w=>Math.asin(w/2/Ri)/DEG; const st=TYPES.station, a0=4; mods.push(mk('station',ang(a0)));
+    let a=a0-half(st.w); [...PALLET_GROUPS].reverse().forEach(gr=>{ const w=0.9; a-=half(w); mods.push(mk('plinth',{ ...ang(a), w, d, h:0.84, group:gr.id })); a-=half(w); }); }
   S.modules = mods; rebuildAll();
 }
 
@@ -1050,13 +1047,14 @@ const BRICK_COLS = SINGLES.map(([c])=>new THREE.Color(c));
 const PALLET_GROUPS = [
   { id:'red',   cols:[3],   th:'อิฐโทนแดง',   en:'Reddish brick',     gen:'Gen Alpha · Gen Z' },
   { id:'green', cols:[1],   th:'อิฐโทนเขียว',  en:'Greenish brick',    gen:'Gen Y (Millennials)' },
-  { id:'beige', cols:[0,2], th:'อิฐโทนเบจอ่อน', en:'Light beige brick', gen:'Gen X · Boomers' } ];
+  { id:'beige', cols:[2], th:'อิฐโทนเบจอ่อน', en:'Light beige brick', gen:'Gen X · Boomers' } ];
 const brickCol = new Uint8Array(MAXB);
+const MULTI_COLS = [3,1,2];   // brick red, sage, light beige: one per generation
 const groupOfCol = c => PALLET_GROUPS.findIndex(g=>g.cols.includes(c));
 function applyBrickColors(){ const r=rnd(11), col=new THREE.Color(), base=new THREE.Color(B.single);
   for(let i=0;i<MAXB;i++){ const w=r(), a=r(), b=r(), c=r();
     if(B.colorMode==='single'){ col.copy(base); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.03,(c-0.5)*0.035); }
-    else { const ci=Math.floor(w*BRICK_COLS.length)%BRICK_COLS.length; brickCol[i]=ci; col.copy(BRICK_COLS[ci]); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.04,(c-0.5)*0.04); }
+    else { const ci=MULTI_COLS[Math.floor(w*MULTI_COLS.length)%MULTI_COLS.length]; brickCol[i]=ci; col.copy(BRICK_COLS[ci]); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.04,(c-0.5)*0.04); }
     brickMesh.setColorAt(i,col); } brickMesh.instanceColor.needsUpdate=true; }
 applyBrickColors();
 const platGroup = new THREE.Group(); scene.add(platGroup);
@@ -1391,17 +1389,27 @@ function buildRimLettering(hs, spots){ const R0=B.pdia/2, top=deckTop(), r0=R0-R
 let draft='', stationState='idle', stationT=0;
 const stationCanvas=document.createElement('canvas'); stationCanvas.width=1600; stationCanvas.height=443;
 const stationTex=new THREE.CanvasTexture(stationCanvas); stationTex.colorSpace=THREE.SRGBColorSpace; stationTex.anisotropy=8;
-const stationMat=new THREE.MeshBasicMaterial({ map:stationTex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false });
+const stationMat=new THREE.MeshBasicMaterial({ map:stationTex, depthWrite:false, toneMapped:false, polygonOffset:true, polygonOffsetFactor:-1 });
 const touchCanvas=document.createElement('canvas'); touchCanvas.width=1600; touchCanvas.height=157;
 const touchTex=new THREE.CanvasTexture(touchCanvas); touchTex.colorSpace=THREE.SRGBColorSpace; touchTex.anisotropy=8;
-const stationTouchMat=new THREE.MeshBasicMaterial({ map:touchTex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false });
-const keyboardMat=new THREE.MeshStandardMaterial({ roughness:0.6, map:canvasTex(880,280,(c,w,h)=>{ c.fillStyle='#1b1c20'; c.fillRect(0,0,w,h); const rows=[13,13,12,11]; rows.forEach((n,r)=>{ const kw=(w-30)/14.2; const x0=12+r*kw*0.3; for(let k=0;k<n;k++){ c.fillStyle='#2e3036'; c.beginPath(); c.roundRect(x0+k*kw*1.06,12+r*52,kw*0.94,44,6); c.fill(); } }); c.fillStyle='#2e3036'; c.beginPath(); c.roundRect(w*0.27,12+4*52,w*0.42,44,6); c.fill(); }) });
+const stationTouchMat=new THREE.MeshBasicMaterial({ map:touchTex, depthWrite:false, toneMapped:false, polygonOffset:true, polygonOffsetFactor:-1 });
+const keyboardMat=new THREE.MeshStandardMaterial({ roughness:0.6, map:canvasTex(880,280,(c,w,h)=>{ c.fillStyle='#E4E6E9'; c.fillRect(0,0,w,h); const rows=[13,13,12,11]; rows.forEach((n,r)=>{ const kw=(w-30)/14.2; const x0=12+r*kw*0.3; for(let k=0;k<n;k++){ c.fillStyle='#FBFBFC'; c.beginPath(); c.roundRect(x0+k*kw*1.06,12+r*52,kw*0.94,44,6); c.fill(); } }); c.fillStyle='#FBFBFC'; c.beginPath(); c.roundRect(w*0.27,12+4*52,w*0.42,44,6); c.fill(); }) });
+const diffuserMat=new THREE.MeshStandardMaterial({ color:'#F4F4F1', emissive:'#FFFFFF', emissiveIntensity:0.35, roughness:0.35 });
+const oakMat=new THREE.MeshStandardMaterial({ color:'#C9A26E', map:canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const r=rnd(77); for(let i=0;i<90;i++){ const y=r()*h; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.12})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); for(let x=0;x<=w;x+=16) c.lineTo(x,y+Math.sin(x/40+i)*2*r()); c.stroke(); } }), roughness:0.7 });
+const ventCache=new Map();
+function ventMat(w,h){ const key=w.toFixed(2)+'x'+h.toFixed(2); if(ventCache.has(key)) return ventCache.get(key); const ppm=400, W=Math.round(w*ppm), H=Math.round(h*ppm);
+  const t=canvasTex(W,H,(c)=>{ c.fillStyle='#fff'; c.fillRect(0,0,W,H); const r=rnd(77); for(let i=0;i<60;i++){ const y=r()*H; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.1})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); c.lineTo(W,y+(r()-0.5)*6); c.stroke(); }
+    // two bands of slits, low and high, 120 x 8 mm
+    c.fillStyle='#2a1d12'; const sw=0.12*ppm, sh=0.008*ppm, gap=0.03*ppm; const n=Math.max(1,Math.floor((W-0.1*ppm)/(sw+gap))); const x0=(W-(n*sw+(n-1)*gap))/2;
+    for(const yc of [0.1*ppm, H-0.12*ppm]) for(let row=0; row<3; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), yc-1.5*sh*2+row*sh*2, sw, sh, sh/2); c.fill(); } });
+  const m=new THREE.MeshStandardMaterial({ color:'#C9A26E', map:t, roughness:0.7 }); ventCache.set(key,m); return m; }
+const kbBodyMat=new THREE.MeshStandardMaterial({ color:'#E8E9EB', roughness:0.35, metalness:0.4 });
 const stationBrickMat=new THREE.MeshStandardMaterial({ color:'#A65A5A', map:speckle, roughness:0.93 });
 const stationProjCanvas=document.createElement('canvas'); stationProjCanvas.width=512; stationProjCanvas.height=170;
 const stationProjTex=new THREE.CanvasTexture(stationProjCanvas); stationProjTex.colorSpace=THREE.SRGBColorSpace;
 const stationProjMat=new THREE.MeshBasicMaterial({ map:stationProjTex, transparent:true, depthWrite:false, toneMapped:false, opacity:0 });
 const stationGlowMat=new THREE.MeshBasicMaterial({ map:canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,236,190,.95)'); g.addColorStop(0.45,'rgba(255,214,140,.35)'); g.addColorStop(1,'rgba(255,200,120,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); }), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false, opacity:0 });
-function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=443; c.fillStyle='#000'; c.fillRect(0,0,W,H);
+function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=443; c.fillStyle='#161A2C'; c.fillRect(0,0,W,H);
   const warm='#FFF1D6', soft='rgba(255,241,214,.55)';
   // question, left
   const set=px=>thai(c,px,700); const f=fitText(c,B.prompt,470,4,40,22,set); set(f.px); c.fillStyle=warm; c.textAlign='left'; c.textBaseline='alphabetic'; f.lines.forEach((l,i)=>c.fillText(l,40,90+i*f.px*1.3));
@@ -1414,7 +1422,7 @@ function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=443; c
   const shown=stationState==='idle'? draft : stationMsg; const tset=px=>thai(c,px,600); const tf=fitText(c,shown||'พิมพ์ที่แป้นพิมพ์ · Type on the keyboard',450,4,40,22,tset); tset(tf.px); c.fillStyle=shown?warm:'rgba(255,241,214,.35)';
   tf.lines.forEach((l,i)=>c.fillText(l,1110,130+i*tf.px*1.3)); if(stationState==='idle' && shown){ const lw=c.measureText(tf.lines[tf.lines.length-1]).width; c.fillStyle=PAL.sun; c.fillRect(1114+lw,130+(tf.lines.length-1)*tf.px*1.3-tf.px*0.85,4,tf.px); }
   c.strokeStyle='rgba(255,241,214,.18)'; c.lineWidth=2; c.strokeRect(6,6,W-12,H-12); stationTex.needsUpdate=true; drawTouch(); }
-function drawTouch(){ const c=touchCanvas.getContext('2d'), W=1600, H=157; c.fillStyle='#000'; c.fillRect(0,0,W,H);
+function drawTouch(){ const c=touchCanvas.getContext('2d'), W=1600, H=157; c.fillStyle='#161A2C'; c.fillRect(0,0,W,H);
   thai(c,20,500); c.fillStyle='rgba(255,241,214,.55)'; c.textAlign='left'; c.textBaseline='middle'; c.fillText('เลือกหัวข้อ',24,48); c.fillText('Select a topic',24,104);
   const x0=210, bw=(W-x0-24-3*16)/4; TOPICS.forEach((t,i)=>{ const x=x0+i*(bw+16), on=t.id===B.topic; rrect(c,x,18,bw,H-36,18); if(on){ c.fillStyle='rgba(248,251,107,.22)'; c.fill(); c.strokeStyle=PAL.sun; c.lineWidth=7; c.stroke(); } else { c.strokeStyle='rgba(255,241,214,.5)'; c.lineWidth=3; c.stroke(); }
     c.fillStyle=on?PAL.sun:'#FFF1D6'; c.textAlign='center'; const set=p=>thai(c,p,700); const f=fitText(c,t.th,bw-24,1,32,16,set); set(f.px); c.fillText(f.lines[0],x+bw/2,62); thai(c,22,500); c.fillText(t.en,x+bw/2,104,bw-24); });
