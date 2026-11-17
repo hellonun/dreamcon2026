@@ -291,14 +291,14 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <h2>Brick build</h2>
       <p class="lede">A low round platform with holes to sit in. All the bricks start in neat stacks on the deck, and visitors build them into small Kapla-like structures around the holes. Run the six days to see it change.</p>
       <div class="card">
-        <div class="rng"><span>Platform</span><input type="range" id="b-pdia" min="35" max="80" value="70"><output id="b-pdia-o"></output></div>
+        <div class="rng"><span>Platform</span><input type="range" id="b-pdia" min="35" max="80" value="55"><output id="b-pdia-o"></output></div>
         <div class="rng"><span>Seat height</span><input type="range" id="b-plath" min="35" max="60" value="45"><output id="b-plath-o"></output></div>
         <h3 style="margin-top:4px">Carpet underneath</h3>
         <label class="tg"><input type="checkbox" id="b-carpet" checked>Show carpet</label>
         <div class="row" id="b-carpet-sw"></div>
         <div class="row"><label class="fld" style="flex:1">Any colour<input type="color" id="b-carpet-col" value="#D8C8AE" style="width:100%;height:34px;border:1px solid var(--line);border-radius:8px;padding:2px;background:#fff"></label>
           <label class="fld" style="flex:1">Shape<select id="b-carpet-shape" class="s"><option value="circle">Round</option><option value="square">Square</option></select></label></div>
-        <div class="rng"><span>Beyond the platform</span><input type="range" id="b-carpet-m" min="0" max="25" value="2"><output id="b-carpet-m-o"></output></div>
+        <div class="rng"><span>Beyond the platform</span><input type="range" id="b-carpet-m" min="0" max="25" value="8"><output id="b-carpet-m-o"></output></div>
         <label class="fld">Hole layout<select id="b-holeset" class="s"><option value="opt1">Option 1 · one hole (drawing 01)</option><option value="opt2">Option 2 · two holes (drawing 02)</option><option value="opt3">Option 3 · three holes (drawing 03)</option><option value="random">Random</option></select></label>
         <div class="rng" data-random-holes><span>Holes to sit in</span><input type="range" id="b-holes" min="1" max="5" value="3"><output id="b-holes-o"></output></div>
         <div class="row"><button class="btn" id="b-reholes">Rearrange holes</button><label class="tg"><input type="checkbox" id="b-skirt">Timber skirt to hide the scaffold</label></div>
@@ -686,9 +686,20 @@ function facesOf(m){ const { w, d, h, type } = m, e=0.035;
   return { front:{c:[0,h/2,0.006],ry:0,fw:w,fh:h,full:true}, back:{c:[0,h/2,-0.006],ry:Math.PI,fw:w,fh:h,full:true} };
 }
 function addTube(g,a,b,r,mat){ const dv=new THREE.Vector3().subVectors(b,a); const len=dv.length(); if(len<1e-4) return; const t=new THREE.Mesh(tubeGeo,mat); t.scale.set(r,len,r); t.position.copy(a).addScaledVector(dv,0.5); t.quaternion.setFromUnitVectors(UP, dv.normalize()); t.castShadow=true; t.receiveShadow=true; g.add(t); return t; }
+const palletLabelCache=new Map();
+function palletLabelTex(gi, aspect){ const key=gi+'|'+aspect.toFixed(2); if(palletLabelCache.has(key)) return palletLabelCache.get(key);
+  const H=300, W=Math.round(H*aspect); const c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d'); const gr=PALLET_GROUPS[gi];
+  x.fillStyle='#F6F1E7'; x.fillRect(0,0,W,H);
+  const pad=H*0.16, n=gr.cols.length, sw=H*0.42/n; gr.cols.forEach((ci,k)=>{ x.fillStyle=SINGLES[ci][0]; x.fillRect(pad+k*(sw+8),pad,sw,H-2*pad); });
+  const tx=pad+n*(sw+8)+H*0.08, mw=W-tx-pad*0.6; x.textAlign='left'; x.textBaseline='alphabetic';
+  thai(x,Math.round(H*0.2),700); x.fillStyle=PAL.ink; x.fillText(gr.gen,tx,H*0.38,mw);
+  thai(x,Math.round(H*0.13),600); x.fillStyle='#5B4A3A'; x.fillText(gr.th,tx,H*0.62,mw); thai(x,Math.round(H*0.11),500); x.fillText(gr.en,tx,H*0.8,mw);
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; palletLabelCache.set(key,t); return t; }
 function moduleExtras(m, g){
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
-  if(m.type==='plinth'){ const deck=new THREE.Mesh(new THREE.BoxGeometry(m.w+0.02,0.018,m.d+0.02), plyMat); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck); }
+  if(m.type==='plinth'){ const deck=new THREE.Mesh(new THREE.BoxGeometry(m.w+0.02,0.018,m.d+0.02), plyMat); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck);
+    const gi=PALLET_GROUPS.findIndex(q=>q.id===m.group); if(gi>=0){ const lw=Math.min(m.w-0.08,0.8), lh=Math.min(m.h-0.08,0.3); const sign=new THREE.Mesh(new THREE.PlaneGeometry(lw,lh), new THREE.MeshStandardMaterial({ map:palletLabelTex(gi,lw/lh), roughness:0.85 })); sign.position.set(0,m.h/2,m.d/2+0.012); g.add(sign);
+      const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,m.h/2,m.d/2+0.006); g.add(back); } }
   if(m.type==='station'){ const T=0.9, TT=0.036, bz=-0.175;
     const top=new THREE.Mesh(new THREE.BoxGeometry(m.w,TT,m.d),plyMat); top.position.y=T-TT/2; top.castShadow=true; top.receiveShadow=true; g.add(top);
     // projected from the canopy: the projection area round the brick, and the touch strip for choosing a topic
@@ -773,7 +784,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v14';
+const KEY='dreamcon-composer-v15';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -796,8 +807,10 @@ function proposal(){
   ends(A,5,'gridroyal','gridroyal',41); ends(B2,7,'gridnavy','gridnavy',12);
   mods.push(...A, ...B2);
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
-  { const a=6; const [px,pz]=plan2xz(4.85,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); const tx=Math.cos(ry), tz=-Math.sin(ry);
-    mods.push(mk('station',{ x:px-tx*0.4, z:pz-tz*0.4, rot:norm(ry/DEG) })); mods.push(mk('plinth',{ x:px+tx*0.95, z:pz+tz*0.95, rot:norm(ry/DEG) })); }
+  { const R=4.85, at=(a,off=0)=>{ const [px,pz]=plan2xz(R,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); const tx=Math.cos(ry), tz=-Math.sin(ry); return { x:px+tx*off, z:pz+tz*off, rot:norm(ry/DEG) }; };
+    mods.push(mk('station',at(6,-0.4)));
+    // three pallets beside the station, one per colour group, each labelled with its generation
+    PALLET_GROUPS.forEach((gr,k)=>mods.push(mk('plinth',{ ...at(6,0.75+k*1.05), w:0.9, d:0.7, group:gr.id }))); }
   S.modules = mods; rebuildAll();
 }
 
@@ -1012,7 +1025,7 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.2, carpetShape:'circle', pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
+const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.8, carpetShape:'circle', pdia:5.5, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.6, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
@@ -1026,11 +1039,21 @@ const plyMat = new THREE.MeshStandardMaterial({ color:'#C9A877', roughness:0.8 }
 const speckle = canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const r=rnd(3); for(let i=0;i<5000;i++){ const v=r(); c.fillStyle=v<0.5?'rgba(80,50,30,.22)':v<0.8?'rgba(255,240,220,.35)':'rgba(40,25,15,.4)'; const s=0.6+r()*2.2; c.fillRect(r()*w,r()*h,s,s);} });
 const brickMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ map:speckle, roughness:0.93, metalness:0 }), MAXB);
 brickMesh.castShadow=true; brickMesh.receiveShadow=true; brickMesh.frustumCulled=false; scene.add(brickMesh);
+/* the concept line round the table rim */
+const RIM_TEXT = { th:'ทุกเสียงมีความหมาย · ร่วมเป็นส่วนหนึ่งของบทสนทนา · ร่วมสร้างรัฐธรรมนูญของเรา', en:'YOUR VOICE MATTERS · BE PART OF THE CONVERSATION · BUILD YOUR CONSTITUTION' };
+const RIM = { in:0.13, out:0.035, px:0.058 };   // band measured in from the rim, letter size in metres
 const BRICK_COLS = SINGLES.map(([c])=>new THREE.Color(c));
+/* pallets sort the bricks by colour; each colour stands for a generation */
+const PALLET_GROUPS = [
+  { id:'red',   cols:[3],   th:'อิฐโทนแดง',   en:'Reddish brick',     gen:'Gen Alpha · Gen Z' },
+  { id:'green', cols:[1],   th:'อิฐโทนเขียว',  en:'Greenish brick',    gen:'Gen Y (Millennials)' },
+  { id:'beige', cols:[0,2], th:'อิฐโทนเบจอ่อน', en:'Light beige brick', gen:'Gen X · Boomers' } ];
+const brickCol = new Uint8Array(MAXB);
+const groupOfCol = c => PALLET_GROUPS.findIndex(g=>g.cols.includes(c));
 function applyBrickColors(){ const r=rnd(11), col=new THREE.Color(), base=new THREE.Color(B.single);
   for(let i=0;i<MAXB;i++){ const w=r(), a=r(), b=r(), c=r();
     if(B.colorMode==='single'){ col.copy(base); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.03,(c-0.5)*0.035); }
-    else { col.copy(BRICK_COLS[Math.floor(w*BRICK_COLS.length)%BRICK_COLS.length]); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.04,(c-0.5)*0.04); }
+    else { const ci=Math.floor(w*BRICK_COLS.length)%BRICK_COLS.length; brickCol[i]=ci; col.copy(BRICK_COLS[ci]); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.04,(c-0.5)*0.04); }
     brickMesh.setColorAt(i,col); } brickMesh.instanceColor.needsUpdate=true; }
 applyBrickColors();
 const platGroup = new THREE.Group(); scene.add(platGroup);
@@ -1114,7 +1137,7 @@ function supported(list, y0, R0, hs, cx=B.cx, cz=B.cz){ const ok=[], tops=new Ma
 function buildTargets(){ return buildTargetsOnce(B.nStruct); }
 function buildTargetsOnce(nStruct){
   const N=B.count, R0=B.pdia/2, hs=holes(), { L, W, H } = B, g=0.003, y0=deckTop(); const r=rnd(1000+B.structSeed*7919);
-  const spots=holeScreenSpots(hs).slice(0,HOLE_TOPICS.length); const room=(x,z)=>Math.min(R0-0.12-Math.hypot(x,z), ...hs.map(h=>Math.hypot(h.x-x,h.z-z)-h.r-0.16), ...spots.map(s=>Math.hypot(s.x-x,s.z-z)-0.27));
+  const spots=holeScreenSpots(hs).slice(0,HOLE_TOPICS.length); const room=(x,z)=>Math.min(R0-RIM.in-0.05-Math.hypot(x,z), ...hs.map(h=>Math.hypot(h.x-x,h.z-z)-h.r-0.16), ...spots.map(s=>Math.hypot(s.x-x,s.z-z)-0.27));
   const grid=[]; for(let x=-R0;x<=R0;x+=0.08) for(let z=-R0;z<=R0;z+=0.08){ const jx=x+(r()-0.5)*0.06, jz=z+(r()-0.5)*0.06; const rm=room(jx,jz); if(rm>0.2) grid.push({ x:jx, z:jz, rm }); }
   // stock stacks
   const HS=0.7, per=Math.max(1,Math.floor(HS/(L+0.006)))*Math.max(1,Math.floor(HS/(W+0.006))); const nHeap=S.modules.some(m=>m.type==='plinth')? 0 : Math.max(1,Math.ceil(N/(per*B.layers)));
@@ -1140,7 +1163,7 @@ function buildTargetsOnce(nStruct){
   if(all.length<N){ const occ=(x,z)=>placed.some(p=>Math.hypot(x-B.cx-p.x,z-B.cz-p.z)<p.rho+0.06) || heaps.some(q=>Math.hypot(x-B.cx-q.x,z-B.cz-q.z)<0.62);
     const corners=(x,z)=>[[x-L/2,z-W/2],[x+L/2,z-W/2],[x+L/2,z+W/2],[x-L/2,z+W/2]];
     const cells=[]; const nx=Math.ceil(R0/(L+g))+1, nz=Math.ceil(R0/(W+g))+1;
-    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-0.04 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.16) && spots.every(s=>Math.hypot(s.x-a,s.z-b)>0.25)) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
+    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-RIM.in-0.02 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.16) && spots.every(s=>Math.hypot(s.x-a,s.z-b)>0.25)) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
     cells.sort((a,b)=>a.d-b.d); const used=cells.slice(0,N-all.length); for(const c of used){ all.push({ ...brk(B.cx+c.x,y0,B.cz+c.z,0), si:-1 }); paved++; }
     for(let k=1;k<4 && all.length<N;k++) for(const c of used.slice(0,N-all.length)){ all.push({ ...brk(B.cx+c.x,y0+k*(H+0.001),B.cz+c.z,0), si:-1 }); } }
   all.sort((a,b)=>(a.base-b.base)||(a.si-b.si));
@@ -1200,6 +1223,19 @@ function stockSlots(){
   if(!pl.length) return { slots:BR.targets.slice(0,under), layers:0, cap:0, plinths:0, perPlat:[] };
   const info=pl.map((p,pi)=>({ p, pi, A:[Math.max(1,Math.floor(p.w/(L+g))),Math.max(1,Math.floor(p.d/(W+g)))], Bb:[Math.max(1,Math.floor(p.w/(W+g))),Math.max(1,Math.floor(p.d/(L+g)))] }));
   const cap=Lr=>info.reduce((s,q)=>{ let c=0; for(let k=0;k<Lr;k++) c+= k%2? q.Bb[0]*q.Bb[1] : q.A[0]*q.A[1]; return s+c; },0);
+  const sorted = plm.length && B.colorMode==='multi';
+  if(sorted){
+    // each pallet takes one colour group; bricks of a group with no pallet of its own fill whichever has room
+    const owner=PALLET_GROUPS.map(()=>[]); plm.forEach((m,pi)=>{ const g=PALLET_GROUPS.findIndex(q=>q.id===m.group); owner[g>=0? g : pi%PALLET_GROUPS.length].push(pi); });
+    const lists=pl.map(()=>[]); let rr=0;
+    for(let i=0;i<NN;i++){ const g=groupOfCol(brickCol[i]); const own=owner[g]||[]; const pi= own.length? own[i%own.length] : (rr++)%pl.length; lists[pi].push(i); }
+    const slots=new Array(NN); let maxL=0; const perPlat=[];
+    info.forEach((q,pi)=>{ const p=q.p, base=p.base+H/2, want=lists[pi].length; const ps=[];
+      for(let k=0; ps.length<want && k<200; k++){ const [nx,nz]= k%2? q.Bb : q.A; const sx= k%2? W+g : L+g, sz= k%2? L+g : W+g;
+        for(let j=0;j<nz;j++) for(let i=0;i<nx;i++){ const lx=(i-(nx-1)/2)*sx, lz=(j-(nz-1)/2)*sz; const [x,z]=world(p,lx,lz); ps.push({ x, z, y:base+k*vh, ry:p.rot*DEG+(k%2?Math.PI/2:0), k, pi }); } }
+      const m=want; lists[pi].forEach((bi,j)=>{ slots[bi]=ps[m-1-j]; }); perPlat.push(m); if(m) maxL=Math.max(maxL, ps[m-1].k+1); });
+    return { slots, layers:maxL, cap:cap(B.layers), plinths:pl.length, perPlat };
+  }
   let layers=B.layers; while(cap(layers)<NN && layers<80) layers++;
   const all=[];
   for(const q of info){ const p=q.p, base=p.base+H/2; for(let k=0;k<layers;k++){ const [nx,nz]= k%2? q.Bb : q.A; const sx= k%2? W+g : L+g, sz= k%2? L+g : W+g;
@@ -1316,7 +1352,37 @@ function buildHoleFeatures(hs){ const top=deckTop(); const spots=holeScreenSpots
     const bez=new THREE.Mesh(new THREE.BoxGeometry(SCR15.w+0.024,0.012,SCR15.h+0.024),castorMat); bez.position.set(B.cx+sp.x,top-0.005,B.cz+sp.z); bez.rotation.y=ry; platGroup.add(bez);
     const sc=new THREE.Mesh(new THREE.PlaneGeometry(SCR15.w,SCR15.h),holeScreens[i].mat); sc.rotation.order='YXZ'; sc.rotation.set(-Math.PI/2,ry,0); sc.position.set(B.cx+sp.x,top+0.0016,B.cz+sp.z); platGroup.add(sc);
     drawHoleScreen(i); });
+  buildRimLettering(hs, spots);
   BR.screenSpots=spots; }
+/* the concept line round the outer rim of the table, reading from the floor outside; it breaks for the screens and where a circle comes close */
+let rimCache=null;
+function buildRimLettering(hs, spots){ const R0=B.pdia/2, top=deckTop(), r0=R0-RIM.in, r1=R0-RIM.out, rT=R0-RIM.out-0.012;
+  const key=[R0, ...hs.flatMap(h=>[h.x,h.z,h.r]), ...spots.map(s=>s.a)].map(v=>(+v).toFixed(3)).join(',');
+  if(!rimCache || rimCache.key!==key){
+    const circ=2*Math.PI*rT, maxW=Math.min(8192, renderer.capabilities.maxTextureSize||4096), ppm=Math.min(600, maxW/circ), Wd=Math.round(circ*ppm), Ht=Math.round((r1-r0)*ppm);
+    const c=document.createElement('canvas'); c.width=Wd; c.height=Ht; const ctx=c.getContext('2d'); const px=RIM.px*ppm;
+    // u runs clockwise in plan from angle 0, so text reads left to right for someone outside the table
+    const blocked=u=>{ const a=-u*2*Math.PI; const x=Math.cos(a), z=Math.sin(a);
+      if(spots.some(sp=>{ const d=Math.atan2(Math.sin(a-sp.a),Math.cos(a-sp.a)); return Math.abs(d)*rT < SCR15.w/2+0.1; })) return true;
+      const pin=[x*r0,z*r0]; return hs.some(h=>Math.hypot(h.x-pin[0],h.z-pin[1])-h.r < 0.14); };
+    const N=1440, free=[]; let st=null; for(let i=0;i<=N;i++){ const b= i===N || blocked(i/N); if(!b && st===null) st=i; if(b && st!==null){ free.push([st/N,i/N]); st=null; } }
+    if(free.length>1 && free[0][0]===0 && free[free.length-1][1]===1){ const f=free.pop(); free[0]=[f[0]-1, free[0][1]]; }
+    const units=[['th',RIM_TEXT.th,600,1],['en',RIM_TEXT.en,600,0.86]];
+    const measure=(t,w,sz)=>{ thai(ctx,Math.round(px*sz),w); return ctx.measureText(t).width; };
+    const wTh=measure(RIM_TEXT.th,600,1), wEn=measure(RIM_TEXT.en,600,0.86), gap=px*1.6;
+    ctx.fillStyle='#3B2A1A'; ctx.textBaseline='middle';
+    const draw=(t,w,sz,x)=>{ thai(ctx,Math.round(px*sz),w); ctx.textAlign='left'; for(const o of [0,-Wd,Wd]) ctx.fillText(t,x+o,Ht*0.52); };
+    for(const [u0,u1] of free){ let len=(u1-u0)*Wd; let x=u0*Wd; const seq=[]; let k=0; let used=0;
+      while(true){ const isTh=k%2===0, w=isTh?wTh:wEn; if(used+w+(seq.length?gap:0) > len-px) break; used+=w+(seq.length?gap:0); seq.push(isTh); k++; }
+      if(!seq.length) continue; let cx=x+(len-used)/2;
+      seq.forEach((isTh,j)=>{ if(j){ ctx.beginPath(); ctx.arc(cx+gap/2,Ht*0.52,px*0.11,0,Math.PI*2); ctx.fill(); cx+=gap; } draw(isTh?RIM_TEXT.th:RIM_TEXT.en,600,isTh?1:0.86,cx); cx+=isTh?wTh:wEn; }); }
+    const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; tex.wrapS=THREE.RepeatWrapping;
+    // ring geometry: u along the circle (clockwise in plan), canvas top toward the centre
+    const n=360, pos=[], uv=[], idx=[]; for(let i=0;i<=n;i++){ const u=i/n, a=-u*2*Math.PI, cs=Math.cos(a), sn=Math.sin(a); pos.push(cs*r0,0,sn*r0, cs*r1,0,sn*r1); uv.push(u,1, u,0); if(i<n){ const q=i*2; idx.push(q,q+1,q+2, q+1,q+3,q+2); } }
+    const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); geo.setIndex(idx); geo.computeVertexNormals();
+    rimCache={ key, tex, geo }; }
+  const m=new THREE.Mesh(rimCache.geo, new THREE.MeshStandardMaterial({ map:rimCache.tex, transparent:true, depthWrite:false, roughness:0.8, side:THREE.DoubleSide, polygonOffset:true, polygonOffsetFactor:-2 }));
+  m.position.set(B.cx,top+0.0008,B.cz); m.renderOrder=1; platGroup.add(m); }
 
 /* the brick message station: projection area, touch strip for the topic, physical keyboard */
 let draft='', stationState='idle', stationT=0;
@@ -1461,7 +1527,7 @@ function bindBricks(){
   const rangeBind=(id,fn,build=true)=>{ const e=$('#'+id); e.addEventListener('input',()=>{ fn(+e.value); syncBrickUI(); build? rebuildBuild() : refreshStock(); }); e.addEventListener('change',persist); };
   rangeBind('b-pdia',v=>B.pdia=v/10); rangeBind('b-plath',v=>B.platH=v/100); rangeBind('b-holes',v=>{ B.nHoles=v; if(v!==3 && !B.holeSeed) B.holeSeed=7; }); rangeBind('b-nstruct',v=>B.nStruct=v); rangeBind('b-maxh',v=>B.maxH=v/100);
   $('#b-holeset').onchange=e=>{ B.holeSet=e.target.value==='random'? '' : e.target.value; syncBrickUI(); rebuildBuild(); persist(); }; rangeBind('b-layers',v=>B.layers=v);
-  $$('#b-colmode .chip').forEach(c=>c.onclick=()=>{ B.colorMode=c.dataset.cm; applyBrickColors(); syncBrickUI(); drawScreen(); persist(); });
+  $$('#b-colmode .chip').forEach(c=>c.onclick=()=>{ B.colorMode=c.dataset.cm; applyBrickColors(); refreshStock(); syncBrickUI(); drawScreen(); persist(); });
   $$('#b-swatches .sw').forEach(c=>c.onclick=()=>{ B.single=c.dataset.c; applyBrickColors(); syncBrickUI(); drawScreen(); persist(); });
   $('#msg-fly').onchange=e=>{ B.fly=e.target.checked; persist(); };
   $('#b-prog').addEventListener('input',e=>{ B.prog=+e.target.value/1000; updateBrickPose(); }); $('#b-prog').addEventListener('change',()=>{ renderBrickStats(); persist(); });
