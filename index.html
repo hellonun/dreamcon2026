@@ -689,7 +689,7 @@ function buildRoom(){
       const side=new THREE.MeshStandardMaterial({ color:'#F7F7F5', roughness:0.85 }), top=new THREE.MeshStandardMaterial({ color:'#BFD9F7', roughness:0.8 });   /* white box; colour only on the front prints, light blue top for a print later */
       const tb=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.75,0.6),[side,side,top,side,new THREE.MeshStandardMaterial({ map:front(k+1,sc), roughness:0.85 }),side]); tb.position.set(0.25,0.375,0); tb.castShadow=true; tb.receiveShadow=true; b.add(tb);
       // tall sign hard against the left end of the table, its face in line with the table front
-      const base=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.06,0.6),side); base.position.set(-0.75,0.03,0); base.castShadow=true; b.add(base);
+      const base=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.06,0.6),[side,side,side,side,new THREE.MeshStandardMaterial({ color:sc.bg, roughness:0.85 }),side]);   /* front edge of the base in the booth colour */ base.position.set(-0.75,0.03,0); base.castShadow=true; b.add(base);
       const sg=new THREE.Mesh(new THREE.BoxGeometry(0.5,1.128,0.03),[side,side,side,side,new THREE.MeshStandardMaterial({ map:tall(k+1,sc), roughness:0.85 }),side]); sg.position.set(-0.75,0.06+0.564,0.285); sg.castShadow=true; b.add(sg);
       const l=label('Partner booth '+(k+1)); l.position.set(0,1.6,0); b.add(l); (layers.labels??=[]).push(l); });
     layers.boothLabel=new THREE.Group(); }
