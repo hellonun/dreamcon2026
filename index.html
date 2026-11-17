@@ -837,7 +837,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v30';
+const KEY='dreamcon-composer-v31';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -854,20 +854,19 @@ window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wa
 const WALL_RF = 8.2, WALL_D = 0.6, WALL_Y0 = 0.10, WALL_H = 2.0, WALL_GAP = 1.0;
 const WALL_GAP_AT = Math.atan2(4.39, -4.70)/DEG;   // the gap lines up with the north-west column, seen from the centre
 const A1 = { w:0.594, h:0.841 };
-const WALLS = (()=>{ const T=WALL_Y0+WALL_H;   // top of the print zone, 2.10
-  const L = { cells:[1.8,0.6,0.6,0.6,0.6,0.6], prints:[], rails:[], part:[] };
-  { const g=0.05, gx=(1.8-1.7)/3; let y=T-g;
-    L.prints.push(['logos',0,1.8,y-0.2,y]); y-=0.2; L.rails.push([y-g/2,0,1.8]); y-=g;
-    L.prints.push(['banner',0,1.8,y-0.8,y]); y-=0.8; L.rails.push([y-g/2,0,1.8]); y-=g;
-    L.prints.push(['blue',gx,gx+0.85,y-0.8,y], ['yellow',2*gx+0.85,2*gx+1.7,y-0.8,y]); L.part.push([0.9,WALL_Y0,y+g/2]);
-    for(let k=0;k<5;k++) L.prints.push(['p'+(k+1),1.8+0.6*k,2.4+0.6*k,WALL_Y0,T]); }
-  const tw=0.45, iw=(5-tw)/7;
-  const R = { cells:[1.0,tw,...Array(7).fill(iw),0.3,1.0], prints:[], rails:[[WALL_Y0+0.875,0,6.0]], part:[] };
-  { const yb=WALL_Y0+0.85+0.05;   // band 0.8 high with 0.05 gaps; upper prints from 1.00 to 2.05
-    R.prints.push(['band',0,6.0,WALL_Y0+0.05,WALL_Y0+0.85], ['events',0.025,0.975,yb,T-0.05], ['ideas_title',1.0+0.025,1.0+tw-0.025,yb,T-0.05], ['arguments',6.3,7.3,WALL_Y0,T]); }
+const PRINT_INSET = 0.08;   // every print sits 80 mm inside its scaffold cell
+const WALLS = (()=>{ const T=WALL_Y0+WALL_H, m=PRINT_INSET, cell=(k,s0,s1,y0,y1)=>[k,s0+m,s1-m,y0+m,y1-m];
+  // left wall: a 1.8 m block split by ledgers at 1.825 and 0.975 and a short standard at 0.9, then five 0.6 m cells
+  const yA=1.825, yB=0.975;
+  const L = { cells:[1.8,0.6,0.6,0.6,0.6,0.6], rails:[[yA,0,1.8],[yB,0,1.8]], part:[[0.9,WALL_Y0,yB]], prints:[
+      cell('logos',0,1.8,yA,T), cell('banner',0,1.8,yB,yA), cell('blue',0,0.9,WALL_Y0,yB), cell('yellow',0.9,1.8,WALL_Y0,yB),
+      ...[0,1,2,3,4].map(k=>cell('p'+(k+1),1.8+0.6*k,2.4+0.6*k,WALL_Y0,T)) ] };
+  const tw=0.45, iw=(5-tw)/7, yR=WALL_Y0+0.875;
+  const R = { cells:[1.0,tw,...Array(7).fill(iw),0.3,1.0], rails:[[yR,0,6.0]], part:[], prints:[
+      cell('band',0,6.0,WALL_Y0,yR), cell('events',0,1.0,yR,T), cell('ideas_title',1.0,1.0+tw,yR,T), cell('arguments',6.3,7.3,WALL_Y0,T)] };
   R.ideas = { s:[...Array(7)].map((_,k)=>1.0+tw+k*iw+0.02), w:A1.w, h:A1.h, top:T-0.05, angle:40 };
   R.strip = { s0:6.0, s1:6.3, shelf:WALL_Y0+0.8, depth:0.35, low:WALL_Y0 };
-  R.monitor = { item:'arguments', cs:6.3+0.70, cy:1.30, w:0.423, h:0.253, t:0.013 };
+  R.monitor = { item:'arguments', cs:6.3+0.50, cy:1.30, w:0.423, h:0.253, t:0.013 };
   return { L, R }; })();
 function wallGeom(id){ const W=WALLS[id]; const cw=W.cells; const ang=cw.map(w=>2*Math.asin(w/2/WALL_RF)/DEG); const total=ang.reduce((a,b)=>a+b,0);
   const half=(WALL_GAP/2)/WALL_RF/DEG, gapAt=WALL_GAP_AT+(B.rotWalls||0); const start= id==='R' ? gapAt-half : gapAt+half+total;
@@ -875,9 +874,8 @@ function wallGeom(id){ const W=WALLS[id]; const cw=W.cells; const ang=cw.map(w=>
   const s=[0]; cw.forEach(w=>s.push(s[s.length-1]+w));
   const front=va.map(a=>P_AT(WALL_RF,a));
   // back corners of each straight box: front corners pushed out along the box's own normal
-  const backs=cw.map((w,i)=>{ const A=front[i], Bp=front[i+1], dx=Bp[0]-A[0], dz=Bp[1]-A[1], L=Math.hypot(dx,dz), nx=dz/L, nz=-dx/L; const sg=(nx*(A[0]+Bp[0])+nz*(A[1]+Bp[1]))>0?1:-1;
-    return [[A[0]+sg*nx*WALL_D, A[1]+sg*nz*WALL_D],[Bp[0]+sg*nx*WALL_D, Bp[1]+sg*nz*WALL_D]]; });
-  return { W, ws:cw, va, s, len:s[s.length-1], H:WALL_H, front, backs }; }
+  const back=va.map(a=>P_AT(WALL_RF+WALL_D,a)); const backs=cw.map((w,i)=>[back[i],back[i+1]]);   // back standards shared too, on the same radial lines
+  return { W, ws:cw, va, s, len:s[s.length-1], H:WALL_H, front, backs, back }; }
 function wallModules(){ return []; }
 const P_AT=(r,a)=>[r*Math.cos(a*DEG), -r*Math.sin(a*DEG)];
 function wallFootprint(){ const pts=[]; for(const id of ['L','R']){ const g=wallGeom(id); g.backs.forEach((bk,i)=>{ for(let t=0;t<=1.001;t+=0.25){ const F=[g.front[i][0]+(g.front[i+1][0]-g.front[i][0])*t, g.front[i][1]+(g.front[i+1][1]-g.front[i][1])*t], Bk=[bk[0][0]+(bk[1][0]-bk[0][0])*t, bk[0][1]+(bk[1][1]-bk[0][1])*t]; pts.push(F,Bk); } }); } return pts; }
@@ -891,13 +889,13 @@ function buildWallArt(){ while(wallArtRoot.children.length) wallArtRoot.remove(w
   const yBot=WALL_Y0, yTop=WALL_Y0+WALL_H, Z=0.032;
   for(const id of ['L','R']){ const g=wallGeom(id), W=g.W, n=g.ws.length;
     const frames=g.ws.map((w,i)=>{ const A=g.front[i], Bp=g.front[i+1], f=new THREE.Group(); f.position.set((A[0]+Bp[0])/2,0,(A[1]+Bp[1])/2); const bk=g.backs[i];
-      const nx=bk[0][0]-A[0], nz=bk[0][1]-A[1]; f.rotation.y=Math.atan2(-nx,-nz); wallArtRoot.add(f); return f; });
+      const a=(g.va[i]+g.va[i+1])/2*DEG; f.rotation.y=Math.atan2(-Math.cos(a),Math.sin(a)); wallArtRoot.add(f); return f; });
     const seg=s=>{ let i=0; while(i<n-1 && s>g.s[i+1]-1e-6) i++; return i; };
     const local=s=>{ const i=seg(s); return { f:frames[i], lx:s-(g.s[i]+g.ws[i]/2), i }; };
     // scaffold
     g.front.forEach(F=>{ tubeW([F[0],0,F[1]],[F[0],yTop,F[1]]); joint([F[0],yBot,F[1]]); joint([F[0],yTop,F[1]]); });
+    g.back.forEach((P,j)=>{ const F=g.front[j]; tubeW([P[0],0,P[1]],[P[0],yTop,P[1]]); for(const y of [yBot,(yBot+yTop)/2,yTop]) tubeW([F[0],y,F[1]],[P[0],y,P[1]]); joint([P[0],yBot,P[1]]); joint([P[0],yTop,P[1]]); });
     g.backs.forEach((bk,i)=>{ const F0=g.front[i], F1=g.front[i+1];
-      for(const [P,F] of [[bk[0],F0],[bk[1],F1]]){ tubeW([P[0],0,P[1]],[P[0],yTop,P[1]]); for(const y of [yBot,(yBot+yTop)/2,yTop]) tubeW([F[0],y,F[1]],[P[0],y,P[1]]); joint([P[0],yBot,P[1]]); joint([P[0],yTop,P[1]]); }
       for(const y of [yBot,yTop]){ tubeW([F0[0],y,F0[1]],[F1[0],y,F1[1]]); tubeW([bk[0][0],y,bk[0][1]],[bk[1][0],y,bk[1][1]]); }
       tubeW([bk[0][0],yBot,bk[0][1]],[bk[1][0],yTop,bk[1][1]],tubeR*0.8); });
     const at=s=>{ const i=seg(s), t=(s-g.s[i])/g.ws[i]; const A=g.front[i], Bp=g.front[i+1]; return [A[0]+(Bp[0]-A[0])*t, A[1]+(Bp[1]-A[1])*t]; };
