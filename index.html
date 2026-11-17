@@ -311,7 +311,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <p class="lede">A low round platform with holes to sit in. All the bricks start in neat stacks on the deck, and visitors build them into small Kapla-like structures around the holes. Run the six days to see it change.</p>
       <div class="card">
         <div class="rng"><span>Platform</span><input type="range" id="b-pdia" min="35" max="80" value="60"><output id="b-pdia-o"></output></div>
-        <div class="rng"><span>Seat height</span><input type="range" id="b-plath" min="35" max="60" value="45"><output id="b-plath-o"></output></div>
+        <div class="rng"><span>Seat height</span><input type="range" id="b-plath" min="40" max="75" value="60"><output id="b-plath-o"></output></div>
         <h3 style="margin-top:4px">Carpet underneath</h3>
         <label class="tg"><input type="checkbox" id="b-carpet" checked>Show carpet</label>
         <div class="row" id="b-carpet-sw"></div>
@@ -855,7 +855,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v33';
+const KEY='dreamcon-composer-v34';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1195,7 +1195,7 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.6, carpetShape:'circle', pdia:6.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
+const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.6, carpetShape:'circle', pdia:6.0, platH:0.564, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, rotStation:37, rotStage:0, rotBooths:-11, cx:-0.315, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
@@ -1720,7 +1720,7 @@ function renderBrickStats(){
   const stock=$('#b-stock'); if(stock){ const left=B.count-placed; stock.textContent = `${BR.plinths} stacks, each 0.95 m square, stand on the paving. Their bottom course is already part of it, and the ${left} bricks still to lay are stacked above, ${BR.layers} courses (${fmt(BR.layers*(B.H+0.002),2)} m) high at the start.`; }
 }
 function syncBrickUI(){ const o=(id,v)=>{ const e=$('#'+id); if(e) e.textContent=v; };
-  $('#b-pdia').value=Math.round(B.pdia*10); o('b-pdia-o',`Ø ${fmt(B.pdia,1)} m`); $('#b-plath').value=Math.round(B.platH*100); o('b-plath-o',`${Math.round(B.platH*100)} cm`); $('#b-skirt').checked=B.skirt; $('#b-carpet').checked=B.carpet; $('#b-carpet-col').value=B.carpetColor; $('#b-carpet-shape').value=B.carpetShape; $('#b-carpet-m').value=Math.round(B.carpetMargin*10); o('b-carpet-m-o',`${fmt(B.carpetMargin,1)} m`); $$('#b-carpet-sw .sw').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.c.toLowerCase()===B.carpetColor.toLowerCase())));
+  $('#b-pdia').value=Math.round(B.pdia*10); o('b-pdia-o',`Ø ${fmt(B.pdia,1)} m`); $('#b-plath').value=Math.round(deckTop()*100); o('b-plath-o',`${Math.round(deckTop()*100)} cm top`); $('#b-skirt').checked=B.skirt; $('#b-carpet').checked=B.carpet; $('#b-carpet-col').value=B.carpetColor; $('#b-carpet-shape').value=B.carpetShape; $('#b-carpet-m').value=Math.round(B.carpetMargin*10); o('b-carpet-m-o',`${fmt(B.carpetMargin,1)} m`); $$('#b-carpet-sw .sw').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.c.toLowerCase()===B.carpetColor.toLowerCase())));
   $('#b-maxh').value=Math.round(B.maxH*100); o('b-maxh-o',`${Math.round(B.maxH*100)} cm`); $('#b-holeset').value=B.holeSet||'random'; $$('[data-random-holes]').forEach(e=>e.hidden=!!B.holeSet); $('#b-holes').value=B.nHoles; o('b-holes-o',B.nHoles); $('#b-nstruct').value=B.nStruct; o('b-nstruct-o',B.nStruct);
   $$('#b-types .chip').forEach(c=>c.setAttribute('aria-pressed',String(!!B.types[c.dataset.type])));
   $$('#b-colmode .chip').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.cm===B.colorMode))); $$('#b-swatches .sw').forEach(c=>{ c.setAttribute('aria-pressed',String(c.dataset.c===B.single)); }); $('#b-swatches').hidden=B.colorMode!=='single';
@@ -1757,7 +1757,7 @@ function bindBricks(){
   $('#b-reholes').onclick=()=>{ B.holeSet=''; syncBrickUI(); B.holeSeed=1+Math.floor(Math.random()*1e5); rebuildBuild(); persist(); };
   $('#b-restruct').onclick=()=>{ B.structSeed=1+Math.floor(Math.random()*1e5); rebuildBuild(); persist(); };
   const rangeBind=(id,fn,build=true)=>{ const e=$('#'+id); e.addEventListener('input',()=>{ fn(+e.value); syncBrickUI(); build? rebuildBuild() : refreshStock(); }); e.addEventListener('change',persist); };
-  rangeBind('b-pdia',v=>B.pdia=v/10); rangeBind('b-plath',v=>B.platH=v/100); rangeBind('b-holes',v=>{ B.nHoles=v; if(v!==3 && !B.holeSeed) B.holeSeed=7; }); rangeBind('b-nstruct',v=>B.nStruct=v); rangeBind('b-maxh',v=>B.maxH=v/100);
+  rangeBind('b-pdia',v=>B.pdia=v/10); rangeBind('b-plath',v=>B.platH=v/100-0.036); rangeBind('b-holes',v=>{ B.nHoles=v; if(v!==3 && !B.holeSeed) B.holeSeed=7; }); rangeBind('b-nstruct',v=>B.nStruct=v); rangeBind('b-maxh',v=>B.maxH=v/100);
   $('#b-holeset').onchange=e=>{ B.holeSet=e.target.value==='random'? '' : e.target.value; syncBrickUI(); rebuildBuild(); persist(); }; rangeBind('b-layers',v=>B.layers=v);
   $$('#b-colmode .chip').forEach(c=>c.onclick=()=>{ B.colorMode=c.dataset.cm; applyBrickColors(); refreshStock(); syncBrickUI(); drawScreen(); persist(); });
   $$('#b-swatches .sw').forEach(c=>c.onclick=()=>{ B.single=c.dataset.c; applyBrickColors(); syncBrickUI(); drawScreen(); persist(); });
