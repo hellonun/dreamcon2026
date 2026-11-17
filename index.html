@@ -417,6 +417,8 @@ const COLS = [[-4.70,-4.39],[4.07,-4.39],[-4.70,4.39],[4.07,4.39]];
 const WALLCOLS = [[-11.95,-4.39],[-11.95,4.39],[11.39,-4.39],[11.39,4.39],[-4.70,-11.7],[4.07,-11.7],[-4.70,11.64],[4.07,11.64]];
 const COL_R = 0.36;
 const SPIRAL = { x:7.0, z:-6.5, r:1.6 };
+const FLOOR_C = [-0.315, 0];   // centre of the 8.77 m column grid
+const FLOOR_RINGS = [[2.5,'#16171b'],[4.5,'#7A4532'],[Math.hypot(4.385,4.39),'#7A4532'],[10.0,'#7A4532']];   // radii; the third ring runs through the columns
 const STAIR_A = [-10.1, 2.4], STAIR_B = [-7.2, 6.4];
 const OBSTACLES = [...COLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a column'})), ...WALLCOLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a wall column'})), {x:SPIRAL.x,z:SPIRAL.z,r:SPIRAL.r,name:'the spiral stair'}, {x:-8.65,z:4.4,r:1.9,name:'the curved stair'}];
 const ZONE_EXH = { r0:7.6, r1:11.4, a0:68, a1:161 };
@@ -592,13 +594,15 @@ function buildRoom(){
   const g = new THREE.Group(); scene.add(g);
   const out = new THREE.Mesh(new THREE.PlaneGeometry(90,90), new THREE.MeshStandardMaterial({ color:'#D3D8DF', roughness:0.95 }));
   out.rotation.x=-Math.PI/2; out.position.y=-0.002; out.receiveShadow=true; g.add(out);
-  // terrazzo disc with brown rings and black cross, after the site photos
+  // terrazzo disc with the floor rings and square
   const S=2048, px = v => (v/R+1)/2*S;
   const floorTex = canvasTex(S,S,(c)=>{ c.fillStyle='#E8E2D7'; c.fillRect(0,0,S,S); const r=rnd(7); const sp=['#cfc6b8','#b9ad9b','#f6f2ea','#9a8d7b','#d8cdbd'];
     for(let i=0;i<60000;i++){ c.fillStyle=sp[Math.floor(r()*5)]; const s=0.6+r()*1.6; c.fillRect(r()*S,r()*S,s,s); }
-    const ring=(rad,wid,col)=>{ c.beginPath(); c.arc(S/2,S/2,rad/R*S/2,0,Math.PI*2); c.lineWidth=wid/R*S/2; c.strokeStyle=col; c.stroke(); };
-    ring(0.9,0.05,'#7A4532'); ring(2.4,0.07,'#7A4532'); ring(3.4,0.12,'#7A4532'); ring(6.6,0.3,'#7A4532'); ring(6.85,0.04,'#3b2a22');
-    c.fillStyle='#16171b'; const wv=0.32/R*S/2; c.fillRect(S/2-wv/2,0,wv,S); c.fillRect(0,S/2-wv/2,S,wv); });
+    // rings and square centred on the column grid: Ø5 black, Ø9, the ring through the four columns, Ø20 brown; an 18 x 18 m black square
+    const m2p=v=>v/R*S/2, gx=S/2+m2p(FLOOR_C[0]), gy=S/2+m2p(FLOOR_C[1]);
+    const ring=(rad,wid,col)=>{ c.beginPath(); c.arc(gx,gy,m2p(rad),0,Math.PI*2); c.lineWidth=m2p(wid); c.strokeStyle=col; c.stroke(); };
+    for(const [rad,col] of FLOOR_RINGS) ring(rad,0.25,col);
+    c.strokeStyle='#16171b'; c.lineWidth=m2p(0.08); c.strokeRect(gx-m2p(9),gy-m2p(9),m2p(18),m2p(18)); });
   const disc = new THREE.Mesh(new THREE.CircleGeometry(R,128), new THREE.MeshStandardMaterial({ map:floorTex, roughness:0.55, metalness:0 }));
   disc.rotation.x=-Math.PI/2; disc.position.y=0.001; disc.receiveShadow=true; g.add(disc); layers.floor=disc;
   const plainDisc = new THREE.Mesh(new THREE.CircleGeometry(R,128), new THREE.MeshStandardMaterial({ color:'#ECE8E1', roughness:0.7 })); plainDisc.rotation.x=-Math.PI/2; plainDisc.position.y=0.0009; plainDisc.receiveShadow=true; plainDisc.visible=false; g.add(plainDisc); layers.plainFloor=plainDisc;
@@ -832,7 +836,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v28';
+const KEY='dreamcon-composer-v29';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -842,7 +846,7 @@ function arcModules({ rf, start, count, levels, w, d, h, gap=0, type='bay' }){
     for(let l=0;l<levels;l++) out.push(mk(type,{ x, z, y:l*h, rot, w, d, h })); }
   return { mods:out, span:count*step/DEG };
 }
-window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl });
+window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, SVG_U, IDEA_X, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
 /* ---------------- exhibition walls, laid out from the two wall elevations (Frame 1924 left, Frame 1925 right) ----------------
    The scaffold bars follow the divisions between the graphics: every print sits in its own frame cell, a little smaller than the cell. */
 const SVG_U = 2833.33;                    // drawing units per metre (the 0.3 x 2 m strip is 850 x 5666)
@@ -863,7 +867,7 @@ const WALLS = {
        items:[ ['events',2281,1450,5340,4993], ['ideas_title',5340,1450,IDEA_X(0),4993], ['band',2281,4993,19645,7286], ['arguments',20652,1450,23646,7286] ],
        ideas:{ n:7, w:2400, h:3386, top:1535, angle:40 },
        strip:{ x0:19726, x1:20576, top:1535, cut:4520, shelf:4935, low:7201 },
-       monitor:{ item:'arguments', src:[20728,1535,23561,7201], x0:22156, y0:3558, x1:23262, y1:4171 } },
+       monitor:{ item:'arguments', src:[20728,1535,23561,7201], x0:22156, y0:3558, x1:23262, y1:4171, w:0.423, h:0.253, t:0.013 } },
 };
 function wallGeom(id){ const W=WALLS[id]; const xs=W.posts; const ws=xs.slice(1).map((x,i)=>(x-xs[i])/SVG_U); const ang=ws.map(w=>2*Math.asin(w/2/WALL_RF)/DEG); const total=ang.reduce((a,b)=>a+b,0);
   const half=(WALL_GAP/2)/WALL_RF/DEG, gapAt=WALL_GAP_AT+(B.rotWalls||0); const start= id==='R' ? gapAt-half : gapAt+half+total;
@@ -934,9 +938,9 @@ function buildWallArt(){ while(wallArtRoot.children.length) wallArtRoot.remove(w
       for(const sx of [-0.125,0.125]){ const post=new THREE.Mesh(new THREE.CylinderGeometry(0.005,0.005,0.05,8),steel); post.position.set(lx+sx,yS+0.025,Z+0.045); f.add(post); } }
     // ---- monitor on the ARGUMENTS print, kept in the same place on the print
     if(W.monitor){ const M=W.monitor, P=placed[M.item], [sx0,sy0,sx1,sy1]=M.src; const mapX=x=>P.s0+(x-sx0)/(sx1-sx0)*(P.s1-P.s0), mapY=y=>P.yt-(y-sy0)/(sy1-sy0)*(P.yt-P.yb);
-      const s0=mapX(M.x0), s1=mapX(M.x1), yt=mapY(M.y0), yb=mapY(M.y1), { f, lx }=local((s0+s1)/2);
-      const body=new THREE.Mesh(new THREE.BoxGeometry(s1-s0,yt-yb,0.03),castorMat); body.position.set(lx,(yt+yb)/2,Z+0.015); body.castShadow=true; f.add(body);
-      const scr=new THREE.Mesh(new THREE.PlaneGeometry(s1-s0-0.02,yt-yb-0.02),new THREE.MeshStandardMaterial({ color:'#0D0F14', emissive:'#18202E', roughness:0.25, metalness:0.2 })); scr.position.set(lx,(yt+yb)/2,Z+0.031); f.add(scr); }
+      const cs=(mapX(M.x0)+mapX(M.x1))/2, cy=(mapY(M.y0)+mapY(M.y1))/2, s0=cs-M.w/2, s1=cs+M.w/2, yt=cy+M.h/2, yb=cy-M.h/2, { f, lx }=local(cs);
+      const body=new THREE.Mesh(new THREE.BoxGeometry(s1-s0,yt-yb,M.t),castorMat); body.position.set(lx,(yt+yb)/2,Z+M.t/2); body.castShadow=true; f.add(body);
+      const scr=new THREE.Mesh(new THREE.PlaneGeometry(s1-s0-0.02,yt-yb-0.02),new THREE.MeshStandardMaterial({ color:'#0D0F14', emissive:'#18202E', roughness:0.25, metalness:0.2 })); scr.position.set(lx,(yt+yb)/2,Z+M.t+0.001); f.add(scr); }
   } }
 function proposal(){
   nextId=1; const mods=[]; const LV=2;
@@ -1446,7 +1450,8 @@ function seedMessages(){ const T=BR.targets; if(!T.length) return; const now=Dat
 const TOPICS = [ { id:'education', en:'Education', th:'การศึกษา' }, { id:'agriculture', en:'Agriculture', th:'เกษตรกรรม' }, { id:'health', en:'Health & wellbeing', th:'สุขภาพและความเป็นอยู่ที่ดี' }, { id:'economy', en:'Economy', th:'เศรษฐกิจ' } ];
 const HOLE_TOPICS = [['education'],['agriculture','health'],['economy']];
 const topicById = id => TOPICS.find(t=>t.id===id) || TOPICS[0];
-const SCR15 = { w:0.193, h:0.343 };   // 15.6" panel, portrait
+const SCR15 = { w:0.253, h:0.423 };   // largest screen, used for clearances
+const SCR_SIZES = [ { w:0.220, h:0.350, t:0.010 }, { w:0.220, h:0.350, t:0.010 }, { w:0.253, h:0.423, t:0.013 } ];   // per circle, outer size, portrait
 /* where each circle's screen goes: flush in the deck at the outer rim, beside its circle, bottom toward the rim so people outside the table read it */
 const SCREEN_SIDE = { opt3:[-1,1,-1] };   // which way round the rim each circle's screen sits, as marked on the plan
 function holeScreenSpots(hs){ const R0=B.pdia/2, rc=R0-0.05-SCR15.h/2, hw=SCR15.w/2+0.03, hh=SCR15.h/2+0.03;
@@ -1503,8 +1508,8 @@ function buildHoleFeatures(hs){ const top=deckTop(); const spots=holeScreenSpots
     const key=[h.x,h.z,h.r].map(v=>v.toFixed(3)).join(',')+'|o|'+i; let rt=ringCache.get(key); if(!rt){ rt=ringLetteringTexture(h,i); ringCache.set(key,rt); }
     if(rt){ const m=new THREE.Mesh(new THREE.PlaneGeometry(rt.size,rt.size), new THREE.MeshStandardMaterial({ map:rt.tex, transparent:true, depthWrite:false, roughness:0.8, polygonOffset:true, polygonOffsetFactor:-2 })); m.rotation.x=-Math.PI/2; m.position.set(B.cx+h.x,top+0.0008,B.cz+h.z); m.renderOrder=1; platGroup.add(m); }
     const ry=Math.atan2(-sp.ux,-sp.uz);
-    const bez=new THREE.Mesh(new THREE.BoxGeometry(SCR15.w+0.024,0.012,SCR15.h+0.024),castorMat); bez.position.set(B.cx+sp.x,top-0.005,B.cz+sp.z); bez.rotation.y=ry; platGroup.add(bez);
-    const sc=new THREE.Mesh(new THREE.PlaneGeometry(SCR15.w,SCR15.h),holeScreens[i].mat); sc.rotation.order='YXZ'; sc.rotation.set(-Math.PI/2,ry,0); sc.position.set(B.cx+sp.x,top+0.0016,B.cz+sp.z); platGroup.add(sc);
+    const SZ=SCR_SIZES[i]||SCR_SIZES[0]; const bez=new THREE.Mesh(new THREE.BoxGeometry(SZ.w,SZ.t,SZ.h),castorMat); bez.position.set(B.cx+sp.x,top-SZ.t/2+0.0008,B.cz+sp.z); bez.rotation.y=ry; platGroup.add(bez);
+    const sc=new THREE.Mesh(new THREE.PlaneGeometry(SZ.w-0.016,SZ.h-0.016),holeScreens[i].mat); sc.rotation.order='YXZ'; sc.rotation.set(-Math.PI/2,ry,0); sc.position.set(B.cx+sp.x,top+0.0016,B.cz+sp.z); platGroup.add(sc);
     drawHoleScreen(i); });
   buildRimLettering(hs, spots);
   BR.screenSpots=spots; }
