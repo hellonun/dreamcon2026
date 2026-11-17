@@ -216,7 +216,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <dt>Inner columns</dt><dd>4 × Ø 0.72 m on an 8.77 m grid</dd>
         <dt>Exhibition walls</dt><dd>Two scaffold walls, 5.1 m and 7.6 m long, 2.12 m high, 8.2 m from centre; the gap lines up with the north-west column</dd>
         <dt>Sculpture core</dt><dd>Ø 6.0 m</dd>
-        <dt>Partner booths</dt><dd>4 tables 1.5 × 0.6 × 0.75 m with a 1.5 × 0.75 m front sign and a 0.5 × 1.128 m tall sign</dd>
+        <dt>Partner booths</dt><dd>4 white tables 1.5 × 0.6 × 0.75 m (light blue top) with a 1.5 × 0.75 m front print and a 0.5 × 1.128 m tall sign</dd>
         <dt>Stage position</dt><dd>Bottom middle, back to the carpark doors</dd>
         <dt>Stage</dt><dd>No platform: a 4.8 × 2.4 m blue carpet on the floor</dd>
         <dt>LED screen</dt><dd>4 × 2 m on a 0.6 m deep back box, bottom at 0.20 m, top at 2.20 m</dd>
@@ -686,7 +686,7 @@ function buildRoom(){
       c.font='700 36px "IBM Plex Sans Thai",sans-serif'; c.fillText('ชื่อองค์กร',32,330); c.font='300 24px "IBM Plex Sans",sans-serif'; c.globalAlpha=0.9; for(let i=0;i<6;i++) c.fillRect(32,380+i*34,300-(i%3)*60,8); c.globalAlpha=1;
       for(let r=0;r<4;r++) pills(c,32+(r%2)*40,620+r*62,48,sc.pill.slice(r%3).concat(sc.pill),[120+r*20,48,90]); });
     BOOTHS.forEach(([x,z],k)=>{ const sc=SCHEMES[k%SCHEMES.length]; const b=new THREE.Group(); b.position.set(x,0,z); b.rotation.y=Math.atan2(C[0]-x,C[1]-z); bg.add(b);
-      const side=new THREE.MeshStandardMaterial({ color:sc.bg, roughness:0.85 }), top=new THREE.MeshStandardMaterial({ color:'#F7F3EC', roughness:0.8 });
+      const side=new THREE.MeshStandardMaterial({ color:'#F7F7F5', roughness:0.85 }), top=new THREE.MeshStandardMaterial({ color:'#BFD9F7', roughness:0.8 });   /* white box; colour only on the front prints, light blue top for a print later */
       const tb=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.75,0.6),[side,side,top,side,new THREE.MeshStandardMaterial({ map:front(k+1,sc), roughness:0.85 }),side]); tb.position.set(0.25,0.375,0); tb.castShadow=true; tb.receiveShadow=true; b.add(tb);
       // tall sign hard against the left end of the table, its face in line with the table front
       const base=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.06,0.6),side); base.position.set(-0.75,0.03,0); base.castShadow=true; b.add(base);
