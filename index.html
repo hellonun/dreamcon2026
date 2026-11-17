@@ -200,7 +200,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <dt>Exhibition walls</dt><dd>Two scaffold walls, 5.1 m and 7.6 m long, 2.12 m high, 8.2 m from centre; the gap lines up with the north-west column</dd>
         <dt>Sculpture core</dt><dd>Ø 6.0 m</dd>
         <dt>Partner booths</dt><dd>4 tables 1.5 × 0.6 × 0.75 m with a 1.5 × 0.75 m front sign and a 0.5 × 1.128 m tall sign</dd>
-        <dt>Stage position</dt><dd>South-east, turned 25°, clear of the carpark doors</dd>
+        <dt>Stage position</dt><dd>South-east, square to the foyer wall with 0.5 m behind the LED, clear of the carpark doors</dd>
         <dt>Stage</dt><dd>4.8 × 2.4 m, 8 blocks of 1.2 × 1.2 m, 0.60 m high</dd>
         <dt>LED screen</dt><dd>4 × 2 m on the back of the stage, top at 2.60 m</dd>
       </dl>
@@ -413,8 +413,8 @@ const STAIR_A = [-10.1, 2.4], STAIR_B = [-7.2, 6.4];
 const OBSTACLES = [...COLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a column'})), ...WALLCOLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a wall column'})), {x:SPIRAL.x,z:SPIRAL.z,r:SPIRAL.r,name:'the spiral stair'}, {x:-8.65,z:4.4,r:1.9,name:'the curved stair'}];
 const ZONE_EXH = { r0:7.6, r1:11.4, a0:68, a1:161 };
 const ZONE_BOOTH = { r0:4.5, r1:7.1, a0:239, a1:342 };
-const STAGE_POS = { x:4.1, z:8.2, rot:25 };
-const BOOTHS = [[-7.4,4.45],[-6.25,6.35],[-4.75,7.55],[-2.8,8.35]];   // partner booth centres, from the plan sketch
+const STAGE_POS = { x:6.19, z:7.92, rot:38 };   // back of the LED 0.5 m off the foyer wall
+const BOOTHS = [[-7.01,5.06],[-5.81,6.34],[-4.37,7.35],[-2.76,8.03]];   // partner booth centres, from the plan sketch
 const STAGE_Z = 4.39;
 const plan2xz = (r, phiDeg) => [r*Math.cos(phiDeg*DEG), -r*Math.sin(phiDeg*DEG)];
 const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
@@ -634,19 +634,28 @@ function buildRoom(){
   const zl = (t,x,z,cls='lbl') => { const l=label(t,cls); l.position.set(x,0.15,z); zones.add(l); };
   { const [x,z]=plan2xz(9.6,114); zl('Exhibition arc',x,z); }
   zl('Sculpture core · Ø 6 m',0,-3.3); zl('Conference area',0,6.0,'lbl dim');
-  // partner booths: four tables with a front sign and a tall sign, in an arc by the lower-left stairs, facing the centre
+  // partner booths: four tables, each with its tall sign standing right against the table end, in the Dream Con colours, in an arc by the lower-left stairs facing the centre
   { const bg=new THREE.Group(); g.add(bg); layers.booths=bg; const C=[-0.3,0];
-    const coral='#F2603E', tex=(w,h,draw)=>{ const t=canvasTex(w,h,draw); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t; };
-    const front=n=>tex(1200,600,(c,W,H)=>{ c.fillStyle=coral; c.fillRect(0,0,W,H); c.fillStyle='#fff'; c.font='700 64px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif'; c.textBaseline='top'; c.fillText('พาร์ทเนอร์ '+n,60,70); c.font='300 44px "IBM Plex Sans","IBM Plex Sans Thai",sans-serif'; c.fillText('Partner name',60,160);
-      c.globalAlpha=0.85; for(let i=0;i<4;i++){ c.fillRect(60,300+i*48,520-i*70,16); } c.globalAlpha=1; c.strokeStyle='#fff'; c.lineWidth=4; c.strokeRect(820,90,300,300); c.font='400 30px "IBM Plex Sans",sans-serif'; c.textAlign='center'; c.fillText('LOGO',970,225); });
-    const tall=n=>tex(400,904,(c,W,H)=>{ c.fillStyle=coral; c.fillRect(0,0,W,H); c.fillStyle='#fff'; c.font='700 52px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif'; c.textBaseline='top'; c.fillText('พาร์ทเนอร์ '+n,36,50); c.font='300 34px "IBM Plex Sans",sans-serif'; c.fillText('Partner name',36,124);
-      c.globalAlpha=0.85; for(let i=0;i<9;i++) c.fillRect(36,260+i*44,300-(i%3)*60,12); c.globalAlpha=1; c.strokeStyle='#fff'; c.lineWidth=4; c.strokeRect(36,700,160,160); });
-    const topT=tex(600,240,(c,W,H)=>{ c.fillStyle='#F7F3EC'; c.fillRect(0,0,W,H); });
-    const coralM=new THREE.MeshStandardMaterial({ color:coral, roughness:0.85 }), whiteM=new THREE.MeshStandardMaterial({ map:topT, roughness:0.8 });
-    BOOTHS.forEach(([x,z],k)=>{ const b=new THREE.Group(); b.position.set(x,0,z); b.rotation.y=Math.atan2(C[0]-x,C[1]-z); bg.add(b);
-      const tb=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.75,0.6),[coralM,coralM,whiteM,coralM,new THREE.MeshStandardMaterial({ map:front(k+1), roughness:0.85 }),coralM]); tb.position.y=0.375; tb.castShadow=true; tb.receiveShadow=true; b.add(tb);
-      const base=new THREE.Mesh(new THREE.BoxGeometry(0.62,0.06,0.36),coralM); base.position.set(-0.5,0.03,-0.62); base.castShadow=true; b.add(base);
-      const sg=new THREE.Mesh(new THREE.BoxGeometry(0.5,1.128,0.025),[coralM,coralM,coralM,coralM,new THREE.MeshStandardMaterial({ map:tall(k+1), roughness:0.85 }),coralM]); sg.position.set(-0.5,0.06+0.564,-0.62); sg.castShadow=true; b.add(sg);
+    const SCHEMES=[ { bg:'#1C4CD3', fg:'#FFFFFF', pill:['#96F9AB','#F9FF4A','#FD7268'] }, { bg:'#FD7268', fg:'#141414', pill:['#F9FF4A','#1C4CD3','#96F9AB'] },
+                    { bg:'#96F9AB', fg:'#141414', pill:['#1C4CD3','#FD7268','#F9FF4A'] }, { bg:'#6EB7FE', fg:'#141414', pill:['#F9FF4A','#FD7268','#1C4CD3'] } ];
+    const tex=(w,h,draw)=>canvasTex(w,h,draw);
+    const pills=(c,x,y,h,cols,lens)=>{ let px=x; lens.forEach((L,i)=>{ c.fillStyle=cols[i%cols.length]; c.beginPath(); c.roundRect(px,y,L,h,h/2); c.fill(); px+=L+h*0.25; }); };
+    const front=(n,sc)=>tex(1200,600,(c,W,H)=>{ c.fillStyle=sc.bg; c.fillRect(0,0,W,H);
+      c.fillStyle='#FFFFFF'; c.beginPath(); c.roundRect(60,56,250,58,29); c.fill(); c.fillStyle='#141414'; c.font='700 30px "IBM Plex Sans",sans-serif'; c.textBaseline='middle'; c.fillText('DREAM CON',88,86);
+      c.fillStyle=sc.fg; c.textBaseline='alphabetic'; c.font='900 92px Archivo,"IBM Plex Sans",sans-serif'; c.fillText('PARTNER '+n,60,250); c.font='700 54px "IBM Plex Sans Thai",sans-serif'; c.fillText('ชื่อองค์กรพาร์ทเนอร์',60,330);
+      c.font='300 30px "IBM Plex Sans","IBM Plex Sans Thai",sans-serif'; c.fillText('Partner organisation · what we do at Dream Con',60,390);
+      pills(c,60,450,74,sc.pill,[260,120,380,74]); c.strokeStyle=sc.fg; c.lineWidth=3; c.globalAlpha=0.7; c.strokeRect(900,60,240,240); c.globalAlpha=1; c.font='400 26px "IBM Plex Sans",sans-serif'; c.textAlign='center'; c.fillText('LOGO',1020,188); });
+    const tall=(n,sc)=>tex(400,904,(c,W,H)=>{ c.fillStyle=sc.bg; c.fillRect(0,0,W,H);
+      c.fillStyle='#FFFFFF'; c.beginPath(); c.roundRect(32,40,200,46,23); c.fill(); c.fillStyle='#141414'; c.font='700 24px "IBM Plex Sans",sans-serif'; c.textBaseline='middle'; c.fillText('DREAM CON',54,64);
+      c.fillStyle=sc.fg; c.textBaseline='alphabetic'; c.font='900 72px Archivo,"IBM Plex Sans",sans-serif'; c.fillText('PARTNER',32,190); c.fillText(String(n),32,264);
+      c.font='700 36px "IBM Plex Sans Thai",sans-serif'; c.fillText('ชื่อองค์กร',32,330); c.font='300 24px "IBM Plex Sans",sans-serif'; c.globalAlpha=0.9; for(let i=0;i<6;i++) c.fillRect(32,380+i*34,300-(i%3)*60,8); c.globalAlpha=1;
+      for(let r=0;r<4;r++) pills(c,32+(r%2)*40,620+r*62,48,sc.pill.slice(r%3).concat(sc.pill),[120+r*20,48,90]); });
+    BOOTHS.forEach(([x,z],k)=>{ const sc=SCHEMES[k%SCHEMES.length]; const b=new THREE.Group(); b.position.set(x,0,z); b.rotation.y=Math.atan2(C[0]-x,C[1]-z); bg.add(b);
+      const side=new THREE.MeshStandardMaterial({ color:sc.bg, roughness:0.85 }), top=new THREE.MeshStandardMaterial({ color:'#F7F3EC', roughness:0.8 });
+      const tb=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.75,0.6),[side,side,top,side,new THREE.MeshStandardMaterial({ map:front(k+1,sc), roughness:0.85 }),side]); tb.position.set(0.25,0.375,0); tb.castShadow=true; tb.receiveShadow=true; b.add(tb);
+      // tall sign hard against the left end of the table, its face in line with the table front
+      const base=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.06,0.6),side); base.position.set(-0.75,0.03,0); base.castShadow=true; b.add(base);
+      const sg=new THREE.Mesh(new THREE.BoxGeometry(0.5,1.128,0.03),[side,side,side,side,new THREE.MeshStandardMaterial({ map:tall(k+1,sc), roughness:0.85 }),side]); sg.position.set(-0.75,0.06+0.564,0.285); sg.castShadow=true; b.add(sg);
       const l=label('Partner booth '+(k+1)); l.position.set(0,1.6,0); b.add(l); (layers.labels??=[]).push(l); });
     layers.boothLabel=new THREE.Group(); }
   // radius rings
@@ -1750,8 +1759,9 @@ function frame(now){
 
 /* ---------------- boot ---------------- */
 (async function boot(){
-  resize(); buildRoom();
+  resize();
   try { await Promise.race([ Promise.all([ document.fonts.load('900 64px Archivo'), document.fonts.load('800 condensed 64px Archivo'), document.fonts.load('700 64px "IBM Plex Sans Thai"'), document.fonts.load('500 64px "IBM Plex Sans Thai"'), document.fonts.load('300 64px "IBM Plex Sans Thai"'), document.fonts.load('300 64px "IBM Plex Sans"'), document.fonts.load('700 64px "IBM Plex Sans"') ]), new Promise(r=>setTimeout(r,3000)) ]); } catch(e){}
+  buildRoom();
   const saved = store.get(KEY);
   if(saved?.uploads) for(const u of saved.uploads){ LIB.push({ ...u, kind:'img', user:true }); }
   await Promise.all(LIB.filter(g=>g.kind==='img').map(async g=>{ images[g.id]=await loadImage(g.src); }));
