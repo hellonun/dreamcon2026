@@ -189,6 +189,14 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <span><i style="background:#8F8CF5"></i>Conference area</span>
         <span><i style="background:var(--navy)"></i>Partner booths (when shown)</span>
       </div>
+      <h3>Turn around the centre</h3>
+      <div class="card" id="rot-card">
+        <label class="fld">Exhibition walls <output id="rot-walls-v">0°</output><input type="range" id="rot-walls" min="-180" max="180" step="1" value="0"></label>
+        <label class="fld">Brick station &amp; pallets <output id="rot-station-v">0°</output><input type="range" id="rot-station" min="-180" max="180" step="1" value="0"></label>
+        <label class="fld">Stage &amp; LED <output id="rot-stage-v">0°</output><input type="range" id="rot-stage" min="-180" max="180" step="1" value="0"></label>
+        <label class="fld">Partner booths <output id="rot-booths-v">0°</output><input type="range" id="rot-booths" min="-180" max="180" step="1" value="0"></label>
+        <button class="btn" id="rot-reset">Reset positions</button>
+      </div>
       <h3>Checks</h3>
       <ul class="checks" id="checks"></ul>
       <h3>Room figures</h3>
@@ -200,9 +208,9 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <dt>Exhibition walls</dt><dd>Two scaffold walls, 5.1 m and 7.6 m long, 2.12 m high, 8.2 m from centre; the gap lines up with the north-west column</dd>
         <dt>Sculpture core</dt><dd>Ø 6.0 m</dd>
         <dt>Partner booths</dt><dd>4 tables 1.5 × 0.6 × 0.75 m with a 1.5 × 0.75 m front sign and a 0.5 × 1.128 m tall sign</dd>
-        <dt>Stage position</dt><dd>South-east, square to the foyer wall, clear of the carpark doors; the LED's back box stops 15 cm short of the wall</dd>
+        <dt>Stage position</dt><dd>Bottom middle, back to the carpark doors</dd>
         <dt>Stage</dt><dd>No platform: a 4.8 × 2.4 m blue carpet on the floor</dd>
-        <dt>LED screen</dt><dd>4 × 2 m on a 0.6 m deep back box, bottom at 0.60 m, top at 2.60 m</dd>
+        <dt>LED screen</dt><dd>4 × 2 m on a 0.6 m deep back box, bottom at 0.20 m, top at 2.20 m</dd>
       </dl>
       <p class="note">Positions are traced from a screenshot of the plan, so allow ±10–15 cm. Confirm column and door positions on site before fixing anything.</p>
     </section>
@@ -413,8 +421,12 @@ const STAIR_A = [-10.1, 2.4], STAIR_B = [-7.2, 6.4];
 const OBSTACLES = [...COLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a column'})), ...WALLCOLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a wall column'})), {x:SPIRAL.x,z:SPIRAL.z,r:SPIRAL.r,name:'the spiral stair'}, {x:-8.65,z:4.4,r:1.9,name:'the curved stair'}];
 const ZONE_EXH = { r0:7.6, r1:11.4, a0:68, a1:161 };
 const ZONE_BOOTH = { r0:4.5, r1:7.1, a0:239, a1:342 };
-const STAGE_POS = { x:6.11, z:7.83, rot:38 };   // the LED's 0.6 m back box stops 15 cm short of the foyer wall
-const BOOTHS = [[-6.58,3.92],[-5.25,5.5],[-3.54,6.65],[-1.58,7.29]];   // on a 7.4 m arc, clear of the curved stair and the column   // partner booth centres, from the plan sketch
+const STAGE_POS = { x:0, z:8.9, rot:0 };   // bottom middle, back to the carpark doors
+const BOOTH_R = 7.6, BOOTH_ANG = [27,12,-12,-27];   // in front of the east doors to the library, a pair each side of the doorway
+const BOOTHS = BOOTH_ANG.map(a=>[BOOTH_R*Math.cos(a*DEG), -BOOTH_R*Math.sin(a*DEG)]);
+const turnXZ=([x,z],deg)=>{ const c=Math.cos(deg*DEG), s=Math.sin(deg*DEG); return [x*c+z*s, -x*s+z*c]; };
+const stagePose=()=>{ const [x,z]=turnXZ([STAGE_POS.x,STAGE_POS.z],B.rotStage||0); return { x, z, rot:STAGE_POS.rot+(B.rotStage||0) }; };
+const boothSpots=()=>BOOTHS.map(p=>turnXZ(p,B.rotBooths||0));   // on a 7.4 m arc, clear of the curved stair and the column   // partner booth centres, from the plan sketch
 const STAGE_Z = 4.39;
 const plan2xz = (r, phiDeg) => [r*Math.cos(phiDeg*DEG), -r*Math.sin(phiDeg*DEG)];
 const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
@@ -635,7 +647,7 @@ function buildRoom(){
   { const [x,z]=plan2xz(9.6,114); zl('Exhibition arc',x,z); }
   zl('Sculpture core · Ø 6 m',0,-3.3); zl('Conference area',0,6.0,'lbl dim');
   // partner booths: four tables, each with its tall sign standing right against the table end, in the Dream Con colours, in an arc by the lower-left stairs facing the centre
-  { const bg=new THREE.Group(); g.add(bg); layers.booths=bg; const C=[-0.3,0];
+  { const bg=new THREE.Group(); g.add(bg); layers.booths=bg; const C=[0,0];
     const SCHEMES=[ { bg:'#1C4CD3', fg:'#FFFFFF', pill:['#96F9AB','#F9FF4A','#FD7268'] }, { bg:'#FD7268', fg:'#141414', pill:['#F9FF4A','#1C4CD3','#96F9AB'] },
                     { bg:'#96F9AB', fg:'#141414', pill:['#1C4CD3','#FD7268','#F9FF4A'] }, { bg:'#6EB7FE', fg:'#141414', pill:['#F9FF4A','#FD7268','#1C4CD3'] } ];
     const tex=(w,h,draw)=>canvasTex(w,h,draw);
@@ -662,11 +674,11 @@ function buildRoom(){
   const rings = new THREE.Group(); g.add(rings); layers.rings=rings;
   for(const rr of [2,4,6,8,10]){ const pts=[]; for(let a=0;a<=360;a+=3){ const [x,z]=plan2xz(rr,a); pts.push(new THREE.Vector3(x,0.01,z)); } const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color:'#7c86a3', dashSize:0.25, gapSize:0.18, transparent:true, opacity:0.7 })); ln.computeLineDistances(); rings.add(ln); const [x,z]=plan2xz(rr,203); const l=label(`r ${rr} m`,'lbl ring'); l.position.set(x,0.02,z); rings.add(l); }
   // conference stage: 4.8 x 2.4 m from 1.2 m blocks, 0.6 m high, back to the carpark doors, LED 4 x 2 m on the back edge
-  { const st=new THREE.Group(); g.add(st); layers.stage=st; const SW=4.8, SD=2.4, SH=0.6, cz=0; st.position.set(STAGE_POS.x,0,STAGE_POS.z); st.rotation.y=STAGE_POS.rot*DEG; // south-east, clear of the carpark doors
+  { const sp=new THREE.Group(); g.add(sp); layers.stage=sp; const st=new THREE.Group(); sp.add(st); const SW=4.8, SD=2.4, SH=0.2, cz=0; st.position.set(STAGE_POS.x,0,STAGE_POS.z); st.rotation.y=STAGE_POS.rot*DEG; // south-east, clear of the carpark doors
     // no raised stage: a blue carpet on the floor, the LED on a 0.6 m deep back box
     const rug=new THREE.Mesh(new THREE.BoxGeometry(SW,0.012,SD),new THREE.MeshStandardMaterial({ color:'#1C4CD3', map:carpetBump, roughness:1 })); rug.position.set(0,0.006,cz); rug.receiveShadow=true; st.add(rug);
     const boxM=new THREE.MeshStandardMaterial({ color:'#16171A', roughness:0.85 });
-    const back=new THREE.Mesh(new THREE.BoxGeometry(4.08,2.66,0.6),boxM); back.position.set(0,1.33,cz+SD/2-0.06+0.3); back.castShadow=true; back.receiveShadow=true; st.add(back);
+    const back=new THREE.Mesh(new THREE.BoxGeometry(4.08,SH+2.06,0.6),boxM); back.position.set(0,(SH+2.06)/2,cz+SD/2-0.06+0.3); back.castShadow=true; back.receiveShadow=true; st.add(back);
     const ledFrame=new THREE.Mesh(new THREE.BoxGeometry(4.08,2.06,0.12),new THREE.MeshStandardMaterial({ color:'#0b0b0d', roughness:0.5, metalness:0.3 })); ledFrame.position.set(0,SH+1.03,cz+SD/2-0.12); ledFrame.castShadow=true; st.add(ledFrame);
     const ledTex=new THREE.TextureLoader().load(ASSETS.keynote); ledTex.colorSpace=THREE.SRGBColorSpace;
     const led=new THREE.Mesh(new THREE.PlaneGeometry(4,2),new THREE.MeshBasicMaterial({ map:ledTex, toneMapped:false })); led.position.set(0,SH+1.0,cz+SD/2-0.181); led.rotation.y=Math.PI; st.add(led);
@@ -820,7 +832,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v25';
+const KEY='dreamcon-composer-v26';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -845,7 +857,7 @@ const WALLS = {
        monitor:{ x0:22156, y0:3558, x1:23262, y1:4171 } },
 };
 function wallGeom(id){ const W=WALLS[id]; const len=(W.x1-W.x0)/SVG_U+2*WALL_M; const n=Math.max(1,Math.round(len)); const bw=len/n; const step=2*Math.asin(bw/2/WALL_RF)/DEG;
-  const half=(WALL_GAP/2)/WALL_RF/DEG; const start= id==='R' ? WALL_GAP_AT-half : WALL_GAP_AT+half+n*step;
+  const half=(WALL_GAP/2)/WALL_RF/DEG; const gapAt=WALL_GAP_AT+(B.rotWalls||0); const start= id==='R' ? gapAt-half : gapAt+half+n*step;
   return { W, len, n, bw, step, start }; }
 function wallModules(){ const out=[]; for(const id of ['L','R']){ const g=wallGeom(id); const A=arcModules({ rf:WALL_RF, start:g.start, count:g.n, levels:WALL_LV, w:g.bw, d:WALL_D, h:WALL_H }).mods; A.forEach(m=>m.wall=id); out.push(...A); } return out; }
 // a frame on bay i of a wall: origin at the bay centre on the floor, +x along the wall to the right, +z toward the room
@@ -898,7 +910,7 @@ function proposal(){
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
   { // one curved counter beside the sculpture, joined on its inner face like the wall bays: red, green, beige pallets, then the station on the right
     const d=TYPES.station.d, Ri=4.2, rc=Ri+d/2, ang=a=>{ const [px,pz]=plan2xz(rc,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
-    const half=w=>Math.asin(w/2/Ri)/DEG; const st=TYPES.station, a0=40; mods.push(mk('station',ang(a0)));
+    const half=w=>Math.asin(w/2/Ri)/DEG; const st=TYPES.station, a0=40+(B.rotStation||0); mods.push(mk('station',ang(a0)));
     let a=a0-half(st.w); [...PALLET_GROUPS].reverse().forEach(gr=>{ const w=0.9; a-=half(w); mods.push(mk('plinth',{ ...ang(a), w, d, h:0.64, group:gr.id })); a-=half(w); }); }
   S.modules = mods; rebuildAll(); buildWallArt();
 }
@@ -1030,8 +1042,8 @@ function computeChecks(){
     if(m.type!=='sheet' && top > CEIL-0.05) out.push({ id:m.id, msg:`<b>${tag}</b> reaches ${fmt(top)} m, within 5 cm of the 2.70 m ceiling` });
     const cs=corners(m); if(cs.some(([x,z])=>Math.hypot(x,z)>R-0.05)) out.push({ id:m.id, msg:`<b>${tag}</b> runs into the foyer wall` });
     for(const ob of OBSTACLES){ if(distToRect(m,ob.x,ob.z) < ob.r+0.05){ out.push({ id:m.id, msg:`<b>${tag}</b> clashes with ${ob.name}` }); break; } }
-    { const c=Math.cos(STAGE_POS.rot*DEG), sn=Math.sin(STAGE_POS.rot*DEG), dx=m.x-STAGE_POS.x, dz=m.z-STAGE_POS.z, lx=dx*c-dz*sn, lz=dx*sn+dz*c; if(Math.abs(lx)<2.4+0.6 && Math.abs(lz)<1.6+0.6) out.push({ id:m.id, msg:`<b>${tag}</b> sits on the stage` }); }
-    if(layers.booths?.visible && BOOTHS.some(([x,z])=>distToRect(m,x,z)<0.9)) out.push({ id:m.id, msg:`<b>${tag}</b> runs into a partner booth` });
+    { const SP=stagePose(), c=Math.cos(SP.rot*DEG), sn=Math.sin(SP.rot*DEG), dx=m.x-SP.x, dz=m.z-SP.z, lx=dx*c-dz*sn, lz=dx*sn+dz*c; if(Math.abs(lx)<2.4+0.6 && Math.abs(lz)<1.6+0.6) out.push({ id:m.id, msg:`<b>${tag}</b> sits on the stage` }); }
+    if(layers.booths?.visible && boothSpots().some(([x,z])=>distToRect(m,x,z)<0.9)) out.push({ id:m.id, msg:`<b>${tag}</b> runs into a partner booth` });
   }
   if(BR.targets.length){ const R0=B.pdia/2; for(const ob of OBSTACLES){ if(Math.hypot(ob.x-B.cx,ob.z-B.cz)<R0+ob.r+0.05){ out.push({ msg:`<b>Round platform</b> touches ${ob.name}` }); break; } }
     for(const m of S.modules){ if(distToRect(m,B.cx,B.cz)<R0+0.05) out.push({ id:m.id, msg:`<b>${TYPES[m.type].label} ${m.id}</b> overlaps the round platform` }); }
@@ -1039,7 +1051,7 @@ function computeChecks(){
   return out;
 }
 function renderChecks(){ const c=computeChecks(); const ul=$('#checks');
-  ul.innerHTML = c.length? c.slice(0,10).map((w,i)=>`<li><span>${w.msg}</span>${w.id?`<button data-sel="${w.id}">Select</button>`:''}</li>`).join('') + (c.length>10?`<li><span>…and ${c.length-10} more</span></li>`:'') : '<li class="ok">No clashes with columns, stairs, walls, ceiling, stage or booths.</li>';
+  ul.innerHTML = c.length? c.slice(0,10).map((w,i)=>`<li><span>${w.msg}</span>${w.id&&EDITABLE?`<button data-sel="${w.id}">Select</button>`:''}</li>`).join('') + (c.length>10?`<li><span>…and ${c.length-10} more</span></li>`:'') : '<li class="ok">No clashes with columns, stairs, walls, ceiling, stage or booths.</li>';
   ul.querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{ select([+b.dataset.sel]); setTab('scaffold'); }); return c; }
 function renderBom(){
   const key=v=>v.map(n=>(Math.round(n/0.02)*0.02).toFixed(2)).join(',');
@@ -1117,7 +1129,7 @@ function dress(kind){
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
 const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.6, carpetShape:'circle', pdia:6.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
-  layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
+  layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, rotStation:0, rotStage:0, rotBooths:0, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
   ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
@@ -1710,6 +1722,14 @@ function setView(name){
 /* ---------------- tabs, layers, misc UI ---------------- */
 function setTab(t){ $$('.tab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t))); $$('.pane').forEach(p=>p.hidden=p.dataset.pane!==t); store.set(KEY+'-tab',t); }
 const stationSyncs=[];
+const ROTS=[['walls','rotWalls'],['station','rotStation'],['stage','rotStage'],['booths','rotBooths']];
+function applyRot(which){ if(which==='stage') layers.stage.rotation.y=(B.rotStage||0)*DEG; else if(which==='booths') layers.booths.rotation.y=(B.rotBooths||0)*DEG; else { proposal(); }
+  renderChecks(); }
+function syncRotUI(){ for(const [k,key] of ROTS){ const v=B[key]||0; $('#rot-'+k).value=v; $('#rot-'+k+'-v').textContent=(v>0?'+':'')+v+'°'; } }
+function bindRot(){ for(const [k,key] of ROTS){ let t=null; $('#rot-'+k).addEventListener('input',e=>{ B[key]=+e.target.value; syncRotUI();
+      if(k==='stage'||k==='booths') applyRot(k); else { clearTimeout(t); t=setTimeout(()=>applyRot(k),60); } });
+    $('#rot-'+k).addEventListener('change',persist); }
+  $('#rot-reset').onclick=()=>{ for(const [,key] of ROTS) B[key]=0; syncRotUI(); layers.stage.rotation.y=0; layers.booths.rotation.y=0; proposal(); renderChecks(); persist(); }; syncRotUI(); }
 function bindUI(){
   $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
   const lyr=(id,fn)=>{ const e=$('#'+id); e.onchange=()=>fn(e.checked); fn(e.checked); };
@@ -1768,6 +1788,7 @@ function frame(now){
   if(saved?.bricks) Object.assign(B, saved.bricks); if(saved?.tube){ S.tube=saved.tube; $('#tube').value=String(saved.tube); }
   bindUI(); bindBricks(); syncBrickUI(); renderLib();
   proposal();   // the layout is fixed; only the brick settings are kept between visits
+  layers.stage.rotation.y=(B.rotStage||0)*DEG; layers.booths.rotation.y=(B.rotBooths||0)*DEG; bindRot();
   applyBrickColors(); rebuildBuild(); if(!B.messages?.length){ seedMessages(); rebuildBuild(); } drawScreen(); drawStation(); past.push(snapshot()); updateDerived(); renderInspector();
   setTab(store.get(KEY+'-tab')||'space'); setView('overview');
   $('#loading').hidden=true; requestAnimationFrame(frame);
