@@ -598,11 +598,12 @@ function buildRoom(){
   const S=2048, px = v => (v/R+1)/2*S;
   const floorTex = canvasTex(S,S,(c)=>{ c.fillStyle='#E8E2D7'; c.fillRect(0,0,S,S); const r=rnd(7); const sp=['#cfc6b8','#b9ad9b','#f6f2ea','#9a8d7b','#d8cdbd'];
     for(let i=0;i<60000;i++){ c.fillStyle=sp[Math.floor(r()*5)]; const s=0.6+r()*1.6; c.fillRect(r()*S,r()*S,s,s); }
-    // rings and square centred on the column grid: Ø5 black, Ø9, the ring through the four columns, Ø20 brown; an 18 x 18 m black square
+    // rings, square and cross centred on the column grid: Ø5 black, Ø9, the ring through the four columns, Ø20 brown; an 18 x 18 m black square and the black cross, both 0.32 m wide
     const m2p=v=>v/R*S/2, gx=S/2+m2p(FLOOR_C[0]), gy=S/2+m2p(FLOOR_C[1]);
     const ring=(rad,wid,col)=>{ c.beginPath(); c.arc(gx,gy,m2p(rad),0,Math.PI*2); c.lineWidth=m2p(wid); c.strokeStyle=col; c.stroke(); };
     for(const [rad,col] of FLOOR_RINGS) ring(rad,0.25,col);
-    c.strokeStyle='#16171b'; c.lineWidth=m2p(0.08); c.strokeRect(gx-m2p(9),gy-m2p(9),m2p(18),m2p(18)); });
+    c.strokeStyle='#16171b'; c.lineWidth=m2p(0.32); c.strokeRect(gx-m2p(9),gy-m2p(9),m2p(18),m2p(18));
+    c.fillStyle='#16171b'; const wv=m2p(0.32); c.fillRect(gx-wv/2,0,wv,S); c.fillRect(0,gy-wv/2,S,wv); });
   const disc = new THREE.Mesh(new THREE.CircleGeometry(R,128), new THREE.MeshStandardMaterial({ map:floorTex, roughness:0.55, metalness:0 }));
   disc.rotation.x=-Math.PI/2; disc.position.y=0.001; disc.receiveShadow=true; g.add(disc); layers.floor=disc;
   const plainDisc = new THREE.Mesh(new THREE.CircleGeometry(R,128), new THREE.MeshStandardMaterial({ color:'#ECE8E1', roughness:0.7 })); plainDisc.rotation.x=-Math.PI/2; plainDisc.position.y=0.0009; plainDisc.receiveShadow=true; plainDisc.visible=false; g.add(plainDisc); layers.plainFloor=plainDisc;
@@ -694,7 +695,7 @@ function buildRoom(){
 }
 
 /* ---------------- scaffold model ---------------- */
-const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:0.986, d:0.78, h:0.9, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
+const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:0.9895, d:0.78, h:0.9, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
 const FINISH = { silver:{ color:'#C9CED6', metalness:0.85, roughness:0.32 }, black:{ color:'#26282E', metalness:0.55, roughness:0.45 }, mint:{ color:PAL.mint, metalness:0.15, roughness:0.5 }, royal:{ color:PAL.royal, metalness:0.15, roughness:0.45 } };
 const finishMats = Object.fromEntries(Object.entries(FINISH).map(([k,v])=>[k,new THREE.MeshStandardMaterial(v)]));
 const warnMat = new THREE.MeshStandardMaterial({ color:'#ff5a36', metalness:0.3, roughness:0.4 });
@@ -731,7 +732,7 @@ function facesOf(m){ const { w, d, h, type } = m, e=0.035;
 }
 function addTube(g,a,b,r,mat){ const dv=new THREE.Vector3().subVectors(b,a); const len=dv.length(); if(len<1e-4) return; const t=new THREE.Mesh(tubeGeo,mat); t.scale.set(r,len,r); t.position.copy(a).addScaledVector(dv,0.5); t.quaternion.setFromUnitVectors(UP, dv.normalize()); t.castShadow=true; t.receiveShadow=true; g.add(t); return t; }
 /* 43" Samsung The Frame (965.6 x 553.6 x 24.9 mm), screen area about 941 x 529 mm */
-const FRAME43 = { w:0.966, d:0.554, t:0.025, aw:0.941, ad:0.529 };
+const FRAME43 = { w:0.9695, d:0.5578, t:0.0249, aw:0.941, ad:0.529 };   // Samsung The Frame 43" LS03D without stand
 const STN = (()=>{ const F=FRAME43, zBack=-0.37, edge=0.01, projH=F.aw*600/1600, touchH=F.aw*157/1600, top=-F.ad/2+0.012; const projZ=top+projH/2, touchZ=top+projH+0.012+touchH/2;
   return { edge, zBack, projH, touchH, projZ, touchZ, brickZ:projZ-projH/2+projH*0.56, kbZ:0.29, pxm:1600/F.aw }; })();
 const palletLabelCache=new Map();
@@ -836,7 +837,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v29';
+const KEY='dreamcon-composer-v30';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -846,101 +847,91 @@ function arcModules({ rf, start, count, levels, w, d, h, gap=0, type='bay' }){
     for(let l=0;l<levels;l++) out.push(mk(type,{ x, z, y:l*h, rot, w, d, h })); }
   return { mods:out, span:count*step/DEG };
 }
-window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, SVG_U, IDEA_X, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
-/* ---------------- exhibition walls, laid out from the two wall elevations (Frame 1924 left, Frame 1925 right) ----------------
-   The scaffold bars follow the divisions between the graphics: every print sits in its own frame cell, a little smaller than the cell. */
-const SVG_U = 2833.33;                    // drawing units per metre (the 0.3 x 2 m strip is 850 x 5666)
-const WALL_RF = 8.2, WALL_D = 0.6, WALL_Y0 = 0.10, WALL_GAP = 1.0, WALL_INSET = 0.035;
+window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
+/* ---------------- exhibition walls: straight scaffold boxes on a curve ----------------
+   Each cell is a rectangular box 0.6 m deep. Neighbouring boxes share the front standard; each has its own back standards,
+   so the boxes fan out with a wedge gap at the back. Sizes from the wall frames (metres, along the wall from its left end). */
+const WALL_RF = 8.2, WALL_D = 0.6, WALL_Y0 = 0.10, WALL_H = 2.0, WALL_GAP = 1.0;
 const WALL_GAP_AT = Math.atan2(4.39, -4.70)/DEG;   // the gap lines up with the north-west column, seen from the centre
-const IDEA_X = k=>6461.85+k*1834.55;
-const WALLS = {
-  L: { x0:1037, x1:15377, top:1051, bot:6887,
-       posts:[1037,6326,8160,9954,11750,13545,15377],                    // full-height posts (the wall bends at these)
-       part:[ [3681,4256,6887] ],                                         // short post between the blue and yellow prints
-       rails:[ [1755,1037,6326], [4256,1037,6326] ],                      // ledgers under the logo strip and under the banner
-       items:[ ['logos',1037,1051,6326,1755], ['banner',1037,1755,6326,4256], ['blue',1037,4256,3681,6887], ['yellow',3681,4256,6326,6887],
-               ['p1',6326,1051,8160,6887], ['p2',8160,1051,9954,6887], ['p3',9954,1051,11750,6887], ['p4',11750,1051,13545,6887], ['p5',13545,1051,15377,6887] ] },
-  R: { x0:2281, x1:23646, top:1450, bot:7286,
-       posts:[2281,5340, ...[0,1,2,3,4,5,6].map(IDEA_X), 19645,20652,23646],
-       part:[],
-       rails:[ [4993,2281,19645] ],                                       // ledger along the top of the timeline band
-       items:[ ['events',2281,1450,5340,4993], ['ideas_title',5340,1450,IDEA_X(0),4993], ['band',2281,4993,19645,7286], ['arguments',20652,1450,23646,7286] ],
-       ideas:{ n:7, w:2400, h:3386, top:1535, angle:40 },
-       strip:{ x0:19726, x1:20576, top:1535, cut:4520, shelf:4935, low:7201 },
-       monitor:{ item:'arguments', src:[20728,1535,23561,7201], x0:22156, y0:3558, x1:23262, y1:4171, w:0.423, h:0.253, t:0.013 } },
-};
-function wallGeom(id){ const W=WALLS[id]; const xs=W.posts; const ws=xs.slice(1).map((x,i)=>(x-xs[i])/SVG_U); const ang=ws.map(w=>2*Math.asin(w/2/WALL_RF)/DEG); const total=ang.reduce((a,b)=>a+b,0);
+const A1 = { w:0.594, h:0.841 };
+const WALLS = (()=>{ const T=WALL_Y0+WALL_H;   // top of the print zone, 2.10
+  const L = { cells:[1.8,0.6,0.6,0.6,0.6,0.6], prints:[], rails:[], part:[] };
+  { const g=0.05, gx=(1.8-1.7)/3; let y=T-g;
+    L.prints.push(['logos',0,1.8,y-0.2,y]); y-=0.2; L.rails.push([y-g/2,0,1.8]); y-=g;
+    L.prints.push(['banner',0,1.8,y-0.8,y]); y-=0.8; L.rails.push([y-g/2,0,1.8]); y-=g;
+    L.prints.push(['blue',gx,gx+0.85,y-0.8,y], ['yellow',2*gx+0.85,2*gx+1.7,y-0.8,y]); L.part.push([0.9,WALL_Y0,y+g/2]);
+    for(let k=0;k<5;k++) L.prints.push(['p'+(k+1),1.8+0.6*k,2.4+0.6*k,WALL_Y0,T]); }
+  const tw=0.45, iw=(5-tw)/7;
+  const R = { cells:[1.0,tw,...Array(7).fill(iw),0.3,1.0], prints:[], rails:[[WALL_Y0+0.875,0,6.0]], part:[] };
+  { const yb=WALL_Y0+0.85+0.05;   // band 0.8 high with 0.05 gaps; upper prints from 1.00 to 2.05
+    R.prints.push(['band',0,6.0,WALL_Y0+0.05,WALL_Y0+0.85], ['events',0.025,0.975,yb,T-0.05], ['ideas_title',1.0+0.025,1.0+tw-0.025,yb,T-0.05], ['arguments',6.3,7.3,WALL_Y0,T]); }
+  R.ideas = { s:[...Array(7)].map((_,k)=>1.0+tw+k*iw+0.02), w:A1.w, h:A1.h, top:T-0.05, angle:40 };
+  R.strip = { s0:6.0, s1:6.3, shelf:WALL_Y0+0.8, depth:0.35, low:WALL_Y0 };
+  R.monitor = { item:'arguments', cs:6.3+0.70, cy:1.30, w:0.423, h:0.253, t:0.013 };
+  return { L, R }; })();
+function wallGeom(id){ const W=WALLS[id]; const cw=W.cells; const ang=cw.map(w=>2*Math.asin(w/2/WALL_RF)/DEG); const total=ang.reduce((a,b)=>a+b,0);
   const half=(WALL_GAP/2)/WALL_RF/DEG, gapAt=WALL_GAP_AT+(B.rotWalls||0); const start= id==='R' ? gapAt-half : gapAt+half+total;
-  const va=[start]; ang.forEach(a=>va.push(va[va.length-1]-a));          // plan angle of each post, left to right
-  return { W, ws, va, s:xs.map(x=>(x-W.x0)/SVG_U), len:(W.x1-W.x0)/SVG_U, H:(W.bot-W.top)/SVG_U }; }
+  const va=[start]; ang.forEach(a=>va.push(va[va.length-1]-a));
+  const s=[0]; cw.forEach(w=>s.push(s[s.length-1]+w));
+  const front=va.map(a=>P_AT(WALL_RF,a));
+  // back corners of each straight box: front corners pushed out along the box's own normal
+  const backs=cw.map((w,i)=>{ const A=front[i], Bp=front[i+1], dx=Bp[0]-A[0], dz=Bp[1]-A[1], L=Math.hypot(dx,dz), nx=dz/L, nz=-dx/L; const sg=(nx*(A[0]+Bp[0])+nz*(A[1]+Bp[1]))>0?1:-1;
+    return [[A[0]+sg*nx*WALL_D, A[1]+sg*nz*WALL_D],[Bp[0]+sg*nx*WALL_D, Bp[1]+sg*nz*WALL_D]]; });
+  return { W, ws:cw, va, s, len:s[s.length-1], H:WALL_H, front, backs }; }
 function wallModules(){ return []; }
 const P_AT=(r,a)=>[r*Math.cos(a*DEG), -r*Math.sin(a*DEG)];
-// all the points a wall occupies on plan, for the clash checks
-function wallFootprint(){ const pts=[]; for(const id of ['L','R']){ const g=wallGeom(id); for(let i=0;i<g.ws.length;i++){ for(let t=0;t<=1.001;t+=0.25){ const a=g.va[i]+(g.va[i+1]-g.va[i])*t; pts.push(P_AT(WALL_RF,a), P_AT(WALL_RF+WALL_D,a)); } } } return pts; }
+function wallFootprint(){ const pts=[]; for(const id of ['L','R']){ const g=wallGeom(id); g.backs.forEach((bk,i)=>{ for(let t=0;t<=1.001;t+=0.25){ const F=[g.front[i][0]+(g.front[i+1][0]-g.front[i][0])*t, g.front[i][1]+(g.front[i+1][1]-g.front[i][1])*t], Bk=[bk[0][0]+(bk[1][0]-bk[0][0])*t, bk[0][1]+(bk[1][1]-bk[0][1])*t]; pts.push(F,Bk); } }); } return pts; }
 const wallArtRoot=new THREE.Group(); scene.add(wallArtRoot);
 const wallTexCache=new Map();
 function wallTex(key){ if(wallTexCache.has(key)) return wallTexCache.get(key); const t=new THREE.TextureLoader().load(ASSETS.walls[key]); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; wallTexCache.set(key,t); return t; }
 function buildWallArt(){ while(wallArtRoot.children.length) wallArtRoot.remove(wallArtRoot.children[0]);
   const tubeR=S.tube||0.024, steel=finishMats.silver;
   const tubeW=(a,b,r=tubeR)=>{ const A=new THREE.Vector3(...a), Bv=new THREE.Vector3(...b), dv=new THREE.Vector3().subVectors(Bv,A); const t=new THREE.Mesh(tubeGeo,steel); t.scale.set(r,dv.length(),r); t.position.copy(A).addScaledVector(dv,0.5); t.quaternion.setFromUnitVectors(UP,dv.clone().normalize()); t.castShadow=true; t.receiveShadow=true; wallArtRoot.add(t); };
-  const joint=(p)=>{ const j=new THREE.Mesh(jointGeo,steel); j.scale.setScalar(tubeR*1.5); j.position.set(...p); wallArtRoot.add(j); };
+  const joint=p=>{ const j=new THREE.Mesh(jointGeo,steel); j.scale.setScalar(tubeR*1.5); j.position.set(...p); wallArtRoot.add(j); };
+  const yBot=WALL_Y0, yTop=WALL_Y0+WALL_H, Z=0.032;
   for(const id of ['L','R']){ const g=wallGeom(id), W=g.W, n=g.ws.length;
-    const sOf=x=>(x-W.x0)/SVG_U, yOf=y=>WALL_Y0+(W.bot-y)/SVG_U, yTop=yOf(W.top), yBot=yOf(W.bot);
-    // plan point on the front (r=WALL_RF) or back face at distance s along the wall
+    const frames=g.ws.map((w,i)=>{ const A=g.front[i], Bp=g.front[i+1], f=new THREE.Group(); f.position.set((A[0]+Bp[0])/2,0,(A[1]+Bp[1])/2); const bk=g.backs[i];
+      const nx=bk[0][0]-A[0], nz=bk[0][1]-A[1]; f.rotation.y=Math.atan2(-nx,-nz); wallArtRoot.add(f); return f; });
     const seg=s=>{ let i=0; while(i<n-1 && s>g.s[i+1]-1e-6) i++; return i; };
-    const at=(s,back=0)=>{ const i=seg(s), t=(s-g.s[i])/g.ws[i]; const A=P_AT(WALL_RF+back,g.va[i]), Bp=P_AT(WALL_RF+back,g.va[i+1]); return [A[0]+(Bp[0]-A[0])*t, A[1]+(Bp[1]-A[1])*t]; };
-    // a frame on segment i: origin at the middle of its front face, +x along the wall to the right, +z toward the room
-    const frames=g.ws.map((w,i)=>{ const a=(g.va[i]+g.va[i+1])/2*DEG, f=new THREE.Group(); const m=[(P_AT(WALL_RF,g.va[i])[0]+P_AT(WALL_RF,g.va[i+1])[0])/2,(P_AT(WALL_RF,g.va[i])[1]+P_AT(WALL_RF,g.va[i+1])[1])/2];
-      f.position.set(m[0],0,m[1]); f.rotation.y=Math.atan2(-Math.cos(a),Math.sin(a)); wallArtRoot.add(f); return f; });
     const local=s=>{ const i=seg(s); return { f:frames[i], lx:s-(g.s[i]+g.ws[i]/2), i }; };
-    // ---- the scaffold: posts at every division, ledgers where the prints divide, front and back, tied across
-    g.s.forEach((s,j)=>{ const ai=g.va[j]; const F=P_AT(WALL_RF,ai), Bk=P_AT(WALL_RF+WALL_D,ai);
-      tubeW([F[0],0,F[1]],[F[0],yTop,F[1]]); tubeW([Bk[0],0,Bk[1]],[Bk[0],yTop,Bk[1]]);
-      for(const y of [yBot,yTop,(yBot+yTop)/2]) tubeW([F[0],y,F[1]],[Bk[0],y,Bk[1]]);
-      for(const y of [yBot,yTop]){ joint([F[0],y,F[1]]); joint([Bk[0],y,Bk[1]]); } });
-    for(let i=0;i<n;i++){ const F0=P_AT(WALL_RF,g.va[i]), F1=P_AT(WALL_RF,g.va[i+1]), B0=P_AT(WALL_RF+WALL_D,g.va[i]), B1=P_AT(WALL_RF+WALL_D,g.va[i+1]);
-      for(const y of [yBot,yTop]){ tubeW([F0[0],y,F0[1]],[F1[0],y,F1[1]]); tubeW([B0[0],y,B0[1]],[B1[0],y,B1[1]]); }
-      tubeW([B0[0],yBot,B0[1]],[B1[0],yTop,B1[1]],tubeR*0.8); }                       // a brace on the back of every cell
-    for(const [y,xa,xb] of W.rails){ const yy=yOf(y), sa=sOf(xa), sb=sOf(xb); const cuts=[sa,...g.s.filter(s=>s>sa+1e-6&&s<sb-1e-6),sb];
-      for(let k=0;k<cuts.length-1;k++){ const p=at(cuts[k]+1e-4), q=at(cuts[k+1]-1e-4); tubeW([p[0],yy,p[1]],[q[0],yy,q[1]]); } }
-    for(const [x,ya,yb] of W.part){ const p=at(sOf(x)); tubeW([p[0],yOf(yb),p[1]],[p[0],yOf(ya),p[1]]); joint([p[0],yOf(ya),p[1]]); }
-    // ---- prints: each fills its cell less a small margin, split at the bends so it follows the curve
-    const Z=0.032;
-    const flat=(key,x0,y0,x1,y1,inset=WALL_INSET)=>{ const s0=sOf(x0)+inset, s1=sOf(x1)-inset, yt=yOf(y0)-inset, yb=yOf(y1)+inset; const mat=new THREE.MeshStandardMaterial({ map:wallTex(id+'_'+key), roughness:0.85 });
+    // scaffold
+    g.front.forEach(F=>{ tubeW([F[0],0,F[1]],[F[0],yTop,F[1]]); joint([F[0],yBot,F[1]]); joint([F[0],yTop,F[1]]); });
+    g.backs.forEach((bk,i)=>{ const F0=g.front[i], F1=g.front[i+1];
+      for(const [P,F] of [[bk[0],F0],[bk[1],F1]]){ tubeW([P[0],0,P[1]],[P[0],yTop,P[1]]); for(const y of [yBot,(yBot+yTop)/2,yTop]) tubeW([F[0],y,F[1]],[P[0],y,P[1]]); joint([P[0],yBot,P[1]]); joint([P[0],yTop,P[1]]); }
+      for(const y of [yBot,yTop]){ tubeW([F0[0],y,F0[1]],[F1[0],y,F1[1]]); tubeW([bk[0][0],y,bk[0][1]],[bk[1][0],y,bk[1][1]]); }
+      tubeW([bk[0][0],yBot,bk[0][1]],[bk[1][0],yTop,bk[1][1]],tubeR*0.8); });
+    const at=s=>{ const i=seg(s), t=(s-g.s[i])/g.ws[i]; const A=g.front[i], Bp=g.front[i+1]; return [A[0]+(Bp[0]-A[0])*t, A[1]+(Bp[1]-A[1])*t]; };
+    for(const [y,a,b] of W.rails){ const cuts=[a,...g.s.filter(s=>s>a+1e-6&&s<b-1e-6),b]; for(let k=0;k<cuts.length-1;k++){ const p=at(cuts[k]+1e-4), q=at(cuts[k+1]-1e-4); tubeW([p[0],y,p[1]],[q[0],y,q[1]]); } }
+    for(const [s,ya,yb] of W.part){ const p=at(s); tubeW([p[0],ya,p[1]],[p[0],yb,p[1]]); }
+    // prints, split at the bends
+    const flat=(key,s0,s1,yb,yt,mat)=>{ mat=mat||new THREE.MeshStandardMaterial({ map:wallTex(id+'_'+key), roughness:0.85 });
       for(let i=0;i<n;i++){ const a=Math.max(s0,g.s[i]), b=Math.min(s1,g.s[i+1]); if(b-a<0.002) continue;
         const geo=new THREE.PlaneGeometry(b-a,yt-yb); const uv=geo.attributes.uv; const u0=(a-s0)/(s1-s0), u1=(b-s0)/(s1-s0); for(let k=0;k<uv.count;k++) uv.setX(k, uv.getX(k)<0.5? u0 : u1);
         const p=new THREE.Mesh(geo,mat); p.position.set((a+b)/2-(g.s[i]+g.ws[i]/2),(yt+yb)/2,Z); p.receiveShadow=true; frames[i].add(p);
-        const bk=new THREE.Mesh(geo,backMat); bk.position.copy(p.position); bk.position.z-=0.004; bk.rotation.y=Math.PI; frames[i].add(bk); }
-      return { s0, s1, yt, yb }; };
-    const placed={}; for(const [key,x0,y0,x1,y1] of W.items) placed[key]=flat(key,x0,y0,x1,y1);
-    // closed ends in plain light grey
-    for(const [j,side] of [[0,-1],[n,1]]){ const a=g.va[j]; const F=P_AT(WALL_RF,a), Bk=P_AT(WALL_RF+WALL_D,a); const e=new THREE.Mesh(new THREE.PlaneGeometry(WALL_D,yTop-yBot), new THREE.MeshStandardMaterial({ color:'#D9D9D9', roughness:0.9, side:THREE.DoubleSide }));
-      e.position.set((F[0]+Bk[0])/2,(yTop+yBot)/2,(F[1]+Bk[1])/2); e.rotation.y=Math.atan2(-(Bk[1]-F[1]),Bk[0]-F[0]); wallArtRoot.add(e); }
-    // ---- Wall of Ideas: panels set at an angle INTO the scaffold, a sawtooth: front edge on the face, the other edge 0.54 m back
-    if(W.ideas){ const I=W.ideas, pw=I.w/SVG_U, ph=I.h/SVG_U, th=I.angle*DEG, mat=new THREE.MeshStandardMaterial({ map:wallTex('R_ideas'), roughness:0.8 }), yt=yOf(I.top)-0.04;
-      for(let k=0;k<I.n;k++){ const s=sOf(IDEA_X(k))+0.03, { f, lx }=local(s), hg=new THREE.Group(); hg.position.set(lx,0,0); hg.rotation.y=th; f.add(hg);
-        const p=new THREE.Mesh(new THREE.PlaneGeometry(pw,ph),mat); p.position.set(pw/2,yt-ph/2,0); p.castShadow=true; p.receiveShadow=true; hg.add(p);
-        const b=new THREE.Mesh(new THREE.PlaneGeometry(pw,ph),backMat); b.position.copy(p.position); b.position.z-=0.004; b.rotation.y=Math.PI; hg.add(b);
-        const r=tubeR*0.6, bar=new THREE.Mesh(tubeGeo,steel); bar.scale.set(r,pw,r); bar.rotation.z=Math.PI/2; bar.position.set(pw/2,yt+0.03,-0.01); hg.add(bar);
-        for(const x of [0.05,pw-0.05]){ const w=new THREE.Mesh(tubeGeo,steel); w.scale.set(0.003,yTop-yt-0.03,0.003); w.position.set(x,(yTop+yt+0.03)/2,-0.01); hg.add(w); } } }
-    // ---- Message to the Parliament: a strip with a shelf, a stack of papers on a rod, and a panel hanging below the shelf
-    if(W.strip){ const T=W.strip, s0=sOf(T.x0), s1=sOf(T.x1), sw=s1-s0, { f, lx }=local((s0+s1)/2), yS=yOf(T.shelf), yCut=yOf(T.cut), yT=yOf(T.top), blue=new THREE.MeshStandardMaterial({ color:'#1C4CD3', roughness:0.8 });
-      const top=new THREE.Mesh(new THREE.PlaneGeometry(sw,yT-yCut),new THREE.MeshStandardMaterial({ map:wallTex('R_strip_top'), roughness:0.85 })); top.position.set(lx,(yT+yCut)/2,Z); f.add(top);
-      const fill=new THREE.Mesh(new THREE.PlaneGeometry(sw,yCut-yS),blue); fill.position.set(lx,(yCut+yS)/2,Z); f.add(fill);
-      const D=0.30, shelf=new THREE.Mesh(new THREE.BoxGeometry(sw,0.02,D),blue); shelf.position.set(lx,yS-0.01,Z+D/2); shelf.castShadow=true; shelf.receiveShadow=true; f.add(shelf);
-      const low=new THREE.Mesh(new THREE.PlaneGeometry(sw,yS-yOf(T.low)),new THREE.MeshStandardMaterial({ map:wallTex('R_strip_low'), roughness:0.85 })); low.position.set(lx,(yS+yOf(T.low))/2,Z+D); low.castShadow=true; f.add(low);
+        const bk=new THREE.Mesh(geo,backMat); bk.position.copy(p.position); bk.position.z-=0.004; bk.rotation.y=Math.PI; frames[i].add(bk); } };
+    for(const [key,s0,s1,yb,yt] of W.prints) flat(key,s0,s1,yb,yt);
+    // grey ends
+    for(const [i,k] of [[0,0],[n-1,1]]){ const F=g.front[i+k], P=g.backs[i][k]; const e=new THREE.Mesh(new THREE.PlaneGeometry(WALL_D,WALL_H), new THREE.MeshStandardMaterial({ color:'#D9D9D9', roughness:0.9, side:THREE.DoubleSide }));
+      e.position.set((F[0]+P[0])/2,(yTop+yBot)/2,(F[1]+P[1])/2); e.rotation.y=Math.atan2(-(P[1]-F[1]),P[0]-F[0]); wallArtRoot.add(e); }
+    // Wall of Ideas: A1 panels set at 40° into the scaffold, sawtooth
+    if(W.ideas){ const I=W.ideas, th=I.angle*DEG, mat=new THREE.MeshStandardMaterial({ map:wallTex('R_ideas'), roughness:0.8 });
+      for(const s of I.s){ const { f, lx }=local(s+0.001), hg=new THREE.Group(); hg.position.set(lx-0.001,0,0); hg.rotation.y=th; f.add(hg);
+        const p=new THREE.Mesh(new THREE.PlaneGeometry(I.w,I.h),mat); p.position.set(I.w/2,I.top-I.h/2,0); p.castShadow=true; p.receiveShadow=true; hg.add(p);
+        const b=new THREE.Mesh(new THREE.PlaneGeometry(I.w,I.h),backMat); b.position.copy(p.position); b.position.z-=0.004; b.rotation.y=Math.PI; hg.add(b);
+        const bar=new THREE.Mesh(tubeGeo,steel); bar.scale.set(tubeR*0.6,I.w,tubeR*0.6); bar.rotation.z=Math.PI/2; bar.position.set(I.w/2,I.top+0.03,-0.01); hg.add(bar);
+        for(const x of [0.05,I.w-0.05]){ const w=new THREE.Mesh(tubeGeo,steel); w.scale.set(0.003,yTop-I.top-0.03,0.003); w.position.set(x,(yTop+I.top+0.03)/2,-0.01); hg.add(w); } } }
+    // Message to the Parliament: full-height strip, shelf with a stack of 400 postcards, panel hung below the shelf
+    if(W.strip){ const T=W.strip, sw=T.s1-T.s0, { f, lx }=local((T.s0+T.s1)/2), blue=new THREE.MeshStandardMaterial({ color:'#1C4CD3', roughness:0.8 });
+      const back=new THREE.Mesh(new THREE.PlaneGeometry(sw-0.01,WALL_H),blue); back.position.set(lx,(yBot+yTop)/2,Z); f.add(back);
+      const top=new THREE.Mesh(new THREE.PlaneGeometry(sw-0.01,1.05),new THREE.MeshStandardMaterial({ map:wallTex('R_strip_top'), roughness:0.85 })); top.position.set(lx,yTop-0.05-0.525,Z+0.001); f.add(top);
+      const D=T.depth, shelf=new THREE.Mesh(new THREE.BoxGeometry(sw,0.02,D),blue); shelf.position.set(lx,T.shelf-0.01,Z+D/2); shelf.castShadow=true; shelf.receiveShadow=true; f.add(shelf);
+      const low=new THREE.Mesh(new THREE.PlaneGeometry(sw,T.shelf-T.low-0.02),new THREE.MeshStandardMaterial({ map:wallTex('R_strip_low'), roughness:0.85 })); low.position.set(lx,(T.shelf-0.02+T.low)/2,Z+D); low.castShadow=true; f.add(low);
       const lowB=new THREE.Mesh(low.geometry,blue); lowB.position.copy(low.position); lowB.position.z-=0.004; lowB.rotation.y=Math.PI; f.add(lowB);
-      for(const sx of [-1,1]){ const br=new THREE.Mesh(new THREE.BoxGeometry(0.012,0.012,D),castorMat); br.position.set(lx+sx*(sw/2-0.02),yS-0.026,Z+D/2); f.add(br); }
       const paper=new THREE.MeshStandardMaterial({ color:'#FAFAF7', roughness:0.95 });
-      const stack=new THREE.Mesh(new THREE.BoxGeometry(0.21,0.035,0.27),paper); stack.position.set(lx,yS+0.0175,Z+0.17); stack.castShadow=true; f.add(stack);
-      for(let k=0;k<3;k++){ const sh=new THREE.Mesh(new THREE.BoxGeometry(0.21,0.001,0.27),paper); sh.position.set(lx+0.01*k,yS+0.036+k*0.002,Z+0.17); sh.rotation.y=(k+1)*0.09; f.add(sh); }
-      const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.006,0.006,0.26,12),steel); rod.rotation.z=Math.PI/2; rod.position.set(lx,yS+0.045,Z+0.045); rod.castShadow=true; f.add(rod);
-      for(const sx of [-0.125,0.125]){ const post=new THREE.Mesh(new THREE.CylinderGeometry(0.005,0.005,0.05,8),steel); post.position.set(lx+sx,yS+0.025,Z+0.045); f.add(post); } }
-    // ---- monitor on the ARGUMENTS print, kept in the same place on the print
-    if(W.monitor){ const M=W.monitor, P=placed[M.item], [sx0,sy0,sx1,sy1]=M.src; const mapX=x=>P.s0+(x-sx0)/(sx1-sx0)*(P.s1-P.s0), mapY=y=>P.yt-(y-sy0)/(sy1-sy0)*(P.yt-P.yb);
-      const cs=(mapX(M.x0)+mapX(M.x1))/2, cy=(mapY(M.y0)+mapY(M.y1))/2, s0=cs-M.w/2, s1=cs+M.w/2, yt=cy+M.h/2, yb=cy-M.h/2, { f, lx }=local(cs);
-      const body=new THREE.Mesh(new THREE.BoxGeometry(s1-s0,yt-yb,M.t),castorMat); body.position.set(lx,(yt+yb)/2,Z+M.t/2); body.castShadow=true; f.add(body);
-      const scr=new THREE.Mesh(new THREE.PlaneGeometry(s1-s0-0.02,yt-yb-0.02),new THREE.MeshStandardMaterial({ color:'#0D0F14', emissive:'#18202E', roughness:0.25, metalness:0.2 })); scr.position.set(lx,(yt+yb)/2,Z+M.t+0.001); f.add(scr); }
+      const stack=new THREE.Mesh(new THREE.BoxGeometry(0.148,0.12,0.105),paper); stack.position.set(lx,T.shelf+0.06,Z+0.17); stack.castShadow=true; f.add(stack); }
+    if(W.monitor){ const M=W.monitor, { f, lx }=local(M.cs);
+      const body=new THREE.Mesh(new THREE.BoxGeometry(M.w,M.h,M.t),castorMat); body.position.set(lx,M.cy,Z+M.t/2); body.castShadow=true; f.add(body);
+      const scr=new THREE.Mesh(new THREE.PlaneGeometry(M.w-0.02,M.h-0.02),new THREE.MeshStandardMaterial({ color:'#0D0F14', emissive:'#18202E', roughness:0.25, metalness:0.2 })); scr.position.set(lx,M.cy,Z+M.t+0.001); f.add(scr); }
   } }
 function proposal(){
   nextId=1; const mods=[]; const LV=2;
@@ -1173,7 +1164,7 @@ function dress(kind){
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
 const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.6, carpetShape:'circle', pdia:6.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
-  layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, rotStation:37, rotStage:0, rotBooths:-11, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
+  layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, rotStation:37, rotStage:0, rotBooths:-11, cx:-0.315, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
   ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
