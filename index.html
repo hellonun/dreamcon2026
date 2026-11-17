@@ -139,6 +139,14 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
 }
 @media (prefers-reduced-motion:reduce){#toast{transition:none}}
   .cpick{ width:54px; height:34px; border:1px solid var(--line); border-radius:8px; padding:2px; background:#fff; flex:none; }
+  .btn.meas[aria-pressed="true"]{ background:#E0213F; color:#fff; border-color:#E0213F; }
+  .meas-panel{ right:14px; top:62px; width:220px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-size:13px; box-shadow:0 6px 20px rgba(20,30,60,.12); }
+  .meas-panel .mp-head{ display:flex; justify-content:space-between; align-items:center; gap:8px; } .meas-panel label{ font-size:12px; display:flex; gap:4px; align-items:center; }
+  .meas-panel p{ margin:6px 0; color:#5E636D; } .meas-panel ol{ margin:0 0 8px; padding-left:18px; max-height:180px; overflow:auto; font-family:var(--mono); font-size:12px; }
+  .meas-panel .mp-foot{ display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#8a8f99; }
+  .meas-lbl{ background:#E0213F; color:#fff; padding:3px 7px; border-radius:6px; font:600 12px/1.25 var(--mono, monospace); display:flex; flex-direction:column; align-items:center; pointer-events:none; white-space:nowrap; }
+  .meas-lbl span{ font-weight:400; font-size:10.5px; opacity:.9; }
+  .snap-tip{ background:rgba(20,22,28,.85); color:#fff; font:500 10.5px/1 var(--mono, monospace); padding:3px 5px; border-radius:4px; transform:translate(14px,-14px); pointer-events:none; }
 </style>
 
 </head>
@@ -381,12 +389,20 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
     <div class="overlay views">
       <button class="btn" data-view="overview">Overview</button>
       <button class="btn" data-view="plan">Plan</button>
-      <button class="btn" data-view="wall">At the wall</button>
+      <button class="btn" data-view="wall">Wall</button>
       <button class="btn" data-view="sculpt">Sculpture</button>
-      <button class="btn" data-view="east">East doors</button>
-      <button class="btn" data-view="south">Carpark doors</button>
+      <button class="btn" data-view="projector">Projector</button>
+      <button class="btn" data-view="stage">Stage</button>
+      <button class="btn" data-view="partners">Partners</button>
+      <button class="btn meas" id="meas-btn" aria-pressed="false">Measure</button>
     </div>
-    <div class="overlay hint"><span>Drag to orbit · right-drag to pan · scroll to zoom</span></div>
+    <div class="overlay meas-panel" id="meas-panel" hidden>
+      <div class="mp-head"><b>Measure</b><label><input type="checkbox" id="meas-snap" checked> Snap to points</label></div>
+      <p id="meas-info">Click a first point</p>
+      <ol id="meas-list"></ol>
+      <div class="mp-foot"><button class="btn" id="meas-clear" disabled>Clear all</button><span>Esc to cancel</span></div>
+    </div>
+    <div class="overlay hint"><span>Drag to orbit · right-drag to pan · scroll to zoom · Measure: click two points</span></div>
     <div id="toast" role="status"></div>
     <div id="loading">Setting up the foyer…</div>
   </main>
@@ -557,6 +573,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 host.appendChild(renderer.domElement);
 const labelRenderer = new CSS2DRenderer(); labelRenderer.domElement.className='labels'; host.appendChild(labelRenderer.domElement);
+const measLR = new CSS2DRenderer(); measLR.domElement.className='labels'; host.appendChild(measLR.domElement); const measLabels = new THREE.Scene();
 
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#DCE6F2');
 const pmrem = new THREE.PMREMGenerator(renderer); scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
@@ -582,7 +599,7 @@ const ctrlP = new OrbitControls(persp, renderer.domElement); ctrlP.target.set(0,
 const ctrlO = new OrbitControls(ortho, renderer.domElement); ctrlO.enableRotate=false; ctrlO.screenSpacePanning=true; ctrlO.enabled=false; ctrlO.enableDamping=true; ctrlO.minZoom=0.6; ctrlO.maxZoom=8;
 const ctrl = () => camera===ortho? ctrlO : ctrlP;
 
-function resize(){ const r=host.getBoundingClientRect(); const w=Math.max(10,r.width), h=Math.max(10,r.height); renderer.setSize(w,h,false); labelRenderer.setSize(w,h); persp.aspect=w/h; persp.updateProjectionMatrix(); const half=14; const a=w/h; if(a>=1){ ortho.left=-half*a; ortho.right=half*a; ortho.top=half; ortho.bottom=-half; } else { ortho.left=-half; ortho.right=half; ortho.top=half/a; ortho.bottom=-half/a; } ortho.updateProjectionMatrix(); }
+function resize(){ const r=host.getBoundingClientRect(); const w=Math.max(10,r.width), h=Math.max(10,r.height); renderer.setSize(w,h,false); labelRenderer.setSize(w,h); measLR.setSize(w,h); persp.aspect=w/h; persp.updateProjectionMatrix(); const half=14; const a=w/h; if(a>=1){ ortho.left=-half*a; ortho.right=half*a; ortho.top=half; ortho.bottom=-half; } else { ortho.left=-half; ortho.right=half; ortho.top=half/a; ortho.bottom=-half/a; } ortho.updateProjectionMatrix(); }
 new ResizeObserver(resize).observe(host);
 
 function label(text, cls='lbl'){ const d=document.createElement('div'); d.className=cls; d.textContent=text; return new CSS2DObject(d); }
@@ -837,7 +854,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v31';
+const KEY='dreamcon-composer-v32';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -853,8 +870,8 @@ window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wa
    so the boxes fan out with a wedge gap at the back. Sizes from the wall frames (metres, along the wall from its left end). */
 const WALL_RF = 8.2, WALL_D = 0.6, WALL_Y0 = 0.10, WALL_H = 2.0, WALL_GAP = 1.0;
 const WALL_GAP_AT = Math.atan2(4.39, -4.70)/DEG;   // the gap lines up with the north-west column, seen from the centre
-const A1 = { w:0.594, h:0.841 };
-const PRINT_INSET = 0.08;   // every print sits 80 mm inside its scaffold cell
+const A1 = { w:0.594, h:0.841 }, IDEA_BOARD = { w:0.847, h:1.195 }, A0 = { w:0.841, h:1.189 };
+const PRINT_INSET = 0.025;   // every print sits 25 mm inside its scaffold cell
 const WALLS = (()=>{ const T=WALL_Y0+WALL_H, m=PRINT_INSET, cell=(k,s0,s1,y0,y1)=>[k,s0+m,s1-m,y0+m,y1-m];
   // left wall: a 1.8 m block split by ledgers at 1.825 and 0.975 and a short standard at 0.9, then five 0.6 m cells
   const yA=1.825, yB=0.975;
@@ -864,9 +881,9 @@ const WALLS = (()=>{ const T=WALL_Y0+WALL_H, m=PRINT_INSET, cell=(k,s0,s1,y0,y1)
   const tw=0.45, iw=(5-tw)/7, yR=WALL_Y0+0.875;
   const R = { cells:[1.0,tw,...Array(7).fill(iw),0.3,1.0], rails:[[yR,0,6.0]], part:[], prints:[
       cell('band',0,6.0,WALL_Y0,yR), cell('events',0,1.0,yR,T), cell('ideas_title',1.0,1.0+tw,yR,T), cell('arguments',6.3,7.3,WALL_Y0,T)] };
-  R.ideas = { s:[...Array(7)].map((_,k)=>1.0+tw+k*iw+0.02), w:A1.w, h:A1.h, top:T-0.05, angle:40 };
+  R.ideas = { s:[...Array(7)].map((_,k)=>1.0+tw+k*iw+0.002), w:IDEA_BOARD.w, h:IDEA_BOARD.h, top:T, angle:40 };
   R.strip = { s0:6.0, s1:6.3, shelf:WALL_Y0+0.8, depth:0.35, low:WALL_Y0 };
-  R.monitor = { item:'arguments', cs:6.3+0.50, cy:1.30, w:0.423, h:0.253, t:0.013 };
+  R.monitor = { item:'arguments', cs:6.3+0.70, cy:1.30, w:0.423, h:0.253, t:0.013 };
   return { L, R }; })();
 function wallGeom(id){ const W=WALLS[id]; const cw=W.cells; const ang=cw.map(w=>2*Math.asin(w/2/WALL_RF)/DEG); const total=ang.reduce((a,b)=>a+b,0);
   const half=(WALL_GAP/2)/WALL_RF/DEG, gapAt=WALL_GAP_AT+(B.rotWalls||0); const start= id==='R' ? gapAt-half : gapAt+half+total;
@@ -914,7 +931,8 @@ function buildWallArt(){ while(wallArtRoot.children.length) wallArtRoot.remove(w
     // Wall of Ideas: A1 panels set at 40° into the scaffold, sawtooth
     if(W.ideas){ const I=W.ideas, th=I.angle*DEG, mat=new THREE.MeshStandardMaterial({ map:wallTex('R_ideas'), roughness:0.8 });
       for(const s of I.s){ const { f, lx }=local(s+0.001), hg=new THREE.Group(); hg.position.set(lx-0.001,0,0); hg.rotation.y=th; f.add(hg);
-        const p=new THREE.Mesh(new THREE.PlaneGeometry(I.w,I.h),mat); p.position.set(I.w/2,I.top-I.h/2,0); p.castShadow=true; p.receiveShadow=true; hg.add(p);
+        const bd=new THREE.Mesh(new THREE.PlaneGeometry(I.w,I.h),new THREE.MeshStandardMaterial({ color:'#F4F4F2', roughness:0.9 })); bd.position.set(I.w/2,I.top-I.h/2,0); bd.castShadow=true; bd.receiveShadow=true; hg.add(bd);
+        const p=new THREE.Mesh(new THREE.PlaneGeometry(A0.w,A0.h),mat); p.position.set(I.w/2,I.top-I.h/2,0.001); hg.add(p);
         const b=new THREE.Mesh(new THREE.PlaneGeometry(I.w,I.h),backMat); b.position.copy(p.position); b.position.z-=0.004; b.rotation.y=Math.PI; hg.add(b);
         const bar=new THREE.Mesh(tubeGeo,steel); bar.scale.set(tubeR*0.6,I.w,tubeR*0.6); bar.rotation.z=Math.PI/2; bar.position.set(I.w/2,I.top+0.03,-0.01); hg.add(bar);
         for(const x of [0.05,I.w-0.05]){ const w=new THREE.Mesh(tubeGeo,steel); w.scale.set(0.003,yTop-I.top-0.03,0.003); w.position.set(x,(yTop+I.top+0.03)/2,-0.01); hg.add(w); } } }
@@ -1745,11 +1763,18 @@ let sampleIdx=0;
 
 /* ---------------- views ---------------- */
 let tween=null;
-const VIEWS = { overview:{ p:[14,15,17], t:[0,0.6,0] }, sculpt:{ p:[0.9,2.7,6.2], t:[0,0.45,0] }, wall:{ p:[-0.6,1.6,-0.4], t:[-5.9,1.1,-5.6] }, east:{ p:[11.2,1.6,0.6], t:[0,1.2,0] }, south:{ p:[0.4,1.6,11.2], t:[0,1.2,0] } };
+const VIEWS = { overview:{ p:[14,15,17], t:[0,0.6,0] }, sculpt:{ p:[0.9,2.7,6.2], t:[B.cx,0.45,B.cz] }, wall:{ p:[-0.6,1.6,-0.4], t:[-5.9,1.1,-5.6] } };
+// views that follow their objects when they are turned about the centre
+function viewOf(name){ const look=(x,z,y,dist,h)=>{ const L=Math.hypot(x,z)||1; return { p:[x-x/L*dist, h, z-z/L*dist], t:[x,y,z] }; };
+  if(name==='projector'){ const st=S.modules.find(m=>m.type==='station'); if(st){ const L=Math.hypot(st.x,st.z), d=2.4; return { p:[st.x+st.x/L*d, 1.9, st.z+st.z/L*d], t:[st.x,0.8,st.z] }; } }
+  if(name==='stage'){ const sp=stagePose(); return look(sp.x,sp.z,1.1,7.0,1.8); }
+  if(name==='partners'){ const b=boothSpots(); const x=b.reduce((a,q)=>a+q[0],0)/b.length, z=b.reduce((a,q)=>a+q[1],0)/b.length; return look(x,z,0.7,6.8,2.0); }
+  if(name==='wall'){ const g=wallGeom('R'), L=wallGeom('L'); const a=(L.va[L.va.length-1]+g.va[0])/2-10; const [x,z]=P_AT(WALL_RF,a); return look(x,z,1.1,6.5,1.7); }
+  return VIEWS[name]; }
 function setView(name){
   $$('[data-view]').forEach(b=>b.classList.toggle('on', b.dataset.view===name));
   if(name==='plan'){ camera=ortho; ctrlP.enabled=false; ctrlO.enabled=true; ortho.zoom=1; ortho.position.set(0,60,0); ctrlO.target.set(0,0,0); ortho.updateProjectionMatrix(); return; }
-  camera=persp; ctrlO.enabled=false; ctrlP.enabled=true; const v=VIEWS[name]; const far=name==='overview'? Math.max(1, 0.85/Math.max(0.4,persp.aspect)) : 1; const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  camera=persp; ctrlO.enabled=false; ctrlP.enabled=true; const v=viewOf(name); const far=name==='overview'? Math.max(1, 0.85/Math.max(0.4,persp.aspect)) : 1; const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   tween={ t0:performance.now(), dur:reduce?1:700, p0:persp.position.clone(), q0:ctrlP.target.clone(), p1:new THREE.Vector3(...v.p).sub(new THREE.Vector3(...v.t)).multiplyScalar(far).add(new THREE.Vector3(...v.t)), q1:new THREE.Vector3(...v.t) };
 }
 
@@ -1803,12 +1828,75 @@ function closeModal(){ $('#modal').hidden=true; $('#modal-box').innerHTML=''; }
 function downscale(im,max){ const s=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)); const c=document.createElement('canvas'); c.width=Math.round(im.naturalWidth*s); c.height=Math.round(im.naturalHeight*s); c.getContext('2d').drawImage(im,0,0,c.width,c.height); return c.toDataURL('image/jpeg',0.86); }
 
 /* ---------------- loop ---------------- */
+/* ---------------- measuring tool: click two points; snaps to corners and post nodes ---------------- */
+const MEAS = { on:false, pts:[], items:[], hover:null, down:null };
+const measRoot = new THREE.Group(); scene.add(measRoot);
+const measMat = new THREE.LineBasicMaterial({ color:'#E0213F', depthTest:false, transparent:true });
+const snapDot = (()=>{ const m=new THREE.Mesh(new THREE.SphereGeometry(1,16,12), new THREE.MeshBasicMaterial({ color:'#E0213F', depthTest:false, transparent:true, opacity:0.95 })); m.renderOrder=20; m.visible=false; scene.add(m); return m; })();
+const snapRing = (()=>{ const d=document.createElement('div'); d.className='snap-tip'; const o=new CSS2DObject(d); o.visible=false; measLabels.add(o); return o; })();
+const measRay = new THREE.Raycaster(); const _v=new THREE.Vector3(), _w=new THREE.Vector3();
+const fmtM = v=>v>=1? `${v.toFixed(3)} m` : `${Math.round(v*1000)} mm`;
+function toScreen(p){ const r=renderer.domElement.getBoundingClientRect(); _v.copy(p).project(camera); return [(_v.x+1)/2*r.width, (1-_v.y)/2*r.height]; }
+// candidate points on an object: its vertices (small meshes) and its bounding-box corners
+function snapCandidates(obj){ const out=[]; if(!obj.geometry || obj.isInstancedMesh) return out; const pos=obj.geometry.attributes.position; if(!pos) return out;
+  obj.updateMatrixWorld(); const n=pos.count;
+  if(n<=600){ for(let i=0;i<n;i++){ _w.fromBufferAttribute(pos,i).applyMatrix4(obj.matrixWorld); out.push([_w.clone(),'corner']); } }
+  if(!obj.geometry.boundingBox) obj.geometry.computeBoundingBox(); const bb=obj.geometry.boundingBox;
+  for(const x of [bb.min.x,bb.max.x]) for(const y of [bb.min.y,bb.max.y]) for(const z of [bb.min.z,bb.max.z]) out.push([new THREE.Vector3(x,y,z).applyMatrix4(obj.matrixWorld),'corner']);
+  // tubes: snap to the two ends of the centre line
+  if(obj.geometry===tubeGeo){ for(const y of [-0.5,0.5]) out.push([new THREE.Vector3(0,y,0).applyMatrix4(obj.matrixWorld),'tube end']); }
+  if(obj.geometry===jointGeo) out.push([new THREE.Vector3().setFromMatrixPosition(obj.matrixWorld),'node']);
+  return out; }
+function measurePick(e){ const r=renderer.domElement.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+  measRay.setFromCamera(new THREE.Vector2(mx/r.width*2-1, -(my/r.height)*2+1), camera);
+  const hits=measRay.intersectObjects(scene.children,true).filter(h=>h.object.visible && !h.object.isCSS2DObject && h.object!==snapDot && !measRoot.children.includes(h.object) && isShown(h.object));
+  if(!hits.length) return null; const h=hits[0]; let best=null, bd=MEAS.snap? 14 : -1;
+  if(MEAS.snap){ const objs=[h.object, ...hits.slice(1,6).map(q=>q.object)];
+    for(const o of objs) for(const [p,kind] of snapCandidates(o)){ const [sx,sy]=toScreen(p); const d=Math.hypot(sx-mx,sy-my); if(d<bd){ bd=d; best={ p, kind }; } }
+    for(const q of MEAS.pts){ const [sx,sy]=toScreen(q); const d=Math.hypot(sx-mx,sy-my); if(d<bd){ bd=d; best={ p:q.clone(), kind:'point' }; } } }
+  return best || { p:h.point.clone(), kind:'surface' }; }
+function isShown(o){ for(let q=o;q;q=q.parent) if(q.visible===false) return false; return true; }
+function measLine(a,b){ const g=new THREE.BufferGeometry().setFromPoints([a,b]); const l=new THREE.Line(g,measMat); l.renderOrder=19; return l; }
+function addMeasurement(a,b){ const grp=new THREE.Group(); grp.add(measLine(a,b));
+  for(const p of [a,b]){ const d=new THREE.Mesh(new THREE.SphereGeometry(0.018,12,8), new THREE.MeshBasicMaterial({ color:'#E0213F', depthTest:false })); d.position.copy(p); d.renderOrder=20; grp.add(d); }
+  const dx=b.x-a.x, dy=b.y-a.y, dz=b.z-a.z, L=Math.hypot(dx,dy,dz), Lh=Math.hypot(dx,dz);
+  const el=document.createElement('div'); el.className='meas-lbl'; el.innerHTML=`<b>${fmtM(L)}</b>${Math.abs(dy)>0.005&&Lh>0.005?`<span>horizontal ${fmtM(Lh)} · vertical ${fmtM(Math.abs(dy))}</span>`:''}`;
+  const lab=new CSS2DObject(el); lab.position.copy(a).add(b).multiplyScalar(0.5); measLabels.add(lab); grp.userData.lab=lab;
+  // show the vertical and horizontal legs when the line is sloped
+  if(Math.abs(dy)>0.02 && Lh>0.02){ const c=new THREE.Vector3(b.x,a.y,b.z); const g2=new THREE.BufferGeometry().setFromPoints([a,c,b]); const dl=new THREE.Line(g2,new THREE.LineDashedMaterial({ color:'#E0213F', dashSize:0.04, gapSize:0.03, depthTest:false, transparent:true, opacity:0.6 })); dl.computeLineDistances(); dl.renderOrder=18; grp.add(dl); }
+  measRoot.add(grp); MEAS.items.push({ grp, L }); updateMeasPanel(); }
+let measPreview=null;
+function setMeasure(on){ MEAS.on=on; MEAS.pts=[]; if(measPreview){ measRoot.remove(measPreview); measPreview=null; } snapDot.visible=false; snapRing.visible=false;
+  $('#meas-btn').setAttribute('aria-pressed',String(on)); $('#meas-panel').hidden=!on; renderer.domElement.style.cursor=on?'crosshair':''; updateMeasPanel(); }
+function updateMeasPanel(){ const p=$('#meas-panel'); if(!p) return; const n=MEAS.items.length;
+  $('#meas-info').textContent= MEAS.pts.length? 'Click the second point' : 'Click a first point';
+  $('#meas-list').innerHTML=MEAS.items.map(m=>`<li>${fmtM(m.L)}</li>`).join(''); $('#meas-clear').disabled=!n; }
+function measMove(e){ if(!MEAS.on) return; const s=measurePick(e); if(!s){ snapDot.visible=false; snapRing.visible=false; return; }
+  const k=camera===ortho? 0.012 : 0.004*camera.position.distanceTo(s.p); snapDot.scale.setScalar(Math.max(0.008,Math.min(0.05,k))); snapDot.position.copy(s.p); snapDot.visible=true;
+  snapRing.element.textContent=s.kind==='surface'?'':s.kind; snapRing.position.copy(s.p); snapRing.visible=s.kind!=='surface';
+  MEAS.hover=s.p;
+  if(MEAS.pts.length===1){ if(measPreview) measRoot.remove(measPreview); measPreview=measLine(MEAS.pts[0],s.p); measRoot.add(measPreview);
+    $('#meas-info').textContent=`${fmtM(MEAS.pts[0].distanceTo(s.p))} · click to place`; } }
+function measDown(e){ if(!MEAS.on) return; MEAS.down=[e.clientX,e.clientY]; }
+function measUp(e){ if(!MEAS.on || !MEAS.down) return; const moved=Math.hypot(e.clientX-MEAS.down[0],e.clientY-MEAS.down[1]); MEAS.down=null; if(moved>5 || e.button!==0) return;
+  const s=measurePick(e); if(!s) return; MEAS.pts.push(s.p);
+  if(MEAS.pts.length===2){ addMeasurement(MEAS.pts[0],MEAS.pts[1]); MEAS.pts=[]; if(measPreview){ measRoot.remove(measPreview); measPreview=null; } }
+  updateMeasPanel(); }
+renderer.domElement.addEventListener('pointermove', measMove);
+renderer.domElement.addEventListener('pointerdown', measDown);
+renderer.domElement.addEventListener('pointerup', measUp);
+function bindMeasure(){ MEAS.snap=true;
+  $('#meas-btn').onclick=()=>setMeasure(!MEAS.on);
+  $('#meas-snap').onchange=e=>{ MEAS.snap=e.target.checked; };
+  $('#meas-clear').onclick=()=>{ for(const m of MEAS.items){ measLabels.remove(m.grp.userData.lab); m.grp.userData.lab.element.remove(); } measRoot.clear(); MEAS.items=[]; MEAS.pts=[]; measPreview=null; updateMeasPanel(); };
+  addEventListener('keydown',e=>{ if(!MEAS.on) return; if(e.key==='Escape'){ if(MEAS.pts.length){ MEAS.pts=[]; if(measPreview){ measRoot.remove(measPreview); measPreview=null; } updateMeasPanel(); } else setMeasure(false); } }); }
+
 function frame(now){
   requestAnimationFrame(frame);
   if(tween){ const k=clamp((now-tween.t0)/tween.dur,0,1), e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2; persp.position.lerpVectors(tween.p0,tween.p1,e); ctrlP.target.lerpVectors(tween.q0,tween.q1,e); if(k>=1) tween=null; }
   if(playing){ const p=playing.p0+(now-playing.t0)/14000; B.prog=Math.min(1,p); $('#b-prog').value=Math.round(B.prog*1000); updateBrickPose(); if(B.prog>=1){ playing=null; $('#b-play').textContent='Play the six days'; persist(); } }
   tickAnim(now); tickScreens(now);
-  ctrl().update(); renderer.render(scene,camera); labelRenderer.render(scene,camera);
+  ctrl().update(); renderer.render(scene,camera); labelRenderer.render(scene,camera); measLR.render(measLabels,camera);
 }
 
 /* ---------------- boot ---------------- */
@@ -1820,7 +1908,7 @@ function frame(now){
   if(saved?.uploads) for(const u of saved.uploads){ LIB.push({ ...u, kind:'img', user:true }); }
   await Promise.all(LIB.filter(g=>g.kind==='img').map(async g=>{ images[g.id]=await loadImage(g.src); }));
   if(saved?.bricks) Object.assign(B, saved.bricks); if(saved?.tube){ S.tube=saved.tube; $('#tube').value=String(saved.tube); }
-  bindUI(); bindBricks(); syncBrickUI(); renderLib();
+  bindUI(); bindBricks(); syncBrickUI(); renderLib(); bindMeasure();
   proposal();   // the layout is fixed; only the brick settings are kept between visits
   layers.stage.rotation.y=(B.rotStage||0)*DEG; layers.booths.rotation.y=(B.rotBooths||0)*DEG; bindRot();
   applyBrickColors(); rebuildBuild(); if(!B.messages?.length){ seedMessages(); rebuildBuild(); } drawScreen(); drawStation(); past.push(snapshot()); updateDerived(); renderInspector();
