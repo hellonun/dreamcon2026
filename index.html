@@ -60,7 +60,7 @@ header.bar{grid-column:1/-1;display:flex;align-items:center;gap:14px;flex-wrap:w
 .fld{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);min-width:0}
 .fld input[type=number],.fld input[type=text],.fld select,select.s{font:inherit;font-size:13px;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:#fff;width:100%;font-family:var(--mono);font-variant-numeric:tabular-nums}
 select.s,.fld input[type=text]{font-family:var(--body)}
-.screenwrap{max-width:240px}
+.screenwrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:100%}
 .sw{width:28px;height:28px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
 .sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--royal)}
 .screenprev{display:block;width:100%;height:auto;max-width:100%;border-radius:12px;border:1px solid var(--line)}
@@ -326,12 +326,13 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <h3>Brick message station</h3>
       <div class="card">
         <label class="fld">Question on the screens<input type="text" id="b-prompt" maxlength="120"></label>
-        <label class="fld">Type as a visitor would<input type="text" id="msg-in" maxlength="80" placeholder="Your answer shows on the station monitor as you type"></label>
+        <div class="fld">Topic (touch strip)<div class="chips" id="msg-topic"></div></div>
+        <label class="fld">Type as a visitor would<input type="text" id="msg-in" maxlength="80" placeholder="Your answer is projected on the table as you type"></label>
         <div class="row"><button class="btn primary" id="msg-scan">Send</button><button class="btn" id="msg-sample">Sample answer</button><button class="btn" id="msg-reset">Reset answers</button></div>
         <label class="tg"><input type="checkbox" id="msg-fly" checked>Move the camera to the brick</label>
-        <p class="note">Sending plays the projection on the brick in the station's recess first, then that brick joins the build: the answer travels to its place on the platform and settles into it. Later bricks laid over it hide it, so it stays inside the build. The 20 starting answers are samples.</p>
+        <p class="note">Pick a topic, type, then Send. The answer is projected onto the brick in the station first, then that brick joins the build, and the message appears on the scrolling screen of its topic's circle. The 20 starting answers are samples.</p>
       </div>
-      <h3>Vertical screen · latest 20</h3>
+      <h3>Circle screens · scrolling messages</h3>
       <div id="screen-wrap" class="screenwrap"></div>
       <h3>Bricks</h3>
       <div class="grid2">
@@ -649,7 +650,7 @@ function buildRoom(){
 }
 
 /* ---------------- scaffold model ---------------- */
-const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1, d:1, h:0.45, label:'Brick platform' }, station:{ w:1.2, d:0.7, h:2.12, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
+const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:1.2, d:0.7, h:2.12, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
 const FINISH = { silver:{ color:'#C9CED6', metalness:0.85, roughness:0.32 }, black:{ color:'#26282E', metalness:0.55, roughness:0.45 }, mint:{ color:PAL.mint, metalness:0.15, roughness:0.5 }, royal:{ color:PAL.royal, metalness:0.15, roughness:0.45 } };
 const finishMats = Object.fromEntries(Object.entries(FINISH).map(([k,v])=>[k,new THREE.MeshStandardMaterial(v)]));
 const warnMat = new THREE.MeshStandardMaterial({ color:'#ff5a36', metalness:0.3, roughness:0.4 });
@@ -688,16 +689,21 @@ function addTube(g,a,b,r,mat){ const dv=new THREE.Vector3().subVectors(b,a); con
 function moduleExtras(m, g){
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
   if(m.type==='plinth'){ const deck=new THREE.Mesh(new THREE.BoxGeometry(m.w+0.02,0.018,m.d+0.02), plyMat); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck); }
-  if(m.type==='station'){ const T=0.9, TT=0.036, sx=0.24, rx=-0.3;
+  if(m.type==='station'){ const T=0.9, TT=0.036, bz=-0.175;
     const top=new THREE.Mesh(new THREE.BoxGeometry(m.w,TT,m.d),plyMat); top.position.y=T-TT/2; top.castShadow=true; top.receiveShadow=true; g.add(top);
-    const bez=new THREE.Mesh(new THREE.BoxGeometry(0.36,0.004,0.215),castorMat); bez.position.set(sx,T+0.001,0); g.add(bez);
-    const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.34,0.195),stationMat); sc.rotation.x=-Math.PI/2; sc.position.set(sx,T+0.0035,0); g.add(sc);
-    const pocket=new THREE.Mesh(new THREE.BoxGeometry(0.225,0.002,0.085),castorMat); pocket.position.set(rx,T+0.0005,0); g.add(pocket);
-    const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(rx,T+0.008,0); brick.castShadow=true; g.add(brick);
-    const proj=new THREE.Mesh(new THREE.PlaneGeometry(0.205,0.068),stationProjMat); proj.rotation.x=-Math.PI/2; proj.position.set(rx,T+0.0185,0); proj.renderOrder=3; g.add(proj);
-    const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(rx,T+0.002,0); glw.renderOrder=2; g.add(glw);
+    // projected from the canopy: the projection area round the brick, and the touch strip for choosing a topic
+    const pa=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.31),stationMat); pa.rotation.x=-Math.PI/2; pa.position.set(0,T+0.0012,-0.18); pa.renderOrder=2; g.add(pa);
+    const ts=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.11),stationTouchMat); ts.rotation.x=-Math.PI/2; ts.position.set(0,T+0.0012,0.04); ts.renderOrder=2; g.add(ts);
+    const pocket=new THREE.Mesh(new THREE.BoxGeometry(0.225,0.002,0.085),castorMat); pocket.position.set(0,T+0.0005,bz); g.add(pocket);
+    const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(0,T+0.011,bz); brick.castShadow=true; g.add(brick);
+    const proj=new THREE.Mesh(new THREE.PlaneGeometry(0.205,0.068),stationProjMat); proj.rotation.x=-Math.PI/2; proj.position.set(0,T+0.0215,bz); proj.renderOrder=3; g.add(proj);
+    const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(0,T+0.002,bz); glw.renderOrder=2; g.add(glw);
+    // physical keyboard at the front
+    const tray=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.003,0.2),castorMat); tray.position.set(0,T+0.0015,0.225); g.add(tray);
+    const kb=new THREE.Mesh(new THREE.BoxGeometry(0.44,0.02,0.14),[castorMat,castorMat,keyboardMat,castorMat,castorMat,castorMat]); kb.position.set(0,T+0.012,0.225); kb.castShadow=true; g.add(kb);
+    // canopy over the back of the table hides the projector
     const can=new THREE.Mesh(new THREE.BoxGeometry(m.w,0.16,0.62),plyMat); can.position.set(0,m.h+0.08,-m.d/2+0.31); can.castShadow=true; g.add(can);
-    const lens=new THREE.Mesh(new THREE.CircleGeometry(0.03,24),castorMat); lens.rotation.x=Math.PI/2; lens.position.set(rx,m.h-0.001,0); g.add(lens); }
+    const lens=new THREE.Mesh(new THREE.CircleGeometry(0.03,24),castorMat); lens.rotation.x=Math.PI/2; lens.position.set(0,m.h-0.001,-0.1); g.add(lens); }
   if(m.type==='screen'){ const disp=new THREE.Mesh(new THREE.BoxGeometry(0.98,1.71,0.06),castorMat); disp.position.set(0,1.25,0.045); disp.castShadow=true; g.add(disp); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.94,1.67),screenMat); sc.position.set(0,1.25,0.0755); g.add(sc); }
 }
 function printSize(face, spec){ const inset = face.full? 0 : spec.mode==='full'? 0.02 : spec.mode==='laced'? Math.max(spec.inset,0.06) : spec.inset; return { pw:Math.max(0.05, face.fw-2*inset), ph:Math.max(0.05, face.fh-2*inset) }; }
@@ -767,7 +773,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v12';
+const KEY='dreamcon-composer-v13';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -787,7 +793,7 @@ function proposal(){
   mods.push(...A, ...B2);
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
   { const a=6; const [px,pz]=plan2xz(4.85,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); const tx=Math.cos(ry), tz=-Math.sin(ry);
-    mods.push(mk('station',{ x:px-tx*0.55, z:pz-tz*0.55, rot:norm(ry/DEG) })); mods.push(mk('screen',{ x:px+tx*0.75, z:pz+tz*0.75, rot:norm(ry/DEG) })); }
+    mods.push(mk('station',{ x:px-tx*0.4, z:pz-tz*0.4, rot:norm(ry/DEG) })); mods.push(mk('plinth',{ x:px+tx*0.95, z:pz+tz*0.95, rot:norm(ry/DEG) })); }
   S.modules = mods; rebuildAll();
 }
 
@@ -1004,8 +1010,11 @@ function dress(kind){
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
 const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.2, carpetShape:'circle', pdia:7.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.6, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
-  prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
-const SAMPLES = ['การศึกษาฟรีที่มีคุณภาพ','อากาศสะอาดคือสิทธิ','Healthcare close to home','ขนส่งสาธารณะที่ทุกคนเข้าถึง','รัฐที่ฟังเสียงประชาชน','Equal rights, written down','ความโปร่งใสในงบประมาณ','A voice for young people','เมืองที่เดินได้และปลอดภัย','ผู้สูงอายุอยู่อย่างมีศักดิ์ศรี','Protect our rivers','ค่าแรงที่อยู่ได้จริง','Freedom to speak','ทุกเสียงเท่ากัน','Accessible for every body','ศิลปะเป็นของทุกคน','Clean, fair elections','อนาคตที่เราร่วมเขียน','Safe streets at night','บ้านที่ทุกคนมีได้'];
+  topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
+const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
+  ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
+  ['Healthcare close to home','health'],['อากาศสะอาดคือสิทธิ','health'],['ผู้สูงอายุอยู่อย่างมีศักดิ์ศรี','health'],['Accessible for every body','health'],['Rest days for everyone','health'],
+  ['ค่าแรงที่อยู่ได้จริง','economy'],['ความโปร่งใสในงบประมาณ','economy'],['บ้านที่ทุกคนมีได้','economy'],['ขนส่งสาธารณะที่ทุกคนเข้าถึง','economy'],['Small shops can grow','economy']];
 const SINGLES = [['#C99A86','Peach'],['#7A8E83','Sage'],['#D3B9B0','Blush'],['#A65A5A','Brick red']];
 let brickExtent = { maxR:0 };
 const MAXB = 3000;
@@ -1087,10 +1096,10 @@ const KAPLA_NAMES = { pavilion:['stepped pavilion','stepped pavilions'], round:[
 function buildTargets(){ return buildTargetsOnce(B.nStruct); }
 function buildTargetsOnce(nStruct){
   const N=B.count, R0=B.pdia/2, hs=holes(), { L, W, H } = B, g=0.003, y0=deckTop(); const r=rnd(1000+B.structSeed*7919);
-  const room=(x,z)=>Math.min(R0-0.12-Math.hypot(x,z), ...hs.map(h=>Math.hypot(h.x-x,h.z-z)-h.r-0.15));
+  const spots=holeScreenSpots(hs).slice(0,HOLE_TOPICS.length); const room=(x,z)=>Math.min(R0-0.12-Math.hypot(x,z), ...hs.map(h=>Math.hypot(h.x-x,h.z-z)-h.r-0.16), ...spots.map(s=>Math.hypot(s.x-x,s.z-z)-0.27));
   const grid=[]; for(let x=-R0;x<=R0;x+=0.08) for(let z=-R0;z<=R0;z+=0.08){ const jx=x+(r()-0.5)*0.06, jz=z+(r()-0.5)*0.06; const rm=room(jx,jz); if(rm>0.2) grid.push({ x:jx, z:jz, rm }); }
   // stock stacks
-  const HS=0.7, per=Math.max(1,Math.floor(HS/(L+0.006)))*Math.max(1,Math.floor(HS/(W+0.006))); const nHeap=Math.max(1,Math.ceil(N/(per*B.layers)));
+  const HS=0.7, per=Math.max(1,Math.floor(HS/(L+0.006)))*Math.max(1,Math.floor(HS/(W+0.006))); const nHeap=S.modules.some(m=>m.type==='plinth')? 0 : Math.max(1,Math.ceil(N/(per*B.layers)));
   const heaps=[]; { const hc=grid.filter(c=>c.rm>=0.45); let pick=hc.length? hc.reduce((a,c)=>c.rm*(0.7+0.6*r())>a.s?{ c, s:c.rm }:a,{ c:null, s:-1 }).c : null;
     while(pick && heaps.length<nHeap){ heaps.push({ x:pick.x, z:pick.z, rot:r()*Math.PI, w:HS, d:HS }); let best=null; for(const c of hc){ const d=Math.min(...heaps.map(q=>Math.hypot(c.x-q.x,c.z-q.z))); const sc=d*(0.8+0.4*r()); if(d>1.1 && (!best||sc>best.s)) best={ c, s:sc }; } pick=best?.c; } }
   const nearHeap=(x,z)=>Math.min(9,...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.55));
@@ -1111,7 +1120,7 @@ function buildTargetsOnce(nStruct){
   if(all.length<N){ const occ=(x,z)=>placed.some(p=>Math.hypot(x-B.cx-p.x,z-B.cz-p.z)<p.rho+0.06) || heaps.some(q=>Math.hypot(x-B.cx-q.x,z-B.cz-q.z)<0.62);
     const corners=(x,z)=>[[x-L/2,z-W/2],[x+L/2,z-W/2],[x+L/2,z+W/2],[x-L/2,z+W/2]];
     const cells=[]; const nx=Math.ceil(R0/(L+g))+1, nz=Math.ceil(R0/(W+g))+1;
-    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-0.04 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.06)) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
+    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-0.04 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.13) && spots.every(s=>Math.hypot(s.x-a,s.z-b)>0.25)) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
     cells.sort((a,b)=>a.d-b.d); const used=cells.slice(0,N-all.length); for(const c of used){ all.push({ ...brk(B.cx+c.x,y0,B.cz+c.z,0), si:-1 }); paved++; }
     for(let k=1;k<4 && all.length<N;k++) for(const c of used.slice(0,N-all.length)){ all.push({ ...brk(B.cx+c.x,y0+k*(H+0.001),B.cz+c.z,0), si:-1 }); } }
   all.sort((a,b)=>(a.base-b.base)||(a.si-b.si));
@@ -1162,7 +1171,7 @@ function buildPlatform(){ buildCarpet();
   const r=S.tube, mat=finishMats.silver, V=(x,y,z)=>new THREE.Vector3(B.cx+x,y,B.cz+z); const P=platformParts(); const yTop=top-PLY-r, yLow=Math.min(0.18,yTop-0.15);
   for(const [x,z] of P.posts){ addTube(platGroup,V(x,0.008,z),V(x,yTop,z),r,mat); const bp=new THREE.Mesh(basePlateGeo,castorMat); bp.position.set(B.cx+x,0.004,B.cz+z); platGroup.add(bp); }
   for(const [a,b] of P.ledgers){ addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat); if(yTop>0.3) addTube(platGroup,V(a[0],yLow,a[1]),V(b[0],yLow,b[1]),r,mat); }
-  BR.deckParts=P;
+  BR.deckParts=P; buildHoleFeatures(hs);
 }
 function stockSlots(){
   const N=B.count, { L, W, H } = B, g=0.006, vh=H+0.002; const plm=S.modules.filter(m=>m.type==='plinth');
@@ -1195,7 +1204,7 @@ function updateBrickPose(){
   const el=$('#b-day'); if(el) el.textContent = `${day} · ${placed} of ${N} built`;
   updateMessages(placed);
 }
-function refreshStock(){ const st=stockSlots(); Object.assign(BR,{ slots:st.slots, layers:st.layers, cap:st.cap, plinths:st.plinths, perPlat:st.perPlat }); updateBrickPose(); renderBrickStats(); }
+function refreshStock(){ const hp=S.modules.some(m=>m.type==='plinth'); if(BR.hasPallet!==undefined && BR.hasPallet!==hp){ BR.hasPallet=hp; rebuildBuild(); return; } BR.hasPallet=hp; const st=stockSlots(); Object.assign(BR,{ slots:st.slots, layers:st.layers, cap:st.cap, plinths:st.plinths, perPlat:st.perPlat }); updateBrickPose(); renderBrickStats(); }
 function rebuildBuild(){ const d=buildTargets(); Object.assign(BR,{ targets:d.targets, info:d.info, height:d.height, stock:d.stock||[], nUnder:d.nUnder||0 }); brickExtent={ maxR:B.pdia/2 }; for(const m of B.messages) m.brick=Math.min(m.brick, Math.max(0,d.targets.length-1)); buildPlatform(); for(const [,o] of msgMeshes) o.mesh.visible=false; refreshStock(); renderChecks(); renderStatus(); }
 
 /* messages, projected on the top face of their brick */
@@ -1224,34 +1233,105 @@ function updateMessages(placed){ const live=new Set(B.messages.map(m=>m.id));
   for(const m of B.messages){ if((anim && anim.m===m) || m.pending){ const o0=msgMeshes.get(m.id); if(o0 && m.pending) o0.mesh.visible=false; continue; } const ok = BR.targets[m.brick] && m.brick<placed && !covered(m.brick,placed); const o = ok? ensureMsgMesh(m) : msgMeshes.get(m.id); if(!o) continue; if(!ok){ o.mesh.visible=false; continue; }
     const p=topPose(m.brick); o.mesh.position.set(p.x,p.y,p.z); o.mesh.rotation.set(p.rx,p.ry,p.rz); o.mesh.scale.set(p.w,p.h,1); o.mesh.visible=true; o.mesh.material.depthTest=true; } }
 function seedMessages(){ const T=BR.targets; if(!T.length) return; const now=Date.now();
-  B.messages=SAMPLES.map((text,k)=>({ id:'s'+k, text, brick:Math.min(T.length-1, Math.floor((0.35+0.65*(k+0.5)/SAMPLES.length)*Math.min(T.length,Math.round(B.prog*T.length)||T.length)) ), t:now-(SAMPLES.length-k)*1800e3, sample:true })); }
+  B.messages=SAMPLES.map(([text,topic],k)=>({ id:'s'+k, text, topic, brick:Math.min(T.length-1, Math.floor((0.35+0.65*(k+0.5)/SAMPLES.length)*Math.min(T.length,Math.round(B.prog*T.length)||T.length)) ), t:now-(SAMPLES.length-k)*1800e3, sample:true })); }
 
-/* the typing station: a touchscreen on scaffold, then the message is projected down into a brick */
+/* ---------------- topics, the circle screens and the lettering round each hole ---------------- */
+const TOPICS = [ { id:'education', en:'Education', th:'การศึกษา' }, { id:'agriculture', en:'Agriculture', th:'เกษตรกรรม' }, { id:'health', en:'Health & wellbeing', th:'สุขภาพและความเป็นอยู่ที่ดี' }, { id:'economy', en:'Economy', th:'เศรษฐกิจ' } ];
+const HOLE_TOPICS = [['education'],['agriculture','health'],['economy']];
+const topicById = id => TOPICS.find(t=>t.id===id) || TOPICS[0];
+const SCR15 = { w:0.193, h:0.343 };   // 15.6" panel, portrait
+/* where each circle's screen goes: just outside the lettering, on the side with the most room, leaning toward the deck centre */
+function holeScreenSpots(hs){ const R0=B.pdia/2;
+  const out=[];
+  hs.forEach((h,i)=>{ let best=null; const d0=h.r+0.16, d1=d0+SCR15.h;
+    for(let a=0;a<360;a+=3){ const t=a*DEG, ux=Math.cos(t), uz=Math.sin(t); const x=h.x+ux*(d0+SCR15.h/2), z=h.z+uz*(d0+SCR15.h/2);
+      const far=Math.hypot(h.x+ux*d1,h.z+uz*d1)+0.12; const sc=Math.min(0.9, R0-far, ...hs.filter(q=>q!==h).map(q=>Math.hypot(q.x-x,q.z-z)-q.r-0.3), ...out.map(o=>Math.hypot(o.x-x,o.z-z)-0.6));
+      if(!best||sc>best.sc+1e-6) best={ sc, x, z, ux, uz, a:t }; }
+    out.push({ ...best, i }); });
+  return out; }
+/* one scrolling canvas per circle */
+const holeScreens = [0,1,2,3,4].map(i=>{ const c=document.createElement('canvas'); c.width=360; c.height=640; c.className='screenprev'; c.setAttribute('aria-label','Circle screen '+(i+1)); const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { c, tex, mat:new THREE.MeshBasicMaterial({ map:tex, toneMapped:false }), off:0 }; });
+function holeMessages(i){ const ts=HOLE_TOPICS[i]; if(!ts) return []; return B.messages.filter(m=>ts.includes(m.topic)).sort((a,b)=>b.t-a.t); }
+function drawHoleScreen(i){ const s=holeScreens[i], ctx=s.c.getContext('2d'), W=360, H=640; ctx.fillStyle='#0E1430'; ctx.fillRect(0,0,W,H);
+  const list=holeMessages(i); const bh=104, gap=12, x=24, bw=W-48, frameTop=74;
+  if(list.length){ const step=bh+gap, total=list.length*step; const off=s.off%total;
+    ctx.save(); ctx.beginPath(); ctx.rect(14,frameTop,W-28,H-frameTop-14); ctx.clip();
+    for(let rep=0; rep<3; rep++) list.forEach((m,k)=>{ const y=frameTop+8+k*step+rep*total-off; if(y>H||y+bh<frameTop) return;
+      const col=brickColor(m.brick); rrect(ctx,x,y,bw,bh,6); ctx.fillStyle='#'+col.getHexString(); ctx.fill();
+      const r=rnd(hash(m.id)); for(let q=0;q<60;q++){ const v=r(); ctx.fillStyle=v<0.5?'rgba(70,40,25,.22)':'rgba(255,240,220,.28)'; ctx.fillRect(x+r()*bw,y+r()*bh,2+r()*2,2+r()*2); }
+      const hsl={}; col.getHSL(hsl); const set=p=>thai(ctx,p,600); const f=fitText(ctx,m.text,bw-28,2,30,16,set); set(f.px); ctx.fillStyle=hsl.l<0.5?'#FFF7E2':PAL.ink; ctx.textAlign='center'; ctx.textBaseline='middle';
+      f.lines.forEach((l,j)=>ctx.fillText(l,W/2,y+bh/2+(j-(f.lines.length-1)/2)*f.px*1.2)); });
+    ctx.restore(); }
+  else { thai(ctx,22,500); ctx.fillStyle='#8C93AB'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('ยังไม่มีข้อความ · No messages yet',W/2,H/2); }
+  // header with the circle's topic
+  ctx.fillStyle='#0E1430'; ctx.fillRect(0,0,W,frameTop); const ts=(HOLE_TOPICS[i]||[]).map(topicById); ctx.textAlign='center'; ctx.textBaseline='middle';
+  thai(ctx,26,700); ctx.fillStyle=PAL.sun; ctx.fillText(ts.map(t=>t.th).join(' · '),W/2,26,W-24); thai(ctx,17,500); ctx.fillStyle=PAL.sky; ctx.fillText(ts.map(t=>t.en).join(' · '),W/2,54,W-24);
+  ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=3; ctx.strokeRect(14,frameTop,W-28,H-frameTop-14); ctx.textAlign='left';
+  s.tex.needsUpdate=true; }
+let lastScreenT=0;
+function tickScreens(now){ if(now-lastScreenT<33) return; const dt=lastScreenT? now-lastScreenT : 0; lastScreenT=now; const n=Math.min(holes().length,HOLE_TOPICS.length);
+  for(let i=0;i<n;i++){ holeScreens[i].off+=dt*0.028; drawHoleScreen(i); } }
+/* lettering round a hole: Thai and English, repeated to run all the way round, upright for someone sitting in the hole */
+function ringLetteringTexture(h, i, spot){ const ts=(HOLE_TOPICS[i]||[]).map(topicById); if(!ts.length) return null;
+  const pad=0.2, size=2*(h.r+pad), ppm=Math.min(700,2048/size), S=Math.round(size*ppm); const c=document.createElement('canvas'); c.width=c.height=S; const ctx=c.getContext('2d');
+  const px=0.065*ppm; ctx.font=`600 ${px}px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif`; ctx.fillStyle='#3B2A1A'; ctx.textBaseline='alphabetic';
+  const label=ts.map(t=>`${t.th}  ${t.en.toUpperCase()}`).join('   ·   '); const unit=graphemes(label); const wid=unit.map(g=>ctx.measureText(g).width); const unitW=wid.reduce((a,b)=>a+b,0);
+  const rT=(h.r+0.035)*ppm, circ=2*Math.PI*rT, sepMin=0.18*ppm; const reps=Math.max(1,Math.floor(circ/(unitW+sepMin))); const sep=(circ-reps*unitW)/reps;
+  let ang=spot.a-(unitW/2)/rT;
+  for(let r=0;r<reps;r++){ unit.forEach((g,k)=>{ const a=ang+(wid[k]/2)/rT; ctx.save(); ctx.translate(S/2+Math.cos(a)*rT, S/2+Math.sin(a)*rT); ctx.rotate(a+Math.PI/2); ctx.fillText(g,-wid[k]/2,0); ctx.restore(); ang+=wid[k]/rT; });
+    const a=ang+(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT+px*0.35), S/2+Math.sin(a)*(rT+px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang+=sep/rT; }
+  const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { tex, size }; }
+const ringCache = new Map();
+function buildHoleFeatures(hs){ const top=deckTop(); const spots=holeScreenSpots(hs);
+  spots.forEach((sp,i)=>{ if(i>=HOLE_TOPICS.length) return; const h=hs[i];
+    const key=[h.x,h.z,h.r,sp.a].map(v=>v.toFixed(3)).join(',')+'|'+i; let rt=ringCache.get(key); if(!rt){ rt=ringLetteringTexture(h,i,sp); ringCache.set(key,rt); }
+    if(rt){ const m=new THREE.Mesh(new THREE.PlaneGeometry(rt.size,rt.size), new THREE.MeshStandardMaterial({ map:rt.tex, transparent:true, depthWrite:false, roughness:0.8, polygonOffset:true, polygonOffsetFactor:-2 })); m.rotation.x=-Math.PI/2; m.position.set(B.cx+h.x,top+0.0008,B.cz+h.z); m.renderOrder=1; platGroup.add(m); }
+    const ry=Math.atan2(-sp.ux,-sp.uz);
+    const bez=new THREE.Mesh(new THREE.BoxGeometry(SCR15.w+0.024,0.012,SCR15.h+0.024),castorMat); bez.position.set(B.cx+sp.x,top-0.005,B.cz+sp.z); bez.rotation.y=ry; platGroup.add(bez);
+    const sc=new THREE.Mesh(new THREE.PlaneGeometry(SCR15.w,SCR15.h),holeScreens[i].mat); sc.rotation.order='YXZ'; sc.rotation.set(-Math.PI/2,ry,0); sc.position.set(B.cx+sp.x,top+0.0016,B.cz+sp.z); platGroup.add(sc);
+    drawHoleScreen(i); });
+  BR.screenSpots=spots; }
+
+/* the brick message station: projection area, touch strip for the topic, physical keyboard */
 let draft='', stationState='idle', stationT=0;
-const stationCanvas=document.createElement('canvas'); stationCanvas.width=1280; stationCanvas.height=732;
+const stationCanvas=document.createElement('canvas'); stationCanvas.width=1600; stationCanvas.height=443;
 const stationTex=new THREE.CanvasTexture(stationCanvas); stationTex.colorSpace=THREE.SRGBColorSpace; stationTex.anisotropy=8;
-const stationMat=new THREE.MeshBasicMaterial({ map:stationTex, toneMapped:false });
+const stationMat=new THREE.MeshBasicMaterial({ map:stationTex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false });
+const touchCanvas=document.createElement('canvas'); touchCanvas.width=1600; touchCanvas.height=157;
+const touchTex=new THREE.CanvasTexture(touchCanvas); touchTex.colorSpace=THREE.SRGBColorSpace; touchTex.anisotropy=8;
+const stationTouchMat=new THREE.MeshBasicMaterial({ map:touchTex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false });
+const keyboardMat=new THREE.MeshStandardMaterial({ roughness:0.6, map:canvasTex(880,280,(c,w,h)=>{ c.fillStyle='#1b1c20'; c.fillRect(0,0,w,h); const rows=[13,13,12,11]; rows.forEach((n,r)=>{ const kw=(w-30)/14.2; const x0=12+r*kw*0.3; for(let k=0;k<n;k++){ c.fillStyle='#2e3036'; c.beginPath(); c.roundRect(x0+k*kw*1.06,12+r*52,kw*0.94,44,6); c.fill(); } }); c.fillStyle='#2e3036'; c.beginPath(); c.roundRect(w*0.27,12+4*52,w*0.42,44,6); c.fill(); }) });
 const stationBrickMat=new THREE.MeshStandardMaterial({ color:'#A65A5A', map:speckle, roughness:0.93 });
 const stationProjCanvas=document.createElement('canvas'); stationProjCanvas.width=512; stationProjCanvas.height=170;
 const stationProjTex=new THREE.CanvasTexture(stationProjCanvas); stationProjTex.colorSpace=THREE.SRGBColorSpace;
 const stationProjMat=new THREE.MeshBasicMaterial({ map:stationProjTex, transparent:true, depthWrite:false, toneMapped:false, opacity:0 });
 const stationGlowMat=new THREE.MeshBasicMaterial({ map:canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,236,190,.95)'); g.addColorStop(0.45,'rgba(255,214,140,.35)'); g.addColorStop(1,'rgba(255,200,120,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); }), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false, opacity:0 });
-function drawStation(){ const ctx=stationCanvas.getContext('2d'), W=1280, H=732; ctx.fillStyle='#F6F5EF'; ctx.fillRect(0,0,W,H);
-  ctx.fillStyle=PAL.royal; ctx.fillRect(0,0,W,150); const set=px=>thai(ctx,px,700); const f=fitText(ctx,B.prompt,W-120,2,46,24,set); set(f.px); ctx.fillStyle='#fff'; ctx.textAlign='left'; ctx.textBaseline='middle'; f.lines.forEach((l,i)=>ctx.fillText(l,60,75+(i-(f.lines.length-1)/2)*f.px*1.2));
-  rrect(ctx,60,185,W-120,120,18); ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle=PAL.royal; ctx.lineWidth=4; ctx.stroke();
-  const shown=stationState==='idle'? draft : stationMsg; const tset=px=>thai(ctx,px,500); const tf=fitText(ctx,shown||'แตะเพื่อพิมพ์ · Tap to type',W-200,1,44,22,tset); tset(tf.px); ctx.fillStyle=shown?PAL.ink:'#8a90a8'; ctx.fillText(tf.lines[0]||'',90,247); if(stationState==='idle'){ const tw=ctx.measureText(shown).width; if(shown) { ctx.fillStyle=PAL.royal; ctx.fillRect(92+tw,222,4,52); } }
-  if(stationState==='idle'){ const rows=[10,9,7]; const kw=96, kh=78, gx=12; rows.forEach((n,ri)=>{ const x0=(W-(n*kw+(n-1)*gx))/2; for(let i=0;i<n;i++){ rrect(ctx,x0+i*(kw+gx),340+ri*(kh+gx),kw,kh,12); ctx.fillStyle='#E4E8F2'; ctx.fill(); } });
-    rrect(ctx,(W-620)/2-80,340+3*(kh+gx),620,kh,12); ctx.fillStyle='#E4E8F2'; ctx.fill(); pill(ctx,W-340,340+3*(kh+gx),260,kh,PAL.sun); thai(ctx,34,700); ctx.fillStyle=PAL.ink; ctx.textAlign='center'; ctx.fillText('ส่ง · Send',W-210,340+3*(kh+gx)+kh/2+2); }
-  else { ctx.textAlign='center'; thai(ctx,52,700); ctx.fillStyle=PAL.royal; ctx.fillText(stationState==='sending'?'กำลังฝังข้อความลงในอิฐ…':'ขอบคุณ ข้อความของคุณอยู่ในอิฐแล้ว',W/2,470); thai(ctx,32,500); ctx.fillStyle='#55608A'; ctx.fillText(stationState==='sending'?'Watch your message sink into a brick':'Thank you. Your message is in the bricks.',W/2,530); }
-  ctx.textAlign='left'; stationTex.needsUpdate=true; }
+function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=443; c.fillStyle='#000'; c.fillRect(0,0,W,H);
+  const warm='#FFF1D6', soft='rgba(255,241,214,.55)';
+  // question, left
+  const set=px=>thai(c,px,700); const f=fitText(c,B.prompt,470,4,40,22,set); set(f.px); c.fillStyle=warm; c.textAlign='left'; c.textBaseline='alphabetic'; f.lines.forEach((l,i)=>c.fillText(l,40,90+i*f.px*1.3));
+  const tp=topicById(B.topic); thai(c,26,500); c.fillStyle=PAL.sun; c.fillText(`${tp.th} · ${tp.en}`,40,H-40);
+  // brick placement outline, centre (brick at z -0.175 within a 0.31 m deep area)
+  const bw=307, bh=107, bx=W/2-bw/2, by=229-bh/2; c.strokeStyle=stationState==='idle'?soft:PAL.sun; c.lineWidth=4; c.setLineDash(stationState==='idle'?[14,10]:[]); c.strokeRect(bx-18,by-18,bw+36,bh+36); c.setLineDash([]);
+  thai(c,24,500); c.fillStyle=soft; c.textAlign='center'; c.fillText(stationState==='idle'?'วางอิฐที่นี่ · Place your brick here':'กำลังฝังข้อความ · Embedding your message',W/2,by+bh+64);
+  // typed message, right
+  c.textAlign='left'; thai(c,22,500); c.fillStyle=soft; c.fillText(stationState==='thanks'?'ขอบคุณ · Thank you':'ข้อความของคุณ · Your message',1110,70);
+  const shown=stationState==='idle'? draft : stationMsg; const tset=px=>thai(c,px,600); const tf=fitText(c,shown||'พิมพ์ที่แป้นพิมพ์ · Type on the keyboard',450,4,40,22,tset); tset(tf.px); c.fillStyle=shown?warm:'rgba(255,241,214,.35)';
+  tf.lines.forEach((l,i)=>c.fillText(l,1110,130+i*tf.px*1.3)); if(stationState==='idle' && shown){ const lw=c.measureText(tf.lines[tf.lines.length-1]).width; c.fillStyle=PAL.sun; c.fillRect(1114+lw,130+(tf.lines.length-1)*tf.px*1.3-tf.px*0.85,4,tf.px); }
+  c.strokeStyle='rgba(255,241,214,.18)'; c.lineWidth=2; c.strokeRect(6,6,W-12,H-12); stationTex.needsUpdate=true; drawTouch(); }
+function drawTouch(){ const c=touchCanvas.getContext('2d'), W=1600, H=157; c.fillStyle='#000'; c.fillRect(0,0,W,H);
+  thai(c,20,500); c.fillStyle='rgba(255,241,214,.55)'; c.textAlign='left'; c.textBaseline='middle'; c.fillText('เลือกหัวข้อ',24,48); c.fillText('Select a topic',24,104);
+  const x0=210, bw=(W-x0-24-3*16)/4; TOPICS.forEach((t,i)=>{ const x=x0+i*(bw+16), on=t.id===B.topic; rrect(c,x,18,bw,H-36,18); if(on){ c.fillStyle='rgba(248,251,107,.22)'; c.fill(); c.strokeStyle=PAL.sun; c.lineWidth=7; c.stroke(); } else { c.strokeStyle='rgba(255,241,214,.5)'; c.lineWidth=3; c.stroke(); }
+    c.fillStyle=on?PAL.sun:'#FFF1D6'; c.textAlign='center'; const set=p=>thai(c,p,700); const f=fitText(c,t.th,bw-24,1,32,16,set); set(f.px); c.fillText(f.lines[0],x+bw/2,62); thai(c,22,500); c.fillText(t.en,x+bw/2,104,bw-24); });
+  touchTex.needsUpdate=true; }
 let stationMsg='';
 function sendMessage(text){ text=(text||'').trim(); if(!text){ toast('Type a message first'); return; } if(!BR.targets.length) return;
   const N=Math.min(B.count,BR.targets.length); let placed=placedCount(), idx=-1;
   if(placed<N){ idx=placed; B.prog=(idx+1)/N; $('#b-prog').value=Math.round(B.prog*1000); placed=idx+1; }
   else { const used=new Set(B.messages.map(m=>m.brick)); const c=[]; for(let i=0;i<N;i++) if(!used.has(i) && !covered(i,N)) c.push(i); idx=c.length? c[Math.floor(Math.random()*c.length)] : Math.floor(Math.random()*N); }
-  const m={ id:'m'+Date.now()+'-'+Math.floor(Math.random()*1e4), text:text.slice(0,80), brick:idx, t:Date.now() }; B.messages.push(m); if(B.messages.length>400) B.messages.shift();
+  const m={ id:'m'+Date.now()+'-'+Math.floor(Math.random()*1e4), text:text.slice(0,80), topic:B.topic, brick:idx, t:Date.now() }; B.messages.push(m); if(B.messages.length>400) B.messages.shift();
   stationMsg=m.text; stationState='sending'; stationT=performance.now(); draft=''; drawStation();
-  m.pending=true; updateBrickPose(); drawScreen(); persist(); const st=S.modules.find(q=>q.type==='station');
+  m.pending=true; updateBrickPose(); persist(); const st=S.modules.find(q=>q.type==='station');
   if(st && B.fly) flyToStation(st);
   setTimeout(()=>{ delete m.pending; startEmbed(m); updateBrickPose(); if(B.fly) flyToBrick(idx); }, st? 3200 : 0);
 }
@@ -1278,9 +1358,9 @@ function tickAnim(now){ tickStation(now);
     if(k>0.45 && !anim.settled){ anim.settled=true; drawMsg(o.c,anim.m.text,'rest'); o.tex.needsUpdate=true; }
     if(k>=1){ glow.visible=false; ring.visible=false; dim.visible=false; o.mesh.material.depthTest=true; o.mesh.renderOrder=3; anim=null; updateBrickPose(); } }
 }
-function flyToStation(st){ const a=st.rot*DEG; const [rx,rz]=[st.x+(-0.3)*Math.cos(a), st.z-(-0.3)*Math.sin(a)]; const fx=Math.sin(a), fz=Math.cos(a);
+function flyToStation(st){ const a=st.rot*DEG; const [rx,rz]=world(st,0,-0.175); const fx=Math.sin(a), fz=Math.cos(a);
   if(camera!==persp){ camera=persp; ctrlO.enabled=false; ctrlP.enabled=true; } $$('[data-view]').forEach(b=>b.classList.remove('on'));
-  tween={ t0:performance.now(), dur:matchMedia('(prefers-reduced-motion: reduce)').matches?1:800, p0:persp.position.clone(), q0:ctrlP.target.clone(), p1:new THREE.Vector3(rx+fx*0.7-Math.cos(a)*0.25, 1.45, rz+fz*0.7+Math.sin(a)*0.25), q1:new THREE.Vector3(rx,0.9,rz) }; }
+  tween={ t0:performance.now(), dur:matchMedia('(prefers-reduced-motion: reduce)').matches?1:800, p0:persp.position.clone(), q0:ctrlP.target.clone(), p1:new THREE.Vector3(rx+fx*0.85-Math.cos(a)*0.2, 1.5, rz+fz*0.85+Math.sin(a)*0.2), q1:new THREE.Vector3(rx,0.9,rz) }; }
 function tickStation(now){ const dt=now-stationT; let k=0, rev=0;
   if(stationState==='sending'){ k=Math.min(1,dt/500); rev=clamp((dt-300)/1500,0,1); } else if(stationState==='thanks'){ k=Math.max(0,1-(dt-3600)/900); rev=1; }
   stationGlowMat.opacity=0.6*k; stationProjMat.opacity=k;
@@ -1336,7 +1416,8 @@ function syncBrickUI(){ const o=(id,v)=>{ const e=$('#'+id); if(e) e.textContent
 }
 let playing=null;
 function bindBricks(){
-  $('#screen-wrap').appendChild(screenCanvas);
+  holeScreens.slice(0,3).forEach(h=>$('#screen-wrap').appendChild(h.c));
+  const renderTopics=()=>{ $('#msg-topic').innerHTML=TOPICS.map(t=>`<button class="chip" data-topic="${t.id}" aria-pressed="${t.id===B.topic}">${t.en}</button>`).join(''); $$('#msg-topic .chip').forEach(c=>c.onclick=()=>{ B.topic=c.dataset.topic; renderTopics(); drawStation(); persist(); }); }; renderTopics();
   $('#b-swatches').innerHTML=SINGLES.map(([c,n])=>`<button class="sw" data-c="${c}" title="${n}" aria-label="${n}" style="background:${c}"></button>`).join('');
   $$('#b-types .chip').forEach(c=>c.onclick=()=>{ B.types[c.dataset.type]=!B.types[c.dataset.type]; syncBrickUI(); rebuildBuild(); persist(); });
   const CARPETS=[['#D8C8AE','Beige'],['#3449CC','Royal'],['#82B4F8','Sky'],['#ADF5B0','Mint'],['#F8FB6B','Sun'],['#EB7B6B','Coral'],['#232B49','Navy'],['#8C8C88','Grey'],['#1B1B1D','Black']];
@@ -1427,7 +1508,7 @@ function frame(now){
   requestAnimationFrame(frame);
   if(tween){ const k=clamp((now-tween.t0)/tween.dur,0,1), e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2; persp.position.lerpVectors(tween.p0,tween.p1,e); ctrlP.target.lerpVectors(tween.q0,tween.q1,e); if(k>=1) tween=null; }
   if(playing){ const p=playing.p0+(now-playing.t0)/14000; B.prog=Math.min(1,p); $('#b-prog').value=Math.round(B.prog*1000); updateBrickPose(); if(B.prog>=1){ playing=null; $('#b-play').textContent='Play the six days'; persist(); } }
-  tickAnim(now);
+  tickAnim(now); tickScreens(now);
   ctrl().update(); renderer.render(scene,camera); labelRenderer.render(scene,camera);
 }
 
