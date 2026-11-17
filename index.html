@@ -855,7 +855,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v34';
+const KEY='dreamcon-composer-v35';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1366,7 +1366,7 @@ const basePlateGeo = new THREE.BoxGeometry(0.15,0.008,0.15);
 function platformParts(){ const R0=B.pdia/2, h=B.platH, hs=holes(), step=0.9, ring=0.15;
   const posts=[], ledgers=[];
   const ringPosts=(cx,cz,rad,closed=true)=>{ const n=Math.max(4,Math.ceil(2*Math.PI*rad/step)); const pts=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2; pts.push([cx+rad*Math.cos(a),cz+rad*Math.sin(a)]); } pts.forEach((p,i)=>{ posts.push(p); ledgers.push([p,pts[(i+1)%n]]); }); return pts; };
-  ringPosts(0,0,R0-ring); for(const q of hs) ringPosts(q.x,q.z,q.r+ring);
+  ringPosts(0,0,R0-ring); for(const q of hs){ /* hole rings: posts far enough out that every straight ledger stays 60 mm clear of the hole edge */ let rad=q.r+ring; for(let k=0;k<4;k++){ const n=Math.max(4,Math.ceil(2*Math.PI*rad/step)); rad=Math.max(q.r+ring,(q.r+0.06)/Math.cos(Math.PI/n)); } ringPosts(q.x,q.z,rad); }
   const ok=(x,z)=>Math.hypot(x,z)<R0-ring-0.35 && hs.every(q=>Math.hypot(q.x-x,q.z-z)>q.r+ring+0.35); const grid=new Map();
   const n=Math.ceil(R0/step); for(let i=-n;i<=n;i++) for(let j=-n;j<=n;j++){ const x=i*step, z=j*step; if(ok(x,z)){ grid.set(i+','+j,[x,z]); posts.push([x,z]); } }
   for(const [k,p] of grid){ const [i,j]=k.split(',').map(Number); for(const [di,dj] of [[1,0],[0,1]]){ const q=grid.get((i+di)+','+(j+dj)); if(q) ledgers.push([p,q]); } }
@@ -1519,16 +1519,16 @@ function ringLetteringTexture(h, i){ const ts=(HOLE_TOPICS[i]||[]).map(topicById
   const unit=[], fonts=[]; const add=(str,f)=>graphemes(str).forEach(g=>{ unit.push(g); fonts.push(f); });
   ts.forEach((t,k)=>{ if(k) add('   ·   ',fEn); add(t.th,fTh); add('  ',fEn); add(t.en,fEn); });
   const wid=unit.map((g,k)=>{ ctx.font=fonts[k]; return ctx.measureText(g).width; }); const unitW=wid.reduce((a,b)=>a+b,0);
-  const rT=(h.r+0.03)*ppm+px*1.0, circ=2*Math.PI*rT, sepMin=0.18*ppm; const reps=Math.max(1,Math.floor(circ/(unitW+sepMin))); const sep=(circ-reps*unitW)/reps;
-  // centre one full label on the side of the circle facing the table rim; text runs clockwise for a reader outside
-  let ang=Math.atan2(h.z,h.x)+(unitW/2)/rT;
-  for(let r=0;r<reps;r++){ unit.forEach((g,k)=>{ const a=ang-(wid[k]/2)/rT; ctx.font=fonts[k]; ctx.save(); ctx.translate(S/2+Math.cos(a)*rT, S/2+Math.sin(a)*rT); ctx.rotate(a-Math.PI/2); ctx.fillText(g,-wid[k]/2,0); ctx.restore(); ang-=wid[k]/rT; });
-    const a=ang-(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT-px*0.35), S/2+Math.sin(a)*(rT-px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang-=sep/rT; }
+  const rT=(h.r+0.035)*ppm, circ=2*Math.PI*rT, sepMin=0.18*ppm; const reps=Math.max(1,Math.floor(circ/(unitW+sepMin))); const sep=(circ-reps*unitW)/reps;
+  // letters face inward: read by someone sitting in the circle; one full label centred on the side facing the table rim
+  let ang=Math.atan2(h.z,h.x)-(unitW/2)/rT;
+  for(let r=0;r<reps;r++){ unit.forEach((g,k)=>{ const a=ang+(wid[k]/2)/rT; ctx.font=fonts[k]; ctx.save(); ctx.translate(S/2+Math.cos(a)*rT, S/2+Math.sin(a)*rT); ctx.rotate(a+Math.PI/2); ctx.fillText(g,-wid[k]/2,0); ctx.restore(); ang+=wid[k]/rT; });
+    const a=ang+(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT+px*0.35), S/2+Math.sin(a)*(rT+px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang+=sep/rT; }
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { tex, size }; }
 const ringCache = new Map();
 function buildHoleFeatures(hs){ const top=deckTop(); const spots=holeScreenSpots(hs);
   spots.forEach((sp,i)=>{ if(i>=HOLE_TOPICS.length) return; const h=hs[i];
-    const key=[h.x,h.z,h.r].map(v=>v.toFixed(3)).join(',')+'|o|'+i; let rt=ringCache.get(key); if(!rt){ rt=ringLetteringTexture(h,i); ringCache.set(key,rt); }
+    const key=[h.x,h.z,h.r].map(v=>v.toFixed(3)).join(',')+'|in|'+i; let rt=ringCache.get(key); if(!rt){ rt=ringLetteringTexture(h,i); ringCache.set(key,rt); }
     if(rt){ const m=new THREE.Mesh(new THREE.PlaneGeometry(rt.size,rt.size), new THREE.MeshStandardMaterial({ map:rt.tex, transparent:true, depthWrite:false, roughness:0.8, polygonOffset:true, polygonOffsetFactor:-2 })); m.rotation.x=-Math.PI/2; m.position.set(B.cx+h.x,top+0.0008,B.cz+h.z); m.renderOrder=1; platGroup.add(m); }
     const ry=Math.atan2(-sp.ux,-sp.uz);
     const SZ=SCR_SIZES[i]||SCR_SIZES[0]; const bez=new THREE.Mesh(new THREE.BoxGeometry(SZ.w,SZ.t,SZ.h),castorMat); bez.position.set(B.cx+sp.x,top-SZ.t/2+0.0008,B.cz+sp.z); bez.rotation.y=ry; platGroup.add(bez);
