@@ -188,6 +188,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <label class="tg"><input type="checkbox" id="lyr-booths" checked>Partner booths</label>
         <label class="tg"><input type="checkbox" id="lyr-rings">Radius rings</label>
         <label class="tg"><input type="checkbox" id="lyr-people" checked>People for scale</label>
+        <label class="tg"><input type="checkbox" id="lyr-lights" checked>Clip lights</label>
         <label class="tg"><input type="checkbox" id="lyr-stage" checked>Stage &amp; LED</label>
         <label class="tg"><input type="checkbox" id="lyr-labels">Labels</label>
       </div>
@@ -854,7 +855,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v32';
+const KEY='dreamcon-composer-v33';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -864,7 +865,7 @@ function arcModules({ rf, start, count, levels, w, d, h, gap=0, type='bay' }){
     for(let l=0;l<levels;l++) out.push(mk(type,{ x, z, y:l*h, rot, w, d, h })); }
   return { mods:out, span:count*step/DEG };
 }
-window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
+window.__dc=()=>({ clipLightSpots, B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
 /* ---------------- exhibition walls: straight scaffold boxes on a curve ----------------
    Each cell is a rectangular box 0.6 m deep. Neighbouring boxes share the front standard; each has its own back standards,
    so the boxes fan out with a wedge gap at the back. Sizes from the wall frames (metres, along the wall from its left end). */
@@ -900,7 +901,11 @@ function wallFootprint(){ const pts=[]; for(const id of ['L','R']){ const g=wall
 const wallArtRoot=new THREE.Group(); scene.add(wallArtRoot);
 const wallTexCache=new Map();
 function wallTex(key){ if(wallTexCache.has(key)) return wallTexCache.get(key); const t=new THREE.TextureLoader().load(ASSETS.walls[key]); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; wallTexCache.set(key,t); return t; }
-function buildWallArt(){ while(wallArtRoot.children.length) wallArtRoot.remove(wallArtRoot.children[0]);
+const lampMat=new THREE.MeshStandardMaterial({ color:'#1d1e22', roughness:0.5, metalness:0.4 });
+const lampLens=new THREE.MeshBasicMaterial({ color:'#FFF4D6' });
+const lampBeam=new THREE.MeshBasicMaterial({ color:'#FFF1CC', transparent:true, opacity:0.07, depthWrite:false, side:THREE.DoubleSide, blending:THREE.AdditiveBlending });
+const clipLightSpots=id=>{ const g=wallGeom(id), out=[]; g.ws.forEach((w,i)=>{ const s0=g.s[i]; if(w>1.2){ out.push(s0+w/4, s0+3*w/4); } else out.push(s0+w/2); }); return out; };
+function buildWallArt(){ layers.lights=[]; while(wallArtRoot.children.length) wallArtRoot.remove(wallArtRoot.children[0]);
   const tubeR=S.tube||0.024, steel=finishMats.silver;
   const tubeW=(a,b,r=tubeR)=>{ const A=new THREE.Vector3(...a), Bv=new THREE.Vector3(...b), dv=new THREE.Vector3().subVectors(Bv,A); const t=new THREE.Mesh(tubeGeo,steel); t.scale.set(r,dv.length(),r); t.position.copy(A).addScaledVector(dv,0.5); t.quaternion.setFromUnitVectors(UP,dv.clone().normalize()); t.castShadow=true; t.receiveShadow=true; wallArtRoot.add(t); };
   const joint=p=>{ const j=new THREE.Mesh(jointGeo,steel); j.scale.setScalar(tubeR*1.5); j.position.set(...p); wallArtRoot.add(j); };
@@ -913,6 +918,15 @@ function buildWallArt(){ while(wallArtRoot.children.length) wallArtRoot.remove(w
     // scaffold
     g.front.forEach(F=>{ tubeW([F[0],0,F[1]],[F[0],yTop,F[1]]); joint([F[0],yBot,F[1]]); joint([F[0],yTop,F[1]]); });
     g.back.forEach((P,j)=>{ const F=g.front[j]; tubeW([P[0],0,P[1]],[P[0],yTop,P[1]]); for(const y of [yBot,(yBot+yTop)/2,yTop]) tubeW([F[0],y,F[1]],[P[0],y,P[1]]); joint([P[0],yBot,P[1]]); joint([P[0],yTop,P[1]]); });
+    // clip lights: one per cell (two on cells wider than 1.2 m), clamped to the top front ledger, head forward and aimed down at the print
+    clipLightSpots(id).forEach(sv=>{ const { f, lx }=local(sv); const L=new THREE.Group(); L.position.set(lx,yTop,0); f.add(L);
+      const clamp=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.07,0.06),lampMat); clamp.position.set(0,0,0.0); L.add(clamp);
+      const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.006,0.006,0.2,8),lampMat); arm.position.set(0,0.06,0.085); arm.rotation.x=0.95; L.add(arm);
+      const head=new THREE.Group(); head.position.set(0,0.12,0.17); head.rotation.x=0.55; L.add(head);
+      const can=new THREE.Mesh(new THREE.CylinderGeometry(0.032,0.026,0.09,16),lampMat); can.castShadow=true; head.add(can);
+      const lens=new THREE.Mesh(new THREE.CircleGeometry(0.024,16),lampLens); lens.rotation.x=Math.PI/2; lens.position.y=-0.046; head.add(lens);
+      const beam=new THREE.Mesh(new THREE.ConeGeometry(0.42,1.15,24,1,true),lampBeam); beam.position.y=-0.046-0.575; head.add(beam);
+      (layers.lights??=[]).push(L); L.visible=B.lights!==false; });
     g.backs.forEach((bk,i)=>{ const F0=g.front[i], F1=g.front[i+1];
       for(const y of [yBot,yTop]){ tubeW([F0[0],y,F0[1]],[F1[0],y,F1[1]]); tubeW([bk[0][0],y,bk[0][1]],[bk[1][0],y,bk[1][1]]); }
       tubeW([bk[0][0],yBot,bk[0][1]],[bk[1][0],yTop,bk[1][1]],tubeR*0.8); });
@@ -1794,7 +1808,7 @@ function bindUI(){
   $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
   const lyr=(id,fn)=>{ const e=$('#'+id); e.onchange=()=>fn(e.checked); fn(e.checked); };
   lyr('lyr-walls',v=>layers.walls.visible=v); lyr('lyr-ceiling',v=>layers.ceiling.visible=v); lyr('lyr-floor',v=>{ layers.floor.visible=v; layers.plainFloor.visible=!v; }); lyr('lyr-plan',v=>layers.plan.visible=v);
-  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v);
+  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v); lyr('lyr-lights',v=>{ B.lights=v; (layers.lights||[]).forEach(l=>l.visible=v); });
   lyr('lyr-labels',v=>{ labelRenderer.domElement.style.display=v?'':'none'; });
   $$('[data-add]').forEach(b=>b.onclick=()=>addPiece(b.dataset.add));
   $$('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
