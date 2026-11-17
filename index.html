@@ -315,7 +315,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <div class="row"><div class="chips" id="b-colmode"><button class="chip" data-cm="multi">Mixed clay</button><button class="chip" data-cm="single">One colour</button></div><div class="row" id="b-swatches"></div></div>
       <h3>Timeline</h3>
       <div class="card">
-        <div class="rng"><span>Day 1</span><input type="range" id="b-prog" min="0" max="1000" value="600"><span>Day 6</span></div>
+        <div class="rng"><span>Day 1</span><input type="range" id="b-prog" min="0" max="1000" value="750"><span>Day 6</span></div>
         <div class="row"><button class="btn primary" id="b-play">Play the six days</button><span class="note" id="b-day"></span></div>
       </div>
       <h3>Brick stock on the deck</h3>
@@ -650,7 +650,7 @@ function buildRoom(){
 }
 
 /* ---------------- scaffold model ---------------- */
-const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:1.2, d:0.7, h:0.9, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
+const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:1.08, d:0.8, h:0.9, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
 const FINISH = { silver:{ color:'#C9CED6', metalness:0.85, roughness:0.32 }, black:{ color:'#26282E', metalness:0.55, roughness:0.45 }, mint:{ color:PAL.mint, metalness:0.15, roughness:0.5 }, royal:{ color:PAL.royal, metalness:0.15, roughness:0.45 } };
 const finishMats = Object.fromEntries(Object.entries(FINISH).map(([k,v])=>[k,new THREE.MeshStandardMaterial(v)]));
 const warnMat = new THREE.MeshStandardMaterial({ color:'#ff5a36', metalness:0.3, roughness:0.4 });
@@ -676,7 +676,7 @@ function edgesOf(m){ const { w, d, h, type } = m; const X=w/2, Z=d/2, E=[]; cons
   else if(type==='frame'){ const f=0.12; for(const x of [-X,X]){ s([x,f,0],[x,h,0]); s([x,f,-Z],[x,f,Z]); } s([-X,0.32,0],[X,0.32,0]); s([-X,h,0],[X,h,0]); }
   else if(type==='post'){ s([-X,0,0],[-X,h,0]); s([-X,h-0.08,0],[X,h-0.08,0]); s([-X,0.35,0],[X,0.35,0]); s([-X,0.03,-Z],[-X,0.03,Z]); }
   else if(type==='screen'){ for(const x of [-X,X]){ s([x,0,0],[x,h,0]); s([x,0.03,-Z],[x,0.03,Z]); } s([-X,h,0],[X,h,0]); s([-X,0.3,0],[X,0.3,0]); }
-  else if(type==='station'){ const x=X-0.07, z=Z-0.07, t=0.82; for(const [a,b] of [[-x,-z],[x,-z],[x,z],[-x,z]]) s([a,0,b],[a,t,b]); for(const y of [0.12,t]){ s([-x,y,-z],[x,y,-z]); s([-x,y,z],[x,y,z]); s([-x,y,-z],[-x,y,z]); s([x,y,-z],[x,y,z]); } }
+  else if(type==='station'){ const t=0.86; for(const [a,b] of [[-X,-Z],[X,-Z],[X,Z],[-X,Z]]) s([a,0,b],[a,t,b]); for(const y of [0,t]){ s([-X,y,-Z],[X,y,-Z]); s([-X,y,Z],[X,y,Z]); s([-X,y,-Z],[-X,y,Z]); s([X,y,-Z],[X,y,Z]); } }
   return E; }
 function facesOf(m){ const { w, d, h, type } = m, e=0.035;
   if(BOXLIKE.has(type)) return { front:{c:[0,h/2,d/2-e],ry:0,fw:w,fh:h}, back:{c:[0,h/2,-d/2+e],ry:Math.PI,fw:w,fh:h}, right:{c:[w/2-e,h/2,0],ry:Math.PI/2,fw:d,fh:h}, left:{c:[-w/2+e,h/2,0],ry:-Math.PI/2,fw:d,fh:h} };
@@ -686,6 +686,10 @@ function facesOf(m){ const { w, d, h, type } = m, e=0.035;
   return { front:{c:[0,h/2,0.006],ry:0,fw:w,fh:h,full:true}, back:{c:[0,h/2,-0.006],ry:Math.PI,fw:w,fh:h,full:true} };
 }
 function addTube(g,a,b,r,mat){ const dv=new THREE.Vector3().subVectors(b,a); const len=dv.length(); if(len<1e-4) return; const t=new THREE.Mesh(tubeGeo,mat); t.scale.set(r,len,r); t.position.copy(a).addScaledVector(dv,0.5); t.quaternion.setFromUnitVectors(UP, dv.normalize()); t.castShadow=true; t.receiveShadow=true; g.add(t); return t; }
+/* 43" Samsung The Frame (965.6 x 553.6 x 24.9 mm), screen area about 941 x 529 mm */
+const FRAME43 = { w:0.966, d:0.554, t:0.025, aw:0.941, ad:0.529, rise:0.08 };
+const STN = (()=>{ const F=FRAME43, zBack=-0.37, projH=F.aw*600/1600, touchH=F.aw*157/1600, top=-F.ad/2+0.012; const projZ=top+projH/2, touchZ=top+projH+0.012+touchH/2;
+  return { zBack, projH, touchH, projZ, touchZ, brickZ:projZ-projH/2+projH*0.56, kbZ:0.29, pxm:1600/F.aw }; })();
 const palletLabelCache=new Map();
 function palletLabelTex(gi, aspect){ const key=gi+'|'+aspect.toFixed(2); if(palletLabelCache.has(key)) return palletLabelCache.get(key);
   const H=300, W=Math.round(H*aspect); const c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d'); const gr=PALLET_GROUPS[gi];
@@ -701,20 +705,27 @@ function moduleExtras(m, g){
     const gi=PALLET_GROUPS.findIndex(q=>q.id===m.group); if(gi>=0){ const lw=Math.min(m.w-0.08,0.8), lh=Math.min(m.h-0.08,0.3), ly=Math.max(lh/2+0.04, m.h-lh/2-0.08); const sign=new THREE.Mesh(new THREE.PlaneGeometry(lw,lh), new THREE.MeshStandardMaterial({ map:palletLabelTex(gi,lw/lh), roughness:0.85 })); sign.position.set(0,ly,m.d/2+0.012); g.add(sign);
       const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,ly,m.d/2+0.006); g.add(back); }
   }
-  if(m.type==='station'){ const T=0.9, TT=0.036, F=0.04, bz=-0.16;
-    // white backlit top in a solid wood frame; the image comes from a projector on the floor inside, from below
-    const top=new THREE.Mesh(new THREE.BoxGeometry(m.w-2*F,0.012,m.d-2*F),diffuserMat); top.position.y=T-0.006; top.receiveShadow=true; g.add(top);
-    for(const [w,d,x,z] of [[m.w,F,0,m.d/2-F/2],[m.w,F,0,-m.d/2+F/2],[F,m.d-2*F,m.w/2-F/2,0],[F,m.d-2*F,-m.w/2+F/2,0]]){ const fr=new THREE.Mesh(new THREE.BoxGeometry(w,TT+0.006,d),oakMat); fr.position.set(x,T-TT/2+0.003,z); fr.castShadow=true; fr.receiveShadow=true; g.add(fr); }
-    // the projection area round the brick and the touch strip for choosing a topic, shown through the top
-    const pa=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.31),stationMat); pa.rotation.x=-Math.PI/2; pa.position.set(0,T+0.0008,bz); pa.renderOrder=2; g.add(pa);
-    const ts=new THREE.Mesh(new THREE.PlaneGeometry(1.12,0.11),stationTouchMat); ts.rotation.x=-Math.PI/2; ts.position.set(0,T+0.0008,0.055); ts.renderOrder=2; g.add(ts);
-    const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(0,T+0.01,bz); brick.castShadow=true; g.add(brick);
-    const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(0,T+0.0016,bz); glw.renderOrder=3; g.add(glw);
-    // white Apple keyboard at the front
-    const kb=new THREE.Mesh(new THREE.BoxGeometry(0.279,0.011,0.115),[kbBodyMat,kbBodyMat,keyboardMat,kbBodyMat,kbBodyMat,kbBodyMat]); kb.position.set(0,T+0.0055,0.225); kb.castShadow=true; g.add(kb);
-    // closed base in wood with ventilation slits, hiding the projector and the computer
-    const ph=T-TT-0.01; for(const [w,x,z,ry] of [[m.w-0.004,0,m.d/2-0.012,0],[m.w-0.004,0,-m.d/2+0.012,Math.PI],[m.d-0.03,m.w/2-0.012,0,Math.PI/2],[m.d-0.03,-m.w/2+0.012,0,-Math.PI/2]]){
-      const pn=new THREE.Mesh(new THREE.BoxGeometry(w,ph,0.018),[oakMat,oakMat,oakMat,oakMat,ventMat(w,ph),oakMat]); pn.position.set(x,0.01+ph/2,z); pn.rotation.y=ry; pn.castShadow=true; pn.receiveShadow=true; g.add(pn); } }
+  if(m.type==='station'){ const T=0.9, TT=0.036, t=0.86;
+    // ply top on the scaffold box
+    const top=new THREE.Mesh(new THREE.BoxGeometry(m.w+0.04,TT,m.d+0.04),oakMat); top.position.y=t+TT/2+0.004; top.castShadow=true; top.receiveShadow=true; g.add(top);
+    // wood panels on all four sides, inside the tubes, with ventilation slits along the bottom
+    const ph=t-0.08, inset=0.035; for(const [w,x,z,ry] of [[m.w-0.08,0,m.d/2-inset,0],[m.w-0.08,0,-m.d/2+inset,Math.PI],[m.d-0.08,m.w/2-inset,0,Math.PI/2],[m.d-0.08,-m.w/2+inset,0,-Math.PI/2]]){
+      const pn=new THREE.Mesh(new THREE.BoxGeometry(w,ph,0.018),[oakMat,oakMat,oakMat,oakMat,ventMat(w,ph),oakMat]); pn.position.set(x,0.04+ph/2,z); pn.rotation.y=ry; pn.castShadow=true; pn.receiveShadow=true; g.add(pn); }
+    // 43" Samsung The Frame laid flat in a wood wedge, its back edge 8 cm higher than the front
+    const F=FRAME43, y0=t+TT+0.004, ang=Math.asin(F.rise/F.d), z0=STN.zBack, z1=z0+F.d*Math.cos(ang);
+    const wedge=new THREE.Shape(); wedge.moveTo(-z1,0); wedge.lineTo(-z0,0); wedge.lineTo(-z0,F.rise); wedge.lineTo(-z1,0);
+    const wg=new THREE.Mesh(new THREE.ExtrudeGeometry(wedge,{ depth:F.w+0.02, bevelEnabled:false }),oakMat); wg.rotation.y=Math.PI/2; wg.position.set(-(F.w+0.02)/2,y0,0); wg.castShadow=true; wg.receiveShadow=true; g.add(wg);
+    const scr=new THREE.Group(); scr.position.set(0,y0+F.rise/2,(z0+z1)/2); scr.rotation.x=ang; g.add(scr);
+    const body=new THREE.Mesh(new THREE.BoxGeometry(F.w,F.t,F.d),castorMat); body.position.y=F.t/2; body.castShadow=true; scr.add(body);
+    const panel=new THREE.Mesh(new THREE.PlaneGeometry(F.aw,F.ad),stationBgMat); panel.rotation.x=-Math.PI/2; panel.position.y=F.t+0.0005; scr.add(panel);
+    const pa=new THREE.Mesh(new THREE.PlaneGeometry(F.aw,STN.projH),stationMat); pa.rotation.x=-Math.PI/2; pa.position.set(0,F.t+0.001,STN.projZ); pa.renderOrder=2; scr.add(pa);
+    const ts=new THREE.Mesh(new THREE.PlaneGeometry(F.aw,STN.touchH),stationTouchMat); ts.rotation.x=-Math.PI/2; ts.position.set(0,F.t+0.001,STN.touchZ); ts.renderOrder=2; scr.add(ts);
+    const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(0,F.t+0.0016,STN.brickZ); glw.renderOrder=3; scr.add(glw);
+    const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(0,F.t+0.0105,STN.brickZ); brick.castShadow=true; scr.add(brick);
+    // clear acrylic stop in front of the brick so it can't slide on the slope
+    const stop=new THREE.Mesh(new THREE.BoxGeometry(0.26,0.012,0.006),acrylicMat); stop.position.set(0,F.t+0.006,STN.brickZ+0.0405); scr.add(stop);
+    // white Apple keyboard on the ply in front of the screen
+    const kb=new THREE.Mesh(new THREE.BoxGeometry(0.279,0.011,0.115),[kbBodyMat,kbBodyMat,keyboardMat,kbBodyMat,kbBodyMat,kbBodyMat]); kb.position.set(0,y0+0.0055,STN.kbZ); kb.castShadow=true; g.add(kb); }
   if(m.type==='screen'){ const disp=new THREE.Mesh(new THREE.BoxGeometry(0.98,1.71,0.06),castorMat); disp.position.set(0,1.25,0.045); disp.castShadow=true; g.add(disp); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.94,1.67),screenMat); sc.position.set(0,1.25,0.0755); g.add(sc); }
 }
 function printSize(face, spec){ const inset = face.full? 0 : spec.mode==='full'? 0.02 : spec.mode==='laced'? Math.max(spec.inset,0.06) : spec.inset; return { pw:Math.max(0.05, face.fw-2*inset), ph:Math.max(0.05, face.fh-2*inset) }; }
@@ -784,7 +795,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v17';
+const KEY='dreamcon-composer-v18';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -810,7 +821,7 @@ function proposal(){
   { // one curved counter beside the sculpture, joined on its inner face like the wall bays: red, green, beige pallets, then the station on the right
     const d=TYPES.station.d, Ri=4.2, rc=Ri+d/2, ang=a=>{ const [px,pz]=plan2xz(rc,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
     const half=w=>Math.asin(w/2/Ri)/DEG; const st=TYPES.station, a0=4; mods.push(mk('station',ang(a0)));
-    let a=a0-half(st.w); [...PALLET_GROUPS].reverse().forEach(gr=>{ const w=0.9; a-=half(w); mods.push(mk('plinth',{ ...ang(a), w, d, h:0.84, group:gr.id })); a-=half(w); }); }
+    let a=a0-half(st.w); [...PALLET_GROUPS].reverse().forEach(gr=>{ const w=0.9; a-=half(w); mods.push(mk('plinth',{ ...ang(a), w, d:0.7, h:0.64, group:gr.id })); a-=half(w); }); }
   S.modules = mods; rebuildAll();
 }
 
@@ -1026,7 +1037,7 @@ function dress(kind){
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
 const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.8, carpetShape:'circle', pdia:5.5, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
-  layers:16, prog:0.6, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
+  layers:16, prog:0.75, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
   ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
@@ -1122,6 +1133,12 @@ const KAPLA = {
 };
 const KAPLA_NAMES = { pavilion:['stepped pavilion','stepped pavilions'], round:['round tower','round towers'], arch:['corbelled arch','corbelled arches'], twist:['twisted column','twisted columns'], cabin:['log-cabin cluster','log-cabin clusters'], domino:['domino spiral','domino spirals'] };
 /* support check: a brick stays only if its centre sits over contact with the deck (off the holes) or with bricks already standing directly below it */
+/* does a brick's footprint (deck-relative x,z) come within m of a circle screen? */
+function hitsScreen(x,z,ry,fx,fz,spots,m=0.05){ const c=Math.cos(ry), s_=Math.sin(ry); const bax=[[c,-s_],[s_,c]], bh=[fx/2,fz/2];
+  for(const sp of spots){ const ux=sp.ux, uz=sp.uz; const sax=[[-uz,ux],[ux,uz]], sh=[SCR15.w/2+m, SCR15.h/2+m]; const dx=x-sp.x, dz=z-sp.z; let sep=false;
+    for(const [ax,az] of [...bax,...sax]){ const d=Math.abs(dx*ax+dz*az); const rb=bh[0]*Math.abs(bax[0][0]*ax+bax[0][1]*az)+bh[1]*Math.abs(bax[1][0]*ax+bax[1][1]*az); const rs=sh[0]*Math.abs(sax[0][0]*ax+sax[0][1]*az)+sh[1]*Math.abs(sax[1][0]*ax+sax[1][1]*az); if(d>rb+rs){ sep=true; break; } }
+    if(!sep) return true; }
+  return false; }
 function footprint(b){ return b.o==='end'? [B.W,B.H] : b.o==='edge'? [B.L,B.H] : [B.L,B.W]; }
 function inFoot(b,x,z){ const [fx,fz]=footprint(b); const dx=x-b.x, dz=z-b.z, c=Math.cos(b.ry), s=Math.sin(b.ry); const lx=dx*c-dz*s, lz=dx*s+dz*c; return Math.abs(lx)<=fx/2+1e-4 && Math.abs(lz)<=fz/2+1e-4; }
 function supported(list, y0, R0, hs, cx=B.cx, cz=B.cz){ const ok=[], tops=new Map(), key=y=>Math.round(y*500);
@@ -1158,13 +1175,14 @@ function buildTargetsOnce(nStruct){
   // too many: trim each structure from the top, keeping the proportion
   if(all.length>N){ const f=N/all.length; all=placed.flatMap(p=>{ const keep=[...p.bricks].sort((a,b)=>a.base-b.base); return keep.slice(0,Math.floor(keep.length*f)); }); }
   // nothing floats: keep only bricks that rest on the deck or on bricks below, with their centre over what holds them
+  all=all.filter(b=>{ const [fx,fz]=footprint(b); return !hitsScreen(b.x-B.cx,b.z-B.cz,b.ry,fx,fz,spots); });
   all=supported(all, y0, R0, hs);
   // too few: pave the free deck flat, starting next to the stacks and structures
   const nBuilt=all.length; let paved=0;
   if(all.length<N){ const occ=(x,z)=>placed.some(p=>Math.hypot(x-B.cx-p.x,z-B.cz-p.z)<p.rho+0.06) || heaps.some(q=>Math.hypot(x-B.cx-q.x,z-B.cz-q.z)<0.62);
     const corners=(x,z)=>[[x-L/2,z-W/2],[x+L/2,z-W/2],[x+L/2,z+W/2],[x-L/2,z+W/2]];
     const cells=[]; const nx=Math.ceil(R0/(L+g))+1, nz=Math.ceil(R0/(W+g))+1;
-    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-RIM.in-0.02 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.16) && spots.every(s=>Math.hypot(s.x-a,s.z-b)>0.25)) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
+    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-RIM.in-0.02 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.16) && true) && !hitsScreen(x,z,0,L,W,spots) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
     cells.sort((a,b)=>a.d-b.d); const used=cells.slice(0,N-all.length); for(const c of used){ all.push({ ...brk(B.cx+c.x,y0,B.cz+c.z,0), si:-1 }); paved++; }
     for(let k=1;k<4 && all.length<N;k++) for(const c of used.slice(0,N-all.length)){ all.push({ ...brk(B.cx+c.x,y0+k*(H+0.001),B.cz+c.z,0), si:-1 }); } }
   all.sort((a,b)=>(a.base-b.base)||(a.si-b.si));
@@ -1387,7 +1405,7 @@ function buildRimLettering(hs, spots){ const R0=B.pdia/2, top=deckTop(), r0=R0-R
 
 /* the brick message station: projection area, touch strip for the topic, physical keyboard */
 let draft='', stationState='idle', stationT=0;
-const stationCanvas=document.createElement('canvas'); stationCanvas.width=1600; stationCanvas.height=443;
+const stationCanvas=document.createElement('canvas'); stationCanvas.width=1600; stationCanvas.height=600;
 const stationTex=new THREE.CanvasTexture(stationCanvas); stationTex.colorSpace=THREE.SRGBColorSpace; stationTex.anisotropy=8;
 const stationMat=new THREE.MeshBasicMaterial({ map:stationTex, depthWrite:false, toneMapped:false, polygonOffset:true, polygonOffsetFactor:-1 });
 const touchCanvas=document.createElement('canvas'); touchCanvas.width=1600; touchCanvas.height=157;
@@ -1401,31 +1419,34 @@ function ventMat(w,h){ const key=w.toFixed(2)+'x'+h.toFixed(2); if(ventCache.has
   const t=canvasTex(W,H,(c)=>{ c.fillStyle='#fff'; c.fillRect(0,0,W,H); const r=rnd(77); for(let i=0;i<60;i++){ const y=r()*H; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.1})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); c.lineTo(W,y+(r()-0.5)*6); c.stroke(); }
     // two bands of slits, low and high, 120 x 8 mm
     c.fillStyle='#2a1d12'; const sw=0.12*ppm, sh=0.008*ppm, gap=0.03*ppm; const n=Math.max(1,Math.floor((W-0.1*ppm)/(sw+gap))); const x0=(W-(n*sw+(n-1)*gap))/2;
-    for(const yc of [0.1*ppm, H-0.12*ppm]) for(let row=0; row<3; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), yc-1.5*sh*2+row*sh*2, sw, sh, sh/2); c.fill(); } });
+    for(const yc of [H-0.1*ppm]) for(let row=0; row<3; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), yc-1.5*sh*2+row*sh*2, sw, sh, sh/2); c.fill(); } });
   const m=new THREE.MeshStandardMaterial({ color:'#C9A26E', map:t, roughness:0.7 }); ventCache.set(key,m); return m; }
+const stationBgMat=new THREE.MeshBasicMaterial({ color:'#A2A5AA', toneMapped:false });
+const acrylicMat=new THREE.MeshStandardMaterial({ color:'#ffffff', transparent:true, opacity:0.35, roughness:0.1 });
 const kbBodyMat=new THREE.MeshStandardMaterial({ color:'#E8E9EB', roughness:0.35, metalness:0.4 });
 const stationBrickMat=new THREE.MeshStandardMaterial({ color:'#A65A5A', map:speckle, roughness:0.93 });
 const stationProjCanvas=document.createElement('canvas'); stationProjCanvas.width=512; stationProjCanvas.height=170;
 const stationProjTex=new THREE.CanvasTexture(stationProjCanvas); stationProjTex.colorSpace=THREE.SRGBColorSpace;
 const stationProjMat=new THREE.MeshBasicMaterial({ map:stationProjTex, transparent:true, depthWrite:false, toneMapped:false, opacity:0 });
-const stationGlowMat=new THREE.MeshBasicMaterial({ map:canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,236,190,.95)'); g.addColorStop(0.45,'rgba(255,214,140,.35)'); g.addColorStop(1,'rgba(255,200,120,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); }), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false, opacity:0 });
-function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=443; c.fillStyle='#161A2C'; c.fillRect(0,0,W,H);
-  const warm='#FFF1D6', soft='rgba(255,241,214,.55)';
+const stationGlowMat=new THREE.MeshBasicMaterial({ map:canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,255,255,.9)'); g.addColorStop(0.45,'rgba(255,255,255,.3)'); g.addColorStop(1,'rgba(255,255,255,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); }), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false, opacity:0 });
+const STATION_BG='#A2A5AA';   // medium-light grey screen, graphics in white
+function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=stationCanvas.height; c.fillStyle=STATION_BG; c.fillRect(0,0,W,H);
+  const warm='#FFFFFF', soft='rgba(255,255,255,.85)', sun='#FFFFFF';
   // question, left
   const set=px=>thai(c,px,700); const f=fitText(c,B.prompt,470,4,40,22,set); set(f.px); c.fillStyle=warm; c.textAlign='left'; c.textBaseline='alphabetic'; f.lines.forEach((l,i)=>c.fillText(l,40,90+i*f.px*1.3));
-  const tp=topicById(B.topic); thai(c,26,500); c.fillStyle=PAL.sun; c.fillText(`${tp.th} · ${tp.en}`,40,H-40);
+  const tp=topicById(B.topic); thai(c,30,600); c.fillStyle=sun; c.fillText(`${tp.th} · ${tp.en}`,40,H-40);
   // brick placement outline, centre (brick at z -0.175 within a 0.31 m deep area)
-  const bw=307, bh=107, bx=W/2-bw/2, by=229-bh/2; c.strokeStyle=stationState==='idle'?soft:PAL.sun; c.lineWidth=4; c.setLineDash(stationState==='idle'?[14,10]:[]); c.strokeRect(bx-18,by-18,bw+36,bh+36); c.setLineDash([]);
+  const bw=0.215*STN.pxm, bh=0.075*STN.pxm, bx=W/2-bw/2, by=H*0.56-bh/2; c.strokeStyle=stationState==='idle'?soft:sun; c.lineWidth=4; c.setLineDash(stationState==='idle'?[14,10]:[]); c.strokeRect(bx-18,by-18,bw+36,bh+36); c.setLineDash([]);
   thai(c,24,500); c.fillStyle=soft; c.textAlign='center'; c.fillText(stationState==='idle'?'วางอิฐที่นี่ · Place your brick here':'กำลังฝังข้อความ · Embedding your message',W/2,by+bh+64);
   // typed message, right
   c.textAlign='left'; thai(c,22,500); c.fillStyle=soft; c.fillText(stationState==='thanks'?'ขอบคุณ · Thank you':'ข้อความของคุณ · Your message',1110,70);
-  const shown=stationState==='idle'? draft : stationMsg; const tset=px=>thai(c,px,600); const tf=fitText(c,shown||'พิมพ์ที่แป้นพิมพ์ · Type on the keyboard',450,4,40,22,tset); tset(tf.px); c.fillStyle=shown?warm:'rgba(255,241,214,.35)';
-  tf.lines.forEach((l,i)=>c.fillText(l,1110,130+i*tf.px*1.3)); if(stationState==='idle' && shown){ const lw=c.measureText(tf.lines[tf.lines.length-1]).width; c.fillStyle=PAL.sun; c.fillRect(1114+lw,130+(tf.lines.length-1)*tf.px*1.3-tf.px*0.85,4,tf.px); }
-  c.strokeStyle='rgba(255,241,214,.18)'; c.lineWidth=2; c.strokeRect(6,6,W-12,H-12); stationTex.needsUpdate=true; drawTouch(); }
-function drawTouch(){ const c=touchCanvas.getContext('2d'), W=1600, H=157; c.fillStyle='#161A2C'; c.fillRect(0,0,W,H);
-  thai(c,20,500); c.fillStyle='rgba(255,241,214,.55)'; c.textAlign='left'; c.textBaseline='middle'; c.fillText('เลือกหัวข้อ',24,48); c.fillText('Select a topic',24,104);
-  const x0=210, bw=(W-x0-24-3*16)/4; TOPICS.forEach((t,i)=>{ const x=x0+i*(bw+16), on=t.id===B.topic; rrect(c,x,18,bw,H-36,18); if(on){ c.fillStyle='rgba(248,251,107,.22)'; c.fill(); c.strokeStyle=PAL.sun; c.lineWidth=7; c.stroke(); } else { c.strokeStyle='rgba(255,241,214,.5)'; c.lineWidth=3; c.stroke(); }
-    c.fillStyle=on?PAL.sun:'#FFF1D6'; c.textAlign='center'; const set=p=>thai(c,p,700); const f=fitText(c,t.th,bw-24,1,32,16,set); set(f.px); c.fillText(f.lines[0],x+bw/2,62); thai(c,22,500); c.fillText(t.en,x+bw/2,104,bw-24); });
+  const shown=stationState==='idle'? draft : stationMsg; const tset=px=>thai(c,px,600); const tf=fitText(c,shown||'พิมพ์ที่แป้นพิมพ์ · Type on the keyboard',450,4,40,22,tset); tset(tf.px); c.fillStyle=shown?warm:'rgba(255,255,255,.6)';
+  tf.lines.forEach((l,i)=>c.fillText(l,1110,130+i*tf.px*1.3)); if(stationState==='idle' && shown){ const lw=c.measureText(tf.lines[tf.lines.length-1]).width; c.fillStyle=sun; c.fillRect(1114+lw,130+(tf.lines.length-1)*tf.px*1.3-tf.px*0.85,4,tf.px); }
+  c.strokeStyle='rgba(255,255,255,.4)'; c.lineWidth=2; c.strokeRect(6,6,W-12,H-12); stationTex.needsUpdate=true; drawTouch(); }
+function drawTouch(){ const c=touchCanvas.getContext('2d'), W=1600, H=157; c.fillStyle=STATION_BG; c.fillRect(0,0,W,H);
+  thai(c,22,500); c.fillStyle='rgba(255,255,255,.85)'; c.textAlign='left'; c.textBaseline='middle'; c.fillText('เลือกหัวข้อ',24,48); c.fillText('Select a topic',24,104);
+  const x0=210, bw=(W-x0-24-3*16)/4; TOPICS.forEach((t,i)=>{ const x=x0+i*(bw+16), on=t.id===B.topic; rrect(c,x,18,bw,H-36,18); if(on){ c.fillStyle='rgba(255,255,255,.28)'; c.fill(); c.strokeStyle='#FFFFFF'; c.lineWidth=7; c.stroke(); } else { c.strokeStyle='rgba(255,255,255,.7)'; c.lineWidth=3; c.stroke(); }
+    c.fillStyle='#FFFFFF'; c.textAlign='center'; const set=p=>thai(c,p,700); const f=fitText(c,t.th,bw-24,1,32,16,set); set(f.px); c.fillText(f.lines[0],x+bw/2,62); thai(c,22,500); c.fillText(t.en,x+bw/2,104,bw-24); });
   touchTex.needsUpdate=true; }
 let stationMsg='';
 function sendMessage(text){ text=(text||'').trim(); if(!text){ toast('Type a message first'); return; } if(!BR.targets.length) return;
@@ -1461,7 +1482,7 @@ function tickAnim(now){ tickStation(now);
     if(k>0.45 && !anim.settled){ anim.settled=true; drawMsg(o.c,anim.m.text,'rest'); o.tex.needsUpdate=true; }
     if(k>=1){ glow.visible=false; ring.visible=false; dim.visible=false; o.mesh.material.depthTest=true; o.mesh.renderOrder=3; anim=null; updateBrickPose(); } }
 }
-function flyToStation(st){ const a=st.rot*DEG; const [rx,rz]=world(st,0,-0.175); const fx=Math.sin(a), fz=Math.cos(a);
+function flyToStation(st){ const a=st.rot*DEG; const [rx,rz]=world(st,0,STN.brickZ); const fx=Math.sin(a), fz=Math.cos(a);
   if(camera!==persp){ camera=persp; ctrlO.enabled=false; ctrlP.enabled=true; } $$('[data-view]').forEach(b=>b.classList.remove('on'));
   tween={ t0:performance.now(), dur:matchMedia('(prefers-reduced-motion: reduce)').matches?1:800, p0:persp.position.clone(), q0:ctrlP.target.clone(), p1:new THREE.Vector3(rx+fx*0.85-Math.cos(a)*0.2, 1.5, rz+fz*0.85+Math.sin(a)*0.2), q1:new THREE.Vector3(rx,0.9,rz) }; }
 function tickStation(now){ const dt=now-stationT; let k=0, rev=0;
