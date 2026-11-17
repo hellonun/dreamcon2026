@@ -292,14 +292,14 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <h2>Brick build</h2>
       <p class="lede">A low round platform with holes to sit in. All the bricks start in neat stacks on the deck, and visitors build them into small Kapla-like structures around the holes. Run the six days to see it change.</p>
       <div class="card">
-        <div class="rng"><span>Platform</span><input type="range" id="b-pdia" min="35" max="80" value="55"><output id="b-pdia-o"></output></div>
+        <div class="rng"><span>Platform</span><input type="range" id="b-pdia" min="35" max="80" value="60"><output id="b-pdia-o"></output></div>
         <div class="rng"><span>Seat height</span><input type="range" id="b-plath" min="35" max="60" value="45"><output id="b-plath-o"></output></div>
         <h3 style="margin-top:4px">Carpet underneath</h3>
         <label class="tg"><input type="checkbox" id="b-carpet" checked>Show carpet</label>
         <div class="row" id="b-carpet-sw"></div>
         <div class="row"><label class="fld" style="flex:1">Any colour<input type="color" id="b-carpet-col" value="#D8C8AE" style="width:100%;height:34px;border:1px solid var(--line);border-radius:8px;padding:2px;background:#fff"></label>
           <label class="fld" style="flex:1">Shape<select id="b-carpet-shape" class="s"><option value="circle">Round</option><option value="square">Square</option></select></label></div>
-        <div class="rng"><span>Beyond the platform</span><input type="range" id="b-carpet-m" min="0" max="25" value="8"><output id="b-carpet-m-o"></output></div>
+        <div class="rng"><span>Beyond the platform</span><input type="range" id="b-carpet-m" min="0" max="25" value="6"><output id="b-carpet-m-o"></output></div>
         <label class="fld">Hole layout<select id="b-holeset" class="s"><option value="opt1">Option 1 · one hole (drawing 01)</option><option value="opt2">Option 2 · two holes (drawing 02)</option><option value="opt3">Option 3 · three holes (drawing 03)</option><option value="random">Random</option></select></label>
         <div class="rng" data-random-holes><span>Holes to sit in</span><input type="range" id="b-holes" min="1" max="5" value="3"><output id="b-holes-o"></output></div>
         <div class="row"><button class="btn" id="b-reholes">Rearrange holes</button><label class="tg"><input type="checkbox" id="b-skirt">Timber skirt to hide the scaffold</label></div>
@@ -796,7 +796,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v20';
+const KEY='dreamcon-composer-v21';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1037,8 +1037,8 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.8, carpetShape:'circle', pdia:5.5, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
-  layers:16, prog:0.75, stnLedge:'#3A3C40', stnLedgeTex:'matte', stnRim:'#3A3C40', stnRimTex:'matte', stnScreenBg:'#A2A5AA', cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
+const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.6, carpetShape:'circle', pdia:6.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
+  layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
   ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
@@ -1438,6 +1438,24 @@ const stationProjTex=new THREE.CanvasTexture(stationProjCanvas); stationProjTex.
 const stationProjMat=new THREE.MeshBasicMaterial({ map:stationProjTex, transparent:true, depthWrite:false, toneMapped:false, opacity:0 });
 const stationGlowMat=new THREE.MeshBasicMaterial({ map:canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,255,255,.9)'); g.addColorStop(0.45,'rgba(255,255,255,.3)'); g.addColorStop(1,'rgba(255,255,255,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); }), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false, opacity:0 });
 const stationBg=()=>B.stnScreenBg||'#A2A5AA';   // screen background, graphics in white
+/* direction B: the typed line breaks into points that curve in and slip under the brick */
+let stationParts=null;
+function makeStationParticles(tf, x0, y0, bx, by, bw, bh){ const W=1600, H=stationCanvas.height; const c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+  thai(x,tf.px,700); x.fillStyle='#fff'; x.textAlign='left'; x.textBaseline='alphabetic'; tf.lines.forEach((l,i)=>x.fillText(l,x0,y0+i*tf.px*1.3));
+  const d=x.getImageData(0,0,W,H).data, r=rnd(hash(stationMsg)), pts=[]; let minX=W, maxX=0; const step=2;
+  for(let y=0;y<H;y+=step) for(let xx=0;xx<W;xx+=step){ if(d[(y*W+xx)*4+3]>110){ minX=Math.min(minX,xx); maxX=Math.max(maxX,xx); pts.push({ x:xx+(r()-.5)*step, y:y+(r()-.5)*step, r1:r(), r2:r(), r3:r(), r4:r(), tx:bx+16+r()*(bw-32), ty:by+16+r()*(bh-32) }); } }
+  for(const p of pts) p.u=(p.x-minX)/Math.max(1,maxX-minX);
+  return pts; }
+function drawStationParticles(c, t, bx, by, bw, bh){ const pts=stationParts; if(!pts||!pts.length) return; const seg=(a,b)=>clamp((t-a)/(b-a),0,1), eOut=k=>1-Math.pow(1-k,3), eIO=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+  const br=seg(600,1000), drift=eOut(seg(600,1500)); let n=0; c.save(); c.globalCompositeOperation='lighter'; c.fillStyle='#fff';
+  const cx=bx+bw/2;
+  for(const p of pts){ const d0=1300+(1-p.u)*700+p.r1*500, k=seg(d0,d0+1300+p.r2*500); if(k>=1){ n++; continue; }
+    const a=p.r3*Math.PI*2, dx=p.x+Math.cos(a)*30*drift, dy=p.y+Math.sin(a)*22*drift-12*drift, e=eIO(k);
+    const side=p.x<cx?-1:1, mx=(dx+p.tx)/2+side*(120+p.r4*120), my=(dy+p.ty)/2-60;
+    const px=(1-e)*(1-e)*dx+2*(1-e)*e*mx+e*e*p.tx, py=(1-e)*(1-e)*dy+2*(1-e)*e*my+e*e*p.ty, sz=2.6+p.r1*2.2;
+    c.globalAlpha=br*(0.55+0.45*p.r2); c.fillRect(px-sz/2,py-sz/2,sz,sz); }
+  const g=(n/pts.length)*(1-seg(4400,5200)); if(g>0){ for(let i=0;i<3;i++){ c.globalAlpha=1; c.shadowColor=`rgba(255,255,255,${0.85*g})`; c.shadowBlur=50*(1+i*0.8); c.fillStyle=`rgba(255,255,255,${0.3*g})`; c.fillRect(bx+10,by+10,bw-20,bh-20); } }
+  c.restore(); }
 function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=stationCanvas.height; c.fillStyle=stationBg(); c.fillRect(0,0,W,H);
   const warm='#FFFFFF', soft='rgba(255,255,255,.85)', sun='#FFFFFF';
   // question, left
@@ -1445,11 +1463,14 @@ function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=statio
   const tp=topicById(B.topic); thai(c,30,600); c.fillStyle=sun; c.fillText(`${tp.th} · ${tp.en}`,40,H-40);
   // brick placement outline, centre (brick at z -0.175 within a 0.31 m deep area)
   const bw=0.215*STN.pxm, bh=0.075*STN.pxm, bx=W/2-bw/2, by=H*0.56-bh/2; c.strokeStyle=stationState==='idle'?soft:sun; c.lineWidth=4; c.setLineDash(stationState==='idle'?[14,10]:[]); c.strokeRect(bx-18,by-18,bw+36,bh+36); c.setLineDash([]);
-  thai(c,24,500); c.fillStyle=soft; c.textAlign='center'; c.fillText(stationState==='idle'?'วางอิฐที่นี่ · Place your brick here':'กำลังฝังข้อความ · Embedding your message',W/2,by+bh+64);
+  thai(c,24,500); c.fillStyle=soft; c.textAlign='center'; const an0=stationState==='sending'? performance.now()-stationT : -1; c.fillText(stationState==='idle'?'วางอิฐที่นี่ · Place your brick here': (stationState==='thanks' || an0>3600)?'ฝังข้อความแล้ว · Embedded':'กำลังฝังข้อความ · Embedding your message',W/2,by+bh+64);
   // typed message, right
   c.textAlign='left'; thai(c,22,500); c.fillStyle=soft; c.fillText(stationState==='thanks'?'ขอบคุณ · Thank you':'ข้อความของคุณ · Your message',1110,70);
-  const shown=stationState==='idle'? draft : stationMsg; const tset=px=>thai(c,px,600); const tf=fitText(c,shown||'พิมพ์ที่แป้นพิมพ์ · Type on the keyboard',450,4,40,22,tset); tset(tf.px); c.fillStyle=shown?warm:'rgba(255,255,255,.6)';
-  tf.lines.forEach((l,i)=>c.fillText(l,1110,130+i*tf.px*1.3)); if(stationState==='idle' && shown){ const lw=c.measureText(tf.lines[tf.lines.length-1]).width; c.fillStyle=sun; c.fillRect(1114+lw,130+(tf.lines.length-1)*tf.px*1.3-tf.px*0.85,4,tf.px); }
+  const an=stationState==='sending'? performance.now()-stationT : -1; const shown=stationState==='idle'? draft : stationMsg; const tset=px=>thai(c,px,700); const tf=fitText(c,shown||'พิมพ์ที่แป้นพิมพ์ · Type on the keyboard',450,4,40,22,tset); tset(tf.px); c.fillStyle=shown?warm:'rgba(255,255,255,.6)';
+  if(an>=0){ c.save(); c.globalAlpha=1-clamp((an-600)/400,0,1); c.shadowColor='#fff'; c.shadowBlur=24*clamp(an/500,0,1); }
+  if(stationState!=='thanks') tf.lines.forEach((l,i)=>c.fillText(l,1110,130+i*tf.px*1.3)); if(an>=0) c.restore();
+  if(an>=0 && !stationParts) stationParts=makeStationParticles(tf, 1110, 130, bx, by, bw, bh);
+  if(an>=0) drawStationParticles(c, an, bx, by, bw, bh); if(stationState==='idle' && shown){ const lw=c.measureText(tf.lines[tf.lines.length-1]).width; c.fillStyle=sun; c.fillRect(1114+lw,130+(tf.lines.length-1)*tf.px*1.3-tf.px*0.85,4,tf.px); }
   c.strokeStyle='rgba(255,255,255,.4)'; c.lineWidth=2; c.strokeRect(6,6,W-12,H-12); stationTex.needsUpdate=true; drawTouch(); }
 function drawTouch(){ const c=touchCanvas.getContext('2d'), W=1600, H=157; c.fillStyle=stationBg(); c.fillRect(0,0,W,H);
   thai(c,22,500); c.fillStyle='rgba(255,255,255,.85)'; c.textAlign='left'; c.textBaseline='middle'; c.fillText('เลือกหัวข้อ',24,48); c.fillText('Select a topic',24,104);
@@ -1462,10 +1483,10 @@ function sendMessage(text){ text=(text||'').trim(); if(!text){ toast('Type a mes
   if(placed<N){ idx=placed; B.prog=(idx+1)/N; $('#b-prog').value=Math.round(B.prog*1000); placed=idx+1; }
   else { const used=new Set(B.messages.map(m=>m.brick)); const c=[]; for(let i=0;i<N;i++) if(!used.has(i) && !covered(i,N)) c.push(i); idx=c.length? c[Math.floor(Math.random()*c.length)] : Math.floor(Math.random()*N); }
   const m={ id:'m'+Date.now()+'-'+Math.floor(Math.random()*1e4), text:text.slice(0,80), topic:B.topic, brick:idx, t:Date.now() }; B.messages.push(m); if(B.messages.length>400) B.messages.shift();
-  stationMsg=m.text; stationState='sending'; stationT=performance.now(); draft=''; drawStation();
+  stationMsg=m.text; stationState='sending'; stationT=performance.now(); stationParts=null; draft=''; drawStation();
   m.pending=true; updateBrickPose(); persist(); const st=S.modules.find(q=>q.type==='station');
   if(st && B.fly) flyToStation(st);
-  setTimeout(()=>{ delete m.pending; startEmbed(m); updateBrickPose(); if(B.fly) flyToBrick(idx); }, st? 3200 : 0);
+  setTimeout(()=>{ delete m.pending; startEmbed(m); updateBrickPose(); if(B.fly) flyToBrick(idx); }, st? 5200 : 0);
 }
 const glowTex = canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,240,170,1)'); g.addColorStop(0.4,'rgba(255,210,110,.5)'); g.addColorStop(1,'rgba(255,200,100,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); });
 const glow = new THREE.Mesh(unitPlane, new THREE.MeshBasicMaterial({ map:glowTex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, depthTest:false, opacity:0, toneMapped:false })); glow.visible=false; glow.renderOrder=5; glow.rotation.order='YXZ'; scene.add(glow);
@@ -1479,7 +1500,7 @@ function startEmbed(m){ const t=BR.targets[m.brick]; if(!t) return; const o=ensu
   anim={ m, o, t0:performance.now(), start:{ x:B.cx, y:top+0.01, z:B.cz, ry:end.ry }, end }; o.mesh.visible=true; o.mesh.material.depthTest=false; o.mesh.renderOrder=7; }
 const ease = k => k<0.5? 4*k*k*k : 1-Math.pow(-2*k+2,3)/2;
 function tickAnim(now){ tickStation(now);
-  if(stationState!=='idle'){ const dt=now-stationT; if(stationState==='sending' && dt>3200){ stationState='thanks'; drawStation(); } else if(stationState==='thanks' && dt>6500){ stationState='idle'; drawStation(); } }
+  if(stationState!=='idle'){ const dt=now-stationT; if(stationState==='sending'){ if(dt>5200){ stationState='thanks'; stationParts=null; } drawStation(); } else if(stationState==='thanks' && dt>8000){ stationState='idle'; drawStation(); } }
   if(!anim) return; const dt=now-anim.t0, o=anim.o, s=anim.start, e=anim.end;
   const big=Math.min(2.6, B.pdia*0.85); const dimK = dt<500? dt/500 : dt<2600? 1 : Math.max(0,1-(dt-2600)/900); dim.visible=dimK>0; dim.position.set(B.cx,s.y-0.002,B.cz); dim.scale.setScalar(B.pdia/2); dimMat.opacity=0.42*dimK;
   if(dt<600){ const k=dt/600; o.mesh.position.set(s.x,s.y,s.z); o.mesh.rotation.set(-Math.PI/2,s.ry,0); o.mesh.scale.set(big,big*0.285,1); o.mesh.material.opacity=k; ring.visible=true; ring.position.set(B.cx,s.y,B.cz); ring.scale.setScalar(B.pdia/2*(0.4+0.6*k)); ringMat.opacity=0.5*k; }
@@ -1495,7 +1516,7 @@ function flyToStation(st){ const a=st.rot*DEG; const [rx,rz]=world(st,0,-st.d/2+
   tween={ t0:performance.now(), dur:matchMedia('(prefers-reduced-motion: reduce)').matches?1:800, p0:persp.position.clone(), q0:ctrlP.target.clone(), p1:new THREE.Vector3(rx+fx*0.85-Math.cos(a)*0.2, 1.5, rz+fz*0.85+Math.sin(a)*0.2), q1:new THREE.Vector3(rx,0.9,rz) }; }
 function tickStation(now){ const dt=now-stationT; let k=0, rev=0;
   if(stationState==='sending'){ k=Math.min(1,dt/500); rev=clamp((dt-300)/1500,0,1); } else if(stationState==='thanks'){ k=Math.max(0,1-(dt-3600)/900); rev=1; }
-  stationGlowMat.opacity=0.6*k; stationProjMat.opacity=k;
+  stationGlowMat.opacity=0; stationProjMat.opacity=k;
   if(k>0 && stationProjCanvas._rev!==rev){ stationProjCanvas._rev=rev; const c=stationProjCanvas.getContext('2d'); c.clearRect(0,0,512,170); const set=px=>{ c.font=`600 ${px}px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif`; };
     const f=fitText(c,stationMsg,470,2,64,22,set); set(f.px); c.textAlign='center'; c.textBaseline='middle'; c.shadowColor='rgba(255,210,120,1)'; c.shadowBlur=18; c.fillStyle='#FFF6D8';
     let left=Math.ceil(graphemes(stationMsg).length*rev); const lh=f.px*1.1, y0=85-(f.lines.length-1)*lh/2; f.lines.forEach((l,i)=>{ const g=graphemes(l); const part=g.slice(0,Math.max(0,left)).join(''); left-=g.length; const fw=c.measureText(l).width; c.textAlign='left'; c.fillText(part,256-fw/2,y0+i*lh); });
