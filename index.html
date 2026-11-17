@@ -9,7 +9,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap">
 <style>
 /* Layout: one-screen workbench. Brand header, tool panel on the left, the room in 3D on the right (stacks on phones). */
 :root{
@@ -798,7 +798,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v23';
+const KEY='dreamcon-composer-v24';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1054,7 +1054,7 @@ const speckle = canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,
 const brickMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ map:speckle, roughness:0.93, metalness:0 }), MAXB);
 brickMesh.castShadow=true; brickMesh.receiveShadow=true; brickMesh.frustumCulled=false; scene.add(brickMesh);
 /* the concept line round the table rim */
-const RIM_TEXT = { th:'ทุกเสียงมีความหมาย · ร่วมเป็นส่วนหนึ่งของบทสนทนา · ร่วมสร้างรัฐธรรมนูญของเรา', en:'YOUR VOICE MATTERS · BE PART OF THE CONVERSATION · BUILD YOUR CONSTITUTION' };
+const RIM_TEXT = { th:'ทุกเสียงมีความหมาย · ร่วมเป็นส่วนหนึ่งของบทสนทนา · ร่วมสร้างรัฐธรรมนูญของเรา', en:'Your voice matters · Be part of the conversation · Build your constitution' };
 const RIM = { in:0.13, out:0.035, px:0.058 };   // band measured in from the rim, letter size in metres
 const BRICK_COLS = SINGLES.map(([c])=>new THREE.Color(c));
 /* pallets sort the bricks by colour; each colour stands for a generation */
@@ -1357,12 +1357,15 @@ function tickScreens(now){ if(now-lastScreenT<33) return; const dt=lastScreenT? 
 /* lettering round a hole: Thai and English, repeated to run all the way round, reading from the deck outside the circle (letter tops toward the hole) */
 function ringLetteringTexture(h, i){ const ts=(HOLE_TOPICS[i]||[]).map(topicById); if(!ts.length) return null;
   const pad=0.2, size=2*(h.r+pad), ppm=Math.min(700,2048/size), S=Math.round(size*ppm); const c=document.createElement('canvas'); c.width=c.height=S; const ctx=c.getContext('2d');
-  const px=0.065*ppm; ctx.font=`600 ${px}px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif`; ctx.fillStyle='#3B2A1A'; ctx.textBaseline='alphabetic';
-  const label=ts.map(t=>`${t.th}  ${t.en.toUpperCase()}`).join('   ·   '); const unit=graphemes(label); const wid=unit.map(g=>ctx.measureText(g).width); const unitW=wid.reduce((a,b)=>a+b,0);
+  const px=0.065*ppm; ctx.fillStyle='#3B2A1A'; ctx.textBaseline='alphabetic';
+  const fTh=`700 ${px}px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif`, fEn=`300 ${px}px "IBM Plex Sans","IBM Plex Sans Thai",sans-serif`;
+  const unit=[], fonts=[]; const add=(str,f)=>graphemes(str).forEach(g=>{ unit.push(g); fonts.push(f); });
+  ts.forEach((t,k)=>{ if(k) add('   ·   ',fEn); add(t.th,fTh); add('  ',fEn); add(t.en,fEn); });
+  const wid=unit.map((g,k)=>{ ctx.font=fonts[k]; return ctx.measureText(g).width; }); const unitW=wid.reduce((a,b)=>a+b,0);
   const rT=(h.r+0.03)*ppm+px*1.0, circ=2*Math.PI*rT, sepMin=0.18*ppm; const reps=Math.max(1,Math.floor(circ/(unitW+sepMin))); const sep=(circ-reps*unitW)/reps;
   // centre one full label on the side of the circle facing the table rim; text runs clockwise for a reader outside
   let ang=Math.atan2(h.z,h.x)+(unitW/2)/rT;
-  for(let r=0;r<reps;r++){ unit.forEach((g,k)=>{ const a=ang-(wid[k]/2)/rT; ctx.save(); ctx.translate(S/2+Math.cos(a)*rT, S/2+Math.sin(a)*rT); ctx.rotate(a-Math.PI/2); ctx.fillText(g,-wid[k]/2,0); ctx.restore(); ang-=wid[k]/rT; });
+  for(let r=0;r<reps;r++){ unit.forEach((g,k)=>{ const a=ang-(wid[k]/2)/rT; ctx.font=fonts[k]; ctx.save(); ctx.translate(S/2+Math.cos(a)*rT, S/2+Math.sin(a)*rT); ctx.rotate(a-Math.PI/2); ctx.fillText(g,-wid[k]/2,0); ctx.restore(); ang-=wid[k]/rT; });
     const a=ang-(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT-px*0.35), S/2+Math.sin(a)*(rT-px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang-=sep/rT; }
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { tex, size }; }
 const ringCache = new Map();
@@ -1389,15 +1392,15 @@ function buildRimLettering(hs, spots){ const R0=B.pdia/2, top=deckTop(), r0=R0-R
       const pin=[x*r0,z*r0]; return hs.some(h=>Math.hypot(h.x-pin[0],h.z-pin[1])-h.r < 0.14); };
     const N=1440, free=[]; let st=null; for(let i=0;i<=N;i++){ const b= i===N || blocked(i/N); if(!b && st===null) st=i; if(b && st!==null){ free.push([st/N,i/N]); st=null; } }
     if(free.length>1 && free[0][0]===0 && free[free.length-1][1]===1){ const f=free.pop(); free[0]=[f[0]-1, free[0][1]]; }
-    const units=[['th',RIM_TEXT.th,600,1],['en',RIM_TEXT.en,600,0.86]];
-    const measure=(t,w,sz)=>{ thai(ctx,Math.round(px*sz),w); return ctx.measureText(t).width; };
-    const wTh=measure(RIM_TEXT.th,600,1), wEn=measure(RIM_TEXT.en,600,0.86), gap=px*1.6;
+    
+    const fontOf=(w,sz,en)=>`${w} ${Math.round(px*sz)}px ${en?'"IBM Plex Sans","IBM Plex Sans Thai"':'"IBM Plex Sans Thai","IBM Plex Sans"'},sans-serif`; const measure=(t,w,sz,en)=>{ ctx.font=fontOf(w,sz,en); return ctx.measureText(t).width; };
+    const wTh=measure(RIM_TEXT.th,700,1,false), wEn=measure(RIM_TEXT.en,300,1,true), gap=px*1.6;
     ctx.fillStyle='#3B2A1A'; ctx.textBaseline='middle';
-    const draw=(t,w,sz,x)=>{ thai(ctx,Math.round(px*sz),w); ctx.textAlign='left'; for(const o of [0,-Wd,Wd]) ctx.fillText(t,x+o,Ht*0.52); };
+    const draw=(t,w,sz,x,en)=>{ ctx.font=fontOf(w,sz,en); ctx.textAlign='left'; for(const o of [0,-Wd,Wd]) ctx.fillText(t,x+o,Ht*0.52); };
     for(const [u0,u1] of free){ let len=(u1-u0)*Wd; let x=u0*Wd; const seq=[]; let k=0; let used=0;
       while(true){ const isTh=k%2===0, w=isTh?wTh:wEn; if(used+w+(seq.length?gap:0) > len-px) break; used+=w+(seq.length?gap:0); seq.push(isTh); k++; }
       if(!seq.length) continue; let cx=x+(len-used)/2;
-      seq.forEach((isTh,j)=>{ if(j){ ctx.beginPath(); ctx.arc(cx+gap/2,Ht*0.52,px*0.11,0,Math.PI*2); ctx.fill(); cx+=gap; } draw(isTh?RIM_TEXT.th:RIM_TEXT.en,600,isTh?1:0.86,cx); cx+=isTh?wTh:wEn; }); }
+      seq.forEach((isTh,j)=>{ if(j){ ctx.beginPath(); ctx.arc(cx+gap/2,Ht*0.52,px*0.11,0,Math.PI*2); ctx.fill(); cx+=gap; } draw(isTh?RIM_TEXT.th:RIM_TEXT.en,isTh?700:300,1,cx,!isTh); cx+=isTh?wTh:wEn; }); }
     const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; tex.wrapS=THREE.RepeatWrapping;
     // ring geometry: u along the circle (clockwise in plan), canvas top toward the centre
     const n=360, pos=[], uv=[], idx=[]; for(let i=0;i<=n;i++){ const u=i/n, a=-u*2*Math.PI, cs=Math.cos(a), sn=Math.sin(a); pos.push(cs*r0,0,sn*r0, cs*r1,0,sn*r1); uv.push(u,1, u,0); if(i<n){ const q=i*2; idx.push(q,q+1,q+2, q+1,q+3,q+2); } }
@@ -1680,7 +1683,7 @@ function frame(now){
 /* ---------------- boot ---------------- */
 (async function boot(){
   resize(); buildRoom();
-  try { await Promise.race([ Promise.all([ document.fonts.load('900 64px Archivo'), document.fonts.load('800 condensed 64px Archivo'), document.fonts.load('700 64px "IBM Plex Sans Thai"'), document.fonts.load('500 64px "IBM Plex Sans Thai"') ]), new Promise(r=>setTimeout(r,3000)) ]); } catch(e){}
+  try { await Promise.race([ Promise.all([ document.fonts.load('900 64px Archivo'), document.fonts.load('800 condensed 64px Archivo'), document.fonts.load('700 64px "IBM Plex Sans Thai"'), document.fonts.load('500 64px "IBM Plex Sans Thai"'), document.fonts.load('300 64px "IBM Plex Sans Thai"'), document.fonts.load('300 64px "IBM Plex Sans"'), document.fonts.load('700 64px "IBM Plex Sans"') ]), new Promise(r=>setTimeout(r,3000)) ]); } catch(e){}
   const saved = store.get(KEY);
   if(saved?.uploads) for(const u of saved.uploads){ LIB.push({ ...u, kind:'img', user:true }); }
   await Promise.all(LIB.filter(g=>g.kind==='img').map(async g=>{ images[g.id]=await loadImage(g.src); }));
