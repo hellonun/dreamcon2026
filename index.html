@@ -200,9 +200,9 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <dt>Exhibition walls</dt><dd>Two scaffold walls, 5.1 m and 7.6 m long, 2.12 m high, 8.2 m from centre; the gap lines up with the north-west column</dd>
         <dt>Sculpture core</dt><dd>Ø 6.0 m</dd>
         <dt>Partner booths</dt><dd>4 tables 1.5 × 0.6 × 0.75 m with a 1.5 × 0.75 m front sign and a 0.5 × 1.128 m tall sign</dd>
-        <dt>Stage position</dt><dd>South-east, square to the foyer wall with 0.5 m behind the LED, clear of the carpark doors</dd>
-        <dt>Stage</dt><dd>4.8 × 2.4 m, 8 blocks of 1.2 × 1.2 m, 0.60 m high</dd>
-        <dt>LED screen</dt><dd>4 × 2 m on the back of the stage, top at 2.60 m</dd>
+        <dt>Stage position</dt><dd>South-east, square to the foyer wall, clear of the carpark doors; the LED's back box stops 15 cm short of the wall</dd>
+        <dt>Stage</dt><dd>No platform: a 4.8 × 2.4 m blue carpet on the floor</dd>
+        <dt>LED screen</dt><dd>4 × 2 m on a 0.6 m deep back box, bottom at 0.60 m, top at 2.60 m</dd>
       </dl>
       <p class="note">Positions are traced from a screenshot of the plan, so allow ±10–15 cm. Confirm column and door positions on site before fixing anything.</p>
     </section>
@@ -413,8 +413,8 @@ const STAIR_A = [-10.1, 2.4], STAIR_B = [-7.2, 6.4];
 const OBSTACLES = [...COLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a column'})), ...WALLCOLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a wall column'})), {x:SPIRAL.x,z:SPIRAL.z,r:SPIRAL.r,name:'the spiral stair'}, {x:-8.65,z:4.4,r:1.9,name:'the curved stair'}];
 const ZONE_EXH = { r0:7.6, r1:11.4, a0:68, a1:161 };
 const ZONE_BOOTH = { r0:4.5, r1:7.1, a0:239, a1:342 };
-const STAGE_POS = { x:6.19, z:7.92, rot:38 };   // back of the LED 0.5 m off the foyer wall
-const BOOTHS = [[-7.01,5.06],[-5.81,6.34],[-4.37,7.35],[-2.76,8.03]];   // partner booth centres, from the plan sketch
+const STAGE_POS = { x:6.11, z:7.83, rot:38 };   // the LED's 0.6 m back box stops 15 cm short of the foyer wall
+const BOOTHS = [[-6.58,3.92],[-5.25,5.5],[-3.54,6.65],[-1.58,7.29]];   // on a 7.4 m arc, clear of the curved stair and the column   // partner booth centres, from the plan sketch
 const STAGE_Z = 4.39;
 const plan2xz = (r, phiDeg) => [r*Math.cos(phiDeg*DEG), -r*Math.sin(phiDeg*DEG)];
 const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
@@ -663,14 +663,14 @@ function buildRoom(){
   for(const rr of [2,4,6,8,10]){ const pts=[]; for(let a=0;a<=360;a+=3){ const [x,z]=plan2xz(rr,a); pts.push(new THREE.Vector3(x,0.01,z)); } const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color:'#7c86a3', dashSize:0.25, gapSize:0.18, transparent:true, opacity:0.7 })); ln.computeLineDistances(); rings.add(ln); const [x,z]=plan2xz(rr,203); const l=label(`r ${rr} m`,'lbl ring'); l.position.set(x,0.02,z); rings.add(l); }
   // conference stage: 4.8 x 2.4 m from 1.2 m blocks, 0.6 m high, back to the carpark doors, LED 4 x 2 m on the back edge
   { const st=new THREE.Group(); g.add(st); layers.stage=st; const SW=4.8, SD=2.4, SH=0.6, cz=0; st.position.set(STAGE_POS.x,0,STAGE_POS.z); st.rotation.y=STAGE_POS.rot*DEG; // south-east, clear of the carpark doors
-    const blockTop=new THREE.MeshStandardMaterial({ color:'#2A2B30', roughness:0.75 }), blockSide=new THREE.MeshStandardMaterial({ color:'#16171A', roughness:0.9 });
-    for(let i=0;i<4;i++) for(let j=0;j<2;j++){ const b=new THREE.Mesh(new THREE.BoxGeometry(1.196,SH,1.196),[blockSide,blockSide,blockTop,blockSide,blockSide,blockSide]); b.position.set(-SW/2+0.6+i*1.2, SH/2, cz-SD/2+0.6+j*1.2); b.castShadow=true; b.receiveShadow=true; st.add(b); }
-    const steps=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.3,0.4),blockSide); steps.position.set(SW/2-0.6,0.15,cz-SD/2-0.2); steps.castShadow=true; st.add(steps);
+    // no raised stage: a blue carpet on the floor, the LED on a 0.6 m deep back box
+    const rug=new THREE.Mesh(new THREE.BoxGeometry(SW,0.012,SD),new THREE.MeshStandardMaterial({ color:'#1C4CD3', map:carpetBump, roughness:1 })); rug.position.set(0,0.006,cz); rug.receiveShadow=true; st.add(rug);
+    const boxM=new THREE.MeshStandardMaterial({ color:'#16171A', roughness:0.85 });
+    const back=new THREE.Mesh(new THREE.BoxGeometry(4.08,2.66,0.6),boxM); back.position.set(0,1.33,cz+SD/2-0.06+0.3); back.castShadow=true; back.receiveShadow=true; st.add(back);
     const ledFrame=new THREE.Mesh(new THREE.BoxGeometry(4.08,2.06,0.12),new THREE.MeshStandardMaterial({ color:'#0b0b0d', roughness:0.5, metalness:0.3 })); ledFrame.position.set(0,SH+1.03,cz+SD/2-0.12); ledFrame.castShadow=true; st.add(ledFrame);
     const ledTex=new THREE.TextureLoader().load(ASSETS.keynote); ledTex.colorSpace=THREE.SRGBColorSpace;
     const led=new THREE.Mesh(new THREE.PlaneGeometry(4,2),new THREE.MeshBasicMaterial({ map:ledTex, toneMapped:false })); led.position.set(0,SH+1.0,cz+SD/2-0.181); led.rotation.y=Math.PI; st.add(led);
-    for(const x of [-1.7,1.7]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.5,0.5),castorMat); leg.position.set(x,SH+0.05,cz+SD/2-0.12); st.add(leg); }
-    const sl=label('Stage 4.8 × 2.4 m · LED 4 × 2 m'); sl.position.set(0,2.85,cz); st.add(sl); (layers.labels??=[]).push(sl); }
+    const sl=label('Stage carpet 4.8 × 2.4 m · LED 4 × 2 m'); sl.position.set(0,2.85,cz); st.add(sl); (layers.labels??=[]).push(sl); }
   // people for scale
   const people = new THREE.Group(); g.add(people); layers.people=people;
   const pm = new THREE.MeshStandardMaterial({ color:'#5C6B8A', roughness:0.8 });
