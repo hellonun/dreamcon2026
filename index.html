@@ -773,7 +773,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v13';
+const KEY='dreamcon-composer-v14';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -783,6 +783,7 @@ function arcModules({ rf, start, count, levels, w, d, h, gap=0, type='bay' }){
     for(let l=0;l<levels;l++) out.push(mk(type,{ x, z, y:l*h, rot, w, d, h })); }
   return { mods:out, span:count*step/DEG };
 }
+window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl });
 function proposal(){
   nextId=1; const mods=[]; const LV=2;
   const A = arcModules({ rf:8.2, start:161, count:5, levels:LV, w:1, d:0.6, h:1 }).mods;
@@ -790,6 +791,9 @@ function proposal(){
   const put=(arr,c0,n,r0,m,g,mode='panel',seed=0)=>{ for(let c=0;c<n;c++) for(let r=0;r<m;r++){ const mod=arr[(c0+c)*LV+r0+r]; if(mod) mod.prints.front={ g, mode, inset:mode==='full'?0.02:0.04, sn:n, si:c, sm:m, sj:r, seed }; } };
   put(A,0,3,0,2,'gridroyal','full',41); put(A,3,2,0,1,'sunset'); put(A,3,2,1,1,'halfmoons');
   put(B2,0,7,0,2,'gridnavy','full',12);
+  // print the open ends of each run too, so the walls read as solid blocks from the stairs
+  const ends=(arr,n,gL,gR,seed)=>{ for(let r=0;r<LV;r++){ const a=arr[r], b=arr[(n-1)*LV+r]; if(a) a.prints.left={ g:gL, mode:'full', inset:0.02, sn:1, si:0, sm:LV, sj:r, seed }; if(b) b.prints.right={ g:gR, mode:'full', inset:0.02, sn:1, si:0, sm:LV, sj:r, seed:seed+1 }; } };
+  ends(A,5,'gridroyal','gridroyal',41); ends(B2,7,'gridnavy','gridnavy',12);
   mods.push(...A, ...B2);
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
   { const a=6; const [px,pz]=plan2xz(4.85,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); const tx=Math.cos(ry), tz=-Math.sin(ry);
@@ -1070,9 +1074,9 @@ const KAPLA = {
       rr=Math.max(0.14, rr-0.03); }
     return out; },
   /* corbelled arch: two walls of bricks on edge stepping in until they meet, capped flat */
-  arch(rho, maxH, r){ const { L, W, H } = B; const half=clamp(rho*0.95,0.3,0.7); const out=[]; const over=0.045; const C=Math.min(Math.floor(maxH*0.9/W), Math.ceil((half-0.06)/over)+2);
+  arch(rho, maxH, r){ const { L, W, H } = B; const over=0.045; const Cmax=Math.max(4,Math.floor(maxH*0.9/W)); const half=clamp(Math.min(rho*0.95, L+0.03+(Cmax-2)*over),0.3,0.7); const out=[]; const C=Math.min(Cmax, Math.ceil((half-0.06)/over)+2);
     let topY=0; for(let k=0;k<C;k++){ const inner=Math.max(0.03, half-L-k*over); const xc=inner+L/2; if(xc-L/2<=0.031 && k>2) { topY=k*W; break; } for(const sx of [-1,1]) for(const z of [-0.055,0.055]) out.push(brk(sx*xc, k*W, z, 0, 'edge')); topY=(k+1)*W; }
-    for(const z of [-0.08,-0.027,0.027,0.08]) out.push(brk(0, topY, z, 0, 'flat'));
+    for(const x of [-0.16,-0.08,0,0.08,0.16]) out.push(brk(x, topY, 0, Math.PI/2, 'flat'));   // capstones laid across both walls
     return out; },
   /* twisted column: pairs of flat bricks turning a few degrees each course */
   twist(rho, maxH, r){ const { L, W, H } = B; const out=[]; const C=Math.max(4,Math.floor(maxH/(H+0.001))); const turn=(8+r()*8)*Math.PI/180*(r()<0.5?1:-1); const a0=r()*Math.PI;
@@ -1093,6 +1097,20 @@ const KAPLA = {
     return out; },
 };
 const KAPLA_NAMES = { pavilion:['stepped pavilion','stepped pavilions'], round:['round tower','round towers'], arch:['corbelled arch','corbelled arches'], twist:['twisted column','twisted columns'], cabin:['log-cabin cluster','log-cabin clusters'], domino:['domino spiral','domino spirals'] };
+/* support check: a brick stays only if its centre sits over contact with the deck (off the holes) or with bricks already standing directly below it */
+function footprint(b){ return b.o==='end'? [B.W,B.H] : b.o==='edge'? [B.L,B.H] : [B.L,B.W]; }
+function inFoot(b,x,z){ const [fx,fz]=footprint(b); const dx=x-b.x, dz=z-b.z, c=Math.cos(b.ry), s=Math.sin(b.ry); const lx=dx*c-dz*s, lz=dx*s+dz*c; return Math.abs(lx)<=fx/2+1e-4 && Math.abs(lz)<=fz/2+1e-4; }
+function supported(list, y0, R0, hs, cx=B.cx, cz=B.cz){ const ok=[], tops=new Map(), key=y=>Math.round(y*500);
+  const onDeck=(x,z)=>{ const px=x-cx, pz=z-cz; return Math.hypot(px,pz)<R0-0.01 && hs.every(h=>Math.hypot(h.x-px,h.z-pz)>h.r+0.005); };
+  const sorted=[...list].sort((a,b)=>a.base-b.base); let dropped=0;
+  for(const b of sorted){ const [fx,fz]=footprint(b); const c=Math.cos(b.ry), s=Math.sin(b.ry); const ground=Math.abs(b.base-y0)<0.002;
+    const below=ground? [] : [-1,0,1].flatMap(d=>tops.get(key(b.base)+d)||[]).filter(q=>Math.abs(q.top-b.base)<0.004);
+    let x0=9,x1=-9,z0=9,z1=-9, n=0, all=true; const NX=fx>0.1?11:5, NZ=fz>0.05?5:3;
+    for(let i=0;i<NX;i++) for(let j=0;j<NZ;j++){ const lx=(i/(NX-1)-0.5)*(fx-0.004), lz=(j/(NZ-1)-0.5)*(fz-0.004); const x=b.x+lx*c+lz*s, z=b.z-lx*s+lz*c;
+      const hit= ground? onDeck(x,z) : below.some(q=>inFoot(q,x,z)); if(hit){ n++; x0=Math.min(x0,lx); x1=Math.max(x1,lx); z0=Math.min(z0,lz); z1=Math.max(z1,lz); } else all=false; }
+    const good= ground? all : (n>0 && x0<=0.002 && x1>=-0.002 && z0<=0.002 && z1>=-0.002);
+    if(good){ ok.push(b); const k=key(b.top); if(!tops.has(k)) tops.set(k,[]); tops.get(k).push(b); } else dropped++; }
+  supported.dropped=dropped; return ok; }
 function buildTargets(){ return buildTargetsOnce(B.nStruct); }
 function buildTargetsOnce(nStruct){
   const N=B.count, R0=B.pdia/2, hs=holes(), { L, W, H } = B, g=0.003, y0=deckTop(); const r=rnd(1000+B.structSeed*7919);
@@ -1115,12 +1133,14 @@ function buildTargetsOnce(nStruct){
   let all=placed.flatMap(p=>p.bricks);
   // too many: trim each structure from the top, keeping the proportion
   if(all.length>N){ const f=N/all.length; all=placed.flatMap(p=>{ const keep=[...p.bricks].sort((a,b)=>a.base-b.base); return keep.slice(0,Math.floor(keep.length*f)); }); }
+  // nothing floats: keep only bricks that rest on the deck or on bricks below, with their centre over what holds them
+  all=supported(all, y0, R0, hs);
   // too few: pave the free deck flat, starting next to the stacks and structures
   const nBuilt=all.length; let paved=0;
   if(all.length<N){ const occ=(x,z)=>placed.some(p=>Math.hypot(x-B.cx-p.x,z-B.cz-p.z)<p.rho+0.06) || heaps.some(q=>Math.hypot(x-B.cx-q.x,z-B.cz-q.z)<0.62);
     const corners=(x,z)=>[[x-L/2,z-W/2],[x+L/2,z-W/2],[x+L/2,z+W/2],[x-L/2,z+W/2]];
     const cells=[]; const nx=Math.ceil(R0/(L+g))+1, nz=Math.ceil(R0/(W+g))+1;
-    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-0.04 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.13) && spots.every(s=>Math.hypot(s.x-a,s.z-b)>0.25)) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
+    for(let j=-nz;j<=nz;j++) for(let i=-nx;i<=nx;i++){ const x=i*(L+g)+((Math.abs(j)%2)?(L+g)/2:0), z=j*(W+g); if(corners(x,z).every(([a,b])=>Math.hypot(a,b)<R0-0.04 && hs.every(h=>Math.hypot(h.x-a,h.z-b)>h.r+0.16) && spots.every(s=>Math.hypot(s.x-a,s.z-b)>0.25)) && !occ(B.cx+x,B.cz+z)) cells.push({ x, z, d:Math.min(9,...placed.map(p=>Math.hypot(x-p.x,z-p.z)-p.rho), ...heaps.map(q=>Math.hypot(x-q.x,z-q.z)-0.5))+r()*0.3 }); }
     cells.sort((a,b)=>a.d-b.d); const used=cells.slice(0,N-all.length); for(const c of used){ all.push({ ...brk(B.cx+c.x,y0,B.cz+c.z,0), si:-1 }); paved++; }
     for(let k=1;k<4 && all.length<N;k++) for(const c of used.slice(0,N-all.length)){ all.push({ ...brk(B.cx+c.x,y0+k*(H+0.001),B.cz+c.z,0), si:-1 }); } }
   all.sort((a,b)=>(a.base-b.base)||(a.si-b.si));
@@ -1240,14 +1260,19 @@ const TOPICS = [ { id:'education', en:'Education', th:'การศึกษา'
 const HOLE_TOPICS = [['education'],['agriculture','health'],['economy']];
 const topicById = id => TOPICS.find(t=>t.id===id) || TOPICS[0];
 const SCR15 = { w:0.193, h:0.343 };   // 15.6" panel, portrait
-/* where each circle's screen goes: just outside the lettering, on the side with the most room, leaning toward the deck centre */
-function holeScreenSpots(hs){ const R0=B.pdia/2;
+/* where each circle's screen goes: flush in the deck at the outer rim, beside its circle, bottom toward the rim so people outside the table read it */
+const SCREEN_SIDE = { opt3:[-1,1,-1] };   // which way round the rim each circle's screen sits, as marked on the plan
+function holeScreenSpots(hs){ const R0=B.pdia/2, rc=R0-0.05-SCR15.h/2, hw=SCR15.w/2+0.03, hh=SCR15.h/2+0.03;
   const out=[];
-  hs.forEach((h,i)=>{ let best=null; const d0=h.r+0.16, d1=d0+SCR15.h;
-    for(let a=0;a<360;a+=3){ const t=a*DEG, ux=Math.cos(t), uz=Math.sin(t); const x=h.x+ux*(d0+SCR15.h/2), z=h.z+uz*(d0+SCR15.h/2);
-      const far=Math.hypot(h.x+ux*d1,h.z+uz*d1)+0.12; const sc=Math.min(0.9, R0-far, ...hs.filter(q=>q!==h).map(q=>Math.hypot(q.x-x,q.z-z)-q.r-0.3), ...out.map(o=>Math.hypot(o.x-x,o.z-z)-0.6));
-      if(!best||sc>best.sc+1e-6) best={ sc, x, z, ux, uz, a:t }; }
-    out.push({ ...best, i }); });
+  const clear=(t,self)=>{ const ox=Math.cos(t), oz=Math.sin(t), tx=-oz, tz=ox; const cx=ox*rc, cz=oz*rc; let m=9;
+    for(const [a,b] of [[-hw,-hh],[hw,-hh],[hw,hh],[-hw,hh],[0,-hh],[0,hh],[-hw,0],[hw,0]]){ const x=cx+tx*a+ox*b, z=cz+tz*a+oz*b; for(const q of hs) m=Math.min(m,Math.hypot(q.x-x,q.z-z)-q.r-0.14); }
+    for(const o of out) m=Math.min(m,Math.hypot(o.x-cx,o.z-cz)-0.8); return m; };
+  hs.forEach((h,i)=>{ const a0=Math.atan2(h.z,h.x); let best=null;
+    const pref=(SCREEN_SIDE[B.holeSet]||[])[i]; const sides=pref? [pref] : [-1,1];
+    for(let k=0;k<=150 && !best;k++) for(const sg of sides){ const t=a0+sg*k*DEG; const c=clear(t,h); if(c>0.02 && !best) best={ t, c }; }
+    if(!best) for(let k=0;k<=150 && !best;k++) for(const sg of [-1,1]){ const t=a0+sg*k*DEG; if(clear(t,h)>0) best={ t }; }
+    const t=best?best.t:a0; const ox=Math.cos(t), oz=Math.sin(t);
+    out.push({ x:ox*rc, z:oz*rc, ux:-ox, uz:-oz, a:t, i }); });
   return out; }
 /* one scrolling canvas per circle */
 const holeScreens = [0,1,2,3,4].map(i=>{ const c=document.createElement('canvas'); c.width=360; c.height=640; c.className='screenprev'; c.setAttribute('aria-label','Circle screen '+(i+1)); const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { c, tex, mat:new THREE.MeshBasicMaterial({ map:tex, toneMapped:false }), off:0 }; });
@@ -1271,20 +1296,21 @@ function drawHoleScreen(i){ const s=holeScreens[i], ctx=s.c.getContext('2d'), W=
 let lastScreenT=0;
 function tickScreens(now){ if(now-lastScreenT<33) return; const dt=lastScreenT? now-lastScreenT : 0; lastScreenT=now; const n=Math.min(holes().length,HOLE_TOPICS.length);
   for(let i=0;i<n;i++){ holeScreens[i].off+=dt*0.028; drawHoleScreen(i); } }
-/* lettering round a hole: Thai and English, repeated to run all the way round, upright for someone sitting in the hole */
-function ringLetteringTexture(h, i, spot){ const ts=(HOLE_TOPICS[i]||[]).map(topicById); if(!ts.length) return null;
+/* lettering round a hole: Thai and English, repeated to run all the way round, reading from the deck outside the circle (letter tops toward the hole) */
+function ringLetteringTexture(h, i){ const ts=(HOLE_TOPICS[i]||[]).map(topicById); if(!ts.length) return null;
   const pad=0.2, size=2*(h.r+pad), ppm=Math.min(700,2048/size), S=Math.round(size*ppm); const c=document.createElement('canvas'); c.width=c.height=S; const ctx=c.getContext('2d');
   const px=0.065*ppm; ctx.font=`600 ${px}px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif`; ctx.fillStyle='#3B2A1A'; ctx.textBaseline='alphabetic';
   const label=ts.map(t=>`${t.th}  ${t.en.toUpperCase()}`).join('   ·   '); const unit=graphemes(label); const wid=unit.map(g=>ctx.measureText(g).width); const unitW=wid.reduce((a,b)=>a+b,0);
-  const rT=(h.r+0.035)*ppm, circ=2*Math.PI*rT, sepMin=0.18*ppm; const reps=Math.max(1,Math.floor(circ/(unitW+sepMin))); const sep=(circ-reps*unitW)/reps;
-  let ang=spot.a-(unitW/2)/rT;
-  for(let r=0;r<reps;r++){ unit.forEach((g,k)=>{ const a=ang+(wid[k]/2)/rT; ctx.save(); ctx.translate(S/2+Math.cos(a)*rT, S/2+Math.sin(a)*rT); ctx.rotate(a+Math.PI/2); ctx.fillText(g,-wid[k]/2,0); ctx.restore(); ang+=wid[k]/rT; });
-    const a=ang+(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT+px*0.35), S/2+Math.sin(a)*(rT+px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang+=sep/rT; }
+  const rT=(h.r+0.03)*ppm+px*1.0, circ=2*Math.PI*rT, sepMin=0.18*ppm; const reps=Math.max(1,Math.floor(circ/(unitW+sepMin))); const sep=(circ-reps*unitW)/reps;
+  // centre one full label on the side of the circle facing the table rim; text runs clockwise for a reader outside
+  let ang=Math.atan2(h.z,h.x)+(unitW/2)/rT;
+  for(let r=0;r<reps;r++){ unit.forEach((g,k)=>{ const a=ang-(wid[k]/2)/rT; ctx.save(); ctx.translate(S/2+Math.cos(a)*rT, S/2+Math.sin(a)*rT); ctx.rotate(a-Math.PI/2); ctx.fillText(g,-wid[k]/2,0); ctx.restore(); ang-=wid[k]/rT; });
+    const a=ang-(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT-px*0.35), S/2+Math.sin(a)*(rT-px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang-=sep/rT; }
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { tex, size }; }
 const ringCache = new Map();
 function buildHoleFeatures(hs){ const top=deckTop(); const spots=holeScreenSpots(hs);
   spots.forEach((sp,i)=>{ if(i>=HOLE_TOPICS.length) return; const h=hs[i];
-    const key=[h.x,h.z,h.r,sp.a].map(v=>v.toFixed(3)).join(',')+'|'+i; let rt=ringCache.get(key); if(!rt){ rt=ringLetteringTexture(h,i,sp); ringCache.set(key,rt); }
+    const key=[h.x,h.z,h.r].map(v=>v.toFixed(3)).join(',')+'|o|'+i; let rt=ringCache.get(key); if(!rt){ rt=ringLetteringTexture(h,i); ringCache.set(key,rt); }
     if(rt){ const m=new THREE.Mesh(new THREE.PlaneGeometry(rt.size,rt.size), new THREE.MeshStandardMaterial({ map:rt.tex, transparent:true, depthWrite:false, roughness:0.8, polygonOffset:true, polygonOffsetFactor:-2 })); m.rotation.x=-Math.PI/2; m.position.set(B.cx+h.x,top+0.0008,B.cz+h.z); m.renderOrder=1; platGroup.add(m); }
     const ry=Math.atan2(-sp.ux,-sp.uz);
     const bez=new THREE.Mesh(new THREE.BoxGeometry(SCR15.w+0.024,0.012,SCR15.h+0.024),castorMat); bez.position.set(B.cx+sp.x,top-0.005,B.cz+sp.z); bez.rotation.y=ry; platGroup.add(bez);
