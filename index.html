@@ -439,7 +439,7 @@ const STAIR_A = [-10.1, 2.4], STAIR_B = [-7.2, 6.4];
 const OBSTACLES = [...COLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a column'})), ...WALLCOLS.map(c=>({x:c[0],z:c[1],r:COL_R,name:'a wall column'})), {x:SPIRAL.x,z:SPIRAL.z,r:SPIRAL.r,name:'the spiral stair'}, {x:-8.65,z:4.4,r:1.9,name:'the curved stair'}];
 const ZONE_EXH = { r0:7.6, r1:11.4, a0:68, a1:161 };
 const ZONE_BOOTH = { r0:4.5, r1:7.1, a0:239, a1:342 };
-const STAGE_POS = { x:0, z:8.9, rot:0 };   // bottom middle, back to the carpark doors
+const STAGE_POS = { x:0, z:8.51, rot:0 };   // bottom middle; LED back box 1.75 m from the carpark doors
 const BOOTH_R = 7.6, BOOTH_ANG = [23.7,7.9,-7.9,-23.7];   // in front of the east doors to the library, one row with the ends touching
 const BOOTHS = BOOTH_ANG.map(a=>[BOOTH_R*Math.cos(a*DEG), -BOOTH_R*Math.sin(a*DEG)]);
 const turnXZ=([x,z],deg)=>{ const c=Math.cos(deg*DEG), s=Math.sin(deg*DEG); return [x*c+z*s, -x*s+z*c]; };
