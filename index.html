@@ -871,8 +871,9 @@ window.__dc=()=>({ B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wa
 const WALL_RF = 8.2, WALL_D = 0.6, WALL_Y0 = 0.10, WALL_H = 2.0, WALL_GAP = 1.0;
 const WALL_GAP_AT = Math.atan2(4.39, -4.70)/DEG;   // the gap lines up with the north-west column, seen from the centre
 const A1 = { w:0.594, h:0.841 }, IDEA_BOARD = { w:0.847, h:1.195 }, A0 = { w:0.841, h:1.189 };
-const PRINT_INSET = 0.025;   // every print sits 25 mm inside its scaffold cell
-const WALLS = (()=>{ const T=WALL_Y0+WALL_H, m=PRINT_INSET, cell=(k,s0,s1,y0,y1)=>[k,s0+m,s1-m,y0+m,y1-m];
+const PRINT_INSET = 0.025, PRINT_TUBE = 0.0483;   // every print sits at least 25 mm inside the tube faces of its cell (cell is measured tube centre to tube centre)
+const printSpan = (a,b)=>{ const w=Math.floor(((b-a)-PRINT_TUBE-2*PRINT_INSET)*200+1e-6)/200, c=(a+b)/2; return [c-w/2, c+w/2]; };   // rounded down to 5 mm, centred
+const WALLS = (()=>{ const T=WALL_Y0+WALL_H, cell=(k,s0,s1,y0,y1)=>{ const [a,b]=printSpan(s0,s1), [c,d]=printSpan(y0,y1); return [k,a,b,c,d]; };
   // left wall: a 1.8 m block split by ledgers at 1.825 and 0.975 and a short standard at 0.9, then five 0.6 m cells
   const yA=1.825, yB=0.975;
   const L = { cells:[1.8,0.6,0.6,0.6,0.6,0.6], rails:[[yA,0,1.8],[yB,0,1.8]], part:[[0.9,WALL_Y0,yB]], prints:[
