@@ -138,6 +138,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
   .hint{display:none}
 }
 @media (prefers-reduced-motion:reduce){#toast{transition:none}}
+  .cpick{ width:54px; height:34px; border:1px solid var(--line); border-radius:8px; padding:2px; background:#fff; flex:none; }
 </style>
 
 </head>
@@ -325,12 +326,16 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       </div>
       <h3>Brick message station</h3>
       <div class="card">
+        <h3 style="margin-top:0">Station finishes</h3>
+        <div class="fld">Edge round the screen<div class="row" id="stn-rim-sw"></div><div class="row"><input type="color" id="stn-rim" class="cpick"><select id="stn-rim-tex" class="s" style="flex:1"><option value="matte">Matte</option><option value="satin">Satin</option><option value="wood">Wood grain</option></select></div></div>
+        <div class="fld">Behind the keyboard<div class="row" id="stn-ledge-sw"></div><div class="row"><input type="color" id="stn-ledge" class="cpick"><select id="stn-ledge-tex" class="s" style="flex:1"><option value="matte">Matte</option><option value="satin">Satin</option><option value="wood">Wood grain</option></select></div></div>
+        <div class="fld">Screen background<div class="row" id="stn-bg-sw"></div><div class="row"><input type="color" id="stn-bg" class="cpick"></div></div>
         <label class="fld">Question on the screens<input type="text" id="b-prompt" maxlength="120"></label>
         <div class="fld">Topic (touch strip)<div class="chips" id="msg-topic"></div></div>
-        <label class="fld">Type as a visitor would<input type="text" id="msg-in" maxlength="80" placeholder="Your answer is projected on the table as you type"></label>
+        <label class="fld">Type as a visitor would<input type="text" id="msg-in" maxlength="80" placeholder="Your answer appears on the station screen as you type"></label>
         <div class="row"><button class="btn primary" id="msg-scan">Send</button><button class="btn" id="msg-sample">Sample answer</button><button class="btn" id="msg-reset">Reset answers</button></div>
         <label class="tg"><input type="checkbox" id="msg-fly" checked>Move the camera to the brick</label>
-        <p class="note">Pick a topic, type, then Send. The answer is projected onto the brick in the station first, then that brick joins the build, and the message appears on the scrolling screen of its topic's circle. The 20 starting answers are samples.</p>
+        <p class="note">Pick a topic, type, then Send. The answer lights up round the brick on the station screen first, then that brick joins the build, and the message appears on the scrolling screen of its topic's circle. The 20 starting answers are samples.</p>
       </div>
       <h3>Circle screens · scrolling messages</h3>
       <div id="screen-wrap" class="screenwrap"></div>
@@ -708,8 +713,8 @@ function moduleExtras(m, g){
   if(m.type==='station'){ const T=0.9, TT=0.036, t=0.864, F=FRAME43, E=STN.edge;
     // 43" Samsung The Frame laid flat and flush in the ply top: 10 mm of wood left, back and right, the keyboard ledge in front
     const zb=-m.d/2+E, zf=zb+F.d, yTop=T;
-    const wood=(w,d,x,z)=>{ const p=new THREE.Mesh(new THREE.BoxGeometry(w,TT,d),oakMat); p.position.set(x,yTop-TT/2,z); p.castShadow=true; p.receiveShadow=true; g.add(p); };
-    wood(m.w,E,0,-m.d/2+E/2); wood(E,F.d,-m.w/2+E/2,(zb+zf)/2); wood(E,F.d,m.w/2-E/2,(zb+zf)/2); wood(m.w,m.d/2-zf,0,(zf+m.d/2)/2);
+    const rimM=finishMat(B.stnRim,B.stnRimTex), ledgeM=finishMat(B.stnLedge,B.stnLedgeTex); const wood=(w,d,x,z,mt=rimM)=>{ const p=new THREE.Mesh(new THREE.BoxGeometry(w,TT,d),mt); p.position.set(x,yTop-TT/2,z); p.castShadow=true; p.receiveShadow=true; g.add(p); };
+    wood(m.w,E,0,-m.d/2+E/2); wood(E,F.d,-m.w/2+E/2,(zb+zf)/2); wood(E,F.d,m.w/2-E/2,(zb+zf)/2); wood(m.w,m.d/2-zf,0,(zf+m.d/2)/2,ledgeM);
     const scr=new THREE.Group(); scr.position.set(0,yTop-F.t,(zb+zf)/2); g.add(scr);
     const body=new THREE.Mesh(new THREE.BoxGeometry(F.w,F.t,F.d),[castorMat,castorMat,frameBezelMat,castorMat,castorMat,castorMat]); body.position.y=F.t/2; scr.add(body);
     const panel=new THREE.Mesh(new THREE.PlaneGeometry(F.aw,F.ad),stationBgMat); panel.rotation.x=-Math.PI/2; panel.position.y=F.t+0.0005; scr.add(panel);
@@ -791,7 +796,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v19';
+const KEY='dreamcon-composer-v20';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1033,7 +1038,7 @@ function dress(kind){
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
 const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.8, carpetShape:'circle', pdia:5.5, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
-  layers:16, prog:0.75, cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
+  layers:16, prog:0.75, stnLedge:'#3A3C40', stnLedgeTex:'matte', stnRim:'#3A3C40', stnRimTex:'matte', stnScreenBg:'#A2A5AA', cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
   ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
@@ -1418,16 +1423,22 @@ function ventMat(w,h){ const key=w.toFixed(2)+'x'+h.toFixed(2); if(ventCache.has
     for(const yc of [H-0.1*ppm]) for(let row=0; row<3; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), yc-1.5*sh*2+row*sh*2, sw, sh, sh/2); c.fill(); } });
   const m=new THREE.MeshStandardMaterial({ color:'#C9A26E', map:t, roughness:0.7 }); ventCache.set(key,m); return m; }
 const stationBgMat=new THREE.MeshBasicMaterial({ color:'#A2A5AA', toneMapped:false });
+function applyStationFinish(){ stationBgMat.color.set(stationBg()); drawStation(); for(const m of S.modules) if(m.type==='station') buildModule(m); }
 const acrylicMat=new THREE.MeshStandardMaterial({ color:'#ffffff', transparent:true, opacity:0.35, roughness:0.1 });
 const frameBezelMat=new THREE.MeshStandardMaterial({ color:'#1A1B1E', roughness:0.4 });
+const finishCache=new Map();
+function finishMat(col, tex){ const k=col+'|'+tex; if(finishCache.has(k)) return finishCache.get(k);
+  const m=new THREE.MeshStandardMaterial({ color:col, map: tex==='wood'? oakMat.map : null, roughness: tex==='satin'? 0.35 : tex==='wood'? 0.7 : 0.85, metalness:0 }); finishCache.set(k,m); return m; }
+const FINISH_SW = [['#3A3C40','Dark grey'],['#1B1C1F','Black'],['#8A8D92','Mid grey'],['#EDEDEA','White'],['#C9A26E','Oak']];
+const SCREEN_SW = [['#A2A5AA','Medium-light grey'],['#C9CBCF','Light grey'],['#6E7177','Mid grey'],['#3A3C40','Dark grey'],['#16181D','Black'],['#232B49','Navy']];
 const kbBodyMat=new THREE.MeshStandardMaterial({ color:'#E8E9EB', roughness:0.35, metalness:0.4 });
 const stationBrickMat=new THREE.MeshStandardMaterial({ color:'#A65A5A', map:speckle, roughness:0.93 });
 const stationProjCanvas=document.createElement('canvas'); stationProjCanvas.width=512; stationProjCanvas.height=170;
 const stationProjTex=new THREE.CanvasTexture(stationProjCanvas); stationProjTex.colorSpace=THREE.SRGBColorSpace;
 const stationProjMat=new THREE.MeshBasicMaterial({ map:stationProjTex, transparent:true, depthWrite:false, toneMapped:false, opacity:0 });
 const stationGlowMat=new THREE.MeshBasicMaterial({ map:canvasTex(128,128,(c,w,h)=>{ const g=c.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); g.addColorStop(0,'rgba(255,255,255,.9)'); g.addColorStop(0.45,'rgba(255,255,255,.3)'); g.addColorStop(1,'rgba(255,255,255,0)'); c.fillStyle=g; c.fillRect(0,0,w,h); }), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false, opacity:0 });
-const STATION_BG='#A2A5AA';   // medium-light grey screen, graphics in white
-function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=stationCanvas.height; c.fillStyle=STATION_BG; c.fillRect(0,0,W,H);
+const stationBg=()=>B.stnScreenBg||'#A2A5AA';   // screen background, graphics in white
+function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=stationCanvas.height; c.fillStyle=stationBg(); c.fillRect(0,0,W,H);
   const warm='#FFFFFF', soft='rgba(255,255,255,.85)', sun='#FFFFFF';
   // question, left
   const set=px=>thai(c,px,700); const f=fitText(c,B.prompt,470,4,40,22,set); set(f.px); c.fillStyle=warm; c.textAlign='left'; c.textBaseline='alphabetic'; f.lines.forEach((l,i)=>c.fillText(l,40,90+i*f.px*1.3));
@@ -1440,7 +1451,7 @@ function drawStation(){ const c=stationCanvas.getContext('2d'), W=1600, H=statio
   const shown=stationState==='idle'? draft : stationMsg; const tset=px=>thai(c,px,600); const tf=fitText(c,shown||'พิมพ์ที่แป้นพิมพ์ · Type on the keyboard',450,4,40,22,tset); tset(tf.px); c.fillStyle=shown?warm:'rgba(255,255,255,.6)';
   tf.lines.forEach((l,i)=>c.fillText(l,1110,130+i*tf.px*1.3)); if(stationState==='idle' && shown){ const lw=c.measureText(tf.lines[tf.lines.length-1]).width; c.fillStyle=sun; c.fillRect(1114+lw,130+(tf.lines.length-1)*tf.px*1.3-tf.px*0.85,4,tf.px); }
   c.strokeStyle='rgba(255,255,255,.4)'; c.lineWidth=2; c.strokeRect(6,6,W-12,H-12); stationTex.needsUpdate=true; drawTouch(); }
-function drawTouch(){ const c=touchCanvas.getContext('2d'), W=1600, H=157; c.fillStyle=STATION_BG; c.fillRect(0,0,W,H);
+function drawTouch(){ const c=touchCanvas.getContext('2d'), W=1600, H=157; c.fillStyle=stationBg(); c.fillRect(0,0,W,H);
   thai(c,22,500); c.fillStyle='rgba(255,255,255,.85)'; c.textAlign='left'; c.textBaseline='middle'; c.fillText('เลือกหัวข้อ',24,48); c.fillText('Select a topic',24,104);
   const x0=210, bw=(W-x0-24-3*16)/4; TOPICS.forEach((t,i)=>{ const x=x0+i*(bw+16), on=t.id===B.topic; rrect(c,x,18,bw,H-36,18); if(on){ c.fillStyle='rgba(255,255,255,.28)'; c.fill(); c.strokeStyle='#FFFFFF'; c.lineWidth=7; c.stroke(); } else { c.strokeStyle='rgba(255,255,255,.7)'; c.lineWidth=3; c.stroke(); }
     c.fillStyle='#FFFFFF'; c.textAlign='center'; const set=p=>thai(c,p,700); const f=fitText(c,t.th,bw-24,1,32,16,set); set(f.px); c.fillText(f.lines[0],x+bw/2,62); thai(c,22,500); c.fillText(t.en,x+bw/2,104,bw-24); });
@@ -1531,7 +1542,7 @@ function syncBrickUI(){ const o=(id,v)=>{ const e=$('#'+id); if(e) e.textContent
   $$('#b-types .chip').forEach(c=>c.setAttribute('aria-pressed',String(!!B.types[c.dataset.type])));
   $$('#b-colmode .chip').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.cm===B.colorMode))); $$('#b-swatches .sw').forEach(c=>{ c.setAttribute('aria-pressed',String(c.dataset.c===B.single)); }); $('#b-swatches').hidden=B.colorMode!=='single';
   $('#msg-fly').checked=B.fly; $('#b-layers').value=B.layers; o('b-layers-o',`${B.layers}`);
-  $('#b-prog').value=Math.round(B.prog*1000); $('#b-count').value=B.count; $('#b-prompt').value=B.prompt;
+  $('#b-prog').value=Math.round(B.prog*1000); $('#b-count').value=B.count; $('#b-prompt').value=B.prompt; stationSyncs.forEach(f=>f()); stationBgMat.color.set(stationBg());
   $('#b-L').value=Math.round(B.L*1000*10)/10; $('#b-W').value=Math.round(B.W*1000*10)/10; $('#b-H').value=Math.round(B.H*1000*10)/10; $('#b-dens').value=B.dens; $('#b-cx').value=B.cx; $('#b-cz').value=B.cz;
   const sz=`${+(B.L*1000).toFixed(1)},${+(B.W*1000).toFixed(1)},${+(B.H*1000).toFixed(1)}`; const opt=[...$('#b-size').options].find(op=>op.value===sz); $('#b-size').value=opt?sz:'custom';
 }
@@ -1545,6 +1556,14 @@ function bindBricks(){
   $('#b-carpet-sw').innerHTML=CARPETS.map(([c,n])=>`<button class="sw" data-c="${c}" title="${n}" aria-label="${n} carpet" style="background:${c}"></button>`).join('');
   const setCarpet=()=>{ syncBrickUI(); buildCarpet(); persist(); };
   $$('#b-carpet-sw .sw').forEach(c=>c.onclick=()=>{ B.carpetColor=c.dataset.c; B.carpet=true; setCarpet(); });
+  const swRow=(id,list,key,texKey)=>{ $('#'+id+'-sw').innerHTML=list.map(([c,n])=>`<button class="sw" data-c="${c}" data-t="${n==='Oak'?'wood':''}" title="${n}" aria-label="${n}" style="background:${c}"></button>`).join('');
+    const sync=()=>{ $('#'+id).value=B[key]; if(texKey) $('#'+id+'-tex').value=B[texKey]; $$('#'+id+'-sw .sw').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c.toLowerCase()===String(B[key]).toLowerCase()))); };
+    const set=()=>{ sync(); applyStationFinish(); persist(); };
+    $$('#'+id+'-sw .sw').forEach(b=>b.onclick=()=>{ B[key]=b.dataset.c; if(texKey) B[texKey]= b.dataset.t || (B[texKey]==='wood'?'matte':B[texKey]); set(); });
+    $('#'+id).addEventListener('input',e=>{ B[key]=e.target.value; sync(); applyStationFinish(); }); $('#'+id).addEventListener('change',persist);
+    if(texKey) $('#'+id+'-tex').onchange=e=>{ B[texKey]=e.target.value; set(); };
+    stationSyncs.push(sync); sync(); };
+  swRow('stn-rim',FINISH_SW,'stnRim','stnRimTex'); swRow('stn-ledge',FINISH_SW,'stnLedge','stnLedgeTex'); swRow('stn-bg',SCREEN_SW,'stnScreenBg');
   $('#b-carpet-col').addEventListener('input',e=>{ B.carpetColor=e.target.value; B.carpet=true; $('#b-carpet').checked=true; carpetMat.color.set(B.carpetColor); if(!carpetGroup.children.length) buildCarpet(); });
   $('#b-carpet-col').addEventListener('change',setCarpet);
   $('#b-carpet').onchange=e=>{ B.carpet=e.target.checked; setCarpet(); };
@@ -1586,6 +1605,7 @@ function setView(name){
 
 /* ---------------- tabs, layers, misc UI ---------------- */
 function setTab(t){ $$('.tab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t))); $$('.pane').forEach(p=>p.hidden=p.dataset.pane!==t); store.set(KEY+'-tab',t); }
+const stationSyncs=[];
 function bindUI(){
   $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
   const lyr=(id,fn)=>{ const e=$('#'+id); e.onchange=()=>fn(e.checked); fn(e.checked); };
