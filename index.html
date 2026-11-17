@@ -327,6 +327,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <h3>Brick message station</h3>
       <div class="card">
         <h3 style="margin-top:0">Station finishes</h3>
+        <label class="fld">Display<select id="stn-mode" class="s"><option value="monitor">Monitor, 43" Samsung The Frame</option><option value="projection">Projection, no visible screen edge</option></select></label>
         <div class="fld">Edge round the screen<div class="row" id="stn-rim-sw"></div><div class="row"><input type="color" id="stn-rim" class="cpick"><select id="stn-rim-tex" class="s" style="flex:1"><option value="matte">Matte</option><option value="satin">Satin</option><option value="wood">Wood grain</option></select></div></div>
         <div class="fld">Behind the keyboard<div class="row" id="stn-ledge-sw"></div><div class="row"><input type="color" id="stn-ledge" class="cpick"><select id="stn-ledge-tex" class="s" style="flex:1"><option value="matte">Matte</option><option value="satin">Satin</option><option value="wood">Wood grain</option></select></div></div>
         <div class="fld">Screen background<div class="row" id="stn-bg-sw"></div><div class="row"><input type="color" id="stn-bg" class="cpick"></div></div>
@@ -716,8 +717,9 @@ function moduleExtras(m, g){
     const rimM=finishMat(B.stnRim,B.stnRimTex), ledgeM=finishMat(B.stnLedge,B.stnLedgeTex); const wood=(w,d,x,z,mt=rimM)=>{ const p=new THREE.Mesh(new THREE.BoxGeometry(w,TT,d),mt); p.position.set(x,yTop-TT/2,z); p.castShadow=true; p.receiveShadow=true; g.add(p); };
     wood(m.w,E,0,-m.d/2+E/2); wood(E,F.d,-m.w/2+E/2,(zb+zf)/2); wood(E,F.d,m.w/2-E/2,(zb+zf)/2); wood(m.w,m.d/2-zf,0,(zf+m.d/2)/2,ledgeM);
     const scr=new THREE.Group(); scr.position.set(0,yTop-F.t,(zb+zf)/2); g.add(scr);
-    const body=new THREE.Mesh(new THREE.BoxGeometry(F.w,F.t,F.d),[castorMat,castorMat,frameBezelMat,castorMat,castorMat,castorMat]); body.position.y=F.t/2; scr.add(body);
-    const panel=new THREE.Mesh(new THREE.PlaneGeometry(F.aw,F.ad),stationBgMat); panel.rotation.x=-Math.PI/2; panel.position.y=F.t+0.0005; scr.add(panel);
+    const proj=B.stnMode==='projection';   // projection: one seamless surface, no bezel to see
+    if(!proj){ const body=new THREE.Mesh(new THREE.BoxGeometry(F.w,F.t,F.d),[castorMat,castorMat,frameBezelMat,castorMat,castorMat,castorMat]); body.position.y=F.t/2; scr.add(body); }
+    const panel=new THREE.Mesh(proj? new THREE.PlaneGeometry(F.w,F.d) : new THREE.PlaneGeometry(F.aw,F.ad),stationBgMat); panel.rotation.x=-Math.PI/2; panel.position.y=F.t+0.0005; scr.add(panel);
     const pa=new THREE.Mesh(new THREE.PlaneGeometry(F.aw,STN.projH),stationMat); pa.rotation.x=-Math.PI/2; pa.position.set(0,F.t+0.001,STN.projZ); pa.renderOrder=2; scr.add(pa);
     const ts=new THREE.Mesh(new THREE.PlaneGeometry(F.aw,STN.touchH),stationTouchMat); ts.rotation.x=-Math.PI/2; ts.position.set(0,F.t+0.001,STN.touchZ); ts.renderOrder=2; scr.add(ts);
     const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(0,F.t+0.0016,STN.brickZ); glw.renderOrder=3; scr.add(glw);
@@ -796,7 +798,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v21';
+const KEY='dreamcon-composer-v22';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1038,7 +1040,7 @@ function dress(kind){
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
 const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.6, carpetShape:'circle', pdia:6.0, platH:0.45, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
-  layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
+  layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'monitor', cx:0, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
   ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
@@ -1414,14 +1416,14 @@ const touchTex=new THREE.CanvasTexture(touchCanvas); touchTex.colorSpace=THREE.S
 const stationTouchMat=new THREE.MeshBasicMaterial({ map:touchTex, depthWrite:false, toneMapped:false, polygonOffset:true, polygonOffsetFactor:-1 });
 const keyboardMat=new THREE.MeshStandardMaterial({ roughness:0.6, map:canvasTex(880,280,(c,w,h)=>{ c.fillStyle='#E4E6E9'; c.fillRect(0,0,w,h); const rows=[13,13,12,11]; rows.forEach((n,r)=>{ const kw=(w-30)/14.2; const x0=12+r*kw*0.3; for(let k=0;k<n;k++){ c.fillStyle='#FBFBFC'; c.beginPath(); c.roundRect(x0+k*kw*1.06,12+r*52,kw*0.94,44,6); c.fill(); } }); c.fillStyle='#FBFBFC'; c.beginPath(); c.roundRect(w*0.27,12+4*52,w*0.42,44,6); c.fill(); }) });
 const diffuserMat=new THREE.MeshStandardMaterial({ color:'#F4F4F1', emissive:'#FFFFFF', emissiveIntensity:0.35, roughness:0.35 });
-const oakMat=new THREE.MeshStandardMaterial({ color:'#C9A26E', map:canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const r=rnd(77); for(let i=0;i<90;i++){ const y=r()*h; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.12})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); for(let x=0;x<=w;x+=16) c.lineTo(x,y+Math.sin(x/40+i)*2*r()); c.stroke(); } }), roughness:0.7 });
+const oakMat=new THREE.MeshStandardMaterial({ color:'#E2CCA2', map:canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const r=rnd(77); for(let i=0;i<90;i++){ const y=r()*h; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.12})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); for(let x=0;x<=w;x+=16) c.lineTo(x,y+Math.sin(x/40+i)*2*r()); c.stroke(); } }), roughness:0.7 });
 const ventCache=new Map();
 function ventMat(w,h){ const key=w.toFixed(2)+'x'+h.toFixed(2); if(ventCache.has(key)) return ventCache.get(key); const ppm=400, W=Math.round(w*ppm), H=Math.round(h*ppm);
   const t=canvasTex(W,H,(c)=>{ c.fillStyle='#fff'; c.fillRect(0,0,W,H); const r=rnd(77); for(let i=0;i<60;i++){ const y=r()*H; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.1})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); c.lineTo(W,y+(r()-0.5)*6); c.stroke(); }
     // two bands of slits, low and high, 120 x 8 mm
     c.fillStyle='#2a1d12'; const sw=0.12*ppm, sh=0.008*ppm, gap=0.03*ppm; const n=Math.max(1,Math.floor((W-0.1*ppm)/(sw+gap))); const x0=(W-(n*sw+(n-1)*gap))/2;
     for(const yc of [H-0.1*ppm]) for(let row=0; row<3; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), yc-1.5*sh*2+row*sh*2, sw, sh, sh/2); c.fill(); } });
-  const m=new THREE.MeshStandardMaterial({ color:'#C9A26E', map:t, roughness:0.7 }); ventCache.set(key,m); return m; }
+  const m=new THREE.MeshStandardMaterial({ color:'#E2CCA2', map:t, roughness:0.7 }); ventCache.set(key,m); return m; }
 const stationBgMat=new THREE.MeshBasicMaterial({ color:'#A2A5AA', toneMapped:false });
 function applyStationFinish(){ stationBgMat.color.set(stationBg()); drawStation(); for(const m of S.modules) if(m.type==='station') buildModule(m); }
 const acrylicMat=new THREE.MeshStandardMaterial({ color:'#ffffff', transparent:true, opacity:0.35, roughness:0.1 });
@@ -1584,6 +1586,7 @@ function bindBricks(){
     $('#'+id).addEventListener('input',e=>{ B[key]=e.target.value; sync(); applyStationFinish(); }); $('#'+id).addEventListener('change',persist);
     if(texKey) $('#'+id+'-tex').onchange=e=>{ B[texKey]=e.target.value; set(); };
     stationSyncs.push(sync); sync(); };
+  $('#stn-mode').onchange=e=>{ B.stnMode=e.target.value; applyStationFinish(); persist(); }; stationSyncs.push(()=>{ $('#stn-mode').value=B.stnMode||'monitor'; });
   swRow('stn-rim',FINISH_SW,'stnRim','stnRimTex'); swRow('stn-ledge',FINISH_SW,'stnLedge','stnLedgeTex'); swRow('stn-bg',SCREEN_SW,'stnScreenBg');
   $('#b-carpet-col').addEventListener('input',e=>{ B.carpetColor=e.target.value; B.carpet=true; $('#b-carpet').checked=true; carpetMat.color.set(B.carpetColor); if(!carpetGroup.children.length) buildCarpet(); });
   $('#b-carpet-col').addEventListener('change',setCarpet);
