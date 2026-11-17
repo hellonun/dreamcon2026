@@ -175,12 +175,12 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <label class="tg"><input type="checkbox" id="lyr-ceiling" checked>Ceiling 2.70 m</label>
         <label class="tg"><input type="checkbox" id="lyr-floor" checked>Terrazzo floor</label>
         <label class="tg"><input type="checkbox" id="lyr-plan">Plan underlay</label>
-        <label class="tg"><input type="checkbox" id="lyr-zones" checked>Zones</label>
+        <label class="tg"><input type="checkbox" id="lyr-zones">Zones</label>
         <label class="tg"><input type="checkbox" id="lyr-booths">Partner booths</label>
-        <label class="tg"><input type="checkbox" id="lyr-rings" checked>Radius rings</label>
+        <label class="tg"><input type="checkbox" id="lyr-rings">Radius rings</label>
         <label class="tg"><input type="checkbox" id="lyr-people" checked>People for scale</label>
         <label class="tg"><input type="checkbox" id="lyr-stage" checked>Stage &amp; LED</label>
-        <label class="tg"><input type="checkbox" id="lyr-labels" checked>Labels</label>
+        <label class="tg"><input type="checkbox" id="lyr-labels">Labels</label>
       </div>
       <div class="legend">
         <span><i style="background:var(--mint)"></i>Exhibition arc</span>
@@ -698,8 +698,10 @@ function palletLabelTex(gi, aspect){ const key=gi+'|'+aspect.toFixed(2); if(pall
 function moduleExtras(m, g){
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
   if(m.type==='plinth'){ const deck=new THREE.Mesh(new THREE.BoxGeometry(m.w+0.02,0.018,m.d+0.02), plyMat); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck);
-    const gi=PALLET_GROUPS.findIndex(q=>q.id===m.group); if(gi>=0){ const lw=Math.min(m.w-0.08,0.8), lh=Math.min(m.h-0.08,0.3); const sign=new THREE.Mesh(new THREE.PlaneGeometry(lw,lh), new THREE.MeshStandardMaterial({ map:palletLabelTex(gi,lw/lh), roughness:0.85 })); sign.position.set(0,m.h/2,m.d/2+0.012); g.add(sign);
-      const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,m.h/2,m.d/2+0.006); g.add(back); } }
+    const gi=PALLET_GROUPS.findIndex(q=>q.id===m.group); if(gi>=0){ const lw=Math.min(m.w-0.08,0.8), lh=Math.min(m.h-0.08,0.3), ly=Math.max(lh/2+0.04, m.h-lh/2-0.08); const sign=new THREE.Mesh(new THREE.PlaneGeometry(lw,lh), new THREE.MeshStandardMaterial({ map:palletLabelTex(gi,lw/lh), roughness:0.85 })); sign.position.set(0,ly,m.d/2+0.012); g.add(sign);
+      const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,ly,m.d/2+0.006); g.add(back); }
+    // low ply partitions at the ends, between the bays of the counter
+    for(const [side,sx] of [['r',1],['l',-1]]) if(m.parts && m.parts[side]){ const pt=new THREE.Mesh(new THREE.BoxGeometry(0.018,0.32,m.d+0.02),plyMat); pt.position.set(sx*(m.w/2+0.009),m.h+0.018+0.16,0); pt.castShadow=true; pt.receiveShadow=true; g.add(pt); } }
   if(m.type==='station'){ const T=0.9, TT=0.036, bz=-0.175;
     const top=new THREE.Mesh(new THREE.BoxGeometry(m.w,TT,m.d),plyMat); top.position.y=T-TT/2; top.castShadow=true; top.receiveShadow=true; g.add(top);
     // projected from the canopy: the projection area round the brick, and the touch strip for choosing a topic
@@ -784,7 +786,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v15';
+const KEY='dreamcon-composer-v16';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -807,10 +809,11 @@ function proposal(){
   ends(A,5,'gridroyal','gridroyal',41); ends(B2,7,'gridnavy','gridnavy',12);
   mods.push(...A, ...B2);
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
-  { const R=4.85, at=(a,off=0)=>{ const [px,pz]=plan2xz(R,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); const tx=Math.cos(ry), tz=-Math.sin(ry); return { x:px+tx*off, z:pz+tz*off, rot:norm(ry/DEG) }; };
-    mods.push(mk('station',at(6,-0.4)));
-    // three pallets beside the station, one per colour group, each labelled with its generation
-    PALLET_GROUPS.forEach((gr,k)=>mods.push(mk('plinth',{ ...at(6,0.75+k*1.05), w:0.9, d:0.7, group:gr.id }))); }
+  { // one curved counter beside the sculpture: the scanning station, then the three brick pallets to its left, low partitions between
+    const R=4.55, ang=a=>{ const [px,pz]=plan2xz(R,a); const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
+    const half=w=>Math.asin(w/2/R)/DEG; const st=TYPES.station, a0=4; mods.push(mk('station',ang(a0)));
+    let a=a0-half(st.w); const widths={ red:0.8, green:0.8, beige:1.3 };
+    PALLET_GROUPS.forEach((gr,k)=>{ const w=widths[gr.id]; a-=half(w); mods.push(mk('plinth',{ ...ang(a), w, d:st.d, h:0.84, group:gr.id, parts:{ r:true, l:k===PALLET_GROUPS.length-1 } })); a-=half(w); }); }
   S.modules = mods; rebuildAll();
 }
 
