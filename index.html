@@ -360,7 +360,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <div id="screen-wrap" class="screenwrap"></div>
       <h3>Bricks</h3>
       <div class="grid2">
-        <label class="fld">How many<input type="number" id="b-count" value="1000" min="20" max="3000" step="10"></label>
+        <label class="fld">How many<input type="number" id="b-count" value="1050" min="20" max="3000" step="10"></label>
         <label class="fld">Size<select id="b-size" class="s">
           <option value="215,75,20">215 × 75 × 20 (thin brick)</option>
           <option value="230,114,65">230 × 114 × 65 (fire brick)</option>
@@ -377,7 +377,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <label class="fld">kg/m³<input type="number" id="b-dens" value="1900" min="800" max="3000" step="50"></label>
       </div>
       <div class="row"><label class="fld" style="flex:1">Centre east (m)<input type="number" id="b-cx" value="0" step="0.1"></label><label class="fld" style="flex:1">Centre south (m)<input type="number" id="b-cz" value="0" step="0.1"></label></div>
-      <h3 id="b-stats-h">What 1000 bricks add up to</h3>
+      <h3 id="b-stats-h">What 1050 bricks add up to</h3>
       <div class="tiles" id="b-stats"></div>
       <p class="note" id="b-note"></p>
     </section>
@@ -855,7 +855,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v35';
+const KEY='dreamcon-composer-v36';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1195,7 +1195,7 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1000, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.6, carpetShape:'circle', pdia:6.0, platH:0.564, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
+const B = { count:1050, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#D8C8AE', carpetMargin:0.6, carpetShape:'circle', pdia:6.0, platH:0.564, skirt:false, holeSet:'opt3', nHoles:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.75, stnLedge:'#8A8D92', stnLedgeTex:'matte', stnRim:'#8A8D92', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, rotStation:37, rotStage:0, rotBooths:-11, cx:-0.315, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
@@ -1764,7 +1764,7 @@ function bindBricks(){
   $('#msg-fly').onchange=e=>{ B.fly=e.target.checked; persist(); };
   $('#b-prog').addEventListener('input',e=>{ B.prog=+e.target.value/1000; updateBrickPose(); }); $('#b-prog').addEventListener('change',()=>{ renderBrickStats(); persist(); });
   $('#b-play').onclick=()=>{ if(playing){ playing=null; $('#b-play').textContent='Play the six days'; return; } if(B.prog>=0.999) B.prog=0; playing={ t0:performance.now(), p0:B.prog }; $('#b-play').textContent='Pause'; };
-  $('#b-count').addEventListener('change',e=>{ B.count=clamp(Math.round(+e.target.value||1000),20,MAXB); syncBrickUI(); rebuildBuild(); persist(); });
+  $('#b-count').addEventListener('change',e=>{ B.count=clamp(Math.round(+e.target.value||1050),20,MAXB); syncBrickUI(); rebuildBuild(); persist(); });
   $('#b-size').onchange=e=>{ if(e.target.value==='custom') return; const [l,w,h]=e.target.value.split(',').map(Number); B.L=l/1000; B.W=w/1000; B.H=h/1000; syncBrickUI(); rebuildBuild(); persist(); };
   for(const [id,k,s] of [['b-L','L',1000],['b-W','W',1000],['b-H','H',1000],['b-dens','dens',1],['b-cx','cx',1],['b-cz','cz',1]]){ $('#'+id).addEventListener('change',e=>{ const v=parseFloat(e.target.value); if(!isFinite(v)) return; B[k]=v/s; syncBrickUI(); rebuildBuild(); persist(); }); }
   $('#b-prompt').addEventListener('change',e=>{ B.prompt=e.target.value.trim()||B.prompt; drawScreen(); drawStation(); persist(); });
