@@ -865,7 +865,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v38';
+const KEY='dreamcon-composer-v39';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1227,9 +1227,9 @@ const BRICK_COLS = SINGLES.map(([c])=>new THREE.Color(c));
 const PALLET_GROUPS = [
   { id:'red',   cols:[3],   th:'อิฐโทนแดง',   en:'Reddish brick',     gen:'Gen Alpha · Gen Z' },
   { id:'green', cols:[1],   th:'อิฐโทนเขียว',  en:'Greenish brick',    gen:'Gen Y (Millennials)' },
-  { id:'beige', cols:[2], th:'อิฐโทนเบจอ่อน', en:'Light beige brick', gen:'Gen X · Boomers' } ];
+  { id:'beige', cols:[0], th:'อิฐโทนส้ม', en:'Orange brick', gen:'Gen X · Boomers' } ];   // id kept for saved layouts; light beige is now kept for the printed quote bricks
 const brickCol = new Uint8Array(MAXB);
-const MULTI_COLS = [3,1,2];   // brick red, sage, light beige: one per generation
+const MULTI_COLS = [3,1,0];   // brick red, sage, orange: one per generation (light beige is the printed quote bricks)
 const groupOfCol = c => PALLET_GROUPS.findIndex(g=>g.cols.includes(c));
 function applyBrickColors(){ const r=rnd(11), col=new THREE.Color(), base=new THREE.Color(B.single);
   for(let i=0;i<MAXB;i++){ const w=r(), a=r(), b=r(), c=r();
@@ -1433,12 +1433,12 @@ function stockSlots(){
   const perPlat=info.map(q=>used.filter(s=>s.pi===q.pi).length);
   return { slots:[...BR.targets.slice(0,under), ...used], layers:(used.length? Math.max(...used.map(s=>s.k))+1 : 0)+(plm.length?0:1), cap:cap(B.layers), plinths:pl.length, perPlat };
 }
-const placedCount = () => Math.round(B.prog*Math.min(B.count,BR.targets.length));
+const placedCount = () => B.quotes!==false? 0 : Math.round(B.prog*Math.min(B.count,BR.targets.length));   // before opening (quote bricks shown): nothing built yet
 const _m=new THREE.Matrix4(), _q=new THREE.Quaternion(), _p=new THREE.Vector3(), _s=new THREE.Vector3(), _e=new THREE.Euler();
 function updateBrickPose(){
   const placed=placedCount();
   for(let i=0;i<MAXB;i++){
-    let t=null; if(i<B.count){ t = i<placed ? BR.targets[i] : BR.slots[i]; }
+    let t=null; const nPlain=B.quotes!==false? Math.max(0,B.count-QUOTE_BRICKS) : B.count; if(i<nPlain){ t = i<placed ? BR.targets[i] : BR.slots[i]; }
     if(!t){ _m.compose(_p.set(0,-10,0),_q.identity(),_s.set(0,0,0)); brickMesh.setMatrixAt(i,_m); continue; }
     _e.set(0,t.ry,0); _q.setFromEuler(_e); if(t.o==='end') _s.set(B.W,B.L,B.H); else if(t.o==='edge') _s.set(B.L,B.W,B.H); else _s.set(B.L,B.H,B.W); _m.compose(_p.set(t.x,t.y,t.z),_q,_s); brickMesh.setMatrixAt(i,_m);
   }
@@ -1577,10 +1577,10 @@ function buildQuoteBricks(hs){ const top=deckTop(), R0=B.pdia/2, spots=holeScree
       if(!cs.every(([X,Z])=>hs.every(h=>Math.hypot(X-h.x,Z-h.z)>h.r+0.09))) continue; if(hitsScreen(px,pz,ry,QB.L,QB.W,spots,0.06)) continue; cand.push({ px, pz, ry, ring }); } }
   const pick=[]; for(let ring=0; ring<6 && pick.length<QUOTE_BRICKS; ring++){ const rc=cand.filter(c=>c.ring===ring); const need=QUOTE_BRICKS-pick.length; if(rc.length<=need) pick.push(...rc); else { for(let i=0;i<need;i++) pick.push(rc[Math.floor(i*rc.length/need)]); } }
   const order=[...Array(QUOTE_BRICKS).keys()].sort(()=>r()-0.5);
-  pick.forEach((p,i)=>{ const id=order[i]; const qi=id%QUOTES.length, ci=MULTI_COLS[Math.floor(id/QUOTES.length)%3]; const side=quoteSideMat(ci);
+  pick.forEach((p,i)=>{ const id=order[i]; const qi=id%QUOTES.length, ci=2;   /* every printed quote brick is light beige */ const side=quoteSideMat(ci);
     const mats=[side,side,new THREE.MeshStandardMaterial({ map:quoteBrickTex(qi,ci), roughness:0.85 }),side,side,side];
     const m=new THREE.Mesh(geo,mats); m.position.set(B.cx+p.px, top+QB.H/2+0.0005, B.cz+p.pz); m.rotation.y=p.ry+(r()-0.5)*0.06; m.castShadow=true; m.receiveShadow=true; g.add(m); });
-  brickMesh.visible=!(B.quotes!==false); msgGroup.visible=!(B.quotes!==false);
+  msgGroup.visible=!(B.quotes!==false); updateBrickPose();
   BR.quoteCount=pick.length; }
 
 function buildHoleFeatures(hs){ const top=deckTop(); const spots=holeScreenSpots(hs);
@@ -1866,7 +1866,7 @@ function bindUI(){
   $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
   const lyr=(id,fn)=>{ const e=$('#'+id); e.onchange=()=>fn(e.checked); fn(e.checked); };
   lyr('lyr-walls',v=>layers.walls.visible=v); lyr('lyr-ceiling',v=>layers.ceiling.visible=v); lyr('lyr-floor',v=>{ layers.floor.visible=v; layers.plainFloor.visible=!v; }); lyr('lyr-plan',v=>layers.plan.visible=v);
-  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v); lyr('lyr-lights',v=>{ B.lights=v; (layers.lights||[]).forEach(l=>l.visible=v); }); lyr('lyr-quotes',v=>{ B.quotes=v; if(layers.quoteBricks) layers.quoteBricks.visible=v; brickMesh.visible=!v; msgGroup.visible=!v; });
+  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v); lyr('lyr-lights',v=>{ B.lights=v; (layers.lights||[]).forEach(l=>l.visible=v); }); lyr('lyr-quotes',v=>{ B.quotes=v; if(layers.quoteBricks) layers.quoteBricks.visible=v; msgGroup.visible=!v; updateBrickPose(); });
   lyr('lyr-labels',v=>{ labelRenderer.domElement.style.display=v?'':'none'; });
   $$('[data-add]').forEach(b=>b.onclick=()=>addPiece(b.dataset.add));
   $$('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
