@@ -865,7 +865,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v37';
+const KEY='dreamcon-composer-v38';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -1536,7 +1536,7 @@ function ringLetteringTexture(h, i){ const ts=(HOLE_TOPICS[i]||[]).map(topicById
     const a=ang+(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT+px*0.35), S/2+Math.sin(a)*(rT+px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang+=sep/rT; }
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { tex, size }; }
 const ringCache = new Map();
-/* printed quote bricks: 84 bricks (7 quotes x 12, mixed colours) laid flat round the table before opening */
+/* printed quote bricks: 56 bricks (7 quotes x 8, mixed colours, design 3: large quote mark, no QR) laid flat round the table before opening */
 const QUOTE_QR='11111110010011111001001111111,10000010100111111110001000001,10111010111110110100001011101,10111010011100100010001011101,10111010100001111010001011101,10000010110101011101101000001,11111110101010101010101111111,00000000110010000100100000000,11010011001011111010101110110,10100100001101001000101001001,11101110011011101101000111110,00110000000001000001101010110,10001011100011001101111001011,00111000011100100001110000000,01100110001101000110111101111,10000000111011111110110001010,11111110011110010101110100010,01000101010100101100011101001,10101010110010100100111110011,00011100000110011111101000011,10100010101111101011111110100,00000000111011001001100010111,11111110111010101100101010010,10000010011101111011100011101,10111010001001001100111110010,10111010111011000101101111110,10111010011101101101100011101,10000010101101100101101010010,11111110110010001100110110010'.split(',');   // QR to the Dream Con dashboard (wevisdemo.github.io/dreamcon/dashboard/), low error correction: 29 x 29 modules
 const QUOTES=[
   { tags:['การปกครองส่วนท้องถิ่น'], q:'ควรมีท้องถิ่น เวทีสาธารณะ และกลไกให้ประชาชนในการร่วมคิด ร่วมเสนอ และมีส่วนร่วมลงมือพัฒนาท้องถิ่นอย่างต่อเนื่อง', n:4, dots:'ggyy', groups:['ประชาชนภาคใต้'] },
@@ -1546,29 +1546,27 @@ const QUOTES=[
   { tags:['สิทธิเสรีภาพ'], q:'ผู้พ้นโทษจากเรือนจำทุกคนต้องมีสิทธิที่จะพ้นจากการตีตรา และไม่ถูกกีดกันในการสมัครงานและประกอบอาชีพ', n:6, dots:'ggggGG', groups:['ผู้ต้องขัง','ผู้หญิง'] },
   { tags:['การปกครองส่วนท้องถิ่น','งบประมาณ'], q:'ประชาชนควรสามารถรับรู้ข้อมูล และมีส่วนร่วมกับงบประมาณของท้องถิ่น การใช้งบประมาณต้องโปร่งใสและพร้อมให้ประชาชนตรวจสอบ', n:6, dots:'GggyYy', groups:['ประชาชนภาคใต้','ประชาชนภาคตะวันออกเฉียงเหนือ'] },
   { tags:['องค์กรอิสระ'], q:'ปัจจุบัน ที่มาและคุณสมบัติขององค์กรอิสระไม่ยึดโยงกับประชาชน ผู้ดำรงตำแหน่งควรมาจากการเลือกตั้งและมีส่วนร่วมโดยประชาชน', n:12, dots:'gGGGggGgGgyy', groups:['ประชาชนภาคเหนือ','ประชาชนภาคใต้','ประชาชนภาคตะวันออกเฉียงเหนือ'] } ];
-const QUOTE_BRICKS=84, QB={ L:0.215, W:0.075, H:0.02 };
+const QUOTE_BRICKS=56, QB={ L:0.215, W:0.075, H:0.02 };
 const quoteTexCache=new Map();
-function wrapThai(ctx, text, maxW){ const seg=(typeof Intl!=='undefined' && Intl.Segmenter)? [...new Intl.Segmenter('th',{granularity:'word'}).segment(text)].map(s=>s.segment) : [...text];
+const THAI_KEEP=['ท้องถิ่น','ยึดโยง','ประชาชน','งบประมาณ','องค์กรอิสระ','รัฐธรรมนูญ','กระบวนการ','ยุติธรรม','ตำแหน่ง','เลือกตั้ง','ผู้ต้องหา','มาตรฐาน','ประเมินผล','กระจายอำนาจ','อำนาจ','ส่วนร่วม','ผู้พ้นโทษ','ประกอบอาชีพ'];
+function wrapThai(ctx, text, maxW){ let seg=(typeof Intl!=='undefined' && Intl.Segmenter)? [...new Intl.Segmenter('th',{granularity:'word'}).segment(text)].map(s=>s.segment) : [...text];
+  { const out=[]; for(let i=0;i<seg.length;i++){ let w=seg[i], j=i; while(j+1<seg.length && THAI_KEEP.some(k=>k.startsWith(w+seg[j+1]) || (w+seg[j+1]).startsWith(k) && THAI_KEEP.some(k2=>k2===w+seg[j+1]))){ w+=seg[++j]; } out.push(w); i=j; } seg=out; }
   const lines=[]; let cur=''; for(const w of seg){ const t=cur+w; if(ctx.measureText(t).width>maxW && cur.trim()){ lines.push(cur.trim()); cur=w.trimStart(); } else cur=t; } if(cur.trim()) lines.push(cur.trim()); return lines; }
 function quoteBrickTex(qi, ci){ const key=qi+'|'+ci; if(quoteTexCache.has(key)) return quoteTexCache.get(key);
   const k=6, W=215*k, H=75*k, M=7*k, c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d'); const Q=QUOTES[qi], ink='#16181D', pt=v=>v*0.3528*k;
   x.fillStyle=SINGLES[ci][0]; x.fillRect(0,0,W,H);
-  // top line: hashtags left, DREAM CON 2026 right
-  x.fillStyle=ink; x.textBaseline='top'; thai(x,pt(12),500); x.textAlign='left'; x.fillText('#'+Q.tags.join('  #'),M,M);
+  // design 3: oversized quote mark on the left, quote centred vertically, no QR
+  const X0=22*k; x.save(); x.globalAlpha=0.22; x.fillStyle=ink; x.font=`700 ${pt(92)}px "IBM Plex Sans Thai", "IBM Plex Sans", sans-serif`; x.textAlign='left'; x.textBaseline='top'; x.fillText('“',5*k,10*k); x.restore();
+  x.fillStyle=ink; x.textBaseline='top'; thai(x,pt(12),500); x.textAlign='left'; x.fillText('#'+Q.tags.join('  #'),X0,M);
   x.font=`700 ${pt(12)}px "IBM Plex Sans", sans-serif`; x.textAlign='right'; x.fillText('DREAM CON 2026',W-M,M);
-  // QR bottom-right on a thin white edge
-  const qs=27*k, qx=W-M-qs, qy=H-M-qs, pad=1.2*k, n=QUOTE_QR.length, cell=(qs-2*pad)/n; x.fillStyle='#fff'; x.fillRect(qx,qy,qs,qs); x.fillStyle=ink;
-  QUOTE_QR.forEach((row,j)=>{ for(let i=0;i<n;i++) if(row[i]==='1') x.fillRect(qx+pad+i*cell,qy+pad+j*cell,cell+0.6,cell+0.6); });
-  // quote, centred vertically, 24 pt shrinking until it fits 3 lines beside the QR
-  const qw=W-2*M-qs-5*k; let px=pt(24), lines; for(;;){ thai(x,px,700); lines=wrapThai(x,'“'+Q.q+'”',qw); if((lines.length<=3 || px<pt(15)) ) break; px*=0.94; }
-  const lh=px*1.2, y0=H/2-lines.length*lh/2-0.03*H; x.textAlign='left'; x.textBaseline='top'; lines.forEach((l,i)=>x.fillText(l, M-(i===0?0:0), y0+i*lh));
-  // bottom line: dots, count, groups (shrinks to stay clear of the QR)
-  const by=H-M; const draw=(sz,dry)=>{ let cx=M; const r=sz*0.36, cy=by-sz*0.5; const dc={g:'#A8E6A3',G:'#A8E6A3',y:'#F4F27A',Y:'#F4F27A'};
+  const qw=W-X0-M; let px=pt(24), lines; for(;;){ thai(x,px,700); lines=wrapThai(x,Q.q,qw); if(lines.length<=3 || px<pt(15)) break; px*=0.94; }
+  const lh=px*1.2, y0=H/2-lines.length*lh/2-0.03*H; x.textAlign='left'; x.textBaseline='top'; lines.forEach((l,i)=>x.fillText(l, X0, y0+i*lh));
+  const by=H-M; const draw=(sz,dry)=>{ let cx=X0; const r=sz*0.36, cy=by-sz*0.5; const dc={g:'#A8E6A3',G:'#A8E6A3',y:'#F4F27A',Y:'#F4F27A'};
     for(const d of Q.dots){ if(!dry){ x.fillStyle=dc[d]; x.beginPath(); x.arc(cx+r,cy,r,0,7); x.fill(); x.strokeStyle='rgba(0,0,0,.35)'; x.lineWidth=k*0.15; x.stroke(); if(d==='G'||d==='Y'){ x.strokeStyle=ink; x.lineWidth=k*0.18; x.beginPath(); x.moveTo(cx+r,cy-r*0.55); x.lineTo(cx+r,cy+r*0.5); x.moveTo(cx+r*0.55,cy-r*0.05); x.lineTo(cx+r*0.35,cy+r*0.35); x.moveTo(cx+r*1.45,cy-r*0.05); x.lineTo(cx+r*1.65,cy+r*0.35); x.stroke(); } } cx+=r*2+k*0.5; }
     cx+=k*1.2; thai(x,sz,500); x.fillStyle=ink; x.textBaseline='alphabetic'; const t1=Q.n+' ความคิดเห็น   จากวงสนทนาที่มี'; if(!dry) x.fillText(t1,cx,by-sz*0.2); cx+=x.measureText(t1).width+k*1.2;
-    Q.groups.forEach((g,i)=>{ thai(x,sz,600); const w=x.measureText(g).width+sz*0.9; if(!dry){ x.beginPath(); x.roundRect(cx,by-sz*1.15,w,sz*1.25,sz*0.62); x.strokeStyle=ink; x.lineWidth=k*0.28; x.stroke(); x.fillStyle=ink; x.fillText(g,cx+sz*0.45,by-sz*0.2); } cx+=w+k*1; });
+    Q.groups.forEach(g=>{ thai(x,sz,600); const w=x.measureText(g).width+sz*0.9; if(!dry){ x.beginPath(); x.roundRect(cx,by-sz*1.15,w,sz*1.25,sz*0.62); x.strokeStyle=ink; x.lineWidth=k*0.28; x.stroke(); x.fillStyle=ink; x.fillText(g,cx+sz*0.45,by-sz*0.2); } cx+=w+k*1; });
     return cx; };
-  let sz=pt(12); while(draw(sz,true)>qx-3*k && sz>pt(6)) sz*=0.94; draw(sz,false);
+  let sz=pt(12); while(draw(sz,true)>W-M && sz>pt(6)) sz*=0.94; draw(sz,false);
   const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; quoteTexCache.set(key,t); return t; }
 const quoteSideMats=new Map();
 function quoteSideMat(ci){ if(!quoteSideMats.has(ci)) quoteSideMats.set(ci,new THREE.MeshStandardMaterial({ color:SINGLES[ci][0], map:speckle, roughness:0.93 })); return quoteSideMats.get(ci); }
