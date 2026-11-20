@@ -189,6 +189,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <label class="tg"><input type="checkbox" id="lyr-rings">Radius rings</label>
         <label class="tg"><input type="checkbox" id="lyr-people" checked>People for scale</label>
         <label class="tg"><input type="checkbox" id="lyr-lights" checked>Clip lights</label>
+        <label class="tg"><input type="checkbox" id="lyr-quotes" checked>Printed quote bricks (before opening)</label>
         <label class="tg"><input type="checkbox" id="lyr-stage" checked>Stage &amp; LED</label>
         <label class="tg"><input type="checkbox" id="lyr-labels">Labels</label>
       </div>
@@ -785,16 +786,12 @@ function moduleExtras(m, g){
     const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(0,F.t+0.0105,STN.brickZ); brick.castShadow=true; scr.add(brick);
     // white Apple keyboard on the ledge in front of the screen
     const kb=new THREE.Mesh(new THREE.BoxGeometry(0.279,0.011,0.115),[kbBodyMat,kbBodyMat,keyboardMat,kbBodyMat,kbBodyMat,kbBodyMat]); kb.position.set(0,yTop+0.0055,(zf+m.d/2)/2); kb.castShadow=true; g.add(kb);
-    // sensing: camera on a slim arm above the brick spot (presence + colour), Hokuyo UST-10LX at the back-left corner scanning just above the glass (touch)
-    { const zBk=-m.d/2-0.0125, zSpot=(zb+zf)/2+STN.brickZ, armY=yTop+0.55, sq=0.025;
-      const post=new THREE.Mesh(new THREE.BoxGeometry(sq,armY-(yTop-0.3)+sq/2,sq),rimM); post.position.set(0,(armY+sq/2+yTop-0.3)/2,zBk); post.castShadow=true; g.add(post);
-      const arm=new THREE.Mesh(new THREE.BoxGeometry(sq,sq,zSpot-zBk+0.03),rimM); arm.position.set(0,armY,(zSpot+zBk+0.03)/2); arm.castShadow=true; g.add(arm);
-      const cam=new THREE.Mesh(new THREE.BoxGeometry(0.095,0.03,0.035),sensorMat); cam.position.set(0,armY-sq/2-0.015,zSpot); cam.castShadow=true; g.add(cam);
-      const lens=new THREE.Mesh(new THREE.CircleGeometry(0.009,20),lensMat); lens.rotation.x=Math.PI/2; lens.position.set(0,armY-sq/2-0.0305,zSpot); g.add(lens);
+    // sensing: lidar at the back-left corner scanning just above the glass (brick, touch)
+    {
       const hx=-m.w/2+0.03, hz=-m.d/2-0.032, scanY=yTop+0.008;
-      const brk=new THREE.Mesh(new THREE.BoxGeometry(0.07,0.004,0.07),rimM); brk.position.set(hx,scanY-0.055,hz); g.add(brk);
-      const hk=new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,0.07,24),sensorMat); hk.position.set(hx,scanY-0.053+0.035,hz); hk.castShadow=true; g.add(hk);
-      const win=new THREE.Mesh(new THREE.CylinderGeometry(0.0255,0.0255,0.016,24,1,true),lensMat); win.position.set(hx,scanY,hz); g.add(win);
+      const brk=new THREE.Mesh(new THREE.BoxGeometry(0.07,0.004,0.07),rimM); brk.position.set(hx,scanY-0.035,hz); g.add(brk);
+      const hk=new THREE.Mesh(new THREE.BoxGeometry(0.0556,0.0413,0.0556),sensorMat); hk.position.set(hx,scanY-0.012,hz); hk.castShadow=true; g.add(hk);   /* RPLIDAR C1 55.6 x 55.6 x 41.3, scan near its top */
+      const win=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.022,0.012,24,1,true),lensMat); win.position.set(hx,scanY,hz); g.add(win);
       const fan=new THREE.Mesh(new THREE.CircleGeometry(1.15,32,-Math.PI/2+0.05,Math.PI/2-0.1),scanMat); fan.rotation.x=-Math.PI/2; fan.position.set(hx,scanY,hz); g.add(fan); }
     // scaffold box under the top, wood panels set inside the tubes, vent slits along the bottom
     const ph=t-0.1, inset=0.055; for(const [w,x,z,ry] of [[m.w-0.13,0,m.d/2-inset,0],[m.w-0.13,0,-m.d/2+inset,Math.PI],[m.d-0.13,m.w/2-inset,0,Math.PI/2],[m.d-0.13,-m.w/2+inset,0,-Math.PI/2]]){
@@ -868,7 +865,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v36';
+const KEY='dreamcon-composer-v37';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -878,7 +875,7 @@ function arcModules({ rf, start, count, levels, w, d, h, gap=0, type='bay' }){
     for(let l=0;l<levels;l++) out.push(mk(type,{ x, z, y:l*h, rot, w, d, h })); }
   return { mods:out, span:count*step/DEG };
 }
-window.__dc=()=>({ clipLightSpots, B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
+window.__dc=()=>({ quoteBrickTex, clipLightSpots, B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
 /* ---------------- exhibition walls: straight scaffold boxes on a curve ----------------
    Each cell is a rectangular box 0.6 m deep. Neighbouring boxes share the front standard; each has its own back standards,
    so the boxes fan out with a wedge gap at the back. Sizes from the wall frames (metres, along the wall from its left end). */
@@ -1405,7 +1402,7 @@ function buildPlatform(){ buildCarpet();
   const r=S.tube, mat=finishMats.silver, V=(x,y,z)=>new THREE.Vector3(B.cx+x,y,B.cz+z); const P=platformParts(); const yTop=top-PLY-r, yLow=Math.min(0.18,yTop-0.15);
   for(const [x,z] of P.posts){ addTube(platGroup,V(x,0.008,z),V(x,yTop,z),r,mat); const bp=new THREE.Mesh(basePlateGeo,castorMat); bp.position.set(B.cx+x,0.004,B.cz+z); platGroup.add(bp); }
   for(const [a,b] of P.ledgers){ addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat); if(yTop>0.3) addTube(platGroup,V(a[0],yLow,a[1]),V(b[0],yLow,b[1]),r,mat); }
-  BR.deckParts=P; buildHoleFeatures(hs);
+  BR.deckParts=P; buildHoleFeatures(hs); buildQuoteBricks(hs);
 }
 function stockSlots(){
   const N=B.count, { L, W, H } = B, g=0.006, vh=H+0.002; const plm=S.modules.filter(m=>m.type==='plinth');
@@ -1539,6 +1536,55 @@ function ringLetteringTexture(h, i){ const ts=(HOLE_TOPICS[i]||[]).map(topicById
     const a=ang+(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT+px*0.35), S/2+Math.sin(a)*(rT+px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang+=sep/rT; }
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { tex, size }; }
 const ringCache = new Map();
+/* printed quote bricks: 84 bricks (7 quotes x 12, mixed colours) laid flat round the table before opening */
+const QUOTE_QR='1111111011100011110110111000101111111,1000001011000111111101101100101000001,1011101011101011100101100111001011101,1011101001100000010011011101101011101,1011101010010011001101001010101011101,1000001001001111000010111000001000001,1111111010101010101010101010101111111,0000000000011110011100011110100000000,1001111111011001000001101011110010111,1000010011010110111001100110000110110,0001111011010011100111011101101101101,1100010001001110110110010011100101111,1001001111101001100010011011101001001,1111010000010011101001010111100011010,1101001000001101101110000001100011111,0101000011000100100011100000010101111,1011011101100110011001110111001100111,0000100111101110000001110111011001100,1001001110110010100100010001101001101,0011100101110011101110111111111110001,1110001000011110111100100011111111000,0110110010001011011100110011010010100,0101011001011101100001011111111101001,1001010111000111101010011001110111100,0110111111100111010111101101001100000,1110000011110000011101100111010011100,1111001100010001010000000011011010011,1001100000101000100100001000000110110,1011011000101111100110101100111110111,0000000010111101011111100101100010110,1111111010110001011110011100101010001,1000001010111100000011000101100010000,1011101011111011101111000011111110001,1011101010111100000010110101111001101,1011101001011110010001111011110010101,1000001001001101011000111010001011111,1111111010101100100100000000100100101'.split(',');   // placeholder QR (first quote's dashboard link) on every brick until each quote has its own link
+const QUOTES=[
+  { tags:['การปกครองส่วนท้องถิ่น'], q:'ควรมีท้องถิ่น เวทีสาธารณะ และกลไกให้ประชาชนในการร่วมคิด ร่วมเสนอ และมีส่วนร่วมลงมือพัฒนาท้องถิ่นอย่างต่อเนื่อง', n:4, dots:'ggyy', groups:['ประชาชนภาคใต้'] },
+  { tags:['สิทธิเสรีภาพ','ฝ่ายตุลาการ'], q:'กระบวนการยุติธรรมต้องมีมาตรฐานเดียวทั่วประเทศ และเปิดโอกาสให้ผู้ต้องหาเข้าถึงความช่วยเหลือทางกฎหมายตั้งแต่ต้นทาง', n:5, dots:'ggggg', groups:['ผู้ต้องขัง','ผู้หญิง'] },
+  { tags:['การปกครองส่วนท้องถิ่น'], q:'ควรมีกลไกกำกับและประเมินผลงาน รวมถึงคุณสมบัติของท้องถิ่น (อบต. องค์กรปกครองส่วนท้องถิ่น) เช่น ระยะการดำรงตำแหน่ง วุฒิการศึกษาขั้นต่ำ', n:5, dots:'GGGgg', groups:['ประชาชนภาคใต้','ประชาชนภาคตะวันออกเฉียงเหนือ'] },
+  { tags:['การปกครองส่วนท้องถิ่น'], q:'รัฐธรรมนูญควรรับประกันการกระจายอำนาจให้ท้องถิ่นอย่างชัดเจน', n:5, dots:'ggggG', groups:['เยาวชน','ประชาชนภาคเหนือ','ประชาชนภาคใต้','ประชาชนภาคตะวันออกเฉียงเหนือ'] },
+  { tags:['สิทธิเสรีภาพ'], q:'ผู้พ้นโทษจากเรือนจำทุกคนต้องมีสิทธิที่จะพ้นจากการตีตรา และไม่ถูกกีดกันในการสมัครงานและประกอบอาชีพ', n:6, dots:'ggggGG', groups:['ผู้ต้องขัง','ผู้หญิง'] },
+  { tags:['การปกครองส่วนท้องถิ่น','งบประมาณ'], q:'ประชาชนควรสามารถรับรู้ข้อมูล และมีส่วนร่วมกับงบประมาณของท้องถิ่น การใช้งบประมาณต้องโปร่งใสและพร้อมให้ประชาชนตรวจสอบ', n:6, dots:'GggyYy', groups:['ประชาชนภาคใต้','ประชาชนภาคตะวันออกเฉียงเหนือ'] },
+  { tags:['องค์กรอิสระ'], q:'ปัจจุบัน ที่มาและคุณสมบัติขององค์กรอิสระไม่ยึดโยงกับประชาชน ผู้ดำรงตำแหน่งควรมาจากการเลือกตั้งและมีส่วนร่วมโดยประชาชน', n:12, dots:'gGGGggGgGgyy', groups:['ประชาชนภาคเหนือ','ประชาชนภาคใต้','ประชาชนภาคตะวันออกเฉียงเหนือ'] } ];
+const QUOTE_BRICKS=84, QB={ L:0.215, W:0.075, H:0.02 };
+const quoteTexCache=new Map();
+function wrapThai(ctx, text, maxW){ const seg=(typeof Intl!=='undefined' && Intl.Segmenter)? [...new Intl.Segmenter('th',{granularity:'word'}).segment(text)].map(s=>s.segment) : [...text];
+  const lines=[]; let cur=''; for(const w of seg){ const t=cur+w; if(ctx.measureText(t).width>maxW && cur.trim()){ lines.push(cur.trim()); cur=w.trimStart(); } else cur=t; } if(cur.trim()) lines.push(cur.trim()); return lines; }
+function quoteBrickTex(qi, ci){ const key=qi+'|'+ci; if(quoteTexCache.has(key)) return quoteTexCache.get(key);
+  const k=6, W=215*k, H=75*k, M=7*k, c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d'); const Q=QUOTES[qi], ink='#16181D', pt=v=>v*0.3528*k;
+  x.fillStyle=SINGLES[ci][0]; x.fillRect(0,0,W,H);
+  // top line: hashtags left, DREAM CON 2026 right
+  x.fillStyle=ink; x.textBaseline='top'; thai(x,pt(12),500); x.textAlign='left'; x.fillText('#'+Q.tags.join('  #'),M,M);
+  x.font=`700 ${pt(12)}px "IBM Plex Sans", sans-serif`; x.textAlign='right'; x.fillText('DREAM CON 2026',W-M,M);
+  // QR bottom-right on a thin white edge
+  const qs=27*k, qx=W-M-qs, qy=H-M-qs, pad=1.2*k, n=QUOTE_QR.length, cell=(qs-2*pad)/n; x.fillStyle='#fff'; x.fillRect(qx,qy,qs,qs); x.fillStyle=ink;
+  QUOTE_QR.forEach((row,j)=>{ for(let i=0;i<n;i++) if(row[i]==='1') x.fillRect(qx+pad+i*cell,qy+pad+j*cell,cell+0.6,cell+0.6); });
+  // quote, centred vertically, 24 pt shrinking until it fits 3 lines beside the QR
+  const qw=W-2*M-qs-5*k; let px=pt(24), lines; for(;;){ thai(x,px,700); lines=wrapThai(x,'“'+Q.q+'”',qw); if((lines.length<=3 || px<pt(15)) ) break; px*=0.94; }
+  const lh=px*1.2, y0=H/2-lines.length*lh/2-0.03*H; x.textAlign='left'; x.textBaseline='top'; lines.forEach((l,i)=>x.fillText(l, M-(i===0?0:0), y0+i*lh));
+  // bottom line: dots, count, groups (shrinks to stay clear of the QR)
+  const by=H-M; const draw=(sz,dry)=>{ let cx=M; const r=sz*0.36, cy=by-sz*0.5; const dc={g:'#A8E6A3',G:'#A8E6A3',y:'#F4F27A',Y:'#F4F27A'};
+    for(const d of Q.dots){ if(!dry){ x.fillStyle=dc[d]; x.beginPath(); x.arc(cx+r,cy,r,0,7); x.fill(); x.strokeStyle='rgba(0,0,0,.35)'; x.lineWidth=k*0.15; x.stroke(); if(d==='G'||d==='Y'){ x.strokeStyle=ink; x.lineWidth=k*0.18; x.beginPath(); x.moveTo(cx+r,cy-r*0.55); x.lineTo(cx+r,cy+r*0.5); x.moveTo(cx+r*0.55,cy-r*0.05); x.lineTo(cx+r*0.35,cy+r*0.35); x.moveTo(cx+r*1.45,cy-r*0.05); x.lineTo(cx+r*1.65,cy+r*0.35); x.stroke(); } } cx+=r*2+k*0.5; }
+    cx+=k*1.2; thai(x,sz,500); x.fillStyle=ink; x.textBaseline='alphabetic'; const t1=Q.n+' ความคิดเห็น   จากวงสนทนาที่มี'; if(!dry) x.fillText(t1,cx,by-sz*0.2); cx+=x.measureText(t1).width+k*1.2;
+    Q.groups.forEach((g,i)=>{ thai(x,sz,600); const w=x.measureText(g).width+sz*0.9; if(!dry){ x.beginPath(); x.roundRect(cx,by-sz*1.15,w,sz*1.25,sz*0.62); x.strokeStyle=ink; x.lineWidth=k*0.28; x.stroke(); x.fillStyle=ink; x.fillText(g,cx+sz*0.45,by-sz*0.2); } cx+=w+k*1; });
+    return cx; };
+  let sz=pt(12); while(draw(sz,true)>qx-3*k && sz>pt(6)) sz*=0.94; draw(sz,false);
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; quoteTexCache.set(key,t); return t; }
+const quoteSideMats=new Map();
+function quoteSideMat(ci){ if(!quoteSideMats.has(ci)) quoteSideMats.set(ci,new THREE.MeshStandardMaterial({ color:SINGLES[ci][0], map:speckle, roughness:0.93 })); return quoteSideMats.get(ci); }
+function buildQuoteBricks(hs){ const top=deckTop(), R0=B.pdia/2, spots=holeScreenSpots(hs), r=rnd(84), g=new THREE.Group(); g.name='quoteBricks'; g.visible=B.quotes!==false; layers.quoteBricks=g; platGroup.add(g);
+  const geo=new THREE.BoxGeometry(QB.L,QB.H,QB.W); const cand=[]; const rOut=R0-RIM.in-0.06-QB.W/2;
+  for(let ring=0; ring<6; ring++){ const rr=rOut-ring*0.16; const n=Math.floor(2*Math.PI*rr/0.27); for(let i=0;i<n;i++){ const a=(i+(ring%2)*0.5)/n*Math.PI*2; const px=rr*Math.cos(a), pz=rr*Math.sin(a); const ry=Math.PI/2-a;
+      const cs=[[-1,-1],[1,-1],[1,1],[-1,1]].map(([u,v])=>[px+Math.cos(ry)*u*QB.L/2+Math.sin(ry)*v*QB.W/2, pz-Math.sin(ry)*u*QB.L/2+Math.cos(ry)*v*QB.W/2]);
+      if(!cs.every(([X,Z])=>hs.every(h=>Math.hypot(X-h.x,Z-h.z)>h.r+0.09))) continue; if(hitsScreen(px,pz,ry,QB.L,QB.W,spots,0.06)) continue; cand.push({ px, pz, ry, ring }); } }
+  const pick=[]; for(let ring=0; ring<6 && pick.length<QUOTE_BRICKS; ring++){ const rc=cand.filter(c=>c.ring===ring); const need=QUOTE_BRICKS-pick.length; if(rc.length<=need) pick.push(...rc); else { for(let i=0;i<need;i++) pick.push(rc[Math.floor(i*rc.length/need)]); } }
+  const order=[...Array(QUOTE_BRICKS).keys()].sort(()=>r()-0.5);
+  pick.forEach((p,i)=>{ const id=order[i]; const qi=id%QUOTES.length, ci=MULTI_COLS[Math.floor(id/QUOTES.length)%3]; const side=quoteSideMat(ci);
+    const mats=[side,side,new THREE.MeshStandardMaterial({ map:quoteBrickTex(qi,ci), roughness:0.85 }),side,side,side];
+    const m=new THREE.Mesh(geo,mats); m.position.set(B.cx+p.px, top+QB.H/2+0.0005, B.cz+p.pz); m.rotation.y=p.ry+(r()-0.5)*0.06; m.castShadow=true; m.receiveShadow=true; g.add(m); });
+  brickMesh.visible=!(B.quotes!==false); msgGroup.visible=!(B.quotes!==false);
+  BR.quoteCount=pick.length; }
+
 function buildHoleFeatures(hs){ const top=deckTop(); const spots=holeScreenSpots(hs);
   spots.forEach((sp,i)=>{ if(i>=HOLE_TOPICS.length) return; const h=hs[i];
     const key=[h.x,h.z,h.r].map(v=>v.toFixed(3)).join(',')+'|in|'+i; let rt=ringCache.get(key); if(!rt){ rt=ringLetteringTexture(h,i); ringCache.set(key,rt); }
@@ -1822,7 +1868,7 @@ function bindUI(){
   $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
   const lyr=(id,fn)=>{ const e=$('#'+id); e.onchange=()=>fn(e.checked); fn(e.checked); };
   lyr('lyr-walls',v=>layers.walls.visible=v); lyr('lyr-ceiling',v=>layers.ceiling.visible=v); lyr('lyr-floor',v=>{ layers.floor.visible=v; layers.plainFloor.visible=!v; }); lyr('lyr-plan',v=>layers.plan.visible=v);
-  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v); lyr('lyr-lights',v=>{ B.lights=v; (layers.lights||[]).forEach(l=>l.visible=v); });
+  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v); lyr('lyr-lights',v=>{ B.lights=v; (layers.lights||[]).forEach(l=>l.visible=v); }); lyr('lyr-quotes',v=>{ B.quotes=v; if(layers.quoteBricks) layers.quoteBricks.visible=v; brickMesh.visible=!v; msgGroup.visible=!v; });
   lyr('lyr-labels',v=>{ labelRenderer.domElement.style.display=v?'':'none'; });
   $$('[data-add]').forEach(b=>b.onclick=()=>addPiece(b.dataset.add));
   $$('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
