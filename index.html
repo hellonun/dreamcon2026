@@ -189,7 +189,6 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <label class="tg"><input type="checkbox" id="lyr-rings">Radius rings</label>
         <label class="tg"><input type="checkbox" id="lyr-people" checked>People for scale</label>
         <label class="tg"><input type="checkbox" id="lyr-lights" checked>Clip lights</label>
-        <label class="tg"><input type="checkbox" id="lyr-quotes" checked>Printed quote bricks (before opening)</label>
         <label class="tg"><input type="checkbox" id="lyr-stage" checked>Stage &amp; LED</label>
         <label class="tg"><input type="checkbox" id="lyr-labels">Labels</label>
       </div>
@@ -865,7 +864,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v39';
+const KEY='dreamcon-composer-v40';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -875,7 +874,7 @@ function arcModules({ rf, start, count, levels, w, d, h, gap=0, type='bay' }){
     for(let l=0;l<levels;l++) out.push(mk(type,{ x, z, y:l*h, rot, w, d, h })); }
   return { mods:out, span:count*step/DEG };
 }
-window.__dc=()=>({ quoteBrickTex, clipLightSpots, B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
+window.__dc=()=>({ quoteMeshes, updateBrickPose, quoteBrickTex, clipLightSpots, B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
 /* ---------------- exhibition walls: straight scaffold boxes on a curve ----------------
    Each cell is a rectangular box 0.6 m deep. Neighbouring boxes share the front standard; each has its own back standards,
    so the boxes fan out with a wedge gap at the back. Sizes from the wall frames (metres, along the wall from its left end). */
@@ -1229,12 +1228,13 @@ const PALLET_GROUPS = [
   { id:'green', cols:[1],   th:'อิฐโทนเขียว',  en:'Greenish brick',    gen:'Gen Y (Millennials)' },
   { id:'beige', cols:[0], th:'อิฐโทนส้ม', en:'Orange brick', gen:'Gen X · Boomers' } ];   // id kept for saved layouts; light beige is now kept for the printed quote bricks
 const brickCol = new Uint8Array(MAXB);
+const QUOTE_BRICKS_N = 56;   // the first bricks of the build carry a UV-printed quote
 const MULTI_COLS = [3,1,0];   // brick red, sage, orange: one per generation (light beige is the printed quote bricks)
 const groupOfCol = c => PALLET_GROUPS.findIndex(g=>g.cols.includes(c));
 function applyBrickColors(){ const r=rnd(11), col=new THREE.Color(), base=new THREE.Color(B.single);
   for(let i=0;i<MAXB;i++){ const w=r(), a=r(), b=r(), c=r();
     if(B.colorMode==='single'){ col.copy(base); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.03,(c-0.5)*0.035); }
-    else { const ci=MULTI_COLS[Math.floor(w*MULTI_COLS.length)%MULTI_COLS.length]; brickCol[i]=ci; col.copy(BRICK_COLS[ci]); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.04,(c-0.5)*0.04); }
+    else { const ci=i<QUOTE_BRICKS_N? 2 : MULTI_COLS[Math.floor(w*MULTI_COLS.length)%MULTI_COLS.length]; brickCol[i]=ci; col.copy(BRICK_COLS[ci]); col.offsetHSL((a-0.5)*0.01,(b-0.5)*0.04,(c-0.5)*0.04); }
     brickMesh.setColorAt(i,col); } brickMesh.instanceColor.needsUpdate=true; }
 applyBrickColors();
 const platGroup = new THREE.Group(); scene.add(platGroup);
@@ -1402,7 +1402,7 @@ function buildPlatform(){ buildCarpet();
   const r=S.tube, mat=finishMats.silver, V=(x,y,z)=>new THREE.Vector3(B.cx+x,y,B.cz+z); const P=platformParts(); const yTop=top-PLY-r, yLow=Math.min(0.18,yTop-0.15);
   for(const [x,z] of P.posts){ addTube(platGroup,V(x,0.008,z),V(x,yTop,z),r,mat); const bp=new THREE.Mesh(basePlateGeo,castorMat); bp.position.set(B.cx+x,0.004,B.cz+z); platGroup.add(bp); }
   for(const [a,b] of P.ledgers){ addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat); if(yTop>0.3) addTube(platGroup,V(a[0],yLow,a[1]),V(b[0],yLow,b[1]),r,mat); }
-  BR.deckParts=P; buildHoleFeatures(hs); buildQuoteBricks(hs);
+  BR.deckParts=P; buildHoleFeatures(hs); buildQuoteBricks();
 }
 function stockSlots(){
   const N=B.count, { L, W, H } = B, g=0.006, vh=H+0.002; const plm=S.modules.filter(m=>m.type==='plinth');
@@ -1433,18 +1433,21 @@ function stockSlots(){
   const perPlat=info.map(q=>used.filter(s=>s.pi===q.pi).length);
   return { slots:[...BR.targets.slice(0,under), ...used], layers:(used.length? Math.max(...used.map(s=>s.k))+1 : 0)+(plm.length?0:1), cap:cap(B.layers), plinths:pl.length, perPlat };
 }
-const placedCount = () => B.quotes!==false? 0 : Math.round(B.prog*Math.min(B.count,BR.targets.length));   // before opening (quote bricks shown): nothing built yet
+const placedCount = () => { const N=Math.min(B.count,BR.targets.length); return Math.min(N, Math.max(Math.min(QUOTE_BRICKS,N), Math.round(B.prog*N))); };   // the 56 printed quote bricks are built before opening
 const _m=new THREE.Matrix4(), _q=new THREE.Quaternion(), _p=new THREE.Vector3(), _s=new THREE.Vector3(), _e=new THREE.Euler();
 function updateBrickPose(){
   const placed=placedCount();
   for(let i=0;i<MAXB;i++){
-    let t=null; const nPlain=B.quotes!==false? Math.max(0,B.count-QUOTE_BRICKS) : B.count; if(i<nPlain){ t = i<placed ? BR.targets[i] : BR.slots[i]; }
-    if(!t){ _m.compose(_p.set(0,-10,0),_q.identity(),_s.set(0,0,0)); brickMesh.setMatrixAt(i,_m); continue; }
-    _e.set(0,t.ry,0); _q.setFromEuler(_e); if(t.o==='end') _s.set(B.W,B.L,B.H); else if(t.o==='edge') _s.set(B.L,B.W,B.H); else _s.set(B.L,B.H,B.W); _m.compose(_p.set(t.x,t.y,t.z),_q,_s); brickMesh.setMatrixAt(i,_m);
+    let t=null; if(i<B.count){ t = i<placed ? BR.targets[i] : BR.slots[i]; }
+    if(!t){ if(quoteMeshes[i]) quoteMeshes[i].visible=false; _m.compose(_p.set(0,-10,0),_q.identity(),_s.set(0,0,0)); brickMesh.setMatrixAt(i,_m); continue; }
+    _e.set(0,t.ry,0); _q.setFromEuler(_e); if(t.o==='end') _s.set(B.W,B.L,B.H); else if(t.o==='edge') _s.set(B.L,B.W,B.H); else _s.set(B.L,B.H,B.W); _m.compose(_p.set(t.x,t.y,t.z),_q,_s);
+    if(i<QUOTE_BRICKS && quoteMeshes[i]){ const qm=quoteMeshes[i]; qm.matrix.copy(_m); qm.matrixWorldNeedsUpdate=true; qm.material=t.o==='flat'? qm.userData.mats.flat : qm.userData.mats.up; qm.visible=true; _m.compose(_p.set(0,-10,0),_q.identity(),_s.set(0,0,0)); }
+    brickMesh.setMatrixAt(i,_m);
   }
+  for(let i=Math.min(B.count,QUOTE_BRICKS);i<quoteMeshes.length;i++) quoteMeshes[i].visible=false;
   brickMesh.count=Math.min(MAXB,Math.max(B.count,1)); brickMesh.instanceMatrix.needsUpdate=true;
   const N=Math.min(B.count,BR.targets.length), p=B.prog;
-  const day = placed===0? 'Opening day, every brick stacked on the deck' : placed>=N? 'Day 6, every brick built in' : `Around day ${Math.min(6,1+Math.floor(p*6))}`;
+  const day = placed<=QUOTE_BRICKS? `Before opening, the ${Math.min(placed,QUOTE_BRICKS)} printed quote bricks built in` : placed>=N? 'Day 6, every brick built in' : `Around day ${Math.min(6,1+Math.floor(p*6))}`;
   const el=$('#b-day'); if(el) el.textContent = `${day} · ${placed} of ${N} built`;
   updateMessages(placed);
 }
@@ -1536,7 +1539,7 @@ function ringLetteringTexture(h, i){ const ts=(HOLE_TOPICS[i]||[]).map(topicById
     const a=ang+(sep/2)/rT; ctx.beginPath(); ctx.arc(S/2+Math.cos(a)*(rT+px*0.35), S/2+Math.sin(a)*(rT+px*0.35), px*0.12, 0, Math.PI*2); ctx.fill(); ang+=sep/rT; }
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; return { tex, size }; }
 const ringCache = new Map();
-/* printed quote bricks: 56 bricks (7 quotes x 8, mixed colours, design 3: large quote mark, no QR) laid flat round the table before opening */
+/* printed quote bricks: the first 56 bricks of the build (7 quotes x 8, light beige, design 3: large quote mark, no QR) */
 const QUOTE_QR='11111110010011111001001111111,10000010100111111110001000001,10111010111110110100001011101,10111010011100100010001011101,10111010100001111010001011101,10000010110101011101101000001,11111110101010101010101111111,00000000110010000100100000000,11010011001011111010101110110,10100100001101001000101001001,11101110011011101101000111110,00110000000001000001101010110,10001011100011001101111001011,00111000011100100001110000000,01100110001101000110111101111,10000000111011111110110001010,11111110011110010101110100010,01000101010100101100011101001,10101010110010100100111110011,00011100000110011111101000011,10100010101111101011111110100,00000000111011001001100010111,11111110111010101100101010010,10000010011101111011100011101,10111010001001001100111110010,10111010111011000101101111110,10111010011101101101100011101,10000010101101100101101010010,11111110110010001100110110010'.split(',');   // QR to the Dream Con dashboard (wevisdemo.github.io/dreamcon/dashboard/), low error correction: 29 x 29 modules
 const QUOTES=[
   { tags:['การปกครองส่วนท้องถิ่น'], q:'ควรมีท้องถิ่น เวทีสาธารณะ และกลไกให้ประชาชนในการร่วมคิด ร่วมเสนอ และมีส่วนร่วมลงมือพัฒนาท้องถิ่นอย่างต่อเนื่อง', n:4, dots:'ggyy', groups:['ประชาชนภาคใต้'] },
@@ -1546,7 +1549,7 @@ const QUOTES=[
   { tags:['สิทธิเสรีภาพ'], q:'ผู้พ้นโทษจากเรือนจำทุกคนต้องมีสิทธิที่จะพ้นจากการตีตรา และไม่ถูกกีดกันในการสมัครงานและประกอบอาชีพ', n:6, dots:'ggggGG', groups:['ผู้ต้องขัง','ผู้หญิง'] },
   { tags:['การปกครองส่วนท้องถิ่น','งบประมาณ'], q:'ประชาชนควรสามารถรับรู้ข้อมูล และมีส่วนร่วมกับงบประมาณของท้องถิ่น การใช้งบประมาณต้องโปร่งใสและพร้อมให้ประชาชนตรวจสอบ', n:6, dots:'GggyYy', groups:['ประชาชนภาคใต้','ประชาชนภาคตะวันออกเฉียงเหนือ'] },
   { tags:['องค์กรอิสระ'], q:'ปัจจุบัน ที่มาและคุณสมบัติขององค์กรอิสระไม่ยึดโยงกับประชาชน ผู้ดำรงตำแหน่งควรมาจากการเลือกตั้งและมีส่วนร่วมโดยประชาชน', n:12, dots:'gGGGggGgGgyy', groups:['ประชาชนภาคเหนือ','ประชาชนภาคใต้','ประชาชนภาคตะวันออกเฉียงเหนือ'] } ];
-const QUOTE_BRICKS=56, QB={ L:0.215, W:0.075, H:0.02 };
+const QUOTE_BRICKS=QUOTE_BRICKS_N, QB={ L:0.215, W:0.075, H:0.02 };
 const quoteTexCache=new Map();
 const THAI_KEEP=['ท้องถิ่น','ยึดโยง','ประชาชน','งบประมาณ','องค์กรอิสระ','รัฐธรรมนูญ','กระบวนการ','ยุติธรรม','ตำแหน่ง','เลือกตั้ง','ผู้ต้องหา','มาตรฐาน','ประเมินผล','กระจายอำนาจ','อำนาจ','ส่วนร่วม','ผู้พ้นโทษ','ประกอบอาชีพ'];
 function wrapThai(ctx, text, maxW){ let seg=(typeof Intl!=='undefined' && Intl.Segmenter)? [...new Intl.Segmenter('th',{granularity:'word'}).segment(text)].map(s=>s.segment) : [...text];
@@ -1570,18 +1573,13 @@ function quoteBrickTex(qi, ci){ const key=qi+'|'+ci; if(quoteTexCache.has(key)) 
   const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; quoteTexCache.set(key,t); return t; }
 const quoteSideMats=new Map();
 function quoteSideMat(ci){ if(!quoteSideMats.has(ci)) quoteSideMats.set(ci,new THREE.MeshStandardMaterial({ color:SINGLES[ci][0], map:speckle, roughness:0.93 })); return quoteSideMats.get(ci); }
-function buildQuoteBricks(hs){ const top=deckTop(), R0=B.pdia/2, spots=holeScreenSpots(hs), r=rnd(84), g=new THREE.Group(); g.name='quoteBricks'; g.visible=B.quotes!==false; layers.quoteBricks=g; platGroup.add(g);
-  const geo=new THREE.BoxGeometry(QB.L,QB.H,QB.W); const cand=[]; const rOut=R0-RIM.in-0.06-QB.W/2;
-  for(let ring=0; ring<6; ring++){ const rr=rOut-ring*0.16; const n=Math.floor(2*Math.PI*rr/0.27); for(let i=0;i<n;i++){ const a=(i+(ring%2)*0.5)/n*Math.PI*2; const px=rr*Math.cos(a), pz=rr*Math.sin(a); const ry=Math.PI/2-a;
-      const cs=[[-1,-1],[1,-1],[1,1],[-1,1]].map(([u,v])=>[px+Math.cos(ry)*u*QB.L/2+Math.sin(ry)*v*QB.W/2, pz-Math.sin(ry)*u*QB.L/2+Math.cos(ry)*v*QB.W/2]);
-      if(!cs.every(([X,Z])=>hs.every(h=>Math.hypot(X-h.x,Z-h.z)>h.r+0.09))) continue; if(hitsScreen(px,pz,ry,QB.L,QB.W,spots,0.06)) continue; cand.push({ px, pz, ry, ring }); } }
-  const pick=[]; for(let ring=0; ring<6 && pick.length<QUOTE_BRICKS; ring++){ const rc=cand.filter(c=>c.ring===ring); const need=QUOTE_BRICKS-pick.length; if(rc.length<=need) pick.push(...rc); else { for(let i=0;i<need;i++) pick.push(rc[Math.floor(i*rc.length/need)]); } }
-  const order=[...Array(QUOTE_BRICKS).keys()].sort(()=>r()-0.5);
-  pick.forEach((p,i)=>{ const id=order[i]; const qi=id%QUOTES.length, ci=2;   /* every printed quote brick is light beige */ const side=quoteSideMat(ci);
-    const mats=[side,side,new THREE.MeshStandardMaterial({ map:quoteBrickTex(qi,ci), roughness:0.85 }),side,side,side];
-    const m=new THREE.Mesh(geo,mats); m.position.set(B.cx+p.px, top+QB.H/2+0.0005, B.cz+p.pz); m.rotation.y=p.ry+(r()-0.5)*0.06; m.castShadow=true; m.receiveShadow=true; g.add(m); });
-  msgGroup.visible=!(B.quotes!==false); updateBrickPose();
-  BR.quoteCount=pick.length; }
+const quoteGroup=new THREE.Group(); quoteGroup.name='quoteBricks'; scene.add(quoteGroup);
+const quoteMeshes=[]; let quoteOrder=null;
+function buildQuoteBricks(){ if(quoteMeshes.length) return; const geo=new THREE.BoxGeometry(1,1,1), side=quoteSideMat(2), r=rnd(56);
+  quoteOrder=[...Array(QUOTE_BRICKS).keys()].sort(()=>r()-0.5);
+  for(let i=0;i<QUOTE_BRICKS;i++){ const qi=quoteOrder[i]%QUOTES.length; const print=new THREE.MeshStandardMaterial({ map:quoteBrickTex(qi,2), roughness:0.85 });
+    const m=new THREE.Mesh(geo,[side,side,print,side,side,side]); m.userData.mats={ flat:[side,side,print,side,side,side], up:[side,side,side,side,print,side] };
+    m.matrixAutoUpdate=false; m.castShadow=true; m.receiveShadow=true; m.visible=false; quoteGroup.add(m); quoteMeshes.push(m); } }
 
 function buildHoleFeatures(hs){ const top=deckTop(); const spots=holeScreenSpots(hs);
   spots.forEach((sp,i)=>{ if(i>=HOLE_TOPICS.length) return; const h=hs[i];
@@ -1866,7 +1864,7 @@ function bindUI(){
   $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
   const lyr=(id,fn)=>{ const e=$('#'+id); e.onchange=()=>fn(e.checked); fn(e.checked); };
   lyr('lyr-walls',v=>layers.walls.visible=v); lyr('lyr-ceiling',v=>layers.ceiling.visible=v); lyr('lyr-floor',v=>{ layers.floor.visible=v; layers.plainFloor.visible=!v; }); lyr('lyr-plan',v=>layers.plan.visible=v);
-  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v); lyr('lyr-lights',v=>{ B.lights=v; (layers.lights||[]).forEach(l=>l.visible=v); }); lyr('lyr-quotes',v=>{ B.quotes=v; if(layers.quoteBricks) layers.quoteBricks.visible=v; msgGroup.visible=!v; updateBrickPose(); });
+  lyr('lyr-stage',v=>{ layers.stage.visible=v; }); lyr('lyr-zones',v=>layers.zones.visible=v); lyr('lyr-booths',v=>{ layers.booths.visible=v; layers.boothLabel.visible=v; renderChecks(); renderStatus(); }); lyr('lyr-rings',v=>layers.rings.visible=v); lyr('lyr-people',v=>layers.people.visible=v); lyr('lyr-lights',v=>{ B.lights=v; (layers.lights||[]).forEach(l=>l.visible=v); });
   lyr('lyr-labels',v=>{ labelRenderer.domElement.style.display=v?'':'none'; });
   $$('[data-add]').forEach(b=>b.onclick=()=>addPiece(b.dataset.add));
   $$('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
