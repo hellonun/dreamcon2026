@@ -1784,7 +1784,7 @@ function syncBrickUI(){ const o=(id,v)=>{ const e=$('#'+id); if(e) e.textContent
   $('#b-L').value=Math.round(B.L*1000*10)/10; $('#b-W').value=Math.round(B.W*1000*10)/10; $('#b-H').value=Math.round(B.H*1000*10)/10; $('#b-dens').value=B.dens; $('#b-cx').value=B.cx; $('#b-cz').value=B.cz;
   const sz=`${+(B.L*1000).toFixed(1)},${+(B.W*1000).toFixed(1)},${+(B.H*1000).toFixed(1)}`; const opt=[...$('#b-size').options].find(op=>op.value===sz); $('#b-size').value=opt?sz:'custom';
 }
-let playing=null;
+let playing=null, pausedAt=null;
 function bindBricks(){
   holeScreens.slice(0,3).forEach(h=>$('#screen-wrap').appendChild(h.c));
   const renderTopics=()=>{ $('#msg-topic').innerHTML=TOPICS.map(t=>`<button class="chip" data-topic="${t.id}" aria-pressed="${t.id===B.topic}">${t.en}</button>`).join(''); $$('#msg-topic .chip').forEach(c=>c.onclick=()=>{ B.topic=c.dataset.topic; renderTopics(); drawStation(); persist(); }); }; renderTopics();
@@ -1818,7 +1818,7 @@ function bindBricks(){
   $$('#b-swatches .sw').forEach(c=>c.onclick=()=>{ B.single=c.dataset.c; applyBrickColors(); syncBrickUI(); drawScreen(); persist(); });
   $('#msg-fly').onchange=e=>{ B.fly=e.target.checked; persist(); };
   $('#b-prog').addEventListener('input',e=>{ B.prog=+e.target.value/1000; updateBrickPose(); }); $('#b-prog').addEventListener('change',()=>{ renderBrickStats(); persist(); });
-  $('#b-play').onclick=()=>{ if(playing){ playing=null; $('#b-play').textContent='Play the six days'; return; } if(B.prog>=0.999) B.prog=0; playing={ t0:performance.now(), p0:B.prog }; $('#b-play').textContent='Pause'; };
+  $('#b-play').onclick=()=>{ if(playing){ playing=null; pausedAt=B.prog; $('#b-play').textContent='Resume'; return; } if(pausedAt===null || Math.abs(B.prog-pausedAt)>1e-6 || B.prog>=0.999) B.prog=0; pausedAt=null; playing={ t0:performance.now(), p0:B.prog }; $('#b-play').textContent='Pause'; updateBrickPose(); };
   $('#b-count').addEventListener('change',e=>{ B.count=clamp(Math.round(+e.target.value||1050),20,MAXB); syncBrickUI(); rebuildBuild(); persist(); });
   $('#b-size').onchange=e=>{ if(e.target.value==='custom') return; const [l,w,h]=e.target.value.split(',').map(Number); B.L=l/1000; B.W=w/1000; B.H=h/1000; syncBrickUI(); rebuildBuild(); persist(); };
   for(const [id,k,s] of [['b-L','L',1000],['b-W','W',1000],['b-H','H',1000],['b-dens','dens',1],['b-cx','cx',1],['b-cz','cz',1]]){ $('#'+id).addEventListener('change',e=>{ const v=parseFloat(e.target.value); if(!isFinite(v)) return; B[k]=v/s; syncBrickUI(); rebuildBuild(); persist(); }); }
@@ -1965,7 +1965,7 @@ function bindMeasure(){ MEAS.snap=true;
 function frame(now){
   requestAnimationFrame(frame);
   if(tween){ const k=clamp((now-tween.t0)/tween.dur,0,1), e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2; persp.position.lerpVectors(tween.p0,tween.p1,e); ctrlP.target.lerpVectors(tween.q0,tween.q1,e); if(k>=1) tween=null; }
-  if(playing){ const p=playing.p0+(now-playing.t0)/14000; B.prog=Math.min(1,p); $('#b-prog').value=Math.round(B.prog*1000); updateBrickPose(); if(B.prog>=1){ playing=null; $('#b-play').textContent='Play the six days'; persist(); } }
+  if(playing){ const p=playing.p0+(now-playing.t0)/14000; B.prog=Math.min(1,p); $('#b-prog').value=Math.round(B.prog*1000); updateBrickPose(); if(B.prog>=1){ playing=null; pausedAt=null; $('#b-play').textContent='Play the six days'; persist(); } }
   tickAnim(now); tickScreens(now);
   ctrl().update(); renderer.render(scene,camera); labelRenderer.render(scene,camera); measLR.render(measLabels,camera);
 }
