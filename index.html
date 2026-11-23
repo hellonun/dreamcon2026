@@ -345,7 +345,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <h3>Brick message station</h3>
       <div class="card">
         <h3 style="margin-top:0">Station finishes</h3>
-        <label class="fld">Display<select id="stn-mode" class="s"><option value="projection">Projection, no visible screen edge</option><option value="monitor">Monitor, 43" Samsung The Frame</option></select></label>
+        <label class="fld">Display<select id="stn-mode" class="s"><option value="projection">Projection, no visible screen edge</option><option value="monitor">Monitor, 32" Samsung The Frame</option></select></label>
         <div class="fld">Edge round the screen<div class="row" id="stn-rim-sw"></div><div class="row"><input type="color" id="stn-rim" class="cpick"><select id="stn-rim-tex" class="s" style="flex:1"><option value="matte">Matte</option><option value="satin">Satin</option><option value="wood">Wood grain</option></select></div></div>
         <div class="fld">Behind the keyboard<div class="row" id="stn-ledge-sw"></div><div class="row"><input type="color" id="stn-ledge" class="cpick"><select id="stn-ledge-tex" class="s" style="flex:1"><option value="matte">Matte</option><option value="satin">Satin</option><option value="wood">Wood grain</option></select></div></div>
         <div class="fld">Screen background<div class="row" id="stn-bg-sw"></div><div class="row"><input type="color" id="stn-bg" class="cpick"></div></div>
@@ -713,7 +713,7 @@ function buildRoom(){
 }
 
 /* ---------------- scaffold model ---------------- */
-const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:0.9895, d:0.78, h:0.9, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
+const TYPES = { bay:{ w:1, d:0.6, h:1, label:'Bay' }, plinth:{ w:1.2, d:1.0, h:0.45, label:'Brick pallet' }, station:{ w:0.77, d:0.68, h:0.9, label:'Brick message station' }, screen:{ w:1.1, d:0.6, h:2.2, label:'Vertical screen' }, frame:{ w:1.2, d:0.6, h:2.0, label:'Rolling frame' }, post:{ w:0.9, d:0.5, h:2.4, label:'Banner pole' }, sheet:{ w:1.5, d:0.02, h:1.2, label:'Loose print' } };
 const FINISH = { silver:{ color:'#C9CED6', metalness:0.85, roughness:0.32 }, black:{ color:'#26282E', metalness:0.55, roughness:0.45 }, mint:{ color:PAL.mint, metalness:0.15, roughness:0.5 }, royal:{ color:PAL.royal, metalness:0.15, roughness:0.45 } };
 const finishMats = Object.fromEntries(Object.entries(FINISH).map(([k,v])=>[k,new THREE.MeshStandardMaterial(v)]));
 const warnMat = new THREE.MeshStandardMaterial({ color:'#ff5a36', metalness:0.3, roughness:0.4 });
@@ -750,9 +750,10 @@ function facesOf(m){ const { w, d, h, type } = m, e=0.035;
   return { front:{c:[0,h/2,0.006],ry:0,fw:w,fh:h,full:true}, back:{c:[0,h/2,-0.006],ry:Math.PI,fw:w,fh:h,full:true} };
 }
 function addTube(g,a,b,r,mat){ const dv=new THREE.Vector3().subVectors(b,a); const len=dv.length(); if(len<1e-4) return; const t=new THREE.Mesh(tubeGeo,mat); t.scale.set(r,len,r); t.position.copy(a).addScaledVector(dv,0.5); t.quaternion.setFromUnitVectors(UP, dv.normalize()); t.castShadow=true; t.receiveShadow=true; g.add(t); return t; }
-/* 43" Samsung The Frame (965.6 x 553.6 x 24.9 mm), screen area about 941 x 529 mm */
-const FRAME43 = { w:0.9695, d:0.5578, t:0.0249, aw:0.941, ad:0.529 };   // Samsung The Frame 43" LS03D without stand
-const STN = (()=>{ const F=FRAME43, zBack=-0.37, edge=0.01, projH=F.aw*600/1600, touchH=F.aw*157/1600, top=-F.ad/2+0.012; const projZ=top+projH/2, touchZ=top+projH+0.012+touchH/2;
+/* 32" Samsung The Frame (727.3 x 426.8 x 25.5 mm without stand), screen area about 697 x 392 mm */
+const FRAME32 = { w:0.7273, d:0.4268, t:0.0255, aw:0.697, ad:0.392 };   // Samsung The Frame 32" LS03 without stand
+const FRAME43 = FRAME32;   // name kept for the drawing export
+const STN = (()=>{ const F=FRAME43, zBack=-0.37, edge=0.02, projH=F.aw*600/1600, touchH=F.aw*157/1600, top=-F.ad/2+0.012; const projZ=top+projH/2, touchZ=top+projH+0.012+touchH/2;
   return { edge, zBack, projH, touchH, projZ, touchZ, brickZ:projZ-projH/2+projH*0.56, kbZ:0.29, pxm:1600/F.aw }; })();
 const sensorMat=new THREE.MeshStandardMaterial({ color:'#26272B', roughness:0.5, metalness:0.2 }), lensMat=new THREE.MeshStandardMaterial({ color:'#0B0C0F', roughness:0.15, metalness:0.6 });
 const scanMat=new THREE.MeshBasicMaterial({ color:'#FF3B30', transparent:true, opacity:0.06, depthWrite:false, side:THREE.DoubleSide });
@@ -774,10 +775,10 @@ function moduleExtras(m, g){
       const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,ly,m.d/2+0.006); g.add(back); }
   }
   if(m.type==='station'){ const T=0.9, TT=0.036, t=0.864, F=FRAME43, E=STN.edge;
-    // 43" Samsung The Frame laid flat and flush in the ply top: 10 mm of wood left, back and right, the keyboard ledge in front
-    const zb=-m.d/2+E, zf=zb+F.d, yTop=T;
+    // 32" Samsung The Frame laid flat and flush in the ply top: 20 mm of wood behind, ~21 mm each side, the sensor + keyboard ledge in front
+    const zb=-m.d/2+E, zf=zb+F.d, yTop=T, SW=(m.w-F.w)/2;
     const rimM=finishMat(B.stnRim,B.stnRimTex), ledgeM=finishMat(B.stnLedge,B.stnLedgeTex); const wood=(w,d,x,z,mt=rimM)=>{ const p=new THREE.Mesh(new THREE.BoxGeometry(w,TT,d),mt); p.position.set(x,yTop-TT/2,z); p.castShadow=true; p.receiveShadow=true; g.add(p); };
-    wood(m.w,E,0,-m.d/2+E/2); wood(E,F.d,-m.w/2+E/2,(zb+zf)/2); wood(E,F.d,m.w/2-E/2,(zb+zf)/2); wood(m.w,m.d/2-zf,0,(zf+m.d/2)/2,ledgeM);
+    wood(m.w,E,0,-m.d/2+E/2); wood(SW,F.d,-m.w/2+SW/2,(zb+zf)/2); wood(SW,F.d,m.w/2-SW/2,(zb+zf)/2); wood(m.w,m.d/2-zf,0,(zf+m.d/2)/2,ledgeM);
     const scr=new THREE.Group(); scr.position.set(0,yTop-F.t,(zb+zf)/2); g.add(scr);
     const proj=B.stnMode==='projection';   // projection: one seamless surface, no bezel to see
     if(!proj){ const body=new THREE.Mesh(new THREE.BoxGeometry(F.w,F.t,F.d),[castorMat,castorMat,frameBezelMat,castorMat,castorMat,castorMat]); body.position.y=F.t/2; scr.add(body); }
@@ -787,17 +788,21 @@ function moduleExtras(m, g){
     const glw=new THREE.Mesh(new THREE.PlaneGeometry(0.46,0.22),stationGlowMat); glw.rotation.x=-Math.PI/2; glw.position.set(0,F.t+0.0016,STN.brickZ); glw.renderOrder=3; scr.add(glw);
     const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(0,F.t+0.0105,STN.brickZ); brick.castShadow=true; scr.add(brick);
     // white Apple keyboard on the ledge in front of the screen
-    const kb=new THREE.Mesh(new THREE.BoxGeometry(0.279,0.011,0.115),[kbBodyMat,kbBodyMat,keyboardMat,kbBodyMat,kbBodyMat,kbBodyMat]); kb.position.set(0,yTop+0.0055,(zf+m.d/2)/2); kb.castShadow=true; g.add(kb);
-    // sensing: lidar at the back-left corner scanning just above the glass (brick, touch)
+    const kb=new THREE.Mesh(new THREE.BoxGeometry(0.279,0.011,0.115),[kbBodyMat,kbBodyMat,keyboardMat,kbBodyMat,kbBodyMat,kbBodyMat]); kb.position.set(0,yTop+0.0055,m.d/2-0.03-0.0575); kb.castShadow=true; g.add(kb);
+    // sensing: Hokuyo UST-10LX (50 x 50 x 70) at the bottom centre of the screen, in a pocket in the top, scan plane 8 mm above the glass
     {
-      const hx=-m.w/2+0.03, hz=-m.d/2-0.032, scanY=yTop+0.008;
-      const brk=new THREE.Mesh(new THREE.BoxGeometry(0.07,0.004,0.07),rimM); brk.position.set(hx,scanY-0.035,hz); g.add(brk);
-      const hk=new THREE.Mesh(new THREE.BoxGeometry(0.0556,0.0413,0.0556),sensorMat); hk.position.set(hx,scanY-0.012,hz); hk.castShadow=true; g.add(hk);   /* RPLIDAR C1 55.6 x 55.6 x 41.3, scan near its top */
-      const win=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.022,0.012,24,1,true),lensMat); win.position.set(hx,scanY,hz); g.add(win);
-      const fan=new THREE.Mesh(new THREE.CircleGeometry(1.15,32,-Math.PI/2+0.05,Math.PI/2-0.1),scanMat); fan.rotation.x=-Math.PI/2; fan.position.set(hx,scanY,hz); g.add(fan); }
+      const hx=0, hz=zf+0.01+0.025, scanY=yTop+0.008, base=scanY-0.0474;
+      const hk=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.07,0.05),sensorMat); hk.position.set(hx,base+0.035,hz); hk.castShadow=true; g.add(hk);
+      const win=new THREE.Mesh(new THREE.CylinderGeometry(0.0255,0.0255,0.0287,24,1,true),lensMat); win.position.set(hx,scanY,hz); g.add(win);
+      const fan=new THREE.Mesh(new THREE.CircleGeometry(0.6,48,-Math.PI/4,Math.PI*1.5),scanMat); fan.rotation.x=-Math.PI/2; fan.position.set(hx,scanY,hz); g.add(fan); }
     // scaffold box under the top, wood panels set inside the tubes, vent slits along the bottom
     const ph=t-0.1, inset=0.055; for(const [w,x,z,ry] of [[m.w-0.13,0,m.d/2-inset,0],[m.w-0.13,0,-m.d/2+inset,Math.PI],[m.d-0.13,m.w/2-inset,0,Math.PI/2],[m.d-0.13,-m.w/2+inset,0,-Math.PI/2]]){
-      const pn=new THREE.Mesh(new THREE.BoxGeometry(w,ph,0.018),[oakMat,oakMat,oakMat,oakMat,ventMat(w,ph),oakMat]); pn.position.set(x,0.05+ph/2,z); pn.rotation.y=ry; pn.castShadow=true; pn.receiveShadow=true; g.add(pn); } }
+      const pn=new THREE.Mesh(new THREE.BoxGeometry(w,ph,0.018),[oakMat,oakMat,oakMat,oakMat,ventMat(w,ph),oakMat]); pn.position.set(x,0.05+ph/2,z); pn.rotation.y=ry; pn.castShadow=true; pn.receiveShadow=true; g.add(pn); }
+    // service door in the back panel (530 x 690, bottom at 70) for storing the projector: leaf with its own vents, hinges, cam lock
+    { const dw=0.53, dh=0.69, dz=-m.d/2+inset-0.012; const dr=new THREE.Mesh(new THREE.BoxGeometry(dw,dh,0.004),[oakMat,oakMat,oakMat,oakMat,ventMat(dw,dh),oakMat]); dr.position.set(0,0.07+dh/2,dz); dr.rotation.y=Math.PI; g.add(dr);
+      const gap=new THREE.Mesh(new THREE.PlaneGeometry(dw+0.006,dh+0.006),castorMat); gap.position.set(0,0.07+dh/2,-m.d/2+inset-0.0093); gap.rotation.y=Math.PI; g.add(gap);
+      for(const hy of [0.16,0.67]){ const hn=new THREE.Mesh(new THREE.BoxGeometry(0.008,0.08,0.006),castorMat); hn.position.set(-dw/2,hy,dz-0.003); g.add(hn); }
+      const lock=new THREE.Mesh(new THREE.CylinderGeometry(0.0125,0.0125,0.006,20),castorMat); lock.rotation.x=Math.PI/2; lock.position.set(dw/2-0.05,0.07+dh/2-0.06,dz-0.004); g.add(lock); } }
   if(m.type==='screen'){ const disp=new THREE.Mesh(new THREE.BoxGeometry(0.98,1.71,0.06),castorMat); disp.position.set(0,1.25,0.045); disp.castShadow=true; g.add(disp); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.94,1.67),screenMat); sc.position.set(0,1.25,0.0755); g.add(sc); }
 }
 function printSize(face, spec){ const inset = face.full? 0 : spec.mode==='full'? 0.02 : spec.mode==='laced'? Math.max(spec.inset,0.06) : spec.inset; return { pw:Math.max(0.05, face.fw-2*inset), ph:Math.max(0.05, face.fh-2*inset) }; }
