@@ -867,7 +867,7 @@ function commit(){ const s=snapshot(); if(past[past.length-1]!==s){ past.push(s)
 function loadModules(arr){ S.modules = arr.map(m=>({ ...m, prints:m.prints||{} })); nextId = Math.max(1, ...S.modules.map(m=>m.id+1)); rebuildAll(); }
 function undo(){ if(past.length<2) return; future.push(past.pop()); loadModules(JSON.parse(past[past.length-1]).modules); persist(); updateDerived(); toast('Undone'); }
 function redo(){ if(!future.length) return; const s=future.pop(); past.push(s); loadModules(JSON.parse(s).modules); persist(); updateDerived(); toast('Redone'); }
-const KEY='dreamcon-composer-v41';
+const KEY='dreamcon-composer-v42';
 function persist(){ const uploads=LIB.filter(g=>g.user).map(({id,label,src})=>({id,label,src})); const data={ modules:JSON.parse(snapshot()).modules, tube:S.tube, bricks:B, uploads }; if(!store.set(KEY,data)){ data.uploads=[]; store.set(KEY,data); } }
 
 /* ---------------- default proposal ---------------- */
@@ -877,7 +877,7 @@ function arcModules({ rf, start, count, levels, w, d, h, gap=0, type='bay' }){
     for(let l=0;l<levels;l++) out.push(mk(type,{ x, z, y:l*h, rot, w, d, h })); }
   return { mods:out, span:count*step/DEG };
 }
-window.__dc=()=>({ quoteMeshes, updateBrickPose, quoteBrickTex, clipLightSpots, B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
+window.__dc=()=>({ buildWallArt, quoteMeshes, updateBrickPose, quoteBrickTex, clipLightSpots, B, BR, S, holes, supported, deckTop, cam:()=>camera, ctrl, wallGeom, WALLS, platformParts, stagePose, boothSpots, STN, FRAME43, PALLET_GROUPS, COLS, OBSTACLES, R, SCR15, TYPES, WALL_RF, WALL_D, WALL_Y0, RIM, RIM_TEXT, SCR_SIZES, FLOOR_C, FLOOR_RINGS, renderer, scene, THREE });
 /* ---------------- exhibition walls: straight scaffold boxes on a curve ----------------
    Each cell is a rectangular box 0.6 m deep. Neighbouring boxes share the front standard; each has its own back standards,
    so the boxes fan out with a wedge gap at the back. Sizes from the wall frames (metres, along the wall from its left end). */
@@ -886,14 +886,24 @@ const WALL_GAP_AT = Math.atan2(4.39, -4.70)/DEG;   // the gap lines up with the 
 const A1 = { w:0.594, h:0.841 }, IDEA_BOARD = { w:0.847, h:1.195 }, A0 = { w:0.841, h:1.189 };
 const PRINT_INSET = 0.025, PRINT_TUBE = 0.0483;   // every print sits at least 25 mm inside the tube faces of its cell (cell is measured tube centre to tube centre)
 const printSpan = (a,b)=>{ const w=Math.floor(((b-a)-PRINT_TUBE-2*PRINT_INSET)*200+1e-6)/200, c=(a+b)/2; return [c-w/2, c+w/2]; };   // rounded down to 5 mm, centred
-const WALLS = (()=>{ const T=WALL_Y0+WALL_H, cell=(k,s0,s1,y0,y1)=>{ const [a,b]=printSpan(s0,s1), [c,d]=printSpan(y0,y1); return [k,a,b,c,d]; };
+const PRINT_GAP = 0.02;   // between two prints in the same frame, where no standard stands between them
+const WALLS = (()=>{ const T=WALL_Y0+WALL_H; let posts=[];
+  /* a print keeps 25 mm off a tube face where a standard stands; where it meets the next print inside one frame, only a 20 mm gap */
+  const side=(s,lo)=>{ const tube=posts.some(q=>Math.abs(q-s)<1e-6); return tube? PRINT_TUBE/2+PRINT_INSET : PRINT_GAP/2; };
+  const cell=(k,s0,s1,y0,y1)=>{ const a=Math.ceil((s0+side(s0))*200-1e-6)/200, b=Math.floor((s1-side(s1))*200+1e-6)/200, [c,d]=printSpan(y0,y1); return [k,a,b,c,d]; };
+  /* n prints side by side in one frame: equal widths, 20 mm apart, 25 mm off the standards at the ends */
+  const split=(keys,s0,s1,y0,y1)=>{ const e=PRINT_TUBE/2+PRINT_INSET, n=keys.length, w=Math.floor(((s1-s0-2*e)-(n-1)*PRINT_GAP)/n*200+1e-6)/200, run=n*w+(n-1)*PRINT_GAP, a0=(s0+s1)/2-run/2, [c,d]=printSpan(y0,y1);
+    return keys.map((k,i)=>[k,a0+i*(w+PRINT_GAP),a0+i*(w+PRINT_GAP)+w,c,d]); };
+  const setPosts=(cells,extra=[])=>{ posts=[0]; cells.forEach(w=>posts.push(posts[posts.length-1]+w)); posts.push(...extra); };
   // left wall: a 1.8 m block split by ledgers at 1.825 and 0.975 and a short standard at 0.9, then five 0.6 m cells
   const yA=1.825, yB=0.975;
-  const L = { cells:[1.8,0.6,0.6,0.6,0.6,0.6], rails:[[yA,0,1.8],[yB,0,1.8]], part:[[0.9,WALL_Y0,yB]], prints:[
+  setPosts([1.8,1.8,1.2],[0.9]);
+  const L = { cells:[1.8,1.8,1.2], rails:[[yA,0,1.8],[yB,0,1.8]], part:[[0.9,WALL_Y0,yB]], prints:[
       cell('logos',0,1.8,yA,T), cell('banner',0,1.8,yB,yA), cell('blue',0,0.9,WALL_Y0,yB), cell('yellow',0.9,1.8,WALL_Y0,yB),
-      ...[0,1,2,3,4].map(k=>cell('p'+(k+1),1.8+0.6*k,2.4+0.6*k,WALL_Y0,T)) ] };
+      ...split(['p1','p2','p3'],1.8,3.6,WALL_Y0,T), ...split(['p4','p5'],3.6,4.8,WALL_Y0,T) ] };
   const tw=0.45, iw=(5-tw)/7, yR=WALL_Y0+0.875;
-  const R = { cells:[1.0,tw,...Array(7).fill(iw),0.3,1.0], rails:[[yR,0,6.0]], part:[], prints:[
+  setPosts([1.0+tw,7*iw,1.3]);
+  const R = { cells:[1.0+tw,7*iw,1.3], rails:[[yR,0,6.0]], part:[], prints:[
       cell('band',0,6.0,WALL_Y0,yR), cell('events',0,1.0,yR,T), cell('ideas_title',1.0,1.0+tw,yR,T), cell('arguments',6.3,7.3,WALL_Y0,T)] };
   R.ideas = { s:[...Array(7)].map((_,k)=>1.0+tw+k*iw+0.002), w:IDEA_BOARD.w, h:IDEA_BOARD.h, top:T, angle:40 };
   R.strip = { s0:6.0, s1:6.3, shelf:WALL_Y0+0.8, depth:0.35, low:WALL_Y0 };
@@ -916,7 +926,7 @@ function wallTex(key){ if(wallTexCache.has(key)) return wallTexCache.get(key); c
 const lampMat=new THREE.MeshStandardMaterial({ color:'#1d1e22', roughness:0.5, metalness:0.4 });
 const lampLens=new THREE.MeshBasicMaterial({ color:'#FFF4D6' });
 const lampBeam=new THREE.MeshBasicMaterial({ color:'#FFF1CC', transparent:true, opacity:0.07, depthWrite:false, side:THREE.DoubleSide, blending:THREE.AdditiveBlending });
-const clipLightSpots=id=>{ const g=wallGeom(id), out=[]; g.ws.forEach((w,i)=>{ const s0=g.s[i]; if(w>1.2){ out.push(s0+w/4, s0+3*w/4); } else out.push(s0+w/2); }); return out; };
+const clipLightSpots=id=>{ const g=wallGeom(id), out=[]; g.ws.forEach((w,i)=>{ const s0=g.s[i]; const n=w>=1.0? Math.max(2,Math.round(w/0.75)) : 1; for(let k=0;k<n;k++) out.push(s0+w*(k+0.5)/n); }); return out; };
 function buildWallArt(){ layers.lights=[]; while(wallArtRoot.children.length) wallArtRoot.remove(wallArtRoot.children[0]);
   const tubeR=S.tube||0.024, steel=finishMats.silver;
   const tubeW=(a,b,r=tubeR)=>{ const A=new THREE.Vector3(...a), Bv=new THREE.Vector3(...b), dv=new THREE.Vector3().subVectors(Bv,A); const t=new THREE.Mesh(tubeGeo,steel); t.scale.set(r,dv.length(),r); t.position.copy(A).addScaledVector(dv,0.5); t.quaternion.setFromUnitVectors(UP,dv.clone().normalize()); t.castShadow=true; t.receiveShadow=true; wallArtRoot.add(t); };
