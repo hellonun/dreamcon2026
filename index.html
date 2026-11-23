@@ -1243,7 +1243,7 @@ const speckle = canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,
 const brickMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ map:speckle, roughness:0.93, metalness:0 }), MAXB);
 brickMesh.castShadow=true; brickMesh.receiveShadow=true; brickMesh.frustumCulled=false; scene.add(brickMesh);
 /* the concept line round the table rim */
-const RIM_TEXT = { th:'ทุกเสียงมีความหมาย · ร่วมเป็นส่วนหนึ่งของบทสนทนา · ร่วมสร้างรัฐธรรมนูญของเรา', en:'Your voice matters · Be part of the conversation · Build your constitution' };
+const RIM_TEXT = { th:'ทุกเสียงมีความหมาย • ร่วมเป็นส่วนหนึ่งของบทสนทนา • มาสร้างรัฐธรรมนูญฉบับใหม่ไปด้วยกัน', en:"Your voice matters • Be part of the conversation • Let's build a new constitution together." };
 const RIM = { in:0.13, out:0.035, px:0.058 };   // band measured in from the rim, letter size in metres
 const BRICK_COLS = SINGLES.map(([c])=>new THREE.Color(c));
 /* pallets sort the bricks by colour; each colour stands for a generation */
