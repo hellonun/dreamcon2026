@@ -908,7 +908,7 @@ const WALLS = (()=>{ const T=WALL_Y0+WALL_H; let posts=[];
   const [lc,ld]=printSpan(WALL_Y0,yR), [fc,fd]=printSpan(WALL_Y0,T);
   const R = { cells:[F1,F2,F3], rails:[[yR,f2,f3]], part:[], prints:[
       cell('events',0,F1,WALL_Y0,T), cell('band',f2,f3,yR,T), ['ideas_title',f2+e,f2+e+0.35,lc,ld], ['arguments',f4-e-1.0,f4-e,fc,fd]] };
-  R.ideas = { s:[...Array(7)].map((_,k)=>f2+e+0.402+0.6*k), w:IDEA_BOARD.w, h:IDEA_BOARD.h, top:yR-0.03, hang:yR, angle:50, dir:-1 };
+  R.ideas = { s:[...Array(7)].map((_,k)=>f2+e+0.402+0.6*k), w:IDEA_BOARD.w, h:IDEA_BOARD.h, top:yR-0.03, hang:yR, angle:40, dir:-1 };   /* 40°: the board reaches 544 back, clear of the back braces at 600 (50° would reach 649, through them) */
   R.strip = { s0:f3+e, s1:f3+e+0.3, shelf:WALL_Y0+0.8, depth:0.35, low:WALL_Y0, topH:1.15 };
   /* monitor centred on the black screen box in the ARGUMENTS artwork (x 50.7–89.0 %, y 35.9–46.4 % from the top of the print) */
   { const A=R.prints.find(q=>q[0]==='arguments'); R.monitor = { item:'arguments', cs:A[1]+(A[2]-A[1])*0.6986, cy:A[4]-(A[4]-A[3])*0.4111, w:0.423, h:0.253, t:0.013 }; }
