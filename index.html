@@ -768,8 +768,8 @@ function palletLabelTex(gi, aspect){ const key=gi+'|'+aspect.toFixed(2); if(pall
 function moduleExtras(m, g){
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
   if(m.type==='plinth'){ const deck=new THREE.Mesh(new THREE.BoxGeometry(m.bay? m.w : m.w+0.02,0.018,m.d+0.02), plyMat);
-    /* bays of the one brick table: an 18 mm ply partition, 300 mm high, on each inner edge */
-    if(m.bay) [['partL',-1],['partR',1]].forEach(([k,sg])=>{ if(!m[k]) return; const pt=new THREE.Mesh(new THREE.BoxGeometry(0.018,0.3,m.d), plyMat); pt.position.set(sg*m.w/2,m.h+0.018+0.15,0); pt.castShadow=true; pt.receiveShadow=true; g.add(pt); }); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck);
+    /* bays of the one brick table: an 18 mm ply partition, 200 mm high, on each inner edge */
+    if(m.bay) [['partL',-1],['partR',1]].forEach(([k,sg])=>{ if(!m[k]) return; const pt=new THREE.Mesh(new THREE.BoxGeometry(0.018,0.2,m.d), plyMat); pt.position.set(sg*m.w/2,m.h+0.018+0.1,0); pt.castShadow=true; pt.receiveShadow=true; g.add(pt); }); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck);
     const gi=PALLET_GROUPS.findIndex(q=>q.id===m.group); if(gi>=0){ const lw=Math.min(m.w-0.08,0.8), lh=Math.min(m.h-0.08,0.3), ly=Math.max(lh/2+0.04, m.h-lh/2-0.08); const sign=new THREE.Mesh(new THREE.PlaneGeometry(lw,lh), new THREE.MeshStandardMaterial({ map:palletLabelTex(gi,lw/lh), roughness:0.85 })); sign.position.set(0,ly,m.d/2+0.012); g.add(sign);
       const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,ly,m.d/2+0.006); g.add(back); }
   }
