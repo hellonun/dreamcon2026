@@ -1346,9 +1346,14 @@ function buildTargetsOnce(nStruct){
   for(const p of sites){ const nn=Math.min(9,...sites.filter(q=>q!==p).map(q=>Math.hypot(q.x-p.x,q.z-p.z))); p.rho=Math.min(0.8, room(p.x,p.z), (nn-0.12)/2, nearHeap(p.x,p.z)-0.05); }
   const types=Object.keys(KAPLA).filter(k=>B.types[k]); if(!types.length) types.push('cabin');
   const order=[...types].sort(()=>r()-0.5); const placed=[];
-  sites.filter(p=>p.rho>=0.18).forEach((p,i)=>{ let type=order[i%order.length]; if(type==='round' && p.rho<0.24) type='cabin'; const rot=r()*Math.PI*2, c=Math.cos(rot), s=Math.sin(rot);
-    const bricks=KAPLA[type](p.rho, B.maxH*(0.6+0.4*r()), r).map(b=>({ ...b, x:B.cx+p.x+b.x*c+b.z*s, z:B.cz+p.z-b.x*s+b.z*c, ry:b.ry+rot, y:b.y+y0, base:b.base+y0, top:b.top+y0, si:i }));
-    placed.push({ ...p, type, bricks }); });
+  /* each structure must keep clear of the ones already placed, the rim, the holes and the screens: measure what the generator really built and shrink it until it fits */
+  const reach=(bricks,p)=>bricks.reduce((m,b)=>{ const [fx,fz]=footprint(b); return Math.max(m, Math.hypot(b.x-B.cx-p.x,b.z-B.cz-p.z)+Math.hypot(fx,fz)/2); },0);
+  let si=0;
+  sites.filter(p=>p.rho>=0.18).forEach(p=>{ let type=order[si%order.length]; const rot=r()*Math.PI*2, c=Math.cos(rot), s=Math.sin(rot), hgt=B.maxH*(0.6+0.4*r());
+    const allow=Math.min(room(p.x,p.z), ...placed.map(q=>Math.hypot(q.x-p.x,q.z-p.z)-q.ext-0.08));
+    for(let rho=Math.min(p.rho,allow); rho>=0.18; rho*=0.85){ let t=type; if(t==='round' && rho<0.24) t='cabin';
+      const bricks=KAPLA[t](rho, hgt, rnd(7000+si*131)).map(b=>({ ...b, x:B.cx+p.x+b.x*c+b.z*s, z:B.cz+p.z-b.x*s+b.z*c, ry:b.ry+rot, y:b.y+y0, base:b.base+y0, top:b.top+y0, si }));
+      const ext=reach(bricks,p); if(ext<=allow){ placed.push({ ...p, rho:Math.max(rho,ext), ext, type:t, bricks }); si++; return; } } });
   let all=placed.flatMap(p=>p.bricks);
   // too many: trim each structure from the top, keeping the proportion
   if(all.length>N){ const f=N/all.length; all=placed.flatMap(p=>{ const keep=[...p.bricks].sort((a,b)=>a.base-b.base); return keep.slice(0,Math.floor(keep.length*f)); }); }
