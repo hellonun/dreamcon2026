@@ -2,8 +2,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="582.4mm" height="605.9mm" viewBox="0 0 582.4 605.9">
 <title>Round (middle) table top, LOWER layer · ply 18 · Ø5000 · DRAWN AT 1:10: scale ×10 (1000 %) before cutting</title>
 <svg id="T1_round-top_lower-layer_scale_1-10" overflow="visible" x="0" y="0" width="582.4" height="605.9" viewBox="-411.8 -647.1 5823.5 6058.8"><title>Round (middle) table top, LOWER layer · ply 18 · Ø5000 · DRAWN AT 1:10: scale ×10 (1000 %) before cutting</title>
-<g id="T1_round-top_lower-layer__CUT_through" fill="none" stroke="#E5483D" stroke-width="4.71"><path d="M0.00 2500.00A2500 2500 0 1 0 5000.00 2500.00A2500 2500 0 1 0 0.00 2500.00Z"/><path d="M1331.43 968.57A625.0 625.0 0 1 0 2581.43 968.57A625.0 625.0 0 1 0 1331.43 968.57Z"/><path d="M3202.14 2124.29A750.0 750.0 0 1 0 4702.14 2124.29A750.0 750.0 0 1 0 3202.14 2124.29Z"/><path d="M513.57 3223.57A1125.0 1125.0 0 1 0 2763.57 3223.57A1125.0 1125.0 0 1 0 513.57 3223.57Z"/><path d="M723.52 899.31L806.06 812.21L827.83 832.84L745.29 919.95Z"/><path d="M4819.65 3080.77L4787.60 3196.41L4758.69 3188.39L4790.74 3072.75Z"/><path d="M2180.82 4906.67L2062.29 4887.96L2066.96 4858.32L2185.50 4877.04Z"/></g>
-<g id="T1_round-top_lower-layer__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M672.43 919.79L823.75 760.09L1077.81 1000.83L926.49 1160.52Z"/><path d="M4855.18 3038.73L4796.41 3250.74L4459.13 3157.24L4517.89 2945.23Z"/><path d="M2242.92 4939.76L1993.01 4900.31L2058.97 4482.48L2308.88 4521.93Z"/><path d="M-100.00 2500.00L5100.00 2500.00"/><path d="M2500.00 5100.00L2500.00 -100.00"/></g>
+<g id="T1_round-top_lower-layer__CUT_through" fill="none" stroke="#E5483D" stroke-width="4.71"><path d="M0.00 2500.00A2500 2500 0 1 0 5000.00 2500.00A2500 2500 0 1 0 0.00 2500.00Z"/><path d="M1331.43 968.57A625.0 625.0 0 1 0 2581.43 968.57A625.0 625.0 0 1 0 1331.43 968.57Z"/><path d="M3202.14 2124.29A750.0 750.0 0 1 0 4702.14 2124.29A750.0 750.0 0 1 0 3202.14 2124.29Z"/><path d="M513.57 3223.57A1125.0 1125.0 0 1 0 2763.57 3223.57A1125.0 1125.0 0 1 0 513.57 3223.57Z"/><path d="M1214.55 1183.33L1256.77 1295.65L1228.69 1306.21L1186.47 1193.88Z"/><path d="M3449.70 1381.20L3355.01 1454.91L3336.58 1431.24L3431.27 1357.53Z"/><path d="M2908.58 3163.79L2897.29 3044.32L2927.16 3041.50L2938.45 3160.96Z"/></g>
+<g id="T1_round-top_lower-layer__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M1218.49 1128.43L1295.89 1334.36L968.27 1457.51L890.87 1251.58Z"/><path d="M3503.29 1368.63L3329.69 1503.78L3114.69 1227.60L3288.29 1092.45Z"/><path d="M2891.94 3232.16L2868.13 2980.28L3289.26 2940.47L3313.06 3192.35Z"/><path d="M-100.00 2500.00L5100.00 2500.00"/><path d="M2500.00 5100.00L2500.00 -100.00"/></g>
 <g id="T1_round-top_lower-layer__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="2.35" font-family="IBM Plex Sans, Arial, sans-serif" font-size="58.8">
 <path d="M0.00 5000.00L0.00 5164.71M5000.00 5000.00L5000.00 5164.71M0.00 5147.06L5000.00 5147.06"/>
 <path d="M-20.59 5167.65L20.59 5126.47"/>
@@ -33,18 +33,18 @@
 <path d="M1570.92 2479.41L1612.10 2520.59"/>
 <path d="M1570.92 3202.98L1612.10 3244.16"/>
 <text x="1526.81" y="2861.79" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 1526.81 2861.79)">724</text>
-<text x="1047.15" y="1123.32" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">S1</text>
-<text x="4428.76" y="3034.67" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">S2</text>
-<text x="2193.59" y="4440.96" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">S3</text>
+<text x="871.54" y="1376.36" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">S1</text>
+<text x="3163.40" y="1111.10" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">S2</text>
+<text x="3362.88" y="3060.58" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">S3</text>
 <text x="1956.43" y="928.57" fill="#333" stroke="none" font-size="70.6" text-anchor="middle">H1 Ø1250</text>
 <text x="1956.43" y="1088.57" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">centre X -544 · Y 1531</text>
 <text x="3952.14" y="2084.29" fill="#333" stroke="none" font-size="70.6" text-anchor="middle">H2 Ø1500</text>
 <text x="3952.14" y="2244.29" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">centre X 1452 · Y 376</text>
 <text x="1638.57" y="3183.57" fill="#333" stroke="none" font-size="70.6" text-anchor="middle">H3 Ø2250</text>
 <text x="1638.57" y="3343.57" fill="#333" stroke="none" font-size="52.9" text-anchor="middle">centre X -861 · Y -724</text>
-<text x="875.12" y="663.31" fill="#333" stroke="none" font-size="47.1" text-anchor="middle">S1 centre X -1625 · Y 1540 · 224 × 354</text>
-<text x="4657.15" y="3434.98" fill="#333" stroke="none" font-size="47.1" text-anchor="middle">S2 centre X 2157 · Y -598 · 224 × 354</text>
-<text x="2150.95" y="5084.62" fill="#333" stroke="none" font-size="47.1" text-anchor="middle">S3 centre X -349 · Y -2211 · 257 × 427</text>
+<text x="1093.38" y="995.97" fill="#333" stroke="none" font-size="47.1" text-anchor="middle">S1 centre X -1407 · Y 1207 · 224 × 354</text>
+<text x="3308.99" y="1001.11" fill="#333" stroke="none" font-size="47.1" text-anchor="middle">S2 centre X 809 · Y 1202 · 224 × 354</text>
+<text x="3090.60" y="3459.81" fill="#333" stroke="none" font-size="47.1" text-anchor="middle">S3 centre X 591 · Y -586 · 257 × 427</text>
 <text x="0" y="-500.0" fill="#111" stroke="none" font-size="82.4" font-weight="700">Round (middle) table top, LOWER layer · ply 18 · Ø5000 · DRAWN AT 1:10: scale ×10 (1000 %) before cutting</text>
 <text x="0" y="-417.6" fill="#444" stroke="none" font-size="50.0">Red = cut through. Glue + screw under the upper layer; cable slots line up with the upper layer.</text>
 </g>
