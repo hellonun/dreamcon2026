@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="815.3mm" height="348.2mm" viewBox="-57.6 -90.6 815.3 348.2">
+<title>Brick table partition · make 2 · ply 18 · 700 × 200</title>
+<g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="0.66"><path d="M0.00 200.00L700.00 200.00L700.00 20.00L680.00 0.00L20.00 0.00L0.00 20.00Z"/></g>
+<g id="DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.33" font-family="IBM Plex Sans, Arial, sans-serif" font-size="8.2">
+<path d="M0.00 200.00L0.00 220.59M700.00 200.00L700.00 220.59M0.00 218.12L700.00 218.12"/>
+<path d="M-2.88 221.00L2.88 215.24"/>
+<path d="M697.12 221.00L702.88 215.24"/>
+<text x="350.00" y="227.18" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 350.00 227.18)">700</text>
+<path d="M700.00 200.00L720.59 200.00M700.00 0.00L720.59 0.00M718.12 200.00L718.12 0.00"/>
+<path d="M721.00 202.88L715.24 197.12"/>
+<path d="M721.00 2.88L715.24 -2.88"/>
+<text x="727.18" y="100.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 727.18 100.00)">200</text>
+<text x="0" y="-70.0" fill="#111" stroke="none" font-size="11.5" font-weight="700">Brick table partition · make 2 · ply 18 · 700 × 200</text>
+<text x="0" y="-58.5" fill="#444" stroke="none" font-size="7.0">Top corners R20. Stands on the deck on the green lines; 3 screws from below.</text>
+</g>
+</svg>

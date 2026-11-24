@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2585.6mm" height="1170.1mm" viewBox="-182.8 -287.3 2585.6 1170.1">
+<title>Brick table deck · ply 18 · 2220 × 700 · seen from above, visitor side at the bottom</title>
+<g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="2.09"><path d="M3.00 0.00H2217.00A3 3 0 0 1 2220.00 3.00V697.00A3 3 0 0 1 2217.00 700.00H3.00A3 3 0 0 1 0.00 697.00V3.00A3 3 0 0 1 3.00 0.00Z"/></g>
+<g id="MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M734.33 700.00L734.33 0.00"/><path d="M752.33 700.00L752.33 0.00"/><path d="M1467.67 700.00L1467.67 0.00"/><path d="M1485.67 700.00L1485.67 0.00"/></g>
+<g id="DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="1.04" font-family="IBM Plex Sans, Arial, sans-serif" font-size="26.1">
+<path d="M0.00 700.00L0.00 765.29M2220.00 700.00L2220.00 765.29M0.00 757.46L2220.00 757.46"/>
+<path d="M-9.14 766.60L9.14 748.32"/>
+<path d="M2210.86 766.60L2229.14 748.32"/>
+<text x="1110.00" y="786.19" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 1110.00 786.19)">2220</text>
+<path d="M2220.00 700.00L2285.29 700.00M2220.00 0.00L2285.29 0.00M2277.46 700.00L2277.46 0.00"/>
+<path d="M2286.60 709.14L2268.32 690.86"/>
+<path d="M2286.60 9.14L2268.32 -9.14"/>
+<text x="2306.19" y="350.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 2306.19 350.00)">700</text>
+<path d="M10.00 0.00L10.00 -33.95M743.33 0.00L743.33 -33.95M10.00 -26.12L743.33 -26.12"/>
+<path d="M0.86 -16.98L19.14 -35.26"/>
+<path d="M734.19 -16.98L752.47 -35.26"/>
+<text x="376.67" y="-33.95" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 376.67 -33.95)">733.3</text>
+<path d="M743.33 0.00L743.33 -33.95M1476.67 0.00L1476.67 -33.95M743.33 -26.12L1476.67 -26.12"/>
+<path d="M734.19 -16.98L752.47 -35.26"/>
+<path d="M1467.53 -16.98L1485.81 -35.26"/>
+<text x="1110.00" y="-33.95" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 1110.00 -33.95)">733.3</text>
+<path d="M1476.67 0.00L1476.67 -33.95M2210.00 0.00L2210.00 -33.95M1476.67 -26.12L2210.00 -26.12"/>
+<path d="M1467.53 -16.98L1485.81 -35.26"/>
+<path d="M2200.86 -16.98L2219.14 -35.26"/>
+<text x="1843.33" y="-33.95" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 1843.33 -33.95)">733.3</text>
+<path d="M0.00 0.00L0.00 -70.52M10.00 0.00L10.00 -70.52M0.00 -62.68L10.00 -62.68"/>
+<path d="M-9.14 -53.54L9.14 -71.82"/>
+<path d="M0.86 -53.54L19.14 -71.82"/>
+<text x="5.00" y="-70.52" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 5.00 -70.52)">10</text>
+<text x="376.67" y="350.00" fill="#333" stroke="none" font-size="23.5" text-anchor="middle">brick red · Gen Alpha · Gen Z</text>
+<text x="1110.00" y="350.00" fill="#333" stroke="none" font-size="23.5" text-anchor="middle">orange · Gen Y</text>
+<text x="1843.33" y="350.00" fill="#333" stroke="none" font-size="23.5" text-anchor="middle">green · Gen X · Boomers</text>
+<text x="0" y="-222.0" fill="#111" stroke="none" font-size="36.6" font-weight="700">Brick table deck · ply 18 · 2220 × 700 · seen from above, visitor side at the bottom</text>
+<text x="0" y="-185.4" fill="#444" stroke="none" font-size="22.2">Green dashed = partition lines (screw the partitions from below). Edges rounded 3.</text>
+</g>
+</svg>

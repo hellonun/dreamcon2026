@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="636.7mm" height="828.8mm" viewBox="-56.3 -88.5 636.7 828.8">
+<title>Station service door leaf · ply 18 · 524 × 684 · seen from behind (outside)</title>
+<g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="0.64"><path d="M2.00 0.00H522.00A2 2 0 0 1 524.00 2.00V682.00A2 2 0 0 1 522.00 684.00H2.00A2 2 0 0 1 0.00 682.00V2.00A2 2 0 0 1 2.00 0.00Z"/><path d="M59.00 659.00H173.00A3 3 0 0 1 176.00 662.00V664.00A3 3 0 0 1 173.00 667.00H59.00A3 3 0 0 1 56.00 664.00V662.00A3 3 0 0 1 59.00 659.00Z"/><path d="M205.00 659.00H319.00A3 3 0 0 1 322.00 662.00V664.00A3 3 0 0 1 319.00 667.00H205.00A3 3 0 0 1 202.00 664.00V662.00A3 3 0 0 1 205.00 659.00Z"/><path d="M351.00 659.00H465.00A3 3 0 0 1 468.00 662.00V664.00A3 3 0 0 1 465.00 667.00H351.00A3 3 0 0 1 348.00 664.00V662.00A3 3 0 0 1 351.00 659.00Z"/><path d="M59.00 639.00H173.00A3 3 0 0 1 176.00 642.00V644.00A3 3 0 0 1 173.00 647.00H59.00A3 3 0 0 1 56.00 644.00V642.00A3 3 0 0 1 59.00 639.00Z"/><path d="M205.00 639.00H319.00A3 3 0 0 1 322.00 642.00V644.00A3 3 0 0 1 319.00 647.00H205.00A3 3 0 0 1 202.00 644.00V642.00A3 3 0 0 1 205.00 639.00Z"/><path d="M351.00 639.00H465.00A3 3 0 0 1 468.00 642.00V644.00A3 3 0 0 1 465.00 647.00H351.00A3 3 0 0 1 348.00 644.00V642.00A3 3 0 0 1 351.00 639.00Z"/><path d="M59.00 619.00H173.00A3 3 0 0 1 176.00 622.00V624.00A3 3 0 0 1 173.00 627.00H59.00A3 3 0 0 1 56.00 624.00V622.00A3 3 0 0 1 59.00 619.00Z"/><path d="M205.00 619.00H319.00A3 3 0 0 1 322.00 622.00V624.00A3 3 0 0 1 319.00 627.00H205.00A3 3 0 0 1 202.00 624.00V622.00A3 3 0 0 1 205.00 619.00Z"/><path d="M351.00 619.00H465.00A3 3 0 0 1 468.00 622.00V624.00A3 3 0 0 1 465.00 627.00H351.00A3 3 0 0 1 348.00 624.00V622.00A3 3 0 0 1 351.00 619.00Z"/><path d="M37.50 342.00A12.5 12.5 0 1 0 62.50 342.00A12.5 12.5 0 1 0 37.50 342.00Z"/><path d="M40.50 402.00A9.5 9.5 0 1 0 59.50 402.00A9.5 9.5 0 1 0 40.50 402.00Z"/></g>
+<g id="MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M518.00 554.00H524.00V634.00H518.00Z"/><path d="M518.00 50.00H524.00V130.00H518.00Z"/></g>
+<g id="DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.32" font-family="IBM Plex Sans, Arial, sans-serif" font-size="8.0">
+<path d="M0.00 684.00L0.00 704.12M524.00 684.00L524.00 704.12M0.00 701.70L524.00 701.70"/>
+<path d="M-2.82 704.52L2.82 698.89"/>
+<path d="M521.18 704.52L526.82 698.89"/>
+<text x="262.00" y="710.56" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 262.00 710.56)">524</text>
+<path d="M524.00 684.00L544.12 684.00M524.00 0.00L544.12 0.00M541.70 684.00L541.70 0.00"/>
+<path d="M544.52 686.82L538.89 681.18"/>
+<path d="M544.52 2.82L538.89 -2.82"/>
+<text x="550.56" y="342.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 550.56 342.00)">684</text>
+<path d="M0.00 302.00L0.00 293.15M50.00 302.00L50.00 293.15M0.00 295.56L50.00 295.56"/>
+<path d="M-2.82 298.38L2.82 292.75"/>
+<path d="M47.18 298.38L52.82 292.75"/>
+<text x="25.00" y="293.15" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 25.00 293.15)">50</text>
+<path d="M25.00 402.00L35.46 402.00M25.00 342.00L35.46 342.00M33.05 402.00L33.05 342.00"/>
+<path d="M35.86 404.82L30.23 399.18"/>
+<path d="M35.86 344.82L30.23 339.18"/>
+<text x="41.90" y="372.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 41.90 372.00)">60</text>
+<path d="M494.00 684.00L504.46 684.00M494.00 342.00L504.46 342.00M502.05 684.00L502.05 342.00"/>
+<path d="M504.86 686.82L499.23 681.18"/>
+<path d="M504.86 344.82L499.23 339.18"/>
+<text x="510.90" y="513.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 510.90 513.00)">342</text>
+<path d="M0.00 667.00L0.00 656.54M56.00 667.00L56.00 656.54M0.00 658.95L56.00 658.95"/>
+<path d="M-2.82 661.77L2.82 656.14"/>
+<path d="M53.18 661.77L58.82 656.14"/>
+<text x="28.00" y="656.54" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 28.00 656.54)">56.0</text>
+<path d="M464.00 684.00L474.46 684.00M464.00 667.00L474.46 667.00M472.05 684.00L472.05 667.00"/>
+<path d="M474.86 686.82L469.23 681.18"/>
+<path d="M474.86 669.82L469.23 664.18"/>
+<text x="480.90" y="675.50" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 480.90 675.50)">17</text>
+<text x="50.00" y="317.00" fill="#333" stroke="none" font-size="7.2" text-anchor="start">Ø25 finger hole</text>
+<text x="70.00" y="407.00" fill="#333" stroke="none" font-size="7.2" text-anchor="start">Ø19 cam lock</text>
+<text x="0" y="-68.4" fill="#111" stroke="none" font-size="11.3" font-weight="700">Station service door leaf · ply 18 · 524 × 684 · seen from behind (outside)</text>
+<text x="0" y="-57.1" fill="#444" stroke="none" font-size="6.8">From the piece cut out of C6-04, trimmed 3 all round. Vents line up with the other panels. Hinges on the right edge; finger hole + cam lock on the left.</text>
+</g>
+</svg>
