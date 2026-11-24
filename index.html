@@ -1254,8 +1254,8 @@ const BRICK_COLS = SINGLES.map(([c])=>new THREE.Color(c));
 /* pallets sort the bricks by colour; each colour stands for a generation */
 const PALLET_GROUPS = [
   { id:'red',   cols:[3],   th:'อิฐโทนแดง',   en:'Reddish brick',     gen:'Gen Alpha · Gen Z' },
-  { id:'green', cols:[1],   th:'อิฐโทนเขียว',  en:'Greenish brick',    gen:'Gen Y (Millennials)' },
-  { id:'beige', cols:[0], th:'อิฐโทนส้ม', en:'Orange brick', gen:'Gen X · Boomers' } ];   // id kept for saved layouts; light beige is now kept for the printed quote bricks
+  { id:'green', cols:[1],   th:'อิฐโทนเขียว',  en:'Greenish brick',    gen:'Gen X · Boomers' },
+  { id:'beige', cols:[0], th:'อิฐโทนส้ม', en:'Orange brick', gen:'Gen Y (Millennials)' } ];   // id kept for saved layouts; light beige is now kept for the printed quote bricks
 const brickCol = new Uint8Array(MAXB);
 const QUOTE_BRICKS_N = 56;   // the first bricks of the build carry a UV-printed quote
 const MULTI_COLS = [3,1,0];   // brick red, sage, orange: one per generation (light beige is the printed quote bricks)
