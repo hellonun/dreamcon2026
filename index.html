@@ -789,9 +789,12 @@ function moduleExtras(m, g){
     const brick=new THREE.Mesh(new THREE.BoxGeometry(0.215,0.02,0.075),stationBrickMat); brick.position.set(0,F.t+0.0105,STN.brickZ); brick.castShadow=true; scr.add(brick);
     // white Apple keyboard on the ledge in front of the screen
     const kb=new THREE.Mesh(new THREE.BoxGeometry(0.279,0.011,0.115),[kbBodyMat,kbBodyMat,keyboardMat,kbBodyMat,kbBodyMat,kbBodyMat]); kb.position.set(0,yTop+0.0055,m.d/2-0.03-0.0575); kb.castShadow=true; g.add(kb);
-    // sensing: Hokuyo UST-10LX (50 x 50 x 70) at the bottom centre of the screen, in a pocket in the top, scan plane 8 mm above the glass
+    // sensing: Hokuyo UST-10LX (50 x 50 x 70) + camera in a 3D-printed holder 110 x 60, flush in a hole in the top just in front of the screen,
+    // lidar on the centre line, scan plane 8 mm above the glass. Holder: lidar tray on the left, camera slot front right.
     {
-      const hx=0, hz=zf+0.01+0.025, scanY=yTop+0.008, base=scanY-0.0474;
+      const hf=zf+0.069, hb=zf+0.009, hx0=-0.0297, hx=0, hz=hb+0.0299, scanY=yTop+0.008, base=scanY-0.0474;
+      const hp=new THREE.Mesh(new THREE.BoxGeometry(0.11,0.002,0.06),new THREE.MeshStandardMaterial({ color:'#9EA1A6', roughness:0.8 })); hp.position.set(hx0+0.055,yTop+0.001,(hf+hb)/2); g.add(hp);
+      for(const [x0,x1,d0,d1] of [[0.002,0.0574,0.0024,0.0577],[0.0574,0.1049,0.0024,0.0214]]){ const r=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,d1-d0),sensorMat); r.rotation.x=-Math.PI/2; r.position.set(hx0+(x0+x1)/2,yTop+0.0021,hf-(d0+d1)/2); g.add(r); }
       const hk=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.07,0.05),sensorMat); hk.position.set(hx,base+0.035,hz); hk.castShadow=true; g.add(hk);
       const win=new THREE.Mesh(new THREE.CylinderGeometry(0.0255,0.0255,0.0287,24,1,true),lensMat); win.position.set(hx,scanY,hz); g.add(win);
       const fan=new THREE.Mesh(new THREE.CircleGeometry(0.6,48,-Math.PI/4,Math.PI*1.5),scanMat); fan.rotation.x=-Math.PI/2; fan.position.set(hx,scanY,hz); g.add(fan); }

@@ -2,7 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="896.8mm" height="843.1mm" viewBox="-63.4 -99.6 896.8 843.1">
 <title>Station top, UPPER layer · ply 18 · 770 × 680 · seen from above, visitor side at the bottom</title>
 <g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="0.72"><path d="M3.00 0.00H767.00A3 3 0 0 1 770.00 3.00V677.00A3 3 0 0 1 767.00 680.00H3.00A3 3 0 0 1 0.00 677.00V3.00A3 3 0 0 1 3.00 0.00Z"/><path d="M22.35 18.00H747.65A3 3 0 0 1 750.65 21.00V445.80A3 3 0 0 1 747.65 448.80H22.35A3 3 0 0 1 19.35 445.80V21.00A3 3 0 0 1 22.35 18.00Z"/><path d="M355.80 455.30H464.80A1 1 0 0 1 465.80 456.30V515.30A1 1 0 0 1 464.80 516.30H355.80A1 1 0 0 1 354.80 515.30V456.30A1 1 0 0 1 355.80 455.30Z"/></g>
-<g id="MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M381.00 483.50A4 4 0 1 0 389.00 483.50A4 4 0 1 0 381.00 483.50Z"/></g>
+<g id="MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M381.00 485.70A4 4 0 1 0 389.00 485.70A4 4 0 1 0 381.00 485.70Z"/></g>
 <g id="DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.36" font-family="IBM Plex Sans, Arial, sans-serif" font-size="9.1">
 <path d="M0.00 680.00L0.00 702.65M770.00 680.00L770.00 702.65M0.00 699.93L770.00 699.93"/>
 <path d="M-3.17 703.10L3.17 696.76"/>
@@ -48,7 +48,7 @@
 <path d="M499.84 458.47L493.50 452.13"/>
 <path d="M499.84 451.97L493.50 445.63"/>
 <text x="506.64" y="452.05" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 506.64 452.05)">6.5</text>
-<text x="385.00" y="473.50" fill="#333" stroke="none" font-size="8.2" text-anchor="middle">lidar centre</text>
+<text x="385.00" y="475.70" fill="#333" stroke="none" font-size="8.2" text-anchor="middle">lidar centre</text>
 <text x="385.00" y="233.40" fill="#333" stroke="none" font-size="8.2" text-anchor="middle">screen window, cut through</text>
 <text x="385.00" y="640.00" fill="#333" stroke="none" font-size="8.2" text-anchor="middle">visitor side (keyboard)</text>
 <text x="0" y="-77.0" fill="#111" stroke="none" font-size="12.7" font-weight="700">Station top, UPPER layer · ply 18 · 770 × 680 · seen from above, visitor side at the bottom</text>
