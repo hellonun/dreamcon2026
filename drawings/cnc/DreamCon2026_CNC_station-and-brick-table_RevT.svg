@@ -109,7 +109,7 @@
 </g>
 </svg>
 <svg id="C6-03_station-panel_front" overflow="visible" x="0.0" y="1052.0" width="820.0" height="1016.0" viewBox="-98.0 -154.0 820.0 1016.0"><title>Station panel FRONT (visitor side) · ply 18 · 624 × 764 · seen from outside</title>
-<g id="C6-03_station-panel_front__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H624.00V764.00H0.00Z"/><path d="M88.00 710.00H194.00A7 7 0 0 1 201.00 717.00V717.00A7 7 0 0 1 194.00 724.00H88.00A7 7 0 0 1 81.00 717.00V717.00A7 7 0 0 1 88.00 710.00Z"/><path d="M259.00 710.00H365.00A7 7 0 0 1 372.00 717.00V717.00A7 7 0 0 1 365.00 724.00H259.00A7 7 0 0 1 252.00 717.00V717.00A7 7 0 0 1 259.00 710.00Z"/><path d="M430.00 710.00H536.00A7 7 0 0 1 543.00 717.00V717.00A7 7 0 0 1 536.00 724.00H430.00A7 7 0 0 1 423.00 717.00V717.00A7 7 0 0 1 430.00 710.00Z"/><path d="M88.00 684.00H194.00A7 7 0 0 1 201.00 691.00V691.00A7 7 0 0 1 194.00 698.00H88.00A7 7 0 0 1 81.00 691.00V691.00A7 7 0 0 1 88.00 684.00Z"/><path d="M259.00 684.00H365.00A7 7 0 0 1 372.00 691.00V691.00A7 7 0 0 1 365.00 698.00H259.00A7 7 0 0 1 252.00 691.00V691.00A7 7 0 0 1 259.00 684.00Z"/><path d="M430.00 684.00H536.00A7 7 0 0 1 543.00 691.00V691.00A7 7 0 0 1 536.00 698.00H430.00A7 7 0 0 1 423.00 691.00V691.00A7 7 0 0 1 430.00 684.00Z"/></g>
+<g id="C6-03_station-panel_front__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H624.00V764.00H0.00Z"/><path d="M88.00 690.00H194.00A7 7 0 0 1 201.00 697.00V697.00A7 7 0 0 1 194.00 704.00H88.00A7 7 0 0 1 81.00 697.00V697.00A7 7 0 0 1 88.00 690.00Z"/><path d="M259.00 690.00H365.00A7 7 0 0 1 372.00 697.00V697.00A7 7 0 0 1 365.00 704.00H259.00A7 7 0 0 1 252.00 697.00V697.00A7 7 0 0 1 259.00 690.00Z"/><path d="M430.00 690.00H536.00A7 7 0 0 1 543.00 697.00V697.00A7 7 0 0 1 536.00 704.00H430.00A7 7 0 0 1 423.00 697.00V697.00A7 7 0 0 1 430.00 690.00Z"/><path d="M88.00 664.00H194.00A7 7 0 0 1 201.00 671.00V671.00A7 7 0 0 1 194.00 678.00H88.00A7 7 0 0 1 81.00 671.00V671.00A7 7 0 0 1 88.00 664.00Z"/><path d="M259.00 664.00H365.00A7 7 0 0 1 372.00 671.00V671.00A7 7 0 0 1 365.00 678.00H259.00A7 7 0 0 1 252.00 671.00V671.00A7 7 0 0 1 259.00 664.00Z"/><path d="M430.00 664.00H536.00A7 7 0 0 1 543.00 671.00V671.00A7 7 0 0 1 536.00 678.00H430.00A7 7 0 0 1 423.00 671.00V671.00A7 7 0 0 1 430.00 664.00Z"/></g>
 <g id="C6-03_station-panel_front__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
 <path d="M0.00 764.00L0.00 799.00M624.00 764.00L624.00 799.00M0.00 794.80L624.00 794.80"/>
 <path d="M-4.90 799.70L4.90 789.90"/>
@@ -119,33 +119,33 @@
 <path d="M659.70 768.90L649.90 759.10"/>
 <path d="M659.70 4.90L649.90 -4.90"/>
 <text x="670.20" y="382.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 670.20 382.00)">764</text>
-<path d="M0.00 724.00L0.00 705.80M81.00 724.00L81.00 705.80M0.00 710.00L81.00 710.00"/>
-<path d="M-4.90 714.90L4.90 705.10"/>
-<path d="M76.10 714.90L85.90 705.10"/>
-<text x="40.50" y="705.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 40.50 705.80)">81.0</text>
-<path d="M81.00 684.00L81.00 665.80M201.00 684.00L201.00 665.80M81.00 670.00L201.00 670.00"/>
-<path d="M76.10 674.90L85.90 665.10"/>
-<path d="M196.10 674.90L205.90 665.10"/>
-<text x="141.00" y="665.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 141.00 665.80)">120</text>
-<path d="M201.00 684.00L201.00 665.80M252.00 684.00L252.00 665.80M201.00 670.00L252.00 670.00"/>
-<path d="M196.10 674.90L205.90 665.10"/>
-<path d="M247.10 674.90L256.90 665.10"/>
-<text x="226.50" y="665.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 226.50 665.80)">51.0</text>
-<path d="M604.00 764.00L622.20 764.00M604.00 724.00L622.20 724.00M618.00 764.00L618.00 724.00"/>
+<path d="M0.00 704.00L0.00 685.80M81.00 704.00L81.00 685.80M0.00 690.00L81.00 690.00"/>
+<path d="M-4.90 694.90L4.90 685.10"/>
+<path d="M76.10 694.90L85.90 685.10"/>
+<text x="40.50" y="685.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 40.50 685.80)">81.0</text>
+<path d="M81.00 664.00L81.00 645.80M201.00 664.00L201.00 645.80M81.00 650.00L201.00 650.00"/>
+<path d="M76.10 654.90L85.90 645.10"/>
+<path d="M196.10 654.90L205.90 645.10"/>
+<text x="141.00" y="645.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 141.00 645.80)">120</text>
+<path d="M201.00 664.00L201.00 645.80M252.00 664.00L252.00 645.80M201.00 650.00L252.00 650.00"/>
+<path d="M196.10 654.90L205.90 645.10"/>
+<path d="M247.10 654.90L256.90 645.10"/>
+<text x="226.50" y="645.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 226.50 645.80)">51.0</text>
+<path d="M604.00 764.00L622.20 764.00M604.00 704.00L622.20 704.00M618.00 764.00L618.00 704.00"/>
 <path d="M622.90 768.90L613.10 759.10"/>
-<path d="M622.90 728.90L613.10 719.10"/>
-<text x="633.40" y="744.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 633.40 744.00)">40</text>
-<path d="M604.00 724.00L622.20 724.00M604.00 684.00L622.20 684.00M618.00 724.00L618.00 684.00"/>
-<path d="M622.90 728.90L613.10 719.10"/>
-<path d="M622.90 688.90L613.10 679.10"/>
-<text x="633.40" y="704.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 633.40 704.00)">40</text>
+<path d="M622.90 708.90L613.10 699.10"/>
+<text x="633.40" y="734.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 633.40 734.00)">60</text>
+<path d="M604.00 704.00L622.20 704.00M604.00 664.00L622.20 664.00M618.00 704.00L618.00 664.00"/>
+<path d="M622.90 708.90L613.10 699.10"/>
+<path d="M622.90 668.90L613.10 659.10"/>
+<text x="633.40" y="684.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 633.40 684.00)">40</text>
 <text x="312.00" y="382.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">bottom edge 50 above the floor</text>
 <text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">Station panel FRONT (visitor side) · ply 18 · 624 × 764 · seen from outside</text>
 <text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">Vent slits 120 × 14, round ends, 2 rows. Fits between the side panels.</text>
 </g>
 </svg>
 <svg id="C6-04_station-panel_back_door-opening" overflow="visible" x="940.0" y="1052.0" width="820.0" height="1016.0" viewBox="-98.0 -154.0 820.0 1016.0"><title>Station panel BACK with service door opening · ply 18 · 624 × 764 · seen from behind</title>
-<g id="C6-04_station-panel_back_door-opening__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H624.00V764.00H0.00Z"/><path d="M47.00 54.00H577.00V744.00H47.00Z"/></g>
+<g id="C6-04_station-panel_back_door-opening__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H624.00V764.00H0.00Z"/><path d="M47.00 54.00H577.00V714.00H47.00Z"/></g>
 <g id="C6-04_station-panel_back_door-opening__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
 <path d="M0.00 764.00L0.00 799.00M624.00 764.00L624.00 799.00M0.00 794.80L624.00 794.80"/>
 <path d="M-4.90 799.70L4.90 789.90"/>
@@ -167,64 +167,64 @@
 <path d="M572.10 44.90L581.90 35.10"/>
 <path d="M619.10 44.90L628.90 35.10"/>
 <text x="600.50" y="35.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 600.50 35.80)">47</text>
-<path d="M47.00 764.00L28.80 764.00M47.00 744.00L28.80 744.00M33.00 764.00L33.00 744.00"/>
+<path d="M47.00 764.00L28.80 764.00M47.00 714.00L28.80 714.00M33.00 764.00L33.00 714.00"/>
 <path d="M37.90 768.90L28.10 759.10"/>
-<path d="M37.90 748.90L28.10 739.10"/>
-<text x="28.80" y="754.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 28.80 754.00)">20</text>
-<path d="M47.00 744.00L28.80 744.00M47.00 54.00L28.80 54.00M33.00 744.00L33.00 54.00"/>
-<path d="M37.90 748.90L28.10 739.10"/>
+<path d="M37.90 718.90L28.10 709.10"/>
+<text x="28.80" y="739.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 28.80 739.00)">50</text>
+<path d="M47.00 714.00L28.80 714.00M47.00 54.00L28.80 54.00M33.00 714.00L33.00 54.00"/>
+<path d="M37.90 718.90L28.10 709.10"/>
 <path d="M37.90 58.90L28.10 49.10"/>
-<text x="28.80" y="399.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 28.80 399.00)">690</text>
+<text x="28.80" y="384.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 28.80 384.00)">660</text>
 <path d="M47.00 54.00L28.80 54.00M47.00 0.00L28.80 0.00M33.00 54.00L33.00 0.00"/>
 <path d="M37.90 58.90L28.10 49.10"/>
 <path d="M37.90 4.90L28.10 -4.90"/>
 <text x="28.80" y="27.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 28.80 27.00)">54</text>
-<text x="312.00" y="399.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">service door opening</text>
+<text x="312.00" y="384.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">service door opening</text>
 <text x="602.00" y="204.00" fill="#333" stroke="none" font-size="12.6" text-anchor="start">hinges</text>
 <text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">Station panel BACK with service door opening · ply 18 · 624 × 764 · seen from behind</text>
-<text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">Cut the opening 530 × 690; trim the piece that comes out by 3 all round for the door leaf (C6-05). Hinges on the right as seen from behind.</text>
+<text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">Cut the opening 530 × 660; trim the piece that comes out by 3 all round for the door leaf (C6-05). Hinges on the right as seen from behind.</text>
 </g>
 </svg>
-<svg id="C6-05_station-door-leaf" overflow="visible" x="1880.0" y="1052.0" width="720.0" height="936.0" viewBox="-98.0 -154.0 720.0 936.0"><title>Station service door leaf · ply 18 · 524 × 684 · seen from behind (outside)</title>
-<g id="C6-05_station-door-leaf__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M2.00 0.00H522.00A2 2 0 0 1 524.00 2.00V682.00A2 2 0 0 1 522.00 684.00H2.00A2 2 0 0 1 0.00 682.00V2.00A2 2 0 0 1 2.00 0.00Z"/><path d="M63.00 653.00H169.00A7 7 0 0 1 176.00 660.00V660.00A7 7 0 0 1 169.00 667.00H63.00A7 7 0 0 1 56.00 660.00V660.00A7 7 0 0 1 63.00 653.00Z"/><path d="M209.00 653.00H315.00A7 7 0 0 1 322.00 660.00V660.00A7 7 0 0 1 315.00 667.00H209.00A7 7 0 0 1 202.00 660.00V660.00A7 7 0 0 1 209.00 653.00Z"/><path d="M355.00 653.00H461.00A7 7 0 0 1 468.00 660.00V660.00A7 7 0 0 1 461.00 667.00H355.00A7 7 0 0 1 348.00 660.00V660.00A7 7 0 0 1 355.00 653.00Z"/><path d="M63.00 627.00H169.00A7 7 0 0 1 176.00 634.00V634.00A7 7 0 0 1 169.00 641.00H63.00A7 7 0 0 1 56.00 634.00V634.00A7 7 0 0 1 63.00 627.00Z"/><path d="M209.00 627.00H315.00A7 7 0 0 1 322.00 634.00V634.00A7 7 0 0 1 315.00 641.00H209.00A7 7 0 0 1 202.00 634.00V634.00A7 7 0 0 1 209.00 627.00Z"/><path d="M355.00 627.00H461.00A7 7 0 0 1 468.00 634.00V634.00A7 7 0 0 1 461.00 641.00H355.00A7 7 0 0 1 348.00 634.00V634.00A7 7 0 0 1 355.00 627.00Z"/><path d="M37.50 342.00A12.5 12.5 0 1 0 62.50 342.00A12.5 12.5 0 1 0 37.50 342.00Z"/><path d="M40.50 402.00A9.5 9.5 0 1 0 59.50 402.00A9.5 9.5 0 1 0 40.50 402.00Z"/></g>
-<g id="C6-05_station-door-leaf__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M518.00 554.00H524.00V634.00H518.00Z"/><path d="M518.00 50.00H524.00V130.00H518.00Z"/></g>
+<svg id="C6-05_station-door-leaf" overflow="visible" x="1880.0" y="1052.0" width="720.0" height="906.0" viewBox="-98.0 -154.0 720.0 906.0"><title>Station service door leaf · ply 18 · 524 × 654 · seen from behind (outside)</title>
+<g id="C6-05_station-door-leaf__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M2.00 0.00H522.00A2 2 0 0 1 524.00 2.00V652.00A2 2 0 0 1 522.00 654.00H2.00A2 2 0 0 1 0.00 652.00V2.00A2 2 0 0 1 2.00 0.00Z"/><path d="M63.00 633.00H169.00A7 7 0 0 1 176.00 640.00V640.00A7 7 0 0 1 169.00 647.00H63.00A7 7 0 0 1 56.00 640.00V640.00A7 7 0 0 1 63.00 633.00Z"/><path d="M209.00 633.00H315.00A7 7 0 0 1 322.00 640.00V640.00A7 7 0 0 1 315.00 647.00H209.00A7 7 0 0 1 202.00 640.00V640.00A7 7 0 0 1 209.00 633.00Z"/><path d="M355.00 633.00H461.00A7 7 0 0 1 468.00 640.00V640.00A7 7 0 0 1 461.00 647.00H355.00A7 7 0 0 1 348.00 640.00V640.00A7 7 0 0 1 355.00 633.00Z"/><path d="M63.00 607.00H169.00A7 7 0 0 1 176.00 614.00V614.00A7 7 0 0 1 169.00 621.00H63.00A7 7 0 0 1 56.00 614.00V614.00A7 7 0 0 1 63.00 607.00Z"/><path d="M209.00 607.00H315.00A7 7 0 0 1 322.00 614.00V614.00A7 7 0 0 1 315.00 621.00H209.00A7 7 0 0 1 202.00 614.00V614.00A7 7 0 0 1 209.00 607.00Z"/><path d="M355.00 607.00H461.00A7 7 0 0 1 468.00 614.00V614.00A7 7 0 0 1 461.00 621.00H355.00A7 7 0 0 1 348.00 614.00V614.00A7 7 0 0 1 355.00 607.00Z"/><path d="M37.50 327.00A12.5 12.5 0 1 0 62.50 327.00A12.5 12.5 0 1 0 37.50 327.00Z"/><path d="M40.50 387.00A9.5 9.5 0 1 0 59.50 387.00A9.5 9.5 0 1 0 40.50 387.00Z"/></g>
+<g id="C6-05_station-door-leaf__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M518.00 524.00H524.00V604.00H518.00Z"/><path d="M518.00 50.00H524.00V130.00H518.00Z"/></g>
 <g id="C6-05_station-door-leaf__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
-<path d="M0.00 684.00L0.00 719.00M524.00 684.00L524.00 719.00M0.00 714.80L524.00 714.80"/>
-<path d="M-4.90 719.70L4.90 709.90"/>
-<path d="M519.10 719.70L528.90 709.90"/>
-<text x="262.00" y="730.20" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 262.00 730.20)">524</text>
-<path d="M524.00 684.00L559.00 684.00M524.00 0.00L559.00 0.00M554.80 684.00L554.80 0.00"/>
-<path d="M559.70 688.90L549.90 679.10"/>
+<path d="M0.00 654.00L0.00 689.00M524.00 654.00L524.00 689.00M0.00 684.80L524.00 684.80"/>
+<path d="M-4.90 689.70L4.90 679.90"/>
+<path d="M519.10 689.70L528.90 679.90"/>
+<text x="262.00" y="700.20" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 262.00 700.20)">524</text>
+<path d="M524.00 654.00L559.00 654.00M524.00 0.00L559.00 0.00M554.80 654.00L554.80 0.00"/>
+<path d="M559.70 658.90L549.90 649.10"/>
 <path d="M559.70 4.90L549.90 -4.90"/>
-<text x="570.20" y="342.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 570.20 342.00)">684</text>
-<path d="M0.00 302.00L0.00 286.60M50.00 302.00L50.00 286.60M0.00 290.80L50.00 290.80"/>
-<path d="M-4.90 295.70L4.90 285.90"/>
-<path d="M45.10 295.70L54.90 285.90"/>
-<text x="25.00" y="286.60" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 25.00 286.60)">50</text>
-<path d="M25.00 402.00L43.20 402.00M25.00 342.00L43.20 342.00M39.00 402.00L39.00 342.00"/>
-<path d="M43.90 406.90L34.10 397.10"/>
-<path d="M43.90 346.90L34.10 337.10"/>
-<text x="54.40" y="372.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 54.40 372.00)">60</text>
-<path d="M494.00 684.00L512.20 684.00M494.00 342.00L512.20 342.00M508.00 684.00L508.00 342.00"/>
-<path d="M512.90 688.90L503.10 679.10"/>
-<path d="M512.90 346.90L503.10 337.10"/>
-<text x="523.40" y="513.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 523.40 513.00)">342</text>
-<path d="M0.00 667.00L0.00 648.80M56.00 667.00L56.00 648.80M0.00 653.00L56.00 653.00"/>
-<path d="M-4.90 657.90L4.90 648.10"/>
-<path d="M51.10 657.90L60.90 648.10"/>
-<text x="28.00" y="648.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 28.00 648.80)">56.0</text>
-<path d="M464.00 684.00L482.20 684.00M464.00 667.00L482.20 667.00M478.00 684.00L478.00 667.00"/>
-<path d="M482.90 688.90L473.10 679.10"/>
-<path d="M482.90 671.90L473.10 662.10"/>
-<text x="493.40" y="675.50" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 493.40 675.50)">17</text>
-<text x="50.00" y="317.00" fill="#333" stroke="none" font-size="12.6" text-anchor="start">Ø25 finger hole</text>
-<text x="70.00" y="407.00" fill="#333" stroke="none" font-size="12.6" text-anchor="start">Ø19 cam lock</text>
-<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">Station service door leaf · ply 18 · 524 × 684 · seen from behind (outside)</text>
+<text x="570.20" y="327.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 570.20 327.00)">654</text>
+<path d="M0.00 287.00L0.00 271.60M50.00 287.00L50.00 271.60M0.00 275.80L50.00 275.80"/>
+<path d="M-4.90 280.70L4.90 270.90"/>
+<path d="M45.10 280.70L54.90 270.90"/>
+<text x="25.00" y="271.60" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 25.00 271.60)">50</text>
+<path d="M25.00 387.00L43.20 387.00M25.00 327.00L43.20 327.00M39.00 387.00L39.00 327.00"/>
+<path d="M43.90 391.90L34.10 382.10"/>
+<path d="M43.90 331.90L34.10 322.10"/>
+<text x="54.40" y="357.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 54.40 357.00)">60</text>
+<path d="M494.00 654.00L512.20 654.00M494.00 327.00L512.20 327.00M508.00 654.00L508.00 327.00"/>
+<path d="M512.90 658.90L503.10 649.10"/>
+<path d="M512.90 331.90L503.10 322.10"/>
+<text x="523.40" y="490.50" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 523.40 490.50)">327</text>
+<path d="M0.00 647.00L0.00 628.80M56.00 647.00L56.00 628.80M0.00 633.00L56.00 633.00"/>
+<path d="M-4.90 637.90L4.90 628.10"/>
+<path d="M51.10 637.90L60.90 628.10"/>
+<text x="28.00" y="628.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 28.00 628.80)">56.0</text>
+<path d="M464.00 654.00L482.20 654.00M464.00 647.00L482.20 647.00M478.00 654.00L478.00 647.00"/>
+<path d="M482.90 658.90L473.10 649.10"/>
+<path d="M482.90 651.90L473.10 642.10"/>
+<text x="493.40" y="650.50" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 493.40 650.50)">7</text>
+<text x="50.00" y="302.00" fill="#333" stroke="none" font-size="12.6" text-anchor="start">Ø25 finger hole</text>
+<text x="70.00" y="392.00" fill="#333" stroke="none" font-size="12.6" text-anchor="start">Ø19 cam lock</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">Station service door leaf · ply 18 · 524 × 654 · seen from behind (outside)</text>
 <text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">From the piece cut out of C6-04, trimmed 3 all round. Vents line up with the other panels. Hinges on the right edge; finger hole + cam lock on the left.</text>
 </g>
 </svg>
 <svg id="C6-06_station-panel_side_x2" overflow="visible" x="2720.0" y="1052.0" width="766.0" height="1016.0" viewBox="-98.0 -154.0 766.0 1016.0"><title>Station panel SIDE · make 2 · ply 18 · 570 × 764 · seen from outside</title>
-<g id="C6-06_station-panel_side_x2__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H570.00V764.00H0.00Z"/><path d="M74.50 710.00H180.50A7 7 0 0 1 187.50 717.00V717.00A7 7 0 0 1 180.50 724.00H74.50A7 7 0 0 1 67.50 717.00V717.00A7 7 0 0 1 74.50 710.00Z"/><path d="M232.00 710.00H338.00A7 7 0 0 1 345.00 717.00V717.00A7 7 0 0 1 338.00 724.00H232.00A7 7 0 0 1 225.00 717.00V717.00A7 7 0 0 1 232.00 710.00Z"/><path d="M389.50 710.00H495.50A7 7 0 0 1 502.50 717.00V717.00A7 7 0 0 1 495.50 724.00H389.50A7 7 0 0 1 382.50 717.00V717.00A7 7 0 0 1 389.50 710.00Z"/><path d="M74.50 684.00H180.50A7 7 0 0 1 187.50 691.00V691.00A7 7 0 0 1 180.50 698.00H74.50A7 7 0 0 1 67.50 691.00V691.00A7 7 0 0 1 74.50 684.00Z"/><path d="M232.00 684.00H338.00A7 7 0 0 1 345.00 691.00V691.00A7 7 0 0 1 338.00 698.00H232.00A7 7 0 0 1 225.00 691.00V691.00A7 7 0 0 1 232.00 684.00Z"/><path d="M389.50 684.00H495.50A7 7 0 0 1 502.50 691.00V691.00A7 7 0 0 1 495.50 698.00H389.50A7 7 0 0 1 382.50 691.00V691.00A7 7 0 0 1 389.50 684.00Z"/></g>
+<g id="C6-06_station-panel_side_x2__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H570.00V764.00H0.00Z"/><path d="M74.50 690.00H180.50A7 7 0 0 1 187.50 697.00V697.00A7 7 0 0 1 180.50 704.00H74.50A7 7 0 0 1 67.50 697.00V697.00A7 7 0 0 1 74.50 690.00Z"/><path d="M232.00 690.00H338.00A7 7 0 0 1 345.00 697.00V697.00A7 7 0 0 1 338.00 704.00H232.00A7 7 0 0 1 225.00 697.00V697.00A7 7 0 0 1 232.00 690.00Z"/><path d="M389.50 690.00H495.50A7 7 0 0 1 502.50 697.00V697.00A7 7 0 0 1 495.50 704.00H389.50A7 7 0 0 1 382.50 697.00V697.00A7 7 0 0 1 389.50 690.00Z"/><path d="M74.50 664.00H180.50A7 7 0 0 1 187.50 671.00V671.00A7 7 0 0 1 180.50 678.00H74.50A7 7 0 0 1 67.50 671.00V671.00A7 7 0 0 1 74.50 664.00Z"/><path d="M232.00 664.00H338.00A7 7 0 0 1 345.00 671.00V671.00A7 7 0 0 1 338.00 678.00H232.00A7 7 0 0 1 225.00 671.00V671.00A7 7 0 0 1 232.00 664.00Z"/><path d="M389.50 664.00H495.50A7 7 0 0 1 502.50 671.00V671.00A7 7 0 0 1 495.50 678.00H389.50A7 7 0 0 1 382.50 671.00V671.00A7 7 0 0 1 389.50 664.00Z"/></g>
 <g id="C6-06_station-panel_side_x2__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M27.50 752.00L542.50 752.00"/></g>
 <g id="C6-06_station-panel_side_x2__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
 <path d="M0.00 764.00L0.00 799.00M570.00 764.00L570.00 799.00M0.00 794.80L570.00 794.80"/>
@@ -235,18 +235,18 @@
 <path d="M605.70 768.90L595.90 759.10"/>
 <path d="M605.70 4.90L595.90 -4.90"/>
 <text x="616.20" y="382.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 616.20 382.00)">764</text>
-<path d="M0.00 724.00L0.00 705.80M67.50 724.00L67.50 705.80M0.00 710.00L67.50 710.00"/>
-<path d="M-4.90 714.90L4.90 705.10"/>
-<path d="M62.60 714.90L72.40 705.10"/>
-<text x="33.75" y="705.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 33.75 705.80)">67.5</text>
-<path d="M187.50 684.00L187.50 665.80M225.00 684.00L225.00 665.80M187.50 670.00L225.00 670.00"/>
-<path d="M182.60 674.90L192.40 665.10"/>
-<path d="M220.10 674.90L229.90 665.10"/>
-<text x="206.25" y="665.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 206.25 665.80)">37.5</text>
-<path d="M550.00 764.00L568.20 764.00M550.00 724.00L568.20 724.00M564.00 764.00L564.00 724.00"/>
+<path d="M0.00 704.00L0.00 685.80M67.50 704.00L67.50 685.80M0.00 690.00L67.50 690.00"/>
+<path d="M-4.90 694.90L4.90 685.10"/>
+<path d="M62.60 694.90L72.40 685.10"/>
+<text x="33.75" y="685.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 33.75 685.80)">67.5</text>
+<path d="M187.50 664.00L187.50 645.80M225.00 664.00L225.00 645.80M187.50 650.00L225.00 650.00"/>
+<path d="M182.60 654.90L192.40 645.10"/>
+<path d="M220.10 654.90L229.90 645.10"/>
+<text x="206.25" y="645.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 206.25 645.80)">37.5</text>
+<path d="M550.00 764.00L568.20 764.00M550.00 704.00L568.20 704.00M564.00 764.00L564.00 704.00"/>
 <path d="M568.90 768.90L559.10 759.10"/>
-<path d="M568.90 728.90L559.10 719.10"/>
-<text x="579.40" y="744.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 579.40 744.00)">40</text>
+<path d="M568.90 708.90L559.10 699.10"/>
+<text x="579.40" y="734.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 579.40 734.00)">60</text>
 <text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">Station panel SIDE · make 2 · ply 18 · 570 × 764 · seen from outside</text>
 <text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">Runs the full depth inside the tubes; the front and back panels fit between the two sides. Green dashed = shelf cleat line (inside face).</text>
 </g>

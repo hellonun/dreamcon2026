@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="695.8mm" height="925.8mm" viewBox="-62.9 -98.9 695.8 925.8">
 <title>Station panel SIDE · make 2 · ply 18 · 570 × 764 · seen from outside</title>
-<g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="0.72"><path d="M0.00 0.00H570.00V764.00H0.00Z"/><path d="M74.50 710.00H180.50A7 7 0 0 1 187.50 717.00V717.00A7 7 0 0 1 180.50 724.00H74.50A7 7 0 0 1 67.50 717.00V717.00A7 7 0 0 1 74.50 710.00Z"/><path d="M232.00 710.00H338.00A7 7 0 0 1 345.00 717.00V717.00A7 7 0 0 1 338.00 724.00H232.00A7 7 0 0 1 225.00 717.00V717.00A7 7 0 0 1 232.00 710.00Z"/><path d="M389.50 710.00H495.50A7 7 0 0 1 502.50 717.00V717.00A7 7 0 0 1 495.50 724.00H389.50A7 7 0 0 1 382.50 717.00V717.00A7 7 0 0 1 389.50 710.00Z"/><path d="M74.50 684.00H180.50A7 7 0 0 1 187.50 691.00V691.00A7 7 0 0 1 180.50 698.00H74.50A7 7 0 0 1 67.50 691.00V691.00A7 7 0 0 1 74.50 684.00Z"/><path d="M232.00 684.00H338.00A7 7 0 0 1 345.00 691.00V691.00A7 7 0 0 1 338.00 698.00H232.00A7 7 0 0 1 225.00 691.00V691.00A7 7 0 0 1 232.00 684.00Z"/><path d="M389.50 684.00H495.50A7 7 0 0 1 502.50 691.00V691.00A7 7 0 0 1 495.50 698.00H389.50A7 7 0 0 1 382.50 691.00V691.00A7 7 0 0 1 389.50 684.00Z"/></g>
+<g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="0.72"><path d="M0.00 0.00H570.00V764.00H0.00Z"/><path d="M74.50 690.00H180.50A7 7 0 0 1 187.50 697.00V697.00A7 7 0 0 1 180.50 704.00H74.50A7 7 0 0 1 67.50 697.00V697.00A7 7 0 0 1 74.50 690.00Z"/><path d="M232.00 690.00H338.00A7 7 0 0 1 345.00 697.00V697.00A7 7 0 0 1 338.00 704.00H232.00A7 7 0 0 1 225.00 697.00V697.00A7 7 0 0 1 232.00 690.00Z"/><path d="M389.50 690.00H495.50A7 7 0 0 1 502.50 697.00V697.00A7 7 0 0 1 495.50 704.00H389.50A7 7 0 0 1 382.50 697.00V697.00A7 7 0 0 1 389.50 690.00Z"/><path d="M74.50 664.00H180.50A7 7 0 0 1 187.50 671.00V671.00A7 7 0 0 1 180.50 678.00H74.50A7 7 0 0 1 67.50 671.00V671.00A7 7 0 0 1 74.50 664.00Z"/><path d="M232.00 664.00H338.00A7 7 0 0 1 345.00 671.00V671.00A7 7 0 0 1 338.00 678.00H232.00A7 7 0 0 1 225.00 671.00V671.00A7 7 0 0 1 232.00 664.00Z"/><path d="M389.50 664.00H495.50A7 7 0 0 1 502.50 671.00V671.00A7 7 0 0 1 495.50 678.00H389.50A7 7 0 0 1 382.50 671.00V671.00A7 7 0 0 1 389.50 664.00Z"/></g>
 <g id="MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M27.50 752.00L542.50 752.00"/></g>
 <g id="DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.36" font-family="IBM Plex Sans, Arial, sans-serif" font-size="9.0">
 <path d="M0.00 764.00L0.00 786.47M570.00 764.00L570.00 786.47M0.00 783.77L570.00 783.77"/>
@@ -12,18 +12,18 @@
 <path d="M592.92 767.15L586.63 760.85"/>
 <path d="M592.92 3.15L586.63 -3.15"/>
 <text x="599.66" y="382.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 599.66 382.00)">764</text>
-<path d="M0.00 724.00L0.00 712.32M67.50 724.00L67.50 712.32M0.00 715.01L67.50 715.01"/>
-<path d="M-3.15 718.16L3.15 711.87"/>
-<path d="M64.35 718.16L70.65 711.87"/>
-<text x="33.75" y="712.32" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 33.75 712.32)">67.5</text>
-<path d="M187.50 684.00L187.50 672.32M225.00 684.00L225.00 672.32M187.50 675.01L225.00 675.01"/>
-<path d="M184.35 678.16L190.65 671.87"/>
-<path d="M221.85 678.16L228.15 671.87"/>
-<text x="206.25" y="672.32" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 206.25 672.32)">37.5</text>
-<path d="M550.00 764.00L561.68 764.00M550.00 724.00L561.68 724.00M558.99 764.00L558.99 724.00"/>
+<path d="M0.00 704.00L0.00 692.32M67.50 704.00L67.50 692.32M0.00 695.01L67.50 695.01"/>
+<path d="M-3.15 698.16L3.15 691.87"/>
+<path d="M64.35 698.16L70.65 691.87"/>
+<text x="33.75" y="692.32" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 33.75 692.32)">67.5</text>
+<path d="M187.50 664.00L187.50 652.32M225.00 664.00L225.00 652.32M187.50 655.01L225.00 655.01"/>
+<path d="M184.35 658.16L190.65 651.87"/>
+<path d="M221.85 658.16L228.15 651.87"/>
+<text x="206.25" y="652.32" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 206.25 652.32)">37.5</text>
+<path d="M550.00 764.00L561.68 764.00M550.00 704.00L561.68 704.00M558.99 764.00L558.99 704.00"/>
 <path d="M562.13 767.15L555.84 760.85"/>
-<path d="M562.13 727.15L555.84 720.85"/>
-<text x="568.88" y="744.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 568.88 744.00)">40</text>
+<path d="M562.13 707.15L555.84 700.85"/>
+<text x="568.88" y="734.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 568.88 734.00)">60</text>
 <text x="0" y="-76.4" fill="#111" stroke="none" font-size="12.6" font-weight="700">Station panel SIDE · make 2 · ply 18 · 570 × 764 · seen from outside</text>
 <text x="0" y="-63.8" fill="#444" stroke="none" font-size="7.6">Runs the full depth inside the tubes; the front and back panels fit between the two sides. Green dashed = shelf cleat line (inside face).</text>
 </g>

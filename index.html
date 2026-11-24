@@ -740,7 +740,7 @@ function edgesOf(m){ const { w, d, h, type } = m; const X=w/2, Z=d/2, E=[]; cons
   else if(type==='frame'){ const f=0.12; for(const x of [-X,X]){ s([x,f,0],[x,h,0]); s([x,f,-Z],[x,f,Z]); } s([-X,0.32,0],[X,0.32,0]); s([-X,h,0],[X,h,0]); }
   else if(type==='post'){ s([-X,0,0],[-X,h,0]); s([-X,h-0.08,0],[X,h-0.08,0]); s([-X,0.35,0],[X,0.35,0]); s([-X,0.03,-Z],[-X,0.03,Z]); }
   else if(type==='screen'){ for(const x of [-X,X]){ s([x,0,0],[x,h,0]); s([x,0.03,-Z],[x,0.03,Z]); } s([-X,h,0],[X,h,0]); s([-X,0.3,0],[X,0.3,0]); }
-  else if(type==='station'){ const t=0.86; const X=w/2-0.03, Z=d/2-0.03; for(const [a,b] of [[-X,-Z],[X,-Z],[X,Z],[-X,Z]]) s([a,0,b],[a,t,b]); for(const y of [0,t]){ s([-X,y,-Z],[X,y,-Z]); s([-X,y,Z],[X,y,Z]); s([-X,y,-Z],[-X,y,Z]); s([X,y,-Z],[X,y,Z]); } }
+  else if(type==='station'){ const t=0.86; const X=w/2-0.03, Z=d/2-0.03; for(const [a,b] of [[-X,-Z],[X,-Z],[X,Z],[-X,Z]]) s([a,0,b],[a,t,b]); for(const y of [0.06,t]){ s([-X,y,-Z],[X,y,-Z]); s([-X,y,Z],[X,y,Z]); s([-X,y,-Z],[-X,y,Z]); s([X,y,-Z],[X,y,Z]); } }   /* lower ledgers at 60, under the service door */
   return E; }
 function facesOf(m){ const { w, d, h, type } = m, e=0.035;
   if(BOXLIKE.has(type)) return { front:{c:[0,h/2,d/2-e],ry:0,fw:w,fh:h}, back:{c:[0,h/2,-d/2+e],ry:Math.PI,fw:w,fh:h}, right:{c:[w/2-e,h/2,0],ry:Math.PI/2,fw:d,fh:h}, left:{c:[-w/2+e,h/2,0],ry:-Math.PI/2,fw:d,fh:h} };
@@ -798,11 +798,11 @@ function moduleExtras(m, g){
     // scaffold box under the top, wood panels set inside the tubes, vent slits along the bottom
     const ph=t-0.1, inset=0.055; for(const [w,x,z,ry] of [[m.w-0.13,0,m.d/2-inset,0],[m.w-0.13,0,-m.d/2+inset,Math.PI],[m.d-0.13,m.w/2-inset,0,Math.PI/2],[m.d-0.13,-m.w/2+inset,0,-Math.PI/2]]){
       const pn=new THREE.Mesh(new THREE.BoxGeometry(w,ph,0.018),[oakMat,oakMat,oakMat,oakMat,ventMat(w,ph),oakMat]); pn.position.set(x,0.05+ph/2,z); pn.rotation.y=ry; pn.castShadow=true; pn.receiveShadow=true; g.add(pn); }
-    // service door in the back panel (530 x 690, bottom at 70) for storing the projector: leaf with its own vents, hinges, cam lock
-    { const dw=0.53, dh=0.69, dz=-m.d/2+inset-0.012; const dr=new THREE.Mesh(new THREE.BoxGeometry(dw,dh,0.004),[oakMat,oakMat,oakMat,oakMat,ventMat(dw,dh),oakMat]); dr.position.set(0,0.07+dh/2,dz); dr.rotation.y=Math.PI; g.add(dr);
-      const gap=new THREE.Mesh(new THREE.PlaneGeometry(dw+0.006,dh+0.006),castorMat); gap.position.set(0,0.07+dh/2,-m.d/2+inset-0.0093); gap.rotation.y=Math.PI; g.add(gap);
-      for(const hy of [0.16,0.67]){ const hn=new THREE.Mesh(new THREE.BoxGeometry(0.008,0.08,0.006),castorMat); hn.position.set(-dw/2,hy,dz-0.003); g.add(hn); }
-      const lock=new THREE.Mesh(new THREE.CylinderGeometry(0.0125,0.0125,0.006,20),castorMat); lock.rotation.x=Math.PI/2; lock.position.set(dw/2-0.05,0.07+dh/2-0.06,dz-0.004); g.add(lock); } }
+    // service door in the back panel (530 x 660, bottom at 100, above the lower ledger) for storing the projector: leaf with its own vents, hinges, cam lock
+    { const dw=0.53, dh=0.66, dz=-m.d/2+inset-0.012; const dr=new THREE.Mesh(new THREE.BoxGeometry(dw,dh,0.004),[oakMat,oakMat,oakMat,oakMat,ventMat(dw,dh,0.01),oakMat]); dr.position.set(0,0.10+dh/2,dz); dr.rotation.y=Math.PI; g.add(dr);
+      const gap=new THREE.Mesh(new THREE.PlaneGeometry(dw+0.006,dh+0.006),castorMat); gap.position.set(0,0.10+dh/2,-m.d/2+inset-0.0093); gap.rotation.y=Math.PI; g.add(gap);
+      for(const hy of [0.19,0.67]){ const hn=new THREE.Mesh(new THREE.BoxGeometry(0.008,0.08,0.006),castorMat); hn.position.set(-dw/2,hy,dz-0.003); g.add(hn); }
+      const lock=new THREE.Mesh(new THREE.CylinderGeometry(0.0125,0.0125,0.006,20),castorMat); lock.rotation.x=Math.PI/2; lock.position.set(dw/2-0.05,0.10+dh/2-0.06,dz-0.004); g.add(lock); } }
   if(m.type==='screen'){ const disp=new THREE.Mesh(new THREE.BoxGeometry(0.98,1.71,0.06),castorMat); disp.position.set(0,1.25,0.045); disp.castShadow=true; g.add(disp); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.94,1.67),screenMat); sc.position.set(0,1.25,0.0755); g.add(sc); }
 }
 function printSize(face, spec){ const inset = face.full? 0 : spec.mode==='full'? 0.02 : spec.mode==='laced'? Math.max(spec.inset,0.06) : spec.inset; return { pw:Math.max(0.05, face.fw-2*inset), ph:Math.max(0.05, face.fh-2*inset) }; }
@@ -1678,11 +1678,11 @@ const keyboardMat=new THREE.MeshStandardMaterial({ roughness:0.6, map:canvasTex(
 const diffuserMat=new THREE.MeshStandardMaterial({ color:'#F4F4F1', emissive:'#FFFFFF', emissiveIntensity:0.35, roughness:0.35 });
 const oakMat=new THREE.MeshStandardMaterial({ color:'#E2CCA2', map:canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const r=rnd(77); for(let i=0;i<90;i++){ const y=r()*h; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.12})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); for(let x=0;x<=w;x+=16) c.lineTo(x,y+Math.sin(x/40+i)*2*r()); c.stroke(); } }), roughness:0.7 });
 const ventCache=new Map();
-function ventMat(w,h){ const key=w.toFixed(2)+'x'+h.toFixed(2); if(ventCache.has(key)) return ventCache.get(key); const ppm=400, W=Math.round(w*ppm), H=Math.round(h*ppm);
+function ventMat(w,h,off=0.06){ const key=w.toFixed(2)+'x'+h.toFixed(2)+'x'+off.toFixed(3); if(ventCache.has(key)) return ventCache.get(key); const ppm=400, W=Math.round(w*ppm), H=Math.round(h*ppm);
   const t=canvasTex(W,H,(c)=>{ c.fillStyle='#fff'; c.fillRect(0,0,W,H); const r=rnd(77); for(let i=0;i<60;i++){ const y=r()*H; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.1})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); c.lineTo(W,y+(r()-0.5)*6); c.stroke(); }
-    // vent slits low on each panel: 2 rows of 120 x 14 mm, 12 apart (90 and 116 above the floor)
+    // vent slits low on each panel: 2 rows of 120 x 14 mm, 12 apart (110 and 136 above the floor; off = height of the first row above the panel's bottom edge)
     c.fillStyle='#2a1d12'; const sw=0.12*ppm, sh=0.014*ppm, gap=0.03*ppm; const n=Math.max(1,Math.floor((W-0.1*ppm)/(sw+gap))); const x0=(W-(n*sw+(n-1)*gap))/2;
-    for(let row=0; row<2; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), H-(0.04+0.026*row+0.014)*ppm, sw, sh, sh/2); c.fill(); } });
+    for(let row=0; row<2; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), H-(off+0.026*row+0.014)*ppm, sw, sh, sh/2); c.fill(); } });
   const m=new THREE.MeshStandardMaterial({ color:'#E2CCA2', map:t, roughness:0.7 }); ventCache.set(key,m); return m; }
 const stationBgMat=new THREE.MeshBasicMaterial({ color:'#A2A5AA', toneMapped:false });
 function applyStationFinish(){ stationBgMat.color.set(stationBg()); drawStation(); for(const m of S.modules) if(m.type==='station') buildModule(m); }
