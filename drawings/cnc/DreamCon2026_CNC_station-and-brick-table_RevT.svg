@@ -3,7 +3,7 @@
 <title>Station + brick table wooden parts · ply 18 · 1 unit = 1 mm</title>
 <svg id="C6-01_station-top_upper" overflow="visible" x="0.0" y="0.0" width="966.0" height="932.0" viewBox="-98.0 -154.0 966.0 932.0"><title>Station top, UPPER layer · ply 18 · 770 × 680 · seen from above, visitor side at the bottom</title>
 <g id="C6-01_station-top_upper__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M3.00 0.00H767.00A3 3 0 0 1 770.00 3.00V677.00A3 3 0 0 1 767.00 680.00H3.00A3 3 0 0 1 0.00 677.00V3.00A3 3 0 0 1 3.00 0.00Z"/><path d="M19.35 18.00L750.65 18.00L750.65 448.80L465.80 448.80L465.80 509.80L354.80 509.80L354.80 448.80L19.35 448.80Z"/></g>
-<g id="C6-01_station-top_upper__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M381.00 479.20A4 4 0 1 0 389.00 479.20A4 4 0 1 0 381.00 479.20Z"/></g>
+<g id="C6-01_station-top_upper__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M381.00 479.20A4 4 0 1 0 389.00 479.20A4 4 0 1 0 381.00 479.20Z"/><path d="M21.35 20.00H748.65V446.80H21.35Z"/></g>
 <g id="C6-01_station-top_upper__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
 <path d="M0.00 680.00L0.00 715.00M770.00 680.00L770.00 715.00M0.00 710.80L770.00 710.80"/>
 <path d="M-4.90 715.70L4.90 705.90"/>
@@ -46,7 +46,7 @@
 <path d="M349.90 543.50L359.70 533.70"/>
 <text x="177.40" y="534.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 177.40 534.40)">354.8</text>
 <text x="385.00" y="469.20" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">lidar centre</text>
-<text x="385.00" y="233.40" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">screen window, cut through</text>
+<text x="385.00" y="233.40" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">screen window, cut through · green dashed = 32" Frame outline</text>
 <text x="385.00" y="640.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">visitor side (keyboard)</text>
 <text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">Station top, UPPER layer · ply 18 · 770 × 680 · seen from above, visitor side at the bottom</text>
 <text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">Red = cut through. Screen window = 32" Frame + 2 each side, with the hole for the 3D-printed sensor + camera holder (110 × 60 + 0.5) joined to its front edge.</text>
@@ -55,6 +55,7 @@
 <svg id="C6-02_station-top_lower" overflow="visible" x="1086.0" y="0.0" width="966.0" height="932.0" viewBox="-98.0 -154.0 966.0 932.0"><title>Station top, LOWER layer · ply 18 · 770 × 680 · seen from above</title>
 <g id="C6-02_station-top_lower__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M3.00 0.00H767.00A3 3 0 0 1 770.00 3.00V677.00A3 3 0 0 1 767.00 680.00H3.00A3 3 0 0 1 0.00 677.00V3.00A3 3 0 0 1 3.00 0.00Z"/><path d="M62.35 58.00H707.65A3 3 0 0 1 710.65 61.00V405.80A3 3 0 0 1 707.65 408.80H62.35A3 3 0 0 1 59.35 405.80V61.00A3 3 0 0 1 62.35 58.00Z"/><path d="M355.80 448.80H464.80A1 1 0 0 1 465.80 449.80V508.80A1 1 0 0 1 464.80 509.80H355.80A1 1 0 0 1 354.80 508.80V449.80A1 1 0 0 1 355.80 448.80Z"/></g>
 <g id="C6-02_station-top_lower__POCKET_8.5mm_deep" fill="#1C4CD3" fill-opacity="0.12" stroke="#1C4CD3" stroke-width="0.84"><path d="M22.35 18.00H747.65A3 3 0 0 1 750.65 21.00V445.80A3 3 0 0 1 747.65 448.80H22.35A3 3 0 0 1 19.35 445.80V21.00A3 3 0 0 1 22.35 18.00Z"/></g>
+<g id="C6-02_station-top_lower__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M21.35 20.00H748.65V446.80H21.35Z"/></g>
 <g id="C6-02_station-top_lower__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
 <path d="M0.00 680.00L0.00 715.00M770.00 680.00L770.00 715.00M0.00 710.80L770.00 710.80"/>
 <path d="M-4.90 715.70L4.90 705.90"/>
@@ -84,7 +85,7 @@
 <path d="M14.45 444.90L24.25 435.10"/>
 <path d="M54.45 444.90L64.25 435.10"/>
 <text x="39.35" y="455.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 39.35 455.40)">40</text>
-<text x="385.00" y="233.40" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">opening, cut through (air + cables)</text>
+<text x="385.00" y="233.40" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">opening, cut through (air + cables) · green dashed = 32" Frame outline</text>
 <text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">Station top, LOWER layer · ply 18 · 770 × 680 · seen from above</text>
 <text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">Blue = pocket 8.5 deep from the top face (screen seat). Red = cut through. The screen sits on the 40 ledge.</text>
 </g>

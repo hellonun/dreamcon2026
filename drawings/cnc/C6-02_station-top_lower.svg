@@ -3,6 +3,7 @@
 <title>Station top, LOWER layer · ply 18 · 770 × 680 · seen from above</title>
 <g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="0.72"><path d="M3.00 0.00H767.00A3 3 0 0 1 770.00 3.00V677.00A3 3 0 0 1 767.00 680.00H3.00A3 3 0 0 1 0.00 677.00V3.00A3 3 0 0 1 3.00 0.00Z"/><path d="M62.35 58.00H707.65A3 3 0 0 1 710.65 61.00V405.80A3 3 0 0 1 707.65 408.80H62.35A3 3 0 0 1 59.35 405.80V61.00A3 3 0 0 1 62.35 58.00Z"/><path d="M355.80 448.80H464.80A1 1 0 0 1 465.80 449.80V508.80A1 1 0 0 1 464.80 509.80H355.80A1 1 0 0 1 354.80 508.80V449.80A1 1 0 0 1 355.80 448.80Z"/></g>
 <g id="POCKET_8.5mm_deep" fill="#1C4CD3" fill-opacity="0.12" stroke="#1C4CD3" stroke-width="0.54"><path d="M22.35 18.00H747.65A3 3 0 0 1 750.65 21.00V445.80A3 3 0 0 1 747.65 448.80H22.35A3 3 0 0 1 19.35 445.80V21.00A3 3 0 0 1 22.35 18.00Z"/></g>
+<g id="MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M21.35 20.00H748.65V446.80H21.35Z"/></g>
 <g id="DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.36" font-family="IBM Plex Sans, Arial, sans-serif" font-size="9.1">
 <path d="M0.00 680.00L0.00 702.65M770.00 680.00L770.00 702.65M0.00 699.93L770.00 699.93"/>
 <path d="M-3.17 703.10L3.17 696.76"/>
@@ -32,7 +33,7 @@
 <path d="M16.18 439.22L22.52 432.88"/>
 <path d="M56.18 439.22L62.52 432.88"/>
 <text x="39.35" y="446.01" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 39.35 446.01)">40</text>
-<text x="385.00" y="233.40" fill="#333" stroke="none" font-size="8.2" text-anchor="middle">opening, cut through (air + cables)</text>
+<text x="385.00" y="233.40" fill="#333" stroke="none" font-size="8.2" text-anchor="middle">opening, cut through (air + cables) · green dashed = 32" Frame outline</text>
 <text x="0" y="-77.0" fill="#111" stroke="none" font-size="12.7" font-weight="700">Station top, LOWER layer · ply 18 · 770 × 680 · seen from above</text>
 <text x="0" y="-64.3" fill="#444" stroke="none" font-size="7.7">Blue = pocket 8.5 deep from the top face (screen seat). Red = cut through. The screen sits on the 40 ledge.</text>
 </g>
