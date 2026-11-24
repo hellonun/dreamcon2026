@@ -1006,10 +1006,13 @@ function proposal(){
   mods.push(...A, ...B2);
   const facing=a=>Math.atan2(-Math.cos(a*DEG),Math.sin(a*DEG))/DEG, norm=r=>((r+540)%360)-180;
   { // four freestanding boxes on a curve beside the sculpture, 150 mm apart: red, beige (orange), green pallets, then the station on the right
-    const d=TYPES.station.d, Ri=4.2, rc=Ri+d/2, ang=a=>{ const [qx,qz]=plan2xz(rc,a), px=qx+FLOOR_C[0], pz=qz+FLOOR_C[1];   /* arc concentric with the floor rings */ const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
+    const d=TYPES.station.d, Ri=4.2, rc0=Ri+d/2, ang=(a,rc=rc0)=>{ const [qx,qz]=plan2xz(rc,a), px=qx+FLOOR_C[0], pz=qz+FLOOR_C[1];   /* arc concentric with the floor rings */ const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
     const half=w=>Math.asin(w/2/Ri)/DEG; const st=TYPES.station, a0=40+(B.rotStation||0); mods.push(mk('station',ang(a0)));
     const gapA=(0.15/Ri)/DEG;   /* the station, then one brick table 150 mm away */
-    const TW=2.2, TD=TYPES.station.d, bw=TW/3;   /* same depth as the station (680) */ const at=a0-half(st.w)-gapA-half(TW); const T=ang(at); const S0=ang(a0);
+    const TW=2.2, TD=TYPES.station.d, bw=TW/3;   /* same depth as the station (680) */
+    /* the straight table sits so its front corners are on the same circle as the station's front corners, 150 mm apart */
+    const Rc=Math.hypot(Ri,st.w/2), rT=Math.sqrt(Rc*Rc-(TW/2)**2)+TD/2, hA=w=>Math.asin(w/2/Rc)/DEG;
+    const at=a0-hA(st.w)-(0.15/Rc)/DEG-hA(TW); const T=ang(at,rT); const S0=ang(a0);
     const L=[-bw,0,bw].map(lx=>{ const [x,z]=world(T,lx,0); return { x, z, lx }; }); if(Math.hypot(L[0].x-S0.x,L[0].z-S0.z)>Math.hypot(L[2].x-S0.x,L[2].z-S0.z)) L.reverse();
     [...PALLET_GROUPS].reverse().forEach((gr,k)=>{ const q=L[k]; mods.push(mk('plinth',{ x:q.x, z:q.z, rot:T.rot, w:bw, d:TD, h:0.64, group:gr.id, bay:true, joinL:q.lx>-bw/2, partL:false, partR:q.lx<bw/2 })); }); }
   S.modules = mods; rebuildAll(); buildWallArt();
