@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="63.3mm" height="67.1mm" viewBox="0 0 63.3 67.1">
+<title>Middle table top · LOWER layer · ply 18 · Ø5000 · 1:100</title>
+<svg id="T1_round-top_lower-layer_scale_1-100" overflow="visible" x="0" y="0" width="63.3" height="67.1" viewBox="-665.0 -1045.0 6330.0 6710.0"><title>Middle table top · LOWER layer · ply 18 · Ø5000 · 1:100</title>
+<g id="T1_round-top_lower-layer__CUT_through" fill="none" stroke="#E5483D" stroke-width="7.60"><path d="M0.00 2500.00A2500 2500 0 1 0 5000.00 2500.00A2500 2500 0 1 0 0.00 2500.00Z"/><path d="M1331.43 968.57A625.0 625.0 0 1 0 2581.43 968.57A625.0 625.0 0 1 0 1331.43 968.57Z"/><path d="M3202.14 2124.29A750.0 750.0 0 1 0 4702.14 2124.29A750.0 750.0 0 1 0 3202.14 2124.29Z"/><path d="M513.57 3223.57A1125.0 1125.0 0 1 0 2763.57 3223.57A1125.0 1125.0 0 1 0 513.57 3223.57Z"/><path d="M1214.55 1183.33L1256.77 1295.65L1228.69 1306.21L1186.47 1193.88Z"/><path d="M3449.70 1381.20L3355.01 1454.91L3336.58 1431.24L3431.27 1357.53Z"/><path d="M2908.58 3163.79L2897.29 3044.32L2927.16 3041.50L2938.45 3160.96Z"/></g>
+<g id="T1_round-top_lower-layer__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M1218.49 1128.43L1295.89 1334.36L968.27 1457.51L890.87 1251.58Z"/><path d="M3503.29 1368.63L3329.69 1503.78L3114.69 1227.60L3288.29 1092.45Z"/><path d="M2891.94 3232.16L2868.13 2980.28L3289.26 2940.47L3313.06 3192.35Z"/><path d="M-100.00 2500.00L5100.00 2500.00"/><path d="M2500.00 5100.00L2500.00 -100.00"/></g>
+<g id="T1_round-top_lower-layer__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="3.80" font-family="IBM Plex Sans, Arial, sans-serif" font-size="95.0">
+<path d="M0.00 5000.00L0.00 5266.00M5000.00 5000.00L5000.00 5266.00M0.00 5237.50L5000.00 5237.50"/>
+<path d="M-33.25 5270.75L33.25 5204.25"/>
+<path d="M4966.75 5270.75L5033.25 5204.25"/>
+<text x="2500.00" y="5342.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 2500.00 5342.00)">Ø 5000</text>
+<path d="M2500.00 968.57L2500.00 1073.07M1956.43 968.57L1956.43 1073.07M2500.00 1044.57L1956.43 1044.57"/>
+<path d="M2533.25 1011.32L2466.75 1077.82"/>
+<path d="M1989.68 1011.32L1923.18 1077.82"/>
+<text x="2228.21" y="1073.07" fill="#333" stroke="none" text-anchor="middle" transform="rotate(360.00 2228.21 1073.07)">544</text>
+<path d="M1956.43 2500.00L2060.93 2500.00M1956.43 968.57L2060.93 968.57M2032.43 2500.00L2032.43 968.57"/>
+<path d="M2065.68 2533.25L1999.18 2466.75"/>
+<path d="M2065.68 1001.82L1999.18 935.32"/>
+<text x="2136.93" y="1734.29" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 2136.93 1734.29)">1531</text>
+<path d="M2500.00 2124.29L2500.00 2019.79M3952.14 2124.29L3952.14 2019.79M2500.00 2048.29L3952.14 2048.29"/>
+<path d="M2466.75 2081.54L2533.25 2015.04"/>
+<path d="M3918.89 2081.54L3985.39 2015.04"/>
+<text x="3226.07" y="2019.79" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 3226.07 2019.79)">1452</text>
+<path d="M3952.14 2500.00L4056.64 2500.00M3952.14 2124.29L4056.64 2124.29M4028.14 2500.00L4028.14 2124.29"/>
+<path d="M4061.39 2533.25L3994.89 2466.75"/>
+<path d="M4061.39 2157.54L3994.89 2091.04"/>
+<text x="4132.64" y="2312.14" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 4132.64 2312.14)">376</text>
+<path d="M2500.00 3223.57L2500.00 3328.07M1638.57 3223.57L1638.57 3328.07M2500.00 3299.57L1638.57 3299.57"/>
+<path d="M2533.25 3266.32L2466.75 3332.82"/>
+<path d="M1671.82 3266.32L1605.32 3332.82"/>
+<text x="2069.29" y="3328.07" fill="#333" stroke="none" text-anchor="middle" transform="rotate(360.00 2069.29 3328.07)">861</text>
+<path d="M1638.57 2500.00L1534.07 2500.00M1638.57 3223.57L1534.07 3223.57M1562.57 2500.00L1562.57 3223.57"/>
+<path d="M1529.32 2466.75L1595.82 2533.25"/>
+<path d="M1529.32 3190.32L1595.82 3256.82"/>
+<text x="1458.07" y="2861.79" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 1458.07 2861.79)">724</text>
+<text x="871.54" y="1376.36" fill="#333" stroke="none" font-size="85.5" text-anchor="middle">S1</text>
+<text x="3163.40" y="1111.10" fill="#333" stroke="none" font-size="85.5" text-anchor="middle">S2</text>
+<text x="3362.88" y="3060.58" fill="#333" stroke="none" font-size="85.5" text-anchor="middle">S3</text>
+<text x="1956.43" y="928.57" fill="#333" stroke="none" font-size="114.0" text-anchor="middle">H1 Ø1250</text>
+<text x="1956.43" y="1088.57" fill="#333" stroke="none" font-size="85.5" text-anchor="middle">centre X -544 · Y 1531</text>
+<text x="3952.14" y="2084.29" fill="#333" stroke="none" font-size="114.0" text-anchor="middle">H2 Ø1500</text>
+<text x="3952.14" y="2244.29" fill="#333" stroke="none" font-size="85.5" text-anchor="middle">centre X 1452 · Y 376</text>
+<text x="1638.57" y="3183.57" fill="#333" stroke="none" font-size="114.0" text-anchor="middle">H3 Ø2250</text>
+<text x="1638.57" y="3343.57" fill="#333" stroke="none" font-size="85.5" text-anchor="middle">centre X -861 · Y -724</text>
+<text x="1093.38" y="995.97" fill="#333" stroke="none" font-size="76.0" text-anchor="middle">S1 centre X -1407 · Y 1207 · 224 × 354</text>
+<text x="3308.99" y="1001.11" fill="#333" stroke="none" font-size="76.0" text-anchor="middle">S2 centre X 809 · Y 1202 · 224 × 354</text>
+<text x="3090.60" y="3459.81" fill="#333" stroke="none" font-size="76.0" text-anchor="middle">S3 centre X 591 · Y -586 · 257 × 427</text>
+<text x="0" y="-807.5" fill="#111" stroke="none" font-size="133.0" font-weight="700">Middle table top · LOWER layer · ply 18 · Ø5000 · 1:100</text>
+<text x="0" y="-674.5" fill="#444" stroke="none" font-size="80.8">Drawn at 1:100: scale ×100 before cutting. Red = cut through, green dashed = screen outlines (do not cut).</text>
+</g>
+</svg>
+</svg>
