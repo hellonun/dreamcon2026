@@ -1680,9 +1680,9 @@ const oakMat=new THREE.MeshStandardMaterial({ color:'#E2CCA2', map:canvasTex(256
 const ventCache=new Map();
 function ventMat(w,h){ const key=w.toFixed(2)+'x'+h.toFixed(2); if(ventCache.has(key)) return ventCache.get(key); const ppm=400, W=Math.round(w*ppm), H=Math.round(h*ppm);
   const t=canvasTex(W,H,(c)=>{ c.fillStyle='#fff'; c.fillRect(0,0,W,H); const r=rnd(77); for(let i=0;i<60;i++){ const y=r()*H; c.strokeStyle=`rgba(120,80,40,${0.05+r()*0.1})`; c.lineWidth=0.5+r()*2; c.beginPath(); c.moveTo(0,y); c.lineTo(W,y+(r()-0.5)*6); c.stroke(); }
-    // two bands of slits, low and high, 120 x 8 mm
-    c.fillStyle='#2a1d12'; const sw=0.12*ppm, sh=0.008*ppm, gap=0.03*ppm; const n=Math.max(1,Math.floor((W-0.1*ppm)/(sw+gap))); const x0=(W-(n*sw+(n-1)*gap))/2;
-    for(const yc of [H-0.1*ppm]) for(let row=0; row<3; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), yc-1.5*sh*2+row*sh*2, sw, sh, sh/2); c.fill(); } });
+    // vent slits low on each panel: 2 rows of 120 x 14 mm, 12 apart (90 and 116 above the floor)
+    c.fillStyle='#2a1d12'; const sw=0.12*ppm, sh=0.014*ppm, gap=0.03*ppm; const n=Math.max(1,Math.floor((W-0.1*ppm)/(sw+gap))); const x0=(W-(n*sw+(n-1)*gap))/2;
+    for(let row=0; row<2; row++) for(let i=0;i<n;i++){ c.beginPath(); c.roundRect(x0+i*(sw+gap), H-(0.04+0.026*row+0.014)*ppm, sw, sh, sh/2); c.fill(); } });
   const m=new THREE.MeshStandardMaterial({ color:'#E2CCA2', map:t, roughness:0.7 }); ventCache.set(key,m); return m; }
 const stationBgMat=new THREE.MeshBasicMaterial({ color:'#A2A5AA', toneMapped:false });
 function applyStationFinish(){ stationBgMat.color.set(stationBg()); drawStation(); for(const m of S.modules) if(m.type==='station') buildModule(m); }
