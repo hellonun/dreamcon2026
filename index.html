@@ -1539,7 +1539,7 @@ const SCR_SIZES = [ { w:0.220, h:0.350, t:0.010 }, { w:0.220, h:0.350, t:0.010 }
 const SCREEN_SIDE = { opt3:[-1,1,-1] };   // which way round the rim each circle's screen sits, as marked on the plan
 /* screens inside: beside their own circle, bottom edge toward it so the people sitting in it read the screen; angle round the circle
    (plan degrees, 0 = east, counter-clockwise), pocket edge 120 from the hole so the ring lettering (35–100 out) runs clear */
-const SCREEN_IN = { opt3:[200.6, 127.9, 5.4] };
+const SCREEN_IN = { opt3:[200.6, 127.9, -15] };
 function holeScreenSpots(hs){ const R0=B.pdia/2, rc=R0-0.05-SCR15.h/2, hw=SCR15.w/2+0.03, hh=SCR15.h/2+0.03;
   const inn=SCREEN_IN[B.holeSet]; if(inn) return hs.map((h,i)=>{ const SZ=SCR_SIZES[i]||SCR_SIZES[0], a=(inn[i]??0)*DEG, dx=Math.cos(a), dz=-Math.sin(a), r=h.r+0.12+(SZ.h+0.004)/2;
     return { x:h.x+dx*r, z:h.z+dz*r, ux:dx, uz:dz, a:Math.atan2(h.z+dz*r,h.x+dx*r), i, inside:true }; });
