@@ -321,7 +321,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <h3 style="margin-top:4px">Table tops</h3><p class="note" style="margin:0 0 6px;font-size:12px;color:var(--muted)">Paint colour for the round platform top, the brick table and the station top.</p><div class="row" id="b-top-sw"></div>
         <label class="fld">Hole layout<select id="b-holeset" class="s"><option value="d5o3">Ø5000 · two holes, 3 screens at the edge (drawing TT-13)</option><option value="opt1">Option 1 · one hole (drawing 01)</option><option value="opt2">Option 2 · two holes (drawing 02)</option><option value="opt3">Option 3 · three holes (drawing 03)</option><option value="random">Random</option></select></label>
         <div class="rng" data-random-holes><span>Holes to sit in</span><input type="range" id="b-holes" min="1" max="5" value="3"><output id="b-holes-o"></output></div>
-        <div class="row"><button class="btn" id="b-reholes">Rearrange holes</button><label class="tg"><input type="checkbox" id="b-skirt">Timber skirt to hide the scaffold</label></div>
+        <div class="row"><button class="btn" id="b-reholes">Rearrange holes</button><label class="tg"><input type="checkbox" id="b-skirt">Timber skirt to hide the scaffold</label><label class="tg"><input type="checkbox" id="b-svc" checked>Service box 450 cube</label></div>
       </div>
       <h3>Brick structures on top</h3>
       <div class="card">
@@ -1243,7 +1243,7 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1050, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#76583E', carpetMargin:0.5, tblCarpet:true, topColor:'#E4DCC1', carpetShape:'circle', pdia:5.5, platH:0.564, skirt:false, holeSet:'', nHoles:3, defv:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
+const B = { count:1050, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#76583E', carpetMargin:0.5, tblCarpet:true, topColor:'#E4DCC1', svcBox:true, carpetShape:'circle', pdia:5.5, platH:0.564, skirt:false, holeSet:'', nHoles:3, defv:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.75, stnLedge:'#E4DCC1', stnLedgeTex:'matte', stnRim:'#E4DCC1', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, rotStation:37, rotStage:0, rotBooths:-11, cx:-0.315, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
@@ -1349,8 +1349,11 @@ const KAPLA = {
 const KAPLA_NAMES = { pavilion:['stepped pavilion','stepped pavilions'], round:['round tower','round towers'], arch:['corbelled arch','corbelled arches'], twist:['twisted column','twisted columns'], cabin:['log-cabin cluster','log-cabin clusters'], domino:['domino spiral','domino spirals'] };
 /* support check: a brick stays only if its centre sits over contact with the deck (off the holes) or with bricks already standing directly below it */
 /* does a brick's footprint (deck-relative x,z) come within m of a circle screen? */
+/* service box on the deck: 450 cube near the rim at about 1 o'clock (towards the station), door facing out to the rim */
+const SVC={ s:0.45, a:-71.7, inset:0.40 };
+function svcSpots(){ if(!B.svcBox) return []; const R0=B.pdia/2, a=SVC.a*DEG, r=R0-SVC.inset, ux=Math.cos(a), uz=Math.sin(a); return [{ x:ux*r, z:uz*r, ux, uz, a, box:true }]; }
 function hitsScreen(x,z,ry,fx,fz,spots,m=0.05){ const c=Math.cos(ry), s_=Math.sin(ry); const bax=[[c,-s_],[s_,c]], bh=[fx/2,fz/2];
-  for(const sp of spots){ const ux=sp.ux, uz=sp.uz; const sax=[[-uz,ux],[ux,uz]], sh=[SCR15.w/2+m, SCR15.h/2+m]; const dx=x-sp.x, dz=z-sp.z; let sep=false;
+  for(const sp of spots){ const ux=sp.ux, uz=sp.uz; const sax=[[-uz,ux],[ux,uz]], sh=sp.box? [SVC.s/2+m+0.03, SVC.s/2+m+0.03] : [SCR15.w/2+m, SCR15.h/2+m]; const dx=x-sp.x, dz=z-sp.z; let sep=false;
     for(const [ax,az] of [...bax,...sax]){ const d=Math.abs(dx*ax+dz*az); const rb=bh[0]*Math.abs(bax[0][0]*ax+bax[0][1]*az)+bh[1]*Math.abs(bax[1][0]*ax+bax[1][1]*az); const rs=sh[0]*Math.abs(sax[0][0]*ax+sax[0][1]*az)+sh[1]*Math.abs(sax[1][0]*ax+sax[1][1]*az); if(d>rb+rs){ sep=true; break; } }
     if(!sep) return true; }
   return false; }
@@ -1370,7 +1373,7 @@ function supported(list, y0, R0, hs, cx=B.cx, cz=B.cz){ const ok=[], tops=new Ma
 function buildTargets(){ return buildTargetsOnce(B.nStruct); }
 function buildTargetsOnce(nStruct){
   const N=B.count, R0=B.pdia/2, hs=holes(), { L, W, H } = B, g=0.003, y0=deckTop(); const r=rnd(1000+B.structSeed*7919);
-  const spots=holeScreenSpots(hs).slice(0,HOLE_TOPICS.length); const room=(x,z)=>Math.min(R0-RIM.in-0.05-Math.hypot(x,z), ...hs.map(h=>Math.hypot(h.x-x,h.z-z)-h.r-0.16), ...spots.map(s=>Math.hypot(s.x-x,s.z-z)-0.27));
+  const spots=holeScreenSpots(hs).slice(0,HOLE_TOPICS.length).concat(svcSpots()); const room=(x,z)=>Math.min(R0-RIM.in-0.05-Math.hypot(x,z), ...hs.map(h=>Math.hypot(h.x-x,h.z-z)-h.r-0.16), ...spots.map(s=>Math.hypot(s.x-x,s.z-z)-(s.box?0.42:0.27)));
   const grid=[]; for(let x=-R0;x<=R0;x+=0.08) for(let z=-R0;z<=R0;z+=0.08){ const jx=x+(r()-0.5)*0.06, jz=z+(r()-0.5)*0.06; const rm=room(jx,jz); if(rm>0.2) grid.push({ x:jx, z:jz, rm }); }
   // stock stacks
   const HS=0.7, per=Math.max(1,Math.floor(HS/(L+0.006)))*Math.max(1,Math.floor(HS/(W+0.006))); const nHeap=S.modules.some(m=>m.type==='plinth')? 0 : Math.max(1,Math.ceil(N/(per*B.layers)));
@@ -1451,6 +1454,18 @@ function buildCarpet(){ carpetGroup.clear(); if(!B.carpet) return; carpetMat.col
   const R=B.pdia/2+B.carpetMargin; let geo;
   if(B.carpetShape==='square') geo=new THREE.BoxGeometry(2*R,CARPET_T,2*R); else geo=new THREE.CylinderGeometry(R,R,CARPET_T,128);
   const m=new THREE.Mesh(geo,carpetMat); m.position.set(B.cx,CARPET_T/2,B.cz); m.receiveShadow=true; carpetGroup.add(m); }
+function buildServiceBox(top){ const sp=svcSpots()[0]; if(!sp) return; const S0=SVC.s;
+  const g=new THREE.Group(); g.position.set(B.cx+sp.x,top,B.cz+sp.z); g.rotation.y=Math.atan2(sp.ux,sp.uz); platGroup.add(g);   /* local +z faces out to the rim, ±x are the sides */
+  const bx=new THREE.Mesh(new THREE.BoxGeometry(S0,S0,S0),plyMat); bx.position.y=S0/2; bx.castShadow=true; bx.receiveShadow=true; g.add(bx);
+  const dk=(w,h,d,x,y,z)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),castorMat); m.position.set(x,y,z); g.add(m); return m; };
+  // service door on the outer face: 390 x 390 leaf in a 3 mm gap, two hinges on the left, cam lock on the right
+  const dw=S0-0.06, dh=S0-0.06, dy=S0/2, fz=S0/2+0.0006, gp=0.003;
+  dk(dw+2*gp,gp,0.001,0,dy+dh/2+gp/2,fz); dk(dw+2*gp,gp,0.001,0,dy-dh/2-gp/2,fz); dk(gp,dh,0.001,-dw/2-gp/2,dy,fz); dk(gp,dh,0.001,dw/2+gp/2,dy,fz);
+  for(const hy of [dy-dh/2+0.06,dy+dh/2-0.06]) dk(0.008,0.05,0.006,-dw/2-gp/2,hy,fz+0.003);
+  const lk=new THREE.Mesh(new THREE.CylinderGeometry(0.0125,0.0125,0.006,20),castorMat); lk.rotation.x=Math.PI/2; lk.position.set(dw/2-0.04,dy,fz+0.003); g.add(lk);
+  // cable / vent holes, Ø50, two at the bottom of each side, centres 60 up
+  const hole=new THREE.CircleGeometry(0.025,24); for(const sg of [-1,1]) for(const hz of [-0.1,0.1]){ const c=new THREE.Mesh(hole,castorMat); c.position.set(sg*(S0/2+0.0006),0.06,hz); c.rotation.y=sg*Math.PI/2; g.add(c); }
+}
 function buildPlatform(){ buildCarpet();
   platGroup.clear(); const R0=B.pdia/2, h=B.platH, hs=holes(), top=deckTop();
   const shape=new THREE.Shape(); shape.absarc(0,0,R0,0,Math.PI*2,false); for(const q of hs){ const p=new THREE.Path(); p.absarc(q.x,-q.z,q.r,0,Math.PI*2,true); shape.holes.push(p); }
@@ -1460,7 +1475,7 @@ function buildPlatform(){ buildCarpet();
   const r=S.tube, mat=finishMats.silver, V=(x,y,z)=>new THREE.Vector3(B.cx+x,y,B.cz+z); const P=platformParts(); const yTop=top-PLY-r, yLow=Math.min(0.18,yTop-0.15);
   for(const [x,z] of P.posts){ addTube(platGroup,V(x,0.008,z),V(x,yTop,z),r,mat); const bp=new THREE.Mesh(basePlateGeo,castorMat); bp.position.set(B.cx+x,0.004,B.cz+z); platGroup.add(bp); }
   for(const [a,b] of P.ledgers){ addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat); if(yTop>0.3) addTube(platGroup,V(a[0],yLow,a[1]),V(b[0],yLow,b[1]),r,mat); }
-  BR.deckParts=P; buildHoleFeatures(hs); buildQuoteBricks();
+  BR.deckParts=P; buildHoleFeatures(hs); buildServiceBox(top); buildQuoteBricks();
 }
 function stockSlots(){
   const N=B.count, { L, W, H } = B, g=0.006, vh=H+0.002; const plm=S.modules.filter(m=>m.type==='plinth');
@@ -1860,7 +1875,7 @@ function bindBricks(){
   $('#b-top-sw').innerHTML=TOPS.map(([c,n,code])=>`<button class="sw" data-c="${c}" title="${n}${code?' '+code:''}" aria-label="${n} table top" style="${c==='ply'?'background:#C9A877 linear-gradient(90deg,transparent 45%,rgba(120,80,40,.25) 50%,transparent 55%)':'background:'+c}"></button><span style="font-size:12px;align-self:center;margin-right:8px">${n}${code?' <span style=\"color:var(--muted)\">'+code+'</span>':''}</span>`).join('');
   const syncTops=()=>$$('#b-top-sw .sw').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c.toLowerCase()===String(B.topColor||'ply').toLowerCase())));
   $$('#b-top-sw .sw').forEach(b=>b.onclick=()=>{ B.topColor=b.dataset.c; if(b.dataset.c!=='ply'){ B.stnRim=B.stnLedge=b.dataset.c; B.stnRimTex=B.stnLedgeTex='matte'; } applyTopColor(); stationSyncs.forEach(f=>f()); applyStationFinish(); syncTops(); persist(); });
-  syncTops(); $('#b-tblcarpet').checked=B.tblCarpet!==false; $('#b-tblcarpet').onchange=e=>{ B.tblCarpet=e.target.checked; setCarpet(); };
+  syncTops(); $('#b-tblcarpet').checked=B.tblCarpet!==false; $('#b-tblcarpet').onchange=e=>{ B.tblCarpet=e.target.checked; setCarpet(); }; $('#b-svc').checked=B.svcBox!==false; $('#b-svc').onchange=e=>{ B.svcBox=e.target.checked; rebuildBuild(); persist(); };
   $$('#b-carpet-sw .sw').forEach(c=>c.onclick=()=>{ B.carpetColor=c.dataset.c; B.carpet=true; setCarpet(); });
   const swRow=(id,list,key,texKey)=>{ $('#'+id+'-sw').innerHTML=list.map(([c,n])=>`<button class="sw" data-c="${c}" data-t="${n==='Oak'?'wood':''}" title="${n}" aria-label="${n}" style="background:${c}"></button>`).join('');
     const sync=()=>{ $('#'+id).value=B[key]; if(texKey) $('#'+id+'-tex').value=B[texKey]; $$('#'+id+'-sw .sw').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c.toLowerCase()===String(B[key]).toLowerCase()))); };
