@@ -201,6 +201,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
       <h3>Turn around the centre</h3>
       <div class="card" id="rot-card">
         <label class="fld">Exhibition walls <output id="rot-walls-v">0°</output><input type="range" id="rot-walls" min="-180" max="180" step="1" value="0"></label>
+        <label class="fld">Exhibition walls · distance to centre <output id="wall-r-v">8.2 m</output><input type="range" id="wall-r" min="5" max="12" step="0.1" value="8.2"></label>
         <label class="fld">Brick station &amp; pallets <output id="rot-station-v">0°</output><input type="range" id="rot-station" min="-180" max="180" step="1" value="0"></label>
         <label class="fld">Stage &amp; LED <output id="rot-stage-v">0°</output><input type="range" id="rot-stage" min="-180" max="180" step="1" value="0"></label>
         <label class="fld">Partner booths <output id="rot-booths-v">0°</output><input type="range" id="rot-booths" min="-180" max="180" step="1" value="0"></label>
@@ -893,7 +894,7 @@ window.__dc=()=>({ buildWallArt, quoteMeshes, updateBrickPose, quoteBrickTex, cl
 /* ---------------- exhibition walls: straight scaffold boxes on a curve ----------------
    Each cell is a rectangular box 0.6 m deep. Neighbouring boxes share the front standard; each has its own back standards,
    so the boxes fan out with a wedge gap at the back. Sizes from the wall frames (metres, along the wall from its left end). */
-const WALL_RF = 8.2, WALL_D = 0.6, WALL_Y0 = 0.10, WALL_H = 2.0, WALL_GAP = 1.0;
+let WALL_RF = 8.2; const WALL_D = 0.6, WALL_Y0 = 0.10, WALL_H = 2.0, WALL_GAP = 1.0;
 const WALL_GAP_AT = Math.atan2(4.39, -4.70)/DEG;   // the gap lines up with the north-west column, seen from the centre
 const A1 = { w:0.594, h:0.841 }, IDEA_BOARD = { w:0.847, h:1.195 }, A0 = { w:0.841, h:1.189 };
 const PRINT_INSET = 0.025, PRINT_TUBE = 0.0483;   // every print sits at least 25 mm inside the tube faces of its cell (cell is measured tube centre to tube centre)
@@ -1244,7 +1245,7 @@ function dress(kind){
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
 const B = { count:1050, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#76583E', carpetMargin:0.5, tblCarpet:true, topColor:'#E4DCC1', svcBox:true, carpetShape:'circle', pdia:5.5, platH:0.564, skirt:false, holeSet:'', nHoles:3, defv:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
-  layers:16, prog:0.75, stnLedge:'#E4DCC1', stnLedgeTex:'matte', stnRim:'#E4DCC1', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, rotStation:37, rotStage:0, rotBooths:-11, cx:-0.315, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
+  layers:16, prog:0.75, stnLedge:'#E4DCC1', stnLedgeTex:'matte', stnRim:'#E4DCC1', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, wallR:8.2, rotStation:37, rotStage:0, rotBooths:-11, cx:-0.315, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
   ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
@@ -1940,11 +1941,12 @@ const stationSyncs=[];
 const ROTS=[['walls','rotWalls'],['station','rotStation'],['stage','rotStage'],['booths','rotBooths']];
 function applyRot(which){ if(which==='stage') layers.stage.rotation.y=(B.rotStage||0)*DEG; else if(which==='booths') layers.booths.rotation.y=(B.rotBooths||0)*DEG; else { proposal(); }
   renderChecks(); }
-function syncRotUI(){ for(const [k,key] of ROTS){ const v=B[key]||0; $('#rot-'+k).value=v; $('#rot-'+k+'-v').textContent=(v>0?'+':'')+v+'°'; } }
+function syncRotUI(){ for(const [k,key] of ROTS){ const v=B[key]||0; $('#rot-'+k).value=v; $('#rot-'+k+'-v').textContent=(v>0?'+':'')+v+'°'; } const r=B.wallR||8.2; $('#wall-r').value=r; $('#wall-r-v').textContent=r.toFixed(1)+' m'; }
 function bindRot(){ for(const [k,key] of ROTS){ let t=null; $('#rot-'+k).addEventListener('input',e=>{ B[key]=+e.target.value; syncRotUI();
       if(k==='stage'||k==='booths') applyRot(k); else { clearTimeout(t); t=setTimeout(()=>applyRot(k),60); } });
     $('#rot-'+k).addEventListener('change',persist); }
-  $('#rot-reset').onclick=()=>{ Object.assign(B,{ rotWalls:0, rotStation:37, rotStage:0, rotBooths:-11 }); syncRotUI(); layers.stage.rotation.y=(B.rotStage||0)*DEG; layers.booths.rotation.y=(B.rotBooths||0)*DEG; proposal(); renderChecks(); persist(); }; syncRotUI(); }
+  { let t=null; $('#wall-r').addEventListener('input',e=>{ B.wallR=+e.target.value; WALL_RF=B.wallR; syncRotUI(); clearTimeout(t); t=setTimeout(()=>applyRot('walls'),60); }); $('#wall-r').addEventListener('change',persist); }
+  $('#rot-reset').onclick=()=>{ Object.assign(B,{ rotWalls:0, wallR:8.2, rotStation:37, rotStage:0, rotBooths:-11 }); WALL_RF=8.2; syncRotUI(); layers.stage.rotation.y=(B.rotStage||0)*DEG; layers.booths.rotation.y=(B.rotBooths||0)*DEG; proposal(); renderChecks(); persist(); }; syncRotUI(); }
 function bindUI(){
   $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
   const lyr=(id,fn)=>{ const e=$('#'+id); e.onchange=()=>fn(e.checked); fn(e.checked); };
@@ -2064,6 +2066,7 @@ function frame(now){
   if(saved?.uploads) for(const u of saved.uploads){ LIB.push({ ...u, kind:'img', user:true }); }
   await Promise.all(LIB.filter(g=>g.kind==='img').map(async g=>{ images[g.id]=await loadImage(g.src); }));
   if(saved?.bricks){ const nd={ pdia:B.pdia, carpetMargin:B.carpetMargin, holeSet:B.holeSet, nHoles:B.nHoles, defv:B.defv }; Object.assign(B, saved.bricks); if((saved.bricks.defv||1)<2) Object.assign(B, nd); if((saved.bricks.defv||1)<3) Object.assign(B,{ carpetColor:'#76583E', tblCarpet:true, topColor:'#E4DCC1', stnRim:'#E4DCC1', stnRimTex:'matte', stnLedge:'#E4DCC1', stnLedgeTex:'matte', defv:3 }); } applyTopColor(); carpetMat.color.set(B.carpetColor);   /* new defaults (Ø5.5, carpet 0.5, 3 holes) replace older saved values once */ if(saved?.tube){ S.tube=saved.tube; $('#tube').value=String(saved.tube); }
+  WALL_RF=B.wallR||8.2;
   bindUI(); bindBricks(); syncBrickUI(); renderLib(); bindMeasure();
   proposal();   // the layout is fixed; only the brick settings are kept between visits
   layers.stage.rotation.y=(B.rotStage||0)*DEG; layers.booths.rotation.y=(B.rotBooths||0)*DEG; bindRot();
