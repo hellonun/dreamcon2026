@@ -761,7 +761,7 @@ function addTube(g,a,b,r,mat){ const dv=new THREE.Vector3().subVectors(b,a); con
 /* 32" Samsung The Frame (727.3 x 426.8 x 25.5 mm without stand), screen area about 697 x 392 mm */
 const FRAME32 = { w:0.7273, d:0.4268, t:0.0255, aw:0.697, ad:0.392 };   // Samsung The Frame 32" LS03 without stand
 const FRAME43 = FRAME32;   // name kept for the drawing export
-const STN = (()=>{ const F=FRAME43, zBack=-0.37, edge=0.3112, projH=F.aw*600/1600, touchH=F.aw*157/1600, top=-F.ad/2+0.012; const projZ=top+projH/2, touchZ=top+projH+0.012+touchH/2;
+const STN = (()=>{ const F=FRAME43, zBack=-0.37, edge=0.2752, projH=F.aw*600/1600, touchH=F.aw*157/1600, top=-F.ad/2+0.012; const projZ=top+projH/2, touchZ=top+projH+0.012+touchH/2;
   return { edge, zBack, projH, touchH, projZ, touchZ, brickZ:projZ-projH/2+projH*0.56, kbZ:0.29, pxm:1600/F.aw }; })();
 const sensorMat=new THREE.MeshStandardMaterial({ color:'#26272B', roughness:0.5, metalness:0.2 }), lensMat=new THREE.MeshStandardMaterial({ color:'#0B0C0F', roughness:0.15, metalness:0.6 });
 const scanMat=new THREE.MeshBasicMaterial({ color:'#FF3B30', transparent:true, opacity:0.06, depthWrite:false, side:THREE.DoubleSide });
@@ -787,9 +787,9 @@ function moduleExtras(m, g){
       const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,ly,sz-0.006); g.add(back); }
   }
   if(m.type==='station'){ const T=0.778, TT=0.018, F=FRAME43, E=STN.edge;
-    // 950 × 950 × 18 top on the posts at +0.76; TV window 731.3 × 430.8, front edge 210 from the visitor edge (right behind the sensor notch and keyboard), 109.35 each side; sensor notch 111 × 61 at 444.8 from the left, open to the window
+    // 950 × 950 × 18 top on the posts at +0.76; TV window 731.3 × 430.8, front edge 246 from the visitor edge (keyboard, 40 clear, then the sensor notch), 109.35 each side; sensor notch 111 × 61 at 444.8 from the left, open to the window
     // the 32" Samsung The Frame sits in the window on the box below, glass flush with the top (underside at +0.7525)
-    const yTop=T, wf=m.d/2-0.21, wb=wf-0.4308, wx=0.73130/2, zb=-m.d/2+E, zf=zb+F.d, nx0=-m.w/2+0.4448, nx1=nx0+0.111, nf=wf+0.061;
+    const yTop=T, wf=m.d/2-0.246, wb=wf-0.4308, wx=0.73130/2, zb=-m.d/2+E, zf=zb+F.d, nx0=-m.w/2+0.4448, nx1=nx0+0.111, nf=wf+0.061;
     const rimM=finishMat(B.stnRim,B.stnRimTex), ledgeM=finishMat(B.stnLedge,B.stnLedgeTex); const wood=(x0,x1,z0,z1,mt=rimM)=>{ const p=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,TT,z1-z0),mt); p.position.set((x0+x1)/2,yTop-TT/2,(z0+z1)/2); p.castShadow=true; p.receiveShadow=true; g.add(p); };
     const H=m.w/2; wood(-H,H,-m.d/2,wb); wood(-H,-wx,wb,wf); wood(wx,H,wb,wf);
     wood(-H,nx0,wf,m.d/2,ledgeM); wood(nx1,H,wf,m.d/2,ledgeM); wood(nx0,nx1,nf,m.d/2,ledgeM);
