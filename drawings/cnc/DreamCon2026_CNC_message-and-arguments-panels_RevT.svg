@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2974.0mm" height="3506.0mm" viewBox="0 0 2974.0 3506.0">
+<title>Message + ARGUMENTS panels · ply 18 · 1 unit = 1 mm</title>
+<svg id="W1_ARGUMENTS_board" overflow="visible" x="0.0" y="0.0" width="1196.0" height="2152.0" viewBox="-98.0 -154.0 1196.0 2152.0"><title>W1 · ARGUMENTS board · ply 18 · 1000 × 1900 · qty 1</title>
+<g id="W1_ARGUMENTS_board__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H1000.00V1900.00H0.00Z"/><path d="M678.00 781.00A20 20 0 1 0 718.00 781.00A20 20 0 1 0 678.00 781.00Z"/></g>
+<g id="W1_ARGUMENTS_board__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M130.00 1610.00H170.00V1690.00H130.00Z"/><path d="M130.00 210.00H170.00V290.00H130.00Z"/><path d="M480.00 1610.00H520.00V1690.00H480.00Z"/><path d="M480.00 210.00H520.00V290.00H480.00Z"/><path d="M830.00 1610.00H870.00V1690.00H830.00Z"/><path d="M830.00 210.00H870.00V290.00H830.00Z"/><path d="M645.00 831.00A3 3 0 1 0 651.00 831.00A3 3 0 1 0 645.00 831.00Z"/><path d="M645.00 731.00A3 3 0 1 0 651.00 731.00A3 3 0 1 0 645.00 731.00Z"/><path d="M745.00 831.00A3 3 0 1 0 751.00 831.00A3 3 0 1 0 745.00 831.00Z"/><path d="M745.00 731.00A3 3 0 1 0 751.00 731.00A3 3 0 1 0 745.00 731.00Z"/><path d="M486.50 654.50H909.50V907.50H486.50Z"/></g>
+<g id="W1_ARGUMENTS_board__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
+<path d="M0.00 1900.00L0.00 1946.20M1000.00 1900.00L1000.00 1946.20M0.00 1942.00L1000.00 1942.00"/>
+<path d="M-4.90 1946.90L4.90 1937.10"/>
+<path d="M995.10 1946.90L1004.90 1937.10"/>
+<text x="500.00" y="1957.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 500.00 1957.40)">1000</text>
+<path d="M0.00 1900.00L-46.20 1900.00M0.00 0.00L-46.20 0.00M-42.00 1900.00L-42.00 0.00"/>
+<path d="M-37.10 1904.90L-46.90 1895.10"/>
+<path d="M-37.10 4.90L-46.90 -4.90"/>
+<text x="-46.20" y="950.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 950.00)">1900</text>
+<path d="M0.00 781.00L0.00 760.00M698.00 781.00L698.00 760.00M0.00 764.20L698.00 764.20"/>
+<path d="M-4.90 769.10L4.90 759.30"/>
+<path d="M693.10 769.10L702.90 759.30"/>
+<text x="349.00" y="760.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 349.00 760.00)">698</text>
+<path d="M698.00 1900.00L719.00 1900.00M698.00 781.00L719.00 781.00M714.80 1900.00L714.80 781.00"/>
+<path d="M719.70 1904.90L709.90 1895.10"/>
+<path d="M719.70 785.90L709.90 776.10"/>
+<text x="730.20" y="1340.50" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 730.20 1340.50)">1119</text>
+<path d="M0.00 1650.00L25.20 1650.00M0.00 250.00L25.20 250.00M21.00 1650.00L21.00 250.00"/>
+<path d="M25.90 1654.90L16.10 1645.10"/>
+<path d="M25.90 254.90L16.10 245.10"/>
+<text x="36.40" y="950.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 36.40 950.00)">1400 clips</text>
+<path d="M150.00 250.00L150.00 189.80M500.00 250.00L500.00 189.80M150.00 194.00L500.00 194.00"/>
+<path d="M145.10 198.90L154.90 189.10"/>
+<path d="M495.10 198.90L504.90 189.10"/>
+<text x="325.00" y="189.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 325.00 189.80)">350</text>
+<path d="M500.00 250.00L500.00 189.80M850.00 250.00L850.00 189.80M500.00 194.00L850.00 194.00"/>
+<path d="M495.10 198.90L504.90 189.10"/>
+<path d="M845.10 198.90L854.90 189.10"/>
+<text x="675.00" y="189.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 675.00 189.80)">350</text>
+<path d="M0.00 250.00L0.00 189.80M150.00 250.00L150.00 189.80M0.00 194.00L150.00 194.00"/>
+<path d="M-4.90 198.90L4.90 189.10"/>
+<path d="M145.10 198.90L154.90 189.10"/>
+<text x="75.00" y="189.80" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 75.00 189.80)">150</text>
+<path d="M486.50 654.50L486.50 633.50M909.50 654.50L909.50 633.50M486.50 637.70L909.50 637.70"/>
+<path d="M481.60 642.60L491.40 632.80"/>
+<path d="M904.60 642.60L914.40 632.80"/>
+<text x="698.00" y="633.50" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 698.00 633.50)">TV 423 × 253</text>
+<text x="698.00" y="821.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">Ø40 cable hole</text>
+<text x="698.00" y="886.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">TV outline + VESA 100 marks (front face)</text>
+<text x="500.00" y="180.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">saddle clips at 250 and 1650 (back)</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W1 · ARGUMENTS board · ply 18 · 1000 × 1900 · qty 1</text>
+<text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">Red = cut through. Green dashed = pencil marks on the BACK face (clips, brackets), do not cut. Ply 18, sand #120 → #180 for PP board.</text>
+</g>
+</svg>
+<svg id="W2_Message_strip" overflow="visible" x="1316.0" y="0.0" width="496.0" height="2252.0" viewBox="-98.0 -154.0 496.0 2252.0"><title>W2 · Message strip · ply 18 · 300 × 2000 · qty 1</title>
+<g id="W2_Message_strip__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H300.00V2000.00H0.00Z"/></g>
+<g id="W2_Message_strip__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M130.00 1660.00H170.00V1740.00H130.00Z"/><path d="M130.00 260.00H170.00V340.00H130.00Z"/></g>
+<g id="W2_Message_strip__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
+<path d="M0.00 2000.00L0.00 2046.20M300.00 2000.00L300.00 2046.20M0.00 2042.00L300.00 2042.00"/>
+<path d="M-4.90 2046.90L4.90 2037.10"/>
+<path d="M295.10 2046.90L304.90 2037.10"/>
+<text x="150.00" y="2057.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 150.00 2057.40)">300</text>
+<path d="M0.00 2000.00L-46.20 2000.00M0.00 0.00L-46.20 0.00M-42.00 2000.00L-42.00 0.00"/>
+<path d="M-37.10 2004.90L-46.90 1995.10"/>
+<path d="M-37.10 4.90L-46.90 -4.90"/>
+<text x="-46.20" y="1000.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 1000.00)">2000</text>
+<path d="M300.00 2000.00L325.20 2000.00M300.00 1700.00L325.20 1700.00M321.00 2000.00L321.00 1700.00"/>
+<path d="M325.90 2004.90L316.10 1995.10"/>
+<path d="M325.90 1704.90L316.10 1695.10"/>
+<text x="336.40" y="1850.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 336.40 1850.00)">300</text>
+<path d="M300.00 300.00L325.20 300.00M300.00 0.00L325.20 0.00M321.00 300.00L321.00 0.00"/>
+<path d="M325.90 304.90L316.10 295.10"/>
+<path d="M325.90 4.90L316.10 -4.90"/>
+<text x="336.40" y="150.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 336.40 150.00)">300</text>
+<text x="150.00" y="1000.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">clips (back)</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W2 · Message strip · ply 18 · 300 × 2000 · qty 1</text>
+</g>
+</svg>
+<svg id="W4_pedestal_front" overflow="visible" x="0.0" y="2372.0" width="496.0" height="1134.0" viewBox="-98.0 -154.0 496.0 1134.0"><title>W4 · pedestal front · 300 × 882 · qty 1</title>
+<g id="W4_pedestal_front__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H300.00V882.00H0.00Z"/></g>
+<g id="W4_pedestal_front__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M0.00 2.00H300.00V782.00H0.00Z"/></g>
+<g id="W4_pedestal_front__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
+<path d="M0.00 882.00L0.00 928.20M300.00 882.00L300.00 928.20M0.00 924.00L300.00 924.00"/>
+<path d="M-4.90 928.90L4.90 919.10"/>
+<path d="M295.10 928.90L304.90 919.10"/>
+<text x="150.00" y="939.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 150.00 939.40)">300</text>
+<path d="M0.00 882.00L-46.20 882.00M0.00 0.00L-46.20 0.00M-42.00 882.00L-42.00 0.00"/>
+<path d="M-37.10 886.90L-46.90 877.10"/>
+<path d="M-37.10 4.90L-46.90 -4.90"/>
+<text x="-46.20" y="441.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 441.00)">882</text>
+<path d="M300.00 782.00L325.20 782.00M300.00 2.00L325.20 2.00M321.00 782.00L321.00 2.00"/>
+<path d="M325.90 786.90L316.10 777.10"/>
+<path d="M325.90 6.90L316.10 -2.90"/>
+<text x="336.40" y="392.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 336.40 392.00)">print 780</text>
+<text x="150.00" y="822.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">floor edge</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W4 · pedestal front · 300 × 882 · qty 1</text>
+</g>
+</svg>
+<svg id="W5_pedestal_side_1" overflow="visible" x="616.0" y="2372.0" width="528.0" height="1134.0" viewBox="-98.0 -154.0 528.0 1134.0"><title>W5 · pedestal side 1/2 · 332 × 882</title>
+<g id="W5_pedestal_side_1__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H332.00V882.00H0.00Z"/></g>
+<g id="W5_pedestal_side_1__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M0.00 692.00H40.00V732.00H0.00Z"/><path d="M0.00 80.00H40.00V120.00H0.00Z"/></g>
+<g id="W5_pedestal_side_1__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
+<path d="M0.00 882.00L0.00 928.20M332.00 882.00L332.00 928.20M0.00 924.00L332.00 924.00"/>
+<path d="M-4.90 928.90L4.90 919.10"/>
+<path d="M327.10 928.90L336.90 919.10"/>
+<text x="166.00" y="939.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 166.00 939.40)">332</text>
+<path d="M0.00 882.00L-46.20 882.00M0.00 0.00L-46.20 0.00M-42.00 882.00L-42.00 0.00"/>
+<path d="M-37.10 886.90L-46.90 877.10"/>
+<path d="M-37.10 4.90L-46.90 -4.90"/>
+<text x="-46.20" y="441.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 441.00)">882</text>
+<path d="M332.00 882.00L357.20 882.00M332.00 732.00L357.20 732.00M353.00 882.00L353.00 732.00"/>
+<path d="M357.90 886.90L348.10 877.10"/>
+<path d="M357.90 736.90L348.10 727.10"/>
+<text x="368.40" y="807.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 368.40 807.00)">150</text>
+<path d="M332.00 120.00L357.20 120.00M332.00 0.00L357.20 0.00M353.00 120.00L353.00 0.00"/>
+<path d="M357.90 124.90L348.10 115.10"/>
+<path d="M357.90 4.90L348.10 -4.90"/>
+<text x="368.40" y="60.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 368.40 60.00)">120</text>
+<text x="166.00" y="442.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">W2 side ←</text>
+<text x="166.00" y="822.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">floor edge</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W5 · pedestal side 1/2 · 332 × 882</text>
+</g>
+</svg>
+<svg id="W5_pedestal_side_2" overflow="visible" x="1264.0" y="2372.0" width="528.0" height="1134.0" viewBox="-98.0 -154.0 528.0 1134.0"><title>W5 · pedestal side 2/2 · 332 × 882</title>
+<g id="W5_pedestal_side_2__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H332.00V882.00H0.00Z"/></g>
+<g id="W5_pedestal_side_2__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M0.00 692.00H40.00V732.00H0.00Z"/><path d="M0.00 80.00H40.00V120.00H0.00Z"/></g>
+<g id="W5_pedestal_side_2__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
+<path d="M0.00 882.00L0.00 928.20M332.00 882.00L332.00 928.20M0.00 924.00L332.00 924.00"/>
+<path d="M-4.90 928.90L4.90 919.10"/>
+<path d="M327.10 928.90L336.90 919.10"/>
+<text x="166.00" y="939.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 166.00 939.40)">332</text>
+<path d="M0.00 882.00L-46.20 882.00M0.00 0.00L-46.20 0.00M-42.00 882.00L-42.00 0.00"/>
+<path d="M-37.10 886.90L-46.90 877.10"/>
+<path d="M-37.10 4.90L-46.90 -4.90"/>
+<text x="-46.20" y="441.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 441.00)">882</text>
+<path d="M332.00 882.00L357.20 882.00M332.00 732.00L357.20 732.00M353.00 882.00L353.00 732.00"/>
+<path d="M357.90 886.90L348.10 877.10"/>
+<path d="M357.90 736.90L348.10 727.10"/>
+<text x="368.40" y="807.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 368.40 807.00)">150</text>
+<path d="M332.00 120.00L357.20 120.00M332.00 0.00L357.20 0.00M353.00 120.00L353.00 0.00"/>
+<path d="M357.90 124.90L348.10 115.10"/>
+<path d="M357.90 4.90L348.10 -4.90"/>
+<text x="368.40" y="60.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 368.40 60.00)">120</text>
+<text x="166.00" y="442.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">W2 side ←</text>
+<text x="166.00" y="822.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">floor edge</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W5 · pedestal side 2/2 · 332 × 882</text>
+</g>
+</svg>
+<svg id="W3_pedestal_top" overflow="visible" x="1912.0" y="2372.0" width="496.0" height="602.0" viewBox="-98.0 -154.0 496.0 602.0"><title>W3 · pedestal top · 300 × 350 · qty 1</title>
+<g id="W3_pedestal_top__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H300.00V350.00H0.00Z"/></g>
+<g id="W3_pedestal_top__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
+<path d="M0.00 350.00L0.00 396.20M300.00 350.00L300.00 396.20M0.00 392.00L300.00 392.00"/>
+<path d="M-4.90 396.90L4.90 387.10"/>
+<path d="M295.10 396.90L304.90 387.10"/>
+<text x="150.00" y="407.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 150.00 407.40)">300</text>
+<path d="M0.00 350.00L-46.20 350.00M0.00 0.00L-46.20 0.00M-42.00 350.00L-42.00 0.00"/>
+<path d="M-37.10 354.90L-46.90 345.10"/>
+<path d="M-37.10 4.90L-46.90 -4.90"/>
+<text x="-46.20" y="175.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 175.00)">350</text>
+<text x="150.00" y="175.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">back edge against W2 ↑</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W3 · pedestal top · 300 × 350 · qty 1</text>
+</g>
+</svg>
+<svg id="W6_TV_doubler" overflow="visible" x="2528.0" y="2372.0" width="446.0" height="452.0" viewBox="-98.0 -154.0 446.0 452.0"><title>W6 · TV doubler · 250 × 200 · qty 1</title>
+<g id="W6_TV_doubler__CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H250.00V200.00H0.00Z"/><path d="M105.00 100.00A20 20 0 1 0 145.00 100.00A20 20 0 1 0 105.00 100.00Z"/></g>
+<g id="W6_TV_doubler__MARK_pencil_do_not_cut" fill="none" stroke="#2E8B57" stroke-width="{max(0.4, ts*0.05):.2f}" stroke-dasharray="{ts*0.8:.1f} {ts*0.4:.1f}"><path d="M72.00 150.00A3 3 0 1 0 78.00 150.00A3 3 0 1 0 72.00 150.00Z"/><path d="M72.00 50.00A3 3 0 1 0 78.00 50.00A3 3 0 1 0 72.00 50.00Z"/><path d="M172.00 150.00A3 3 0 1 0 178.00 150.00A3 3 0 1 0 172.00 150.00Z"/><path d="M172.00 50.00A3 3 0 1 0 178.00 50.00A3 3 0 1 0 172.00 50.00Z"/></g>
+<g id="W6_TV_doubler__DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
+<path d="M0.00 200.00L0.00 246.20M250.00 200.00L250.00 246.20M0.00 242.00L250.00 242.00"/>
+<path d="M-4.90 246.90L4.90 237.10"/>
+<path d="M245.10 246.90L254.90 237.10"/>
+<text x="125.00" y="257.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 125.00 257.40)">250</text>
+<path d="M0.00 200.00L-46.20 200.00M0.00 0.00L-46.20 0.00M-42.00 200.00L-42.00 0.00"/>
+<path d="M-37.10 204.90L-46.90 195.10"/>
+<path d="M-37.10 4.90L-46.90 -4.90"/>
+<text x="-46.20" y="100.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 100.00)">200</text>
+<text x="125.00" y="170.00" fill="#333" stroke="none" font-size="12.6" text-anchor="middle">Ø40, lines up with W1</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W6 · TV doubler · 250 × 200 · qty 1</text>
+</g>
+</svg>
+</svg>
