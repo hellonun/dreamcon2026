@@ -923,16 +923,16 @@ const WALLS = (()=>{ const T=WALL_Y0+WALL_H; let posts=[];
   setPosts([1.8,1.8,1.2],[0.9]);
   /* contractor 1A: modules 1.80 + 1.80 + 1.20, bent 12° at each joint, ledgers at 350 / 850 / 1850, one back brace per module */
   const L = { cells:[1.8,1.8,1.2], bend:12, ledgers:[0.35,0.85,1.85], mids:[[],[],[]], diag:[[0],[0],[0]], rails:[], part:[], prints:[
-      /* contractor print frames: 75 in from the standards and ledgers; upper 925–1775, lower 425–775 */
-      ...[[0,1.8],[1.9,3.7],[3.8,5.0]].flatMap(([a,b],k)=>[['f'+(k+1)+'u',a+0.075,b-0.075,0.925,1.775],['f'+(k+1)+'l',a+0.075,b-0.075,0.425,0.775]]) ] };
+      /* contractor print frames: 75 in from the standards and ledgers; upper 900–1800, lower 400–800 (75 in from the posts, 50 from the bars) */
+      ...[[0,1.8],[1.9,3.7],[3.8,5.0]].flatMap(([a,b],k)=>[['f'+(k+1)+'u',a+0.075,b-0.075,0.90,1.80],['f'+(k+1)+'l',a+0.075,b-0.075,0.40,0.80]]) ] };
   /* right wall (Frame 1926): 17 EVENTS full height | timeline band on top, Wall of Ideas title + 7 angled boards below it | Message strip + ARGUMENTS
      frames sized round the prints: 1100 · 4650 · 1420, standards only on the frame lines */
   const e=PRINT_TUBE/2+PRINT_INSET, yR=T-0.7, F1=1.2, F2=4.5, F3=1.5, f2=F1+WALL_JG, f3=f2+F2+WALL_JG, f4=f3+F3;   /* contractor 1B: 1.20 + 4.50 (3 × 1.50) + 1.50 */
   setPosts([F1,F2,F3]);
   const [lc,ld]=printSpan(WALL_Y0,yR), [fc,fd]=printSpan(WALL_Y0,T);
   const R = { cells:[F1,F2,F3], bend:20, ledgers:[0.35,1.35,1.85], mids:[[],[1.5,3.0],[]], diag:[[0],[0,2],[0]], rails:[], part:[], prints:[
-      ['f1u',0.075,F1-0.075,1.425,1.775], ['f1l',0.075,F1-0.075,0.425,1.275],   /* contractor print frames: upper 1425–1775, lower 425–1275 */
-      ...[0,1,2].map(k=>['f'+(k+2)+'u',f2+k*1.5+0.075,f2+(k+1)*1.5-0.075,1.425,1.775]), ['title',f2+0.075,f2+0.425,0.425,1.275]] };
+      ['f1u',0.075,F1-0.075,1.40,1.80], ['f1l',0.075,F1-0.075,0.40,1.30],   /* contractor print frames: upper 1400–1800, lower 400–1300 */
+      ...[0,1,2].map(k=>['f'+(k+2)+'u',f2+k*1.5+0.075,f2+(k+1)*1.5-0.075,1.40,1.80]), ['title',f2+0.075,f2+0.425,0.40,1.30]] };
   /* boards face left, each hinged at its front right edge; the last front edge stays 60 inside the frame line so every board hangs in the middle frame */
   { const ang=40, proj=IDEA_BOARD.w*Math.cos(ang*DEG), last=f2+F2-0.06; R.ideas = { s:[...Array(7)].map((_,k)=>last-0.6*(6-k)-proj), w:IDEA_BOARD.w, h:IDEA_BOARD.h, top:yR-0.03, hang:yR, angle:ang, dir:-1 }; }
   /* last module (1500 c/c): W1 is one 1550 × 1600 board, 300–1900 above the floor, covering the posts and the 350 / 1850 bars; it carries the ARGUMENTS
