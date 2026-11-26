@@ -737,12 +737,18 @@ const M = id => S.modules.find(m=>m.id===id);
 
 const BOXLIKE = new Set(['bay','plinth']);
 function edgesOf(m){ const { w, d, h, type } = m; const X=w/2, Z=d/2, E=[]; const s=(a,b)=>E.push([a,b]);
+  if(type==='plinth' && m.bay){   /* contractor 2B: one 2.40 × 0.60 frame (2 bays of 1.20) under the three 0.80 compartments, standards to +0.60, ledgers at 0.30 and 0.50, a 1.5 m brace in each bay front and back; drawn once, by the middle bay */
+    if(!m.frame) return E; const xs=[-1.2,0,1.2], Zf=0.3, tp=0.6;
+    for(const x of xs) for(const z of [-Zf,Zf]) s([x,0,z],[x,tp,z]);
+    for(const y of [0.3,0.5]){ for(const z of [-Zf,Zf]) s([-1.2,y,z],[1.2,y,z]); for(const x of xs) s([x,y,-Zf],[x,y,Zf]); }
+    for(const z of [-Zf,Zf]) for(const [a,b] of [[-1.2,0],[0,1.2]]) s([a+0.04,0.12,z+(z>0?-0.035:0.035)],[b-0.04,0.48,z+(z>0?-0.035:0.035)])   /* braces just inside the ledgers, behind the C-signs */;
+    return E; }
   if(BOXLIKE.has(type)){ const jl=m.joinL;   /* a bay of the brick table shares its left posts and rails with the bay beside it */
     for(const [x,z] of [[-X,-Z],[X,-Z],[X,Z],[-X,Z]]) if(!(jl && x<0)) s([x,0,z],[x,h,z]); for(const y of [0,h]){ s([-X,y,-Z],[X,y,-Z]); s([-X,y,Z],[X,y,Z]); if(!jl) s([-X,y,-Z],[-X,y,Z]); s([X,y,-Z],[X,y,Z]); } }
   else if(type==='frame'){ const f=0.12; for(const x of [-X,X]){ s([x,f,0],[x,h,0]); s([x,f,-Z],[x,f,Z]); } s([-X,0.32,0],[X,0.32,0]); s([-X,h,0],[X,h,0]); }
   else if(type==='post'){ s([-X,0,0],[-X,h,0]); s([-X,h-0.08,0],[X,h-0.08,0]); s([-X,0.35,0],[X,0.35,0]); s([-X,0.03,-Z],[-X,0.03,Z]); }
   else if(type==='screen'){ for(const x of [-X,X]){ s([x,0,0],[x,h,0]); s([x,0.03,-Z],[x,0.03,Z]); } s([-X,h,0],[X,h,0]); s([-X,0.3,0],[X,0.3,0]); }
-  else if(type==='station'){ const t=0.86; const X=w/2-0.03, Z=d/2-0.03; for(const [a,b] of [[-X,-Z],[X,-Z],[X,Z],[-X,Z]]) s([a,0,b],[a,t,b]); for(const y of [0.06,t]){ s([-X,y,-Z],[X,y,-Z]); s([-X,y,Z],[X,y,Z]); s([-X,y,-Z],[-X,y,Z]); s([X,y,-Z],[X,y,Z]); } }   /* lower ledgers at 60, under the service door */
+  else if(type==='station'){ const t=0.76; const X=0.3, Z=0.3; for(const [a,b] of [[-X,-Z],[X,-Z],[X,Z],[-X,Z]]) s([a,0,b],[a,t,b]); for(const y of [0.5,0.66]){ s([-X,y,-Z],[X,y,-Z]); s([-X,y,Z],[X,y,Z]); s([-X,y,-Z],[-X,y,Z]); s([X,y,-Z],[X,y,Z]); } }   /* contractor 2B: 0.60 × 0.60 cabinet frame, standards to +0.76, ledgers at 0.50 and 0.66 */
   return E; }
 function facesOf(m){ const { w, d, h, type } = m, e=0.035;
   if(BOXLIKE.has(type)) return { front:{c:[0,h/2,d/2-e],ry:0,fw:w,fh:h}, back:{c:[0,h/2,-d/2+e],ry:Math.PI,fw:w,fh:h}, right:{c:[w/2-e,h/2,0],ry:Math.PI/2,fw:d,fh:h}, left:{c:[-w/2+e,h/2,0],ry:-Math.PI/2,fw:d,fh:h} };
@@ -773,11 +779,12 @@ function moduleExtras(m, g){
   /* carpet under the brick table and the station, same colour as the platform carpet, 150 mm beyond the frame (bays of the table join up) */
   if(B.carpet && B.tblCarpet!==false && (m.type==='station' || (m.type==='plinth' && m.bay))){ const M=0.15, l=m.type==='plinth' && m.joinL? 0 : M, r=m.type==='plinth' && m.partR? 0 : M;
     const cp=new THREE.Mesh(new THREE.BoxGeometry(m.w+l+r,CARPET_T,m.d+2*M),carpetMat); cp.position.set((r-l)/2,-m.y+CARPET_T/2+0.0006,0); cp.receiveShadow=true; g.add(cp); }
-  if(m.type==='plinth'){ const deck=new THREE.Mesh(new THREE.BoxGeometry(m.bay? m.w : m.w+0.02,0.018,m.d+0.02), plyMat);
+  if(m.type==='plinth'){ const xl=m.bay&&!m.joinL? 0.05:0, xr=m.bay&&!m.partR? 0.05:0;   /* the 2.50 × 0.70 top runs 50 past the frame all round */
+    const deck=new THREE.Mesh(new THREE.BoxGeometry(m.bay? m.w+xl+xr : m.w+0.02,0.018,m.bay? 0.7 : m.d+0.02), plyMat); deck.position.x=(xr-xl)/2;
     /* bays of the one brick table: an 18 mm ply partition, 200 mm high, on each inner edge */
-    if(m.bay) [['partL',-1],['partR',1]].forEach(([k,sg])=>{ if(!m[k]) return; const pt=new THREE.Mesh(new THREE.BoxGeometry(0.018,0.2,m.d), plyMat); pt.position.set(sg*m.w/2,m.h+0.018+0.1,0); pt.castShadow=true; pt.receiveShadow=true; g.add(pt); }); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck);
-    const gi=PALLET_GROUPS.findIndex(q=>q.id===m.group); if(gi>=0){ const lw=Math.min(m.w-0.08,0.8), lh=Math.min(m.h-0.08,0.3), ly=Math.max(lh/2+0.04, m.h-lh/2-0.08); const sign=new THREE.Mesh(new THREE.PlaneGeometry(lw,lh), new THREE.MeshStandardMaterial({ map:palletLabelTex(gi,lw/lh), roughness:0.85 })); sign.position.set(0,ly,m.d/2+0.012); g.add(sign);
-      const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,ly,m.d/2+0.006); g.add(back); }
+    if(m.bay) [['partL',-1],['partR',1]].forEach(([k,sg])=>{ if(!m[k]) return; const pt=new THREE.Mesh(new THREE.BoxGeometry(0.018,0.2,m.bay? 0.7 : m.d), plyMat); pt.position.set(sg*m.w/2,m.h+0.018+0.1,0); pt.castShadow=true; pt.receiveShadow=true; g.add(pt); }); deck.position.y=m.h+0.009; deck.castShadow=true; deck.receiveShadow=true; g.add(deck);
+    const gi=PALLET_GROUPS.findIndex(q=>q.id===m.group); if(gi>=0){ const lw=Math.min(m.w-0.08,0.8), lh=Math.min(m.h-0.08,0.3), ly=m.bay? 0.35 : Math.max(lh/2+0.04, m.h-lh/2-0.08), sz=m.bay? m.d/2+0.034 : m.d/2+0.012;   /* C-sign 0.20–0.50 on the front, clear of the ledgers */ const sign=new THREE.Mesh(new THREE.PlaneGeometry(lw,lh), new THREE.MeshStandardMaterial({ map:palletLabelTex(gi,lw/lh), roughness:0.85 })); sign.position.set(0,ly,sz); g.add(sign);
+      const back=new THREE.Mesh(new THREE.BoxGeometry(lw+0.02,lh+0.02,0.008),castorMat); back.position.set(0,ly,sz-0.006); g.add(back); }
   }
   if(m.type==='station'){ const T=0.9, TT=0.036, t=0.864, F=FRAME43, E=STN.edge;
     // 32" Samsung The Frame laid flat and flush in the ply top: 20 mm of wood behind, ~21 mm each side, the sensor + keyboard ledge in front
@@ -804,11 +811,11 @@ function moduleExtras(m, g){
       const win=new THREE.Mesh(new THREE.CylinderGeometry(0.0255,0.0255,0.0287,24,1,true),lensMat); win.position.set(hx,scanY,hz); g.add(win);
       const fan=new THREE.Mesh(new THREE.CircleGeometry(0.6,48,-Math.PI/4,Math.PI*1.5),scanMat); fan.rotation.x=-Math.PI/2; fan.position.set(hx,scanY,hz); g.add(fan); }
     // scaffold box under the top, wood panels set inside the tubes, vent slits along the bottom
-    const ph=t-0.1, inset=0.055; for(const [w,x,z,ry] of [[m.w-0.13,0,m.d/2-inset,0],[m.w-0.13,0,-m.d/2+inset,Math.PI],[m.d-0.13,m.w/2-inset,0,Math.PI/2],[m.d-0.13,-m.w/2+inset,0,-Math.PI/2]]){
+    const ph=t-0.1, inset=0.006, sx=m.w/2-0.04; for(const [w,x,z,ry] of [[m.w-0.1,0,m.d/2-inset,0],[m.w-0.1,0,-m.d/2+inset,Math.PI],[m.d-0.03,sx,0,Math.PI/2],[m.d-0.03,-sx,0,-Math.PI/2]]){   /* panels now outside the 600 × 600 frame */
       const pn=new THREE.Mesh(new THREE.BoxGeometry(w,ph,0.018),[oakMat,oakMat,oakMat,oakMat,ventMat(w,ph),oakMat]); pn.position.set(x,0.05+ph/2,z); pn.rotation.y=ry; pn.castShadow=true; pn.receiveShadow=true; g.add(pn); }
     // service door in the back panel (530 x 660, bottom at 100, above the lower ledger) for storing the projector: leaf with its own vents, hinges, cam lock
-    { const dw=0.53, dh=0.66, dz=-m.d/2+inset-0.012; const dr=new THREE.Mesh(new THREE.BoxGeometry(dw,dh,0.004),[oakMat,oakMat,oakMat,oakMat,ventMat(dw,dh,0.01),oakMat]); dr.position.set(0,0.10+dh/2,dz); dr.rotation.y=Math.PI; g.add(dr);
-      const gap=new THREE.Mesh(new THREE.PlaneGeometry(dw+0.006,dh+0.006),castorMat); gap.position.set(0,0.10+dh/2,-m.d/2+inset-0.0093); gap.rotation.y=Math.PI; g.add(gap);
+    { const dw=0.53, dh=0.66, dz=-m.d/2+inset-0.011; const dr=new THREE.Mesh(new THREE.BoxGeometry(dw,dh,0.004),[oakMat,oakMat,oakMat,oakMat,ventMat(dw,dh,0.01),oakMat]); dr.position.set(0,0.10+dh/2,dz); dr.rotation.y=Math.PI; g.add(dr);
+      const gap=new THREE.Mesh(new THREE.PlaneGeometry(dw+0.006,dh+0.006),castorMat); gap.position.set(0,0.10+dh/2,-m.d/2+inset-0.0092); gap.rotation.y=Math.PI; g.add(gap);
       for(const hy of [0.19,0.67]){ const hn=new THREE.Mesh(new THREE.BoxGeometry(0.008,0.08,0.006),castorMat); hn.position.set(-dw/2,hy,dz-0.003); g.add(hn); }
       const lock=new THREE.Mesh(new THREE.CylinderGeometry(0.0125,0.0125,0.006,20),castorMat); lock.rotation.x=Math.PI/2; lock.position.set(dw/2-0.05,0.10+dh/2-0.06,dz-0.004); g.add(lock); } }
   if(m.type==='screen'){ const disp=new THREE.Mesh(new THREE.BoxGeometry(0.98,1.71,0.06),castorMat); disp.position.set(0,1.25,0.045); disp.castShadow=true; g.add(disp); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.94,1.67),screenMat); sc.position.set(0,1.25,0.0755); g.add(sc); }
@@ -894,7 +901,7 @@ window.__dc=()=>({ buildWallArt, quoteMeshes, updateBrickPose, quoteBrickTex, cl
 /* ---------------- exhibition walls: straight scaffold boxes on a curve ----------------
    Each cell is a rectangular box 0.6 m deep. Neighbouring boxes share the front standard; each has its own back standards,
    so the boxes fan out with a wedge gap at the back. Sizes from the wall frames (metres, along the wall from its left end). */
-let WALL_RF = 8.2; const WALL_D = 0.6, WALL_Y0 = 0.10, WALL_H = 2.0, WALL_GAP = 1.0;
+let WALL_RF = 8.2; const WALL_D = 0.6, WALL_Y0 = 0.10, WALL_H = 2.0, WALL_GAP = 1.0, WALL_JG = 0.10;   /* contractor (Anan rev 7): each module is its own 600-deep frame, front standards 100 apart at a joint */
 const WALL_GAP_AT = Math.atan2(4.39, -4.70)/DEG;   // the gap lines up with the north-west column, seen from the centre
 const A1 = { w:0.594, h:0.841 }, IDEA_BOARD = { w:0.847, h:1.195 }, A0 = { w:0.841, h:1.189 };
 const PRINT_INSET = 0.025, PRINT_TUBE = 0.0483;   // every print sits at least 25 mm inside the tube faces of its cell (cell is measured tube centre to tube centre)
@@ -907,38 +914,48 @@ const WALLS = (()=>{ const T=WALL_Y0+WALL_H; let posts=[];
   /* n prints side by side in one frame: equal widths, 20 mm apart, 25 mm off the standards at the ends */
   const split=(keys,s0,s1,y0,y1)=>{ const e=PRINT_TUBE/2+PRINT_INSET, n=keys.length, w=Math.floor(((s1-s0-2*e)-(n-1)*PRINT_GAP)/n*200+1e-6)/200, run=n*w+(n-1)*PRINT_GAP, a0=(s0+s1)/2-run/2, [c,d]=printSpan(y0,y1);
     return keys.map((k,i)=>[k,a0+i*(w+PRINT_GAP),a0+i*(w+PRINT_GAP)+w,c,d]); };
-  const setPosts=(cells,extra=[])=>{ posts=[0]; cells.forEach(w=>posts.push(posts[posts.length-1]+w)); posts.push(...extra); };
+  const setPosts=(cells,extra=[])=>{ posts=[]; let a=0; cells.forEach(w=>{ posts.push(a,a+w); a+=w+WALL_JG; }); posts.push(...extra); };
   // left wall: a 1.8 m block split by ledgers at 1.825 and 0.975 and a short standard at 0.9, then five 0.6 m cells
   const yA=1.825, yB=0.975;
   setPosts([1.8,1.8,1.2],[0.9]);
-  const L = { cells:[1.8,1.8,1.2], rails:[[yA,0,1.8],[yB,0,1.8]], part:[[0.9,WALL_Y0,yB]], prints:[
+  /* contractor 1A: modules 1.80 + 1.80 + 1.20, bent 12° at each joint, ledgers at 350 / 850 / 1850, one back brace per module */
+  const L = { cells:[1.8,1.8,1.2], bend:12, ledgers:[0.35,0.85,1.85], mids:[[],[],[]], diag:[[0],[0],[0]], rails:[], part:[], prints:[
       cell('logos',0,1.8,yA,T), cell('banner',0,1.8,yB,yA), cell('blue',0,0.9,WALL_Y0,yB), cell('yellow',0.9,1.8,WALL_Y0,yB),
-      ...split(['p1','p2','p3'],1.8,3.6,WALL_Y0,T), ...split(['p4','p5'],3.6,4.8,WALL_Y0,T) ] };
+      ...split(['p1','p2','p3'],1.9,3.7,WALL_Y0,T), ...split(['p4','p5'],3.8,5.0,WALL_Y0,T) ] };
   /* right wall (Frame 1926): 17 EVENTS full height | timeline band on top, Wall of Ideas title + 7 angled boards below it | Message strip + ARGUMENTS
      frames sized round the prints: 1100 · 4650 · 1420, standards only on the frame lines */
-  const e=PRINT_TUBE/2+PRINT_INSET, yR=T-0.7, F1=1.1, F2=4.65, F3=1.42, f2=F1, f3=F1+F2, f4=F1+F2+F3;
+  const e=PRINT_TUBE/2+PRINT_INSET, yR=T-0.7, F1=1.2, F2=4.5, F3=1.5, f2=F1+WALL_JG, f3=f2+F2+WALL_JG, f4=f3+F3;   /* contractor 1B: 1.20 + 4.50 (3 × 1.50) + 1.50 */
   setPosts([F1,F2,F3]);
   const [lc,ld]=printSpan(WALL_Y0,yR), [fc,fd]=printSpan(WALL_Y0,T);
-  const R = { cells:[F1,F2,F3], rails:[[yR,f2,f3]], part:[], prints:[
-      cell('events',0,F1,WALL_Y0,T), cell('band',f2,f3,yR,T), ['ideas_title',f2+e,f2+e+0.35,lc,ld], ['arguments',f4-e-1.0,f4-e,fc,fd]] };
+  const R = { cells:[F1,F2,F3], bend:20, ledgers:[0.35,1.35,1.85], mids:[[],[1.5,3.0],[]], diag:[[0],[0,2],[0]], rails:[], part:[], prints:[
+      cell('events',0,F1,WALL_Y0,T), cell('band',f2,f2+F2,yR,T), ['ideas_title',f2+e,f2+e+0.35,lc,ld], ['arguments',f4-e-1.0,f4-e,fc,fd]] };
   /* boards face left, each hinged at its front right edge; the last front edge stays 60 inside the frame line so every board hangs in the middle frame */
-  { const ang=40, proj=IDEA_BOARD.w*Math.cos(ang*DEG), last=f3-0.06; R.ideas = { s:[...Array(7)].map((_,k)=>last-0.6*(6-k)-proj), w:IDEA_BOARD.w, h:IDEA_BOARD.h, top:yR-0.03, hang:yR, angle:ang, dir:-1 }; }
+  { const ang=40, proj=IDEA_BOARD.w*Math.cos(ang*DEG), last=f2+F2-0.06; R.ideas = { s:[...Array(7)].map((_,k)=>last-0.6*(6-k)-proj), w:IDEA_BOARD.w, h:IDEA_BOARD.h, top:yR-0.03, hang:yR, angle:ang, dir:-1 }; }
   R.strip = { s0:f3+e, s1:f3+e+0.3, shelf:WALL_Y0+0.8, depth:0.35, low:WALL_Y0, topH:1.15 };
   /* monitor centred on the black screen box in the ARGUMENTS artwork (x 50.7–89.0 %, y 35.9–46.4 % from the top of the print) */
   { const A=R.prints.find(q=>q[0]==='arguments'); R.monitor = { item:'arguments', cs:A[1]+(A[2]-A[1])*0.6986, cy:A[4]-(A[4]-A[3])*0.4111, w:0.423, h:0.253, t:0.013 }; }
   R.ends = ['R_end_l','R_end_r'];
   return { L, R }; })();
-function wallGeom(id){ const W=WALLS[id]; const cw=W.cells; const ang=cw.map(w=>2*Math.asin(w/2/WALL_RF)/DEG); const total=ang.reduce((a,b)=>a+b,0);
-  const half=(WALL_GAP/2)/WALL_RF/DEG, gapAt=WALL_GAP_AT+(B.rotWalls||0); const start= id==='R' ? gapAt-half : gapAt+half+total;
-  const va=[start]; ang.forEach(a=>va.push(va[va.length-1]-a));
-  const s=[0]; cw.forEach(w=>s.push(s[s.length-1]+w));
-  const front=va.map(a=>P_AT(WALL_RF,a));
-  // back corners of each straight box: front corners pushed out along the box's own normal
-  const back=va.map(a=>P_AT(WALL_RF+WALL_D,a)); const backs=cw.map((w,i)=>[back[i],back[i+1]]);   // back standards shared too, on the same radial lines
-  return { W, ws:cw, va, s, len:s[s.length-1], H:WALL_H, front, backs, back }; }
+function wallGeom(id){ const W=WALLS[id], cw=W.cells, n=cw.length, th=(W.bend||0)*DEG;
+  /* walk the modules in plan: d = along the wall (s up), nI = towards the room; each joint turns d by the bend towards the room, front standards WALL_JG apart */
+  const rot=(v,a)=>{ const nn=[-v[1],v[0]]; return [Math.cos(a)*v[0]+Math.sin(a)*nn[0], Math.cos(a)*v[1]+Math.sin(a)*nn[1]]; };
+  let p=[0,0], d=[1,0]; const fl=[], dl=[]; const s=[], e=[]; let sc=0;
+  cw.forEach((w,i)=>{ const q=[p[0]+w*d[0], p[1]+w*d[1]]; fl.push([p,q]); dl.push(d); s.push(sc); e.push(sc+w); sc+=w+WALL_JG;
+    if(i<n-1){ const bi=rot(d,th/2); p=[q[0]+WALL_JG*bi[0], q[1]+WALL_JG*bi[1]]; d=rot(d,th); } });
+  s.push(e[n-1]);   /* s[i] = start of module i; s[n] = the far end */
+  // place: the middle module's front centre WALL_RF from the centre, facing it; then turn about the centre so the gap end sits at the gap
+  const m=Math.floor(n/2), dm=dl[m], nm=[-dm[1],dm[0]], M=[(fl[m][0][0]+fl[m][1][0])/2,(fl[m][0][1]+fl[m][1][1])/2];
+  const T=v=>[v[0]-M[0]-WALL_RF*nm[0], v[1]-M[1]-WALL_RF*nm[1]];
+  const half=(WALL_GAP/2)/WALL_RF/DEG, gapAt=WALL_GAP_AT+(B.rotWalls||0);
+  const near= id==='R'? T(fl[0][0]) : T(fl[n-1][1]), pol=v=>Math.atan2(-v[1],v[0])/DEG, dl8=((id==='R'? gapAt-half : gapAt+half)-pol(near))*DEG;
+  const RT=v=>[v[0]*Math.cos(dl8)+v[1]*Math.sin(dl8), v[1]*Math.cos(dl8)-v[0]*Math.sin(dl8)], X=v=>RT(T(v)), Xd=v=>RT(v);
+  const fronts=fl.map(([a,b])=>[X(a),X(b)]), dirs=dl.map(Xd);
+  const out=v=>{ const nn=[-v[1],v[0]]; return [-nn[0]*WALL_D,-nn[1]*WALL_D]; };
+  const backs=fronts.map(([a,b],i)=>{ const o=out(dirs[i]); return [[a[0]+o[0],a[1]+o[1]],[b[0]+o[0],b[1]+o[1]]]; });
+  return { W, ws:cw, s, e, len:e[n-1], H:WALL_H, fronts, backs, dirs }; }
 function wallModules(){ return []; }
 const P_AT=(r,a)=>[r*Math.cos(a*DEG), -r*Math.sin(a*DEG)];
-function wallFootprint(){ const pts=[]; for(const id of ['L','R']){ const g=wallGeom(id); g.backs.forEach((bk,i)=>{ for(let t=0;t<=1.001;t+=0.25){ const F=[g.front[i][0]+(g.front[i+1][0]-g.front[i][0])*t, g.front[i][1]+(g.front[i+1][1]-g.front[i][1])*t], Bk=[bk[0][0]+(bk[1][0]-bk[0][0])*t, bk[0][1]+(bk[1][1]-bk[0][1])*t]; pts.push(F,Bk); } }); } return pts; }
+function wallFootprint(){ const pts=[]; for(const id of ['L','R']){ const g=wallGeom(id); g.backs.forEach((bk,i)=>{ for(let t=0;t<=1.001;t+=0.25){ const F=[g.fronts[i][0][0]+(g.fronts[i][1][0]-g.fronts[i][0][0])*t, g.fronts[i][0][1]+(g.fronts[i][1][1]-g.fronts[i][0][1])*t], Bk=[bk[0][0]+(bk[1][0]-bk[0][0])*t, bk[0][1]+(bk[1][1]-bk[0][1])*t]; pts.push(F,Bk); } }); } return pts; }
 const wallArtRoot=new THREE.Group(); scene.add(wallArtRoot);
 const wallTexCache=new Map();
 function wallTex(key){ if(wallTexCache.has(key)) return wallTexCache.get(key); const t=new THREE.TextureLoader().load(ASSETS.walls[key]); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; wallTexCache.set(key,t); return t; }
@@ -952,15 +969,20 @@ function buildWallArt(){ layers.lights=[]; while(wallArtRoot.children.length) wa
   const joint=p=>{ const j=new THREE.Mesh(jointGeo,steel); j.scale.setScalar(tubeR*1.5); j.position.set(...p); wallArtRoot.add(j); };
   const yBot=WALL_Y0, yTop=WALL_Y0+WALL_H, Z=0.032;
   for(const id of ['L','R']){ const g=wallGeom(id), W=g.W, n=g.ws.length;
-    const frames=g.ws.map((w,i)=>{ const A=g.front[i], Bp=g.front[i+1], f=new THREE.Group(); f.position.set((A[0]+Bp[0])/2,0,(A[1]+Bp[1])/2); const bk=g.backs[i];
-      const a=(g.va[i]+g.va[i+1])/2*DEG; f.rotation.y=Math.atan2(-Math.cos(a),Math.sin(a)); wallArtRoot.add(f); return f; });
+    const frames=g.ws.map((w,i)=>{ const [A,Bp]=g.fronts[i], f=new THREE.Group(); f.position.set((A[0]+Bp[0])/2,0,(A[1]+Bp[1])/2);
+      f.rotation.y=Math.atan2(-g.dirs[i][1],g.dirs[i][0]); wallArtRoot.add(f); return f; });
     const seg=s=>{ let i=0; while(i<n-1 && s>g.s[i+1]-1e-6) i++; return i; };
     const local=s=>{ const i=seg(s); return { f:frames[i], lx:s-(g.s[i]+g.ws[i]/2), i }; };
     // scaffold
-    g.front.forEach(F=>{ tubeW([F[0],0,F[1]],[F[0],yTop,F[1]]); joint([F[0],yBot,F[1]]); joint([F[0],yTop,F[1]]); });
-    g.back.forEach((P,j)=>{ const F=g.front[j]; tubeW([P[0],0,P[1]],[P[0],yTop,P[1]]); for(const y of [yBot,(yBot+yTop)/2,yTop]) tubeW([F[0],y,F[1]],[P[0],y,P[1]]); joint([P[0],yBot,P[1]]); joint([P[0],yTop,P[1]]); });
+    /* contractor frames: every module stands on its own 4 (or more) standards, 2.0 on a jack base to +2100; ledgers front and back, 0.60 returns at every standard, one back brace per bay listed in W.diag, 0.60 ties across each joint at the back */
+    const LG=W.ledgers||[yBot,yTop], yL=Math.max(...LG), lerp=(A,Bq,t)=>[A[0]+(Bq[0]-A[0])*t, A[1]+(Bq[1]-A[1])*t];
+    g.ws.forEach((w,i)=>{ const [F0,F1]=g.fronts[i], [P0,P1]=g.backs[i], ts=[0,...(W.mids?.[i]||[]).map(x=>x/w),1];
+      ts.forEach(t=>{ const F=lerp(F0,F1,t), P=lerp(P0,P1,t); tubeW([F[0],0,F[1]],[F[0],yTop,F[1]]); tubeW([P[0],0,P[1]],[P[0],yTop,P[1]]); for(const y of LG){ tubeW([F[0],y,F[1]],[P[0],y,P[1]]); joint([F[0],y,F[1]]); joint([P[0],y,P[1]]); } });
+      for(const y of LG){ tubeW([F0[0],y,F0[1]],[F1[0],y,F1[1]]); tubeW([P0[0],y,P0[1]],[P1[0],y,P1[1]]); }
+      for(const k of (W.diag?.[i]||[])){ const a=lerp(P0,P1,ts[k]), b=lerp(P0,P1,ts[k+1]); tubeW([a[0],Math.min(...LG),a[1]],[b[0],yL,b[1]],tubeR*0.8); }
+      if(i<g.ws.length-1){ const Q=g.backs[i+1][0]; for(const y of [Math.min(...LG),yL]) tubeW([P1[0],y,P1[1]],[Q[0],y,Q[1]]); } });
     // clip lights: one per cell (two on cells wider than 1.2 m), clamped to the top front ledger, head forward and aimed down at the print
-    clipLightSpots(id).forEach(sv=>{ const { f, lx }=local(sv); const L=new THREE.Group(); L.position.set(lx,yTop,0); f.add(L);
+    clipLightSpots(id).forEach(sv=>{ const { f, lx }=local(sv); const L=new THREE.Group(); L.position.set(lx,yL,0); f.add(L);
       const clamp=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.07,0.06),lampMat); clamp.position.set(0,0,0.0); L.add(clamp);
       const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.006,0.006,0.2,8),lampMat); arm.position.set(0,0.06,0.085); arm.rotation.x=0.95; L.add(arm);
       const head=new THREE.Group(); head.position.set(0,0.12,0.17); head.rotation.x=0.55; L.add(head);
@@ -968,21 +990,18 @@ function buildWallArt(){ layers.lights=[]; while(wallArtRoot.children.length) wa
       const lens=new THREE.Mesh(new THREE.CircleGeometry(0.024,16),lampLens); lens.rotation.x=Math.PI/2; lens.position.y=-0.046; head.add(lens);
       const beam=new THREE.Mesh(new THREE.ConeGeometry(0.42,1.15,24,1,true),lampBeam); beam.position.y=-0.046-0.575; head.add(beam);
       (layers.lights??=[]).push(L); L.visible=B.lights!==false; });
-    g.backs.forEach((bk,i)=>{ const F0=g.front[i], F1=g.front[i+1];
-      for(const y of [yBot,yTop]){ tubeW([F0[0],y,F0[1]],[F1[0],y,F1[1]]); tubeW([bk[0][0],y,bk[0][1]],[bk[1][0],y,bk[1][1]]); }
-      tubeW([bk[0][0],yBot,bk[0][1]],[bk[1][0],yTop,bk[1][1]],tubeR*0.8); });
-    const at=s=>{ const i=seg(s), t=(s-g.s[i])/g.ws[i]; const A=g.front[i], Bp=g.front[i+1]; return [A[0]+(Bp[0]-A[0])*t, A[1]+(Bp[1]-A[1])*t]; };
+    const at=s=>{ const i=seg(s), t=(s-g.s[i])/g.ws[i]; const [A,Bp]=g.fronts[i]; return [A[0]+(Bp[0]-A[0])*t, A[1]+(Bp[1]-A[1])*t]; };
     for(const [y,a,b] of W.rails){ const cuts=[a,...g.s.filter(s=>s>a+1e-6&&s<b-1e-6),b]; for(let k=0;k<cuts.length-1;k++){ const p=at(cuts[k]+1e-4), q=at(cuts[k+1]-1e-4); tubeW([p[0],y,p[1]],[q[0],y,q[1]]); } }
     for(const [s,ya,yb] of W.part){ const p=at(s); tubeW([p[0],ya,p[1]],[p[0],yb,p[1]]); }
     // prints, split at the bends
     const flat=(key,s0,s1,yb,yt,mat)=>{ mat=mat||new THREE.MeshStandardMaterial({ map:wallTex(id+'_'+key), roughness:0.85 });
-      for(let i=0;i<n;i++){ const a=Math.max(s0,g.s[i]), b=Math.min(s1,g.s[i+1]); if(b-a<0.002) continue;
+      for(let i=0;i<n;i++){ const a=Math.max(s0,g.s[i]), b=Math.min(s1,g.e[i]); if(b-a<0.002) continue;
         const geo=new THREE.PlaneGeometry(b-a,yt-yb); const uv=geo.attributes.uv; const u0=(a-s0)/(s1-s0), u1=(b-s0)/(s1-s0); for(let k=0;k<uv.count;k++) uv.setX(k, uv.getX(k)<0.5? u0 : u1);
         const p=new THREE.Mesh(geo,mat); p.position.set((a+b)/2-(g.s[i]+g.ws[i]/2),(yt+yb)/2,Z); p.receiveShadow=true; frames[i].add(p);
         const bk=new THREE.Mesh(geo,backMat); bk.position.copy(p.position); bk.position.z-=0.004; bk.rotation.y=Math.PI; frames[i].add(bk); } };
     for(const [key,s0,s1,yb,yt] of W.prints) flat(key,s0,s1,yb,yt);
     // grey ends
-    for(const [i,k] of [[0,0],[n-1,1]]){ const F=g.front[i+k], P=g.backs[i][k]; const ek=W.ends&&W.ends[k];   /* printed end panels where the art has them, plain grey otherwise */
+    for(const [i,k] of [[0,0],[n-1,1]]){ const F=g.fronts[i][k], P=g.backs[i][k]; const ek=W.ends&&W.ends[k];   /* printed end panels where the art has them, plain grey otherwise */
       const e=new THREE.Mesh(new THREE.PlaneGeometry(WALL_D,WALL_H), ek? new THREE.MeshStandardMaterial({ map:wallTex(ek), roughness:0.85, side:THREE.DoubleSide }) : new THREE.MeshStandardMaterial({ color:'#D9D9D9', roughness:0.9, side:THREE.DoubleSide }));
       e.position.set((F[0]+P[0])/2,(yTop+yBot)/2,(F[1]+P[1])/2); e.rotation.y=Math.atan2(-(P[1]-F[1]),P[0]-F[0]); if(ek && k===0) e.scale.x=-1;   /* the left end is seen from its other face */
       wallArtRoot.add(e); }
@@ -1017,12 +1036,12 @@ function proposal(){
     const d=TYPES.station.d, Ri=4.2, rc0=Ri+d/2, ang=(a,rc=rc0)=>{ const [qx,qz]=plan2xz(rc,a), px=qx+FLOOR_C[0], pz=qz+FLOOR_C[1];   /* arc concentric with the floor rings */ const ry=Math.atan2(Math.cos(a*DEG),-Math.sin(a*DEG)); return { x:px, z:pz, rot:norm(ry/DEG) }; };
     const half=w=>Math.asin(w/2/Ri)/DEG; const st=TYPES.station, a0=40+(B.rotStation||0); mods.push(mk('station',ang(a0)));
     const gapA=(0.15/Ri)/DEG;   /* the station, then one brick table 150 mm away */
-    const TW=2.2, TD=TYPES.station.d, bw=TW/3;   /* same depth as the station (680) */
+    const TW=2.4, TD=0.6, TWd=2.5, TDd=0.7, bw=TW/3;   /* contractor 2B: frame 2.40 × 0.60, top 2.50 × 0.70; three 0.80 compartments */
     /* the straight table sits so its front corners are on the same circle as the station's front corners, 150 mm apart */
-    const Rc=Math.hypot(Ri,st.w/2), rT=Math.sqrt(Rc*Rc-(TW/2)**2)+TD/2, hA=w=>Math.asin(w/2/Rc)/DEG;
-    const at=a0-hA(st.w)-(0.15/Rc)/DEG-hA(TW); const T=ang(at,rT); const S0=ang(a0);
+    const Rc=Math.hypot(Ri,st.w/2), rT=Math.sqrt(Rc*Rc-(TWd/2)**2)+TDd/2, hA=w=>Math.asin(w/2/Rc)/DEG;   /* top's front corners on the station's circle */
+    const at=a0-hA(st.w)-(0.165/Rc)/DEG-hA(TWd);   /* 300 between the end standards of table and cabinet */ const T=ang(at,rT); const S0=ang(a0);
     const L=[-bw,0,bw].map(lx=>{ const [x,z]=world(T,lx,0); return { x, z, lx }; }); if(Math.hypot(L[0].x-S0.x,L[0].z-S0.z)>Math.hypot(L[2].x-S0.x,L[2].z-S0.z)) L.reverse();
-    [...PALLET_GROUPS].reverse().forEach((gr,k)=>{ const q=L[k]; mods.push(mk('plinth',{ x:q.x, z:q.z, rot:T.rot, w:bw, d:TD, h:0.64, group:gr.id, bay:true, joinL:q.lx>-bw/2, partL:false, partR:q.lx<bw/2 })); }); }
+    [...PALLET_GROUPS].reverse().forEach((gr,k)=>{ const q=L[k]; mods.push(mk('plinth',{ x:q.x, z:q.z, rot:T.rot, w:bw, d:TD, h:0.642, group:gr.id, bay:true, frame:Math.abs(q.lx)<1e-6, joinL:q.lx>-bw/2, partL:false, partR:q.lx<bw/2 })); }); }
   S.modules = mods; rebuildAll(); buildWallArt();
 }
 
@@ -1926,7 +1945,7 @@ function viewOf(name){ const look=(x,z,y,dist,h)=>{ const L=Math.hypot(x,z)||1; 
   if(name==='projector'){ const st=S.modules.find(m=>m.type==='station'); if(st){ const L=Math.hypot(st.x,st.z), d=2.4; return { p:[st.x+st.x/L*d, 1.9, st.z+st.z/L*d], t:[st.x,0.8,st.z] }; } }
   if(name==='stage'){ const sp=stagePose(); return look(sp.x,sp.z,1.1,7.0,1.8); }
   if(name==='partners'){ const b=boothSpots(); const x=b.reduce((a,q)=>a+q[0],0)/b.length, z=b.reduce((a,q)=>a+q[1],0)/b.length; return look(x,z,0.7,6.8,2.0); }
-  if(name==='wall'){ const g=wallGeom('R'), L=wallGeom('L'); const a=(L.va[L.va.length-1]+g.va[0])/2-10; const [x,z]=P_AT(WALL_RF,a); return look(x,z,1.1,6.5,1.7); }
+  if(name==='wall'){ const g=wallGeom('R'), L=wallGeom('L'), pa=v=>Math.atan2(-v[1],v[0])/DEG; const a=(pa(L.fronts[L.fronts.length-1][1])+pa(g.fronts[0][0]))/2-10; const [x,z]=P_AT(WALL_RF,a); return look(x,z,1.1,6.5,1.7); }
   return VIEWS[name]; }
 function setView(name){
   $$('[data-view]').forEach(b=>b.classList.toggle('on', b.dataset.view===name));
