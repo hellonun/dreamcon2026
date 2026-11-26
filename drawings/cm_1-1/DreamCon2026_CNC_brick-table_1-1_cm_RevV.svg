@@ -2,57 +2,57 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 200" width="409.222cm" height="141.111cm">
 <rect width="100%" height="100%" fill="#fff"/>
 <text font-family="Arial, Helvetica, sans-serif" x="430" y="25" font-size="5.5" fill="#777">all dimensions in cm · real scale 1:1</text>
-<path d="M30.00,172.00 L384.33,172.00 L384.33,72.79 L30.00,72.79 L30.00,172.00" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M149.20,172.00 L149.20,72.79" fill="none" stroke="#333" stroke-width="0.2"/>
-<path d="M151.75,172.00 L151.75,72.79" fill="none" stroke="#333" stroke-width="0.2"/>
-<path d="M262.58,172.00 L262.58,72.79" fill="none" stroke="#333" stroke-width="0.2"/>
-<path d="M265.13,172.00 L265.13,72.79" fill="none" stroke="#333" stroke-width="0.2"/>
-<path d="M30.00,71.65 L30.00,58.05" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M150.47,71.65 L150.47,58.05" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M28.87,60.03 L151.61,60.03" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M28.72,61.31 L31.28,58.76" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M149.20,61.31 L151.75,58.76" fill="none" stroke="#777" stroke-width="0.25"/>
-<text font-family="Arial, Helvetica, sans-serif" x="90.24" y="58.43" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00 90.24 58.43)">85</text>
-<path d="M150.47,71.65 L150.47,58.05" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M263.86,71.65 L263.86,58.05" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M149.34,60.03 L264.99,60.03" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M149.20,61.31 L151.75,58.76" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M262.58,61.31 L265.13,58.76" fill="none" stroke="#777" stroke-width="0.25"/>
-<text font-family="Arial, Helvetica, sans-serif" x="207.17" y="58.43" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00 207.17 58.43)">80</text>
-<path d="M263.86,71.65 L263.86,58.05" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M384.33,71.65 L384.33,58.05" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M262.72,60.03 L385.46,60.03" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M262.58,61.31 L265.13,58.76" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M383.06,61.31 L385.61,58.76" fill="none" stroke="#777" stroke-width="0.25"/>
-<text font-family="Arial, Helvetica, sans-serif" x="324.09" y="58.43" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00 324.09 58.43)">85</text>
-<path d="M30.00,173.13 L30.00,186.74" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M384.33,173.13 L384.33,186.74" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M28.87,184.76 L385.46,184.76" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M28.72,186.03 L31.28,183.48" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M383.06,186.03 L385.61,183.48" fill="none" stroke="#777" stroke-width="0.25"/>
-<text font-family="Arial, Helvetica, sans-serif" x="207.17" y="190.68" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00 207.17 190.68)">250</text>
-<path d="M385.46,172.00 L399.07,172.00" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M385.46,72.79 L399.07,72.79" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M397.09,173.13 L397.09,71.65" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M398.36,173.28 L395.81,170.72" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M398.36,74.06 L395.81,71.51" fill="none" stroke="#777" stroke-width="0.25"/>
-<text font-family="Arial, Helvetica, sans-serif" x="398.69" y="122.39" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(90.00 398.69 122.39)">70</text>
-<text font-family="Arial, Helvetica, sans-serif" x="90.24" y="124.39" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00 90.24 124.39)">brick red · Gen Alpha · Gen Z</text>
-<text font-family="Arial, Helvetica, sans-serif" x="207.17" y="124.39" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00 207.17 124.39)">orange · Gen Y</text>
-<text font-family="Arial, Helvetica, sans-serif" x="324.09" y="124.39" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00 324.09 124.39)">green · Gen X · Boomers</text>
-<text font-family="Arial, Helvetica, sans-serif" x="30.00" y="13.26" font-size="8" text-anchor="start" fill="#333" transform="rotate(0.00 30.00 13.26)">TOP 250 × 70</text>
-<path d="M430.00,130.00 L529.21,130.00 L529.21,104.49 L529.16,103.94 L529.00,103.40 L528.73,102.91 L528.38,102.48 L527.95,102.13 L527.46,101.87 L526.93,101.71 L526.38,101.65 L432.83,101.65 L432.28,101.71 L431.75,101.87 L431.26,102.13 L430.83,102.48 L430.48,102.91 L430.22,103.40 L430.05,103.94 L430.00,104.49 L430.00,130.00" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M430.00,131.13 L430.00,144.74" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M529.21,131.13 L529.21,144.74" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M428.87,142.76 L530.35,142.76" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M428.72,144.03 L431.28,141.48" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M527.94,144.03 L530.49,141.48" fill="none" stroke="#777" stroke-width="0.25"/>
-<text font-family="Arial, Helvetica, sans-serif" x="479.61" y="148.68" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00 479.61 148.68)">70</text>
-<path d="M530.35,130.00 L543.95,130.00" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M530.35,101.65 L543.95,101.65" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M541.97,131.13 L541.97,100.52" fill="none" stroke="#777" stroke-width="0.2"/>
-<path d="M543.24,131.28 L540.69,128.72" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M543.24,102.93 L540.69,100.38" fill="none" stroke="#777" stroke-width="0.25"/>
-<text font-family="Arial, Helvetica, sans-serif" x="543.57" y="115.83" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(90.00 543.57 115.83)">20</text>
-<text font-family="Arial, Helvetica, sans-serif" x="430.00" y="42.13" font-size="8" text-anchor="start" fill="#333" transform="rotate(0.00 430.00 42.13)">PARTITION × 2</text>
+<path d="M30.00000,172.00000 L384.33071,172.00000 L384.33071,72.78740 L30.00000,72.78740 L30.00000,172.00000" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<path d="M149.19685,172.00000 L149.19685,72.78740" fill="none" stroke="#333" stroke-width="0.2"/>
+<path d="M151.74803,172.00000 L151.74803,72.78740" fill="none" stroke="#333" stroke-width="0.2"/>
+<path d="M262.58268,172.00000 L262.58268,72.78740" fill="none" stroke="#333" stroke-width="0.2"/>
+<path d="M265.13386,172.00000 L265.13386,72.78740" fill="none" stroke="#333" stroke-width="0.2"/>
+<path d="M30.00000,71.65354 L30.00000,58.04724" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M150.47244,71.65354 L150.47244,58.04724" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M28.86614,60.03150 L151.60630,60.03150" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M28.72441,61.30709 L31.27559,58.75591" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M149.19685,61.30709 L151.74803,58.75591" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="90.23622" y="58.43150" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00000 90.23622 58.43150)">85</text>
+<path d="M150.47244,71.65354 L150.47244,58.04724" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M263.85827,71.65354 L263.85827,58.04724" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M149.33858,60.03150 L264.99213,60.03150" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M149.19685,61.30709 L151.74803,58.75591" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M262.58268,61.30709 L265.13386,58.75591" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="207.16535" y="58.43150" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00000 207.16535 58.43150)">80</text>
+<path d="M263.85827,71.65354 L263.85827,58.04724" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M384.33071,71.65354 L384.33071,58.04724" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M262.72441,60.03150 L385.46457,60.03150" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M262.58268,61.30709 L265.13386,58.75591" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M383.05512,61.30709 L385.60630,58.75591" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="324.09449" y="58.43150" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00000 324.09449 58.43150)">85</text>
+<path d="M30.00000,173.13386 L30.00000,186.74016" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M384.33071,173.13386 L384.33071,186.74016" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M28.86614,184.75591 L385.46457,184.75591" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M28.72441,186.03150 L31.27559,183.48031" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M383.05512,186.03150 L385.60630,183.48031" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="207.16535" y="190.67591" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00000 207.16535 190.67591)">250</text>
+<path d="M385.46457,172.00000 L399.07087,172.00000" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M385.46457,72.78740 L399.07087,72.78740" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M397.08661,173.13386 L397.08661,71.65354" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M398.36220,173.27559 L395.81102,170.72441" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M398.36220,74.06299 L395.81102,71.51181" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="398.68661" y="122.39370" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(90.00000 398.68661 122.39370)">70</text>
+<text font-family="Arial, Helvetica, sans-serif" x="90.23622" y="124.39370" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00000 90.23622 124.39370)">brick red · Gen Alpha · Gen Z</text>
+<text font-family="Arial, Helvetica, sans-serif" x="207.16535" y="124.39370" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00000 207.16535 124.39370)">orange · Gen Y</text>
+<text font-family="Arial, Helvetica, sans-serif" x="324.09449" y="124.39370" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00000 324.09449 124.39370)">green · Gen X · Boomers</text>
+<text font-family="Arial, Helvetica, sans-serif" x="30.00000" y="13.25984" font-size="8" text-anchor="start" fill="#333" transform="rotate(0.00000 30.00000 13.25984)">TOP 250 × 70</text>
+<path d="M430.00000,130.00000 L529.21260,130.00000 L529.21260,104.48819 L529.15813,103.93518 L528.99682,103.40342 L528.73487,102.91334 L528.38235,102.48379 L527.95280,102.13127 L527.46272,101.86932 L526.93096,101.70801 L526.37795,101.65354 L432.83465,101.65354 L432.28163,101.70801 L431.74987,101.86932 L431.25980,102.13127 L430.83025,102.48379 L430.47772,102.91334 L430.21577,103.40342 L430.05447,103.93518 L430.00000,104.48819 L430.00000,130.00000" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<path d="M430.00000,131.13386 L430.00000,144.74016" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M529.21260,131.13386 L529.21260,144.74016" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M428.86614,142.75591 L530.34646,142.75591" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M428.72441,144.03150 L431.27559,141.48031" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M527.93701,144.03150 L530.48819,141.48031" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="479.60630" y="148.67591" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(0.00000 479.60630 148.67591)">70</text>
+<path d="M530.34646,130.00000 L543.95276,130.00000" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M530.34646,101.65354 L543.95276,101.65354" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M541.96850,131.13386 L541.96850,100.51969" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M543.24409,131.27559 L540.69291,128.72441" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M543.24409,102.92913 L540.69291,100.37795" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="543.56850" y="115.82677" font-size="6.0" text-anchor="middle" fill="#333" transform="rotate(90.00000 543.56850 115.82677)">20</text>
+<text font-family="Arial, Helvetica, sans-serif" x="430.00000" y="42.12598" font-size="8" text-anchor="start" fill="#333" transform="rotate(0.00000 430.00000 42.12598)">PARTITION × 2</text>
 </svg>

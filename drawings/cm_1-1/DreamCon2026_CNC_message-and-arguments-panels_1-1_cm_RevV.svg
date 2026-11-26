@@ -2,153 +2,153 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 812" width="508.000cm" height="572.911cm">
 <rect width="100%" height="100%" fill="#fff"/>
 <text font-family="Arial, Helvetica, sans-serif" x="25" y="798" font-size="9" fill="#777">all dimensions in cm · real scale 1:1 (ISO not to scale)</text>
-<path d="M25.00,325.00 L244.69,325.00 L244.69,98.23 L25.00,98.23 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
-<path d="M25.00,326.50 L25.00,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M244.69,326.50 L244.69,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M23.00,335.00 L246.69,335.00" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M22.40,337.60 L27.60,332.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M242.09,337.60 L247.29,332.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="134.84" y="343.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 134.84 343.48)">155</text>
-<path d="M246.19,325.00 L257.69,325.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M246.19,98.23 L257.69,98.23" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M254.69,327.00 L254.69,96.23" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M257.29,327.60 L252.09,322.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M257.29,100.83 L252.09,95.63" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="256.69" y="211.61" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 256.69 211.61)">160</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="700" x="25.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 25.00 52.00)">W1</text>
-<text font-family="Tahoma, sans-serif" font-weight="400" x="25.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 25.00 68.00)">แท่นติด monitor เจาะรู + Message strip</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="25.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 25.00 80.00)"></text>
-<path d="M149.58,205.87 L210.53,205.87 L210.53,169.45 L149.58,169.45 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
-<path d="M149.58,167.95 L149.58,158.45" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M210.53,167.95 L210.53,158.45" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M147.58,161.45 L212.53,161.45" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M146.98,164.05 L152.18,158.85" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M207.93,164.05 L213.13,158.85" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="180.06" y="159.45" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 180.06 159.45)">43</text>
-<path d="M148.08,205.87 L138.58,205.87" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M148.08,169.45 L138.58,169.45" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M141.58,207.87 L141.58,167.45" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M144.18,208.47 L138.98,203.27" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M144.18,172.05 L138.98,166.85" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="133.10" y="187.66" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 133.10 187.66)">25.7</text>
-<path d="M23.00,215.80 L151.58,215.80" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M22.40,218.40 L27.60,213.20" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M146.98,218.40 L152.18,213.20" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="87.29" y="213.80" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 87.29 213.80)">87.9</text>
-<path d="M208.53,215.80 L246.69,215.80" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M207.93,218.40 L213.13,213.20" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M242.09,218.40 L247.29,213.20" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="227.61" y="213.80" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 227.61 213.80)">24.1</text>
-<path d="M180.06,327.00 L180.06,203.87" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M182.66,327.60 L177.46,322.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M182.66,208.47 L177.46,203.27" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="182.06" y="265.44" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 182.06 265.44)">84.05</text>
-<path d="M180.06,171.45 L180.06,96.23" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M182.66,172.05 L177.46,166.85" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M182.66,100.83 L177.46,95.63" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="182.06" y="133.84" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 182.06 133.84)">50.25</text>
-<text font-family="Tahoma, sans-serif" font-weight="400" x="180.06" y="190.66" font-size="8" text-anchor="middle" fill="#777" transform="rotate(0.00 180.06 190.66)">จอ 18.5"</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="700" x="330.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 330.00 52.00)">PEDESTAL</text>
-<text font-family="Tahoma, sans-serif" font-weight="400" x="330.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 330.00 68.00)">แท่นวางกระดาษ</text>
-<path d="M330.00,325.00 L372.52,325.00 L372.52,197.44 L330.00,197.44 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
-<path d="M330.00,326.50 L330.00,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M372.52,326.50 L372.52,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M328.00,335.00 L374.52,335.00" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M327.40,337.60 L332.60,332.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M369.92,337.60 L375.12,332.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="351.26" y="343.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 351.26 343.48)">30</text>
-<path d="M374.02,325.00 L385.52,325.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M374.02,197.44 L385.52,197.44" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M382.52,327.00 L382.52,195.44" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M385.12,327.60 L379.92,322.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M385.12,200.04 L379.92,194.84" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="384.52" y="261.22" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 384.52 261.22)">90</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="330.00" y="187.44" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 330.00 187.44)">front</text>
-<path d="M430.00,325.00 L479.61,325.00 L479.61,197.44 L430.00,197.44 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
-<path d="M430.00,326.50 L430.00,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M479.61,326.50 L479.61,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M428.00,335.00 L481.61,335.00" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M427.40,337.60 L432.60,332.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M477.01,337.60 L482.21,332.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="454.80" y="343.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 454.80 343.48)">35</text>
-<path d="M481.11,325.00 L492.61,325.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M481.11,197.44 L492.61,197.44" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M489.61,327.00 L489.61,195.44" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M492.21,327.60 L487.01,322.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M492.21,200.04 L487.01,194.84" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="491.61" y="261.22" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 491.61 261.22)">90</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="430.00" y="187.44" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 430.00 187.44)">side</text>
-<path d="M540.00,247.05 L582.52,247.05 L582.52,197.44 L540.00,197.44 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
-<path d="M540.00,248.55 L540.00,260.05" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M582.52,248.55 L582.52,260.05" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M538.00,257.05 L584.52,257.05" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M537.40,259.65 L542.60,254.45" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M579.92,259.65 L585.12,254.45" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="561.26" y="265.53" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 561.26 265.53)">30</text>
-<path d="M584.02,247.05 L595.52,247.05" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M584.02,197.44 L595.52,197.44" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M592.52,249.05 L592.52,195.44" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M595.12,249.65 L589.92,244.45" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M595.12,200.04 L589.92,194.84" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="594.52" y="222.24" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 594.52 222.24)">35</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="540.00" y="187.44" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 540.00 187.44)">top (paper sits here)</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="700" x="330.00" y="370.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 330.00 370.00)">ISO</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="330.00" y="386.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 330.00 386.00)">W1 and the pedestal on the 150 module</text>
-<path d="M418.92,665.98 L418.92,427.87" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M566.21,751.02 L566.21,512.91" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M418.92,626.30 L566.21,711.34" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M418.92,512.91 L566.21,597.95" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M418.92,456.22 L566.21,541.26" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M418.92,626.30 L360.00,660.31" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M418.92,512.91 L360.00,546.93" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M418.92,456.22 L360.00,490.24" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M566.21,711.34 L507.29,745.35" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M566.21,597.95 L507.29,631.97" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M566.21,541.26 L507.29,575.28" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M360.00,700.00 L360.00,461.89" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M507.29,785.04 L507.29,546.93" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M360.00,660.31 L507.29,745.35" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M360.00,546.93 L507.29,631.97" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M360.00,490.24 L507.29,575.28" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M353.42,666.95 L505.62,754.82 L505.62,573.40 L353.42,485.53 Z" fill="#c9daf0" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
-<path d="M507.39,753.80 L505.62,754.82 L505.62,573.40 L507.39,572.38 Z" fill="#9fb5d3" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
-<path d="M355.19,484.51 L507.39,572.38 L505.62,573.40 L353.42,485.53 Z" fill="#dfe8f5" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
-<path d="M439.73,621.48 L481.96,645.86 L481.96,616.72 L439.73,592.34 Z" fill="#14161c" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
-<path d="M326.42,725.06 L355.88,742.07 L355.88,640.02 L326.42,623.01 Z" fill="#3a55d6" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
-<path d="M390.24,722.22 L355.88,742.07 L355.88,640.02 L390.24,620.18 Z" fill="#2a42b5" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
-<path d="M360.79,603.17 L390.24,620.18 L355.88,640.02 L326.42,623.01 Z" fill="#e7d3ad" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
-<path d="M358.82,614.51 L370.61,621.31 L355.88,629.81 L344.09,623.01 Z" fill="#ffffff" fill-opacity="1" stroke="#777" stroke-width="0.3"/>
-<path d="M352.67,668.25 L346.92,678.21" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M504.87,756.12 L499.12,766.08" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M346.69,674.61 L502.36,764.48" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M344.87,676.56 L351.97,674.66" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M497.07,764.43 L504.17,762.53" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="420.64" y="726.27" font-size="8" text-anchor="middle" fill="#222" transform="rotate(30.00 420.64 726.27)">155</text>
-<path d="M507.12,754.82 L520.62,754.82" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M507.12,573.40 L520.62,573.40" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M517.62,756.82 L517.62,571.40" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M520.22,757.42 L515.02,752.22" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M520.22,576.00 L515.02,570.80" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="519.62" y="664.11" font-size="8" text-anchor="middle" fill="#222" transform="rotate(90.00 519.62 664.11)">160</text>
-<path d="M325.67,726.36 L319.92,736.32" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M355.13,743.37 L349.38,753.32" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M319.69,732.72 L352.61,751.73" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M317.87,734.67 L324.97,732.77" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M347.32,751.68 L354.43,749.77" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="332.27" y="748.94" font-size="8" text-anchor="middle" fill="#222" transform="rotate(30.00 332.27 748.94)">30</text>
-<path d="M389.49,720.92 L383.74,710.97" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M355.13,740.77 L349.38,730.81" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M386.98,712.56 L349.14,734.41" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M386.20,710.01 L384.29,717.12" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M351.83,729.85 L349.92,736.96" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="367.06" y="721.75" font-size="8" text-anchor="middle" fill="#222" transform="rotate(-30.00 367.06 721.75)">35</text>
-<path d="M324.92,725.06 L313.42,725.06" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M324.92,623.01 L313.42,623.01" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M316.42,727.06 L316.42,621.01" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M319.02,727.66 L313.82,722.46" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M319.02,625.61 L313.82,620.41" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="308.66" y="674.03" font-size="8" text-anchor="middle" fill="#222" transform="rotate(90.00 308.66 674.03)">90</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="531.62" y="757.82" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00 531.62 757.82)">+30</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="531.62" y="576.40" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00 531.62 576.40)">+190</text>
-<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="531.62" y="647.95" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00 531.62 647.95)">+126.9 screen centre</text>
+<path d="M25.00000,325.00000 L244.68504,325.00000 L244.68504,98.22835 L25.00000,98.22835 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M25.00000,326.50000 L25.00000,338.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M244.68504,326.50000 L244.68504,338.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M23.00000,335.00000 L246.68504,335.00000" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M22.40000,337.60000 L27.60000,332.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M242.08504,337.60000 L247.28504,332.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="134.84252" y="343.48000" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00000 134.84252 343.48000)">155</text>
+<path d="M246.18504,325.00000 L257.68504,325.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M246.18504,98.22835 L257.68504,98.22835" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M254.68504,327.00000 L254.68504,96.22835" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M257.28504,327.60000 L252.08504,322.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M257.28504,100.82835 L252.08504,95.62835" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="256.68504" y="211.61417" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00000 256.68504 211.61417)">160</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="700" x="25.00000" y="52.00000" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00000 25.00000 52.00000)">W1</text>
+<text font-family="Tahoma, sans-serif" font-weight="400" x="25.00000" y="68.00000" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00000 25.00000 68.00000)">แท่นติด monitor เจาะรู + Message strip</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="25.00000" y="80.00000" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00000 25.00000 80.00000)"></text>
+<path d="M149.58268,205.87402 L210.52756,205.87402 L210.52756,169.44882 L149.58268,169.44882 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M149.58268,167.94882 L149.58268,158.44882" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M210.52756,167.94882 L210.52756,158.44882" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M147.58268,161.44882 L212.52756,161.44882" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M146.98268,164.04882 L152.18268,158.84882" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M207.92756,164.04882 L213.12756,158.84882" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="180.05512" y="159.44882" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00000 180.05512 159.44882)">43</text>
+<path d="M148.08268,205.87402 L138.58268,205.87402" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M148.08268,169.44882 L138.58268,169.44882" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M141.58268,207.87402 L141.58268,167.44882" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M144.18268,208.47402 L138.98268,203.27402" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M144.18268,172.04882 L138.98268,166.84882" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="133.10268" y="187.66142" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00000 133.10268 187.66142)">25.7</text>
+<path d="M23.00000,215.79528 L151.58268,215.79528" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M22.40000,218.39528 L27.60000,213.19528" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M146.98268,218.39528 L152.18268,213.19528" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="87.29134" y="213.79528" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00000 87.29134 213.79528)">87.9</text>
+<path d="M208.52756,215.79528 L246.68504,215.79528" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M207.92756,218.39528 L213.12756,213.19528" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M242.08504,218.39528 L247.28504,213.19528" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="227.60630" y="213.79528" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00000 227.60630 213.79528)">24.1</text>
+<path d="M180.05512,327.00000 L180.05512,203.87402" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M182.65512,327.60000 L177.45512,322.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M182.65512,208.47402 L177.45512,203.27402" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="182.05512" y="265.43701" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00000 182.05512 265.43701)">84.05</text>
+<path d="M180.05512,171.44882 L180.05512,96.22835" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M182.65512,172.04882 L177.45512,166.84882" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M182.65512,100.82835 L177.45512,95.62835" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="182.05512" y="133.83858" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00000 182.05512 133.83858)">50.25</text>
+<text font-family="Tahoma, sans-serif" font-weight="400" x="180.05512" y="190.66142" font-size="8" text-anchor="middle" fill="#777" transform="rotate(0.00000 180.05512 190.66142)">จอ 18.5"</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="700" x="330.00000" y="52.00000" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00000 330.00000 52.00000)">PEDESTAL</text>
+<text font-family="Tahoma, sans-serif" font-weight="400" x="330.00000" y="68.00000" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00000 330.00000 68.00000)">แท่นวางกระดาษ</text>
+<path d="M330.00000,325.00000 L372.51969,325.00000 L372.51969,197.44094 L330.00000,197.44094 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M330.00000,326.50000 L330.00000,338.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M372.51969,326.50000 L372.51969,338.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M328.00000,335.00000 L374.51969,335.00000" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M327.40000,337.60000 L332.60000,332.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M369.91969,337.60000 L375.11969,332.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="351.25984" y="343.48000" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00000 351.25984 343.48000)">30</text>
+<path d="M374.01969,325.00000 L385.51969,325.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M374.01969,197.44094 L385.51969,197.44094" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M382.51969,327.00000 L382.51969,195.44094" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M385.11969,327.60000 L379.91969,322.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M385.11969,200.04094 L379.91969,194.84094" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="384.51969" y="261.22047" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00000 384.51969 261.22047)">90</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="330.00000" y="187.44094" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00000 330.00000 187.44094)">front</text>
+<path d="M430.00000,325.00000 L479.60630,325.00000 L479.60630,197.44094 L430.00000,197.44094 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M430.00000,326.50000 L430.00000,338.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M479.60630,326.50000 L479.60630,338.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M428.00000,335.00000 L481.60630,335.00000" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M427.40000,337.60000 L432.60000,332.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M477.00630,337.60000 L482.20630,332.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="454.80315" y="343.48000" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00000 454.80315 343.48000)">35</text>
+<path d="M481.10630,325.00000 L492.60630,325.00000" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M481.10630,197.44094 L492.60630,197.44094" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M489.60630,327.00000 L489.60630,195.44094" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M492.20630,327.60000 L487.00630,322.40000" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M492.20630,200.04094 L487.00630,194.84094" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="491.60630" y="261.22047" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00000 491.60630 261.22047)">90</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="430.00000" y="187.44094" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00000 430.00000 187.44094)">side</text>
+<path d="M540.00000,247.04724 L582.51969,247.04724 L582.51969,197.44094 L540.00000,197.44094 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M540.00000,248.54724 L540.00000,260.04724" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M582.51969,248.54724 L582.51969,260.04724" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M538.00000,257.04724 L584.51969,257.04724" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M537.40000,259.64724 L542.60000,254.44724" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M579.91969,259.64724 L585.11969,254.44724" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="561.25984" y="265.52724" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00000 561.25984 265.52724)">30</text>
+<path d="M584.01969,247.04724 L595.51969,247.04724" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M584.01969,197.44094 L595.51969,197.44094" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M592.51969,249.04724 L592.51969,195.44094" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M595.11969,249.64724 L589.91969,244.44724" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M595.11969,200.04094 L589.91969,194.84094" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="594.51969" y="222.24409" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00000 594.51969 222.24409)">35</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="540.00000" y="187.44094" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00000 540.00000 187.44094)">top (paper sits here)</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="700" x="330.00000" y="370.00000" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00000 330.00000 370.00000)">ISO</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="330.00000" y="386.00000" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00000 330.00000 386.00000)">W1 and the pedestal on the 150 module</text>
+<path d="M418.91700,665.98425 L418.91700,427.87402" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M566.20951,751.02362 L566.20951,512.91339" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M418.91700,626.29921 L566.20951,711.33858" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M418.91700,512.91339 L566.20951,597.95276" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M418.91700,456.22047 L566.20951,541.25984" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M418.91700,626.29921 L360.00000,660.31496" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M418.91700,512.91339 L360.00000,546.92913" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M418.91700,456.22047 L360.00000,490.23622" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M566.20951,711.33858 L507.29251,745.35433" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M566.20951,597.95276 L507.29251,631.96850" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M566.20951,541.25984 L507.29251,575.27559" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M360.00000,700.00000 L360.00000,461.88976" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M507.29251,785.03937 L507.29251,546.92913" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M360.00000,660.31496 L507.29251,745.35433" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M360.00000,546.92913 L507.29251,631.96850" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M360.00000,490.23622 L507.29251,575.27559" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
+<path d="M353.42093,666.94803 L505.62319,754.82205 L505.62319,573.40472 L353.42093,485.53071 Z" fill="#c9daf0" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
+<path d="M507.39070,753.80157 L505.62319,754.82205 L505.62319,573.40472 L507.39070,572.38425 Z" fill="#9fb5d3" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
+<path d="M355.18844,484.51024 L507.39070,572.38425 L505.62319,573.40472 L353.42093,485.53071 Z" fill="#dfe8f5" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
+<path d="M439.73435,621.48031 L481.95820,645.85827 L481.95820,616.71811 L439.73435,592.34016 Z" fill="#14161c" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
+<path d="M326.41731,725.05827 L355.87581,742.06614 L355.87581,640.01890 L326.41731,623.01102 Z" fill="#3a55d6" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
+<path d="M390.24406,722.22362 L355.87581,742.06614 L355.87581,640.01890 L390.24406,620.17638 Z" fill="#2a42b5" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
+<path d="M360.78556,603.16850 L390.24406,620.17638 L355.87581,640.01890 L326.41731,623.01102 Z" fill="#e7d3ad" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
+<path d="M358.82166,614.50709 L370.60506,621.31024 L355.87581,629.81417 L344.09241,623.01102 Z" fill="#ffffff" fill-opacity="1" stroke="#777" stroke-width="0.3"/>
+<path d="M352.67093,668.24707 L346.92093,678.20636" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M504.87319,756.12109 L499.12319,766.08038" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M346.68888,674.60829 L502.35525,764.48230" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M344.86927,676.55995 L351.97260,674.65662" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M497.07153,764.43397 L504.17486,762.53064" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="420.64206" y="726.26565" font-size="8" text-anchor="middle" fill="#222" transform="rotate(30.00000 420.64206 726.26565)">155</text>
+<path d="M507.12319,754.82205 L520.62319,754.82205" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M507.12319,573.40472 L520.62319,573.40472" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M517.62319,756.82205 L517.62319,571.40472" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M520.22319,757.42205 L515.02319,752.22205" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M520.22319,576.00472 L515.02319,570.80472" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="519.62319" y="664.11339" font-size="8" text-anchor="middle" fill="#222" transform="rotate(90.00000 519.62319 664.11339)">160</text>
+<path d="M325.66731,726.35731 L319.91731,736.31660" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M355.12581,743.36518 L349.37581,753.32447" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M319.68526,732.71852 L352.60786,751.72640" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M317.86564,734.67019 L324.96897,732.76686" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M347.32414,751.67806 L354.42748,749.77473" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="332.26656" y="748.94282" font-size="8" text-anchor="middle" fill="#222" transform="rotate(30.00000 332.26656 748.94282)">30</text>
+<path d="M389.49406,720.92458 L383.74406,710.96529" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M355.12581,740.76710 L349.37581,730.80781" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M386.97611,712.56337 L349.14376,734.40589" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M386.19573,710.01170 L384.29240,717.11503" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M351.82748,729.85422 L349.92414,736.95755" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="367.05994" y="721.75258" font-size="8" text-anchor="middle" fill="#222" transform="rotate(-30.00000 367.05994 721.75258)">35</text>
+<path d="M324.91731,725.05827 L313.41731,725.05827" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M324.91731,623.01102 L313.41731,623.01102" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M316.41731,727.05827 L316.41731,621.01102" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M319.01731,727.65827 L313.81731,722.45827" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M319.01731,625.61102 L313.81731,620.41102" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="308.65731" y="674.03465" font-size="8" text-anchor="middle" fill="#222" transform="rotate(90.00000 308.65731 674.03465)">90</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="531.62319" y="757.82205" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00000 531.62319 757.82205)">+30</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="531.62319" y="576.40472" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00000 531.62319 576.40472)">+190</text>
+<text font-family="Arial, Helvetica, sans-serif" font-weight="400" x="531.62319" y="647.95118" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00000 531.62319 647.95118)">+126.9 screen centre</text>
 </svg>
