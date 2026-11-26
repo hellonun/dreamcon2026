@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" width="900pt" height="440pt">
+<rect width="100%" height="100%" fill="#fff"/>
+<path d="M25.00,405.00 L166.73,405.00 L166.73,107.36 L25.00,107.36 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M25.00,406.50 L25.00,418.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M166.73,406.50 L166.73,418.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M23.00,415.00 L168.73,415.00" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M22.40,417.60 L27.60,412.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M164.13,417.60 L169.33,412.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="95.87" y="423.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 95.87 423.48)">1000</text>
+<path d="M168.23,405.00 L179.73,405.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M168.23,107.36 L179.73,107.36" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M176.73,407.00 L176.73,105.36" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M179.33,407.60 L174.13,402.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M179.33,109.96 L174.13,104.76" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="178.73" y="256.18" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 178.73 256.18)">2100</text>
+<text font-family="IBMPlexSans" font-weight="700" x="25.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 25.00 52.00)">W1</text>
+<text font-family="IBMPlexThai" font-weight="400" x="25.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 25.00 68.00)">แท่นติด monitor เจาะรู</text>
+<text font-family="IBMPlexThai" font-weight="400" x="25.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 25.00 80.00)">ติด pp board · 1 × 2.1 m</text>
+<path d="M93.46,250.30 L154.40,250.30 L154.40,214.16 L93.46,214.16 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M93.46,212.66 L93.46,203.16" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M154.40,212.66 L154.40,203.16" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M91.46,206.16 L156.40,206.16" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M90.86,208.76 L96.06,203.56" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M151.80,208.76 L157.00,203.56" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="123.93" y="204.16" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 123.93 204.16)">430</text>
+<path d="M91.96,250.30 L82.46,250.30" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M91.96,214.16 L82.46,214.16" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M85.46,252.30 L85.46,212.16" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M88.06,252.90 L82.86,247.70" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M88.06,216.76 L82.86,211.56" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="76.98" y="232.23" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 76.98 232.23)">255</text>
+<path d="M23.00,258.80 L95.46,258.80" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M22.40,261.40 L27.60,256.20" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M90.86,261.40 L96.06,256.20" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="59.23" y="256.80" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 59.23 256.80)">483</text>
+<path d="M152.40,258.80 L168.73,258.80" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M151.80,261.40 L157.00,256.20" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M164.13,261.40 L169.33,256.20" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="160.57" y="256.80" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 160.57 256.80)">87</text>
+<path d="M123.93,407.00 L123.93,248.30" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M126.53,407.60 L121.33,402.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M126.53,252.90 L121.33,247.70" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="125.93" y="327.65" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 125.93 327.65)">1091.5</text>
+<path d="M123.93,216.16 L123.93,105.36" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M126.53,216.76 L121.33,211.56" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M126.53,109.96 L121.33,104.76" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="125.93" y="160.76" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 125.93 160.76)">753.5</text>
+<text font-family="IBMPlexThai" font-weight="400" x="123.93" y="235.23" font-size="8" text-anchor="middle" fill="#777" transform="rotate(0.00 123.93 235.23)">จอ 18.5"</text>
+<path d="M270.00,405.00 L312.52,405.00 L312.52,107.36 L270.00,107.36 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M270.00,406.50 L270.00,418.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M312.52,406.50 L312.52,418.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M268.00,415.00 L314.52,415.00" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M267.40,417.60 L272.60,412.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M309.92,417.60 L315.12,412.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="291.26" y="423.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 291.26 423.48)">300</text>
+<path d="M314.02,405.00 L325.52,405.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M314.02,107.36 L325.52,107.36" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M322.52,407.00 L322.52,105.36" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M325.12,407.60 L319.92,402.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M325.12,109.96 L319.92,104.76" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="324.52" y="256.18" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 324.52 256.18)">2100</text>
+<text font-family="IBMPlexSans" font-weight="700" x="270.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 270.00 52.00)">W2</text>
+<text font-family="IBMPlexThai" font-weight="400" x="270.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 270.00 68.00)">แท่นวางกระดาษ (แผ่นหลัง)</text>
+<text font-family="IBMPlexThai" font-weight="400" x="270.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 270.00 80.00)">ติด pp board รอบด้าน · 0.3 × 2.1 m</text>
+<path d="M470.00,405.00 L512.52,405.00 L512.52,279.99 L470.00,279.99 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M470.00,406.50 L470.00,418.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M512.52,406.50 L512.52,418.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M468.00,415.00 L514.52,415.00" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M467.40,417.60 L472.60,412.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M509.92,417.60 L515.12,412.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="491.26" y="423.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 491.26 423.48)">300</text>
+<path d="M514.02,405.00 L525.52,405.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M514.02,279.99 L525.52,279.99" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M522.52,407.00 L522.52,277.99" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M525.12,407.60 L519.92,402.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M525.12,282.59 L519.92,277.39" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="524.52" y="342.50" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 524.52 342.50)">882</text>
+<text font-family="IBMPlexSans" font-weight="700" x="470.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 470.00 52.00)">W4</text>
+<text font-family="IBMPlexThai" font-weight="400" x="470.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 470.00 68.00)">แท่นวางกระดาษ · หน้า</text>
+<text font-family="IBMPlexThai" font-weight="400" x="470.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 470.00 80.00)">0.35 × 0.3 × 0.9 m box</text>
+<path d="M600.00,405.00 L647.06,405.00 L647.06,279.99 L600.00,279.99 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M600.00,406.50 L600.00,418.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M647.06,406.50 L647.06,418.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M598.00,415.00 L649.06,415.00" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M597.40,417.60 L602.60,412.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M644.46,417.60 L649.66,412.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="623.53" y="423.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 623.53 423.48)">332</text>
+<path d="M648.56,405.00 L660.06,405.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M648.56,279.99 L660.06,279.99" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M657.06,407.00 L657.06,277.99" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M659.66,407.60 L654.46,402.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M659.66,282.59 L654.46,277.39" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="659.06" y="342.50" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 659.06 342.50)">882</text>
+<text font-family="IBMPlexSans" font-weight="700" x="600.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 600.00 52.00)">W5  × 2</text>
+<text font-family="IBMPlexThai" font-weight="400" x="600.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 600.00 68.00)">แท่นวางกระดาษ · ข้าง</text>
+<text font-family="IBMPlexThai" font-weight="400" x="600.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 600.00 80.00)">left and right</text>
+<path d="M740.00,205.00 L782.52,205.00 L782.52,155.39 L740.00,155.39 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M740.00,206.50 L740.00,218.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M782.52,206.50 L782.52,218.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M738.00,215.00 L784.52,215.00" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M737.40,217.60 L742.60,212.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M779.92,217.60 L785.12,212.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="761.26" y="223.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 761.26 223.48)">300</text>
+<path d="M784.02,205.00 L795.52,205.00" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M784.02,155.39 L795.52,155.39" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M792.52,207.00 L792.52,153.39" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M795.12,207.60 L789.92,202.40" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M795.12,157.99 L789.92,152.79" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="794.52" y="180.20" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 794.52 180.20)">350</text>
+<text font-family="IBMPlexSans" font-weight="700" x="740.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 740.00 52.00)">W3</text>
+<text font-family="IBMPlexThai" font-weight="400" x="740.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 740.00 68.00)">แท่นวางกระดาษ · ท็อป</text>
+<text font-family="IBMPlexThai" font-weight="400" x="740.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 740.00 80.00)">paper sits on it</text>
+</svg>
