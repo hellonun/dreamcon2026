@@ -1006,11 +1006,15 @@ function buildWallArt(){ layers.lights=[]; while(wallArtRoot.children.length) wa
         const p=new THREE.Mesh(geo,mat); p.position.set((a+b)/2-(g.s[i]+g.ws[i]/2),(yt+yb)/2,Z); p.receiveShadow=true; frames[i].add(p);
         const bk=new THREE.Mesh(geo,backMat); bk.position.copy(p.position); bk.position.z-=0.004; bk.rotation.y=Math.PI; frames[i].add(bk); } };
     for(const [key,s0,s1,yb,yt] of W.prints) flat(key,s0,s1,yb,yt);
-    // grey ends
-    for(const [i,k] of [[0,0],[n-1,1]]){ const F=g.fronts[i][k], P=g.backs[i][k]; const ek=W.ends&&W.ends[k];   /* printed end panels where the art has them, plain grey otherwise */
-      const e=new THREE.Mesh(new THREE.PlaneGeometry(WALL_D,WALL_H), ek? new THREE.MeshStandardMaterial({ map:wallTex(ek), roughness:0.85, side:THREE.DoubleSide }) : new THREE.MeshStandardMaterial({ color:'#D9D9D9', roughness:0.9, side:THREE.DoubleSide }));
-      e.position.set((F[0]+P[0])/2,(yTop+yBot)/2,(F[1]+P[1])/2); e.rotation.y=Math.atan2(-(P[1]-F[1]),P[0]-F[0]); if(ek && k===0) e.scale.x=-1;   /* the left end is seen from its other face */
-      wallArtRoot.add(e); }
+    // end panels: two framed pieces per end, 75 in from the front and back standards, 50 clear of the bars (same rule as the front prints)
+    { const LGs=[...LG].sort((p,q)=>p-q), frs=[]; for(let j=0;j<LGs.length-1;j++) frs.push([LGs[j]+0.05,LGs[j+1]-0.05]);
+      const ew=WALL_D-0.15, u0=0.075/WALL_D, u1=1-u0;
+      for(const [i,k] of [[0,0],[n-1,1]]){ const F=g.fronts[i][k], P=g.backs[i][k]; const ek=W.ends&&W.ends[k];   /* printed end panels where the art has them, plain grey otherwise */
+        const mat= ek? new THREE.MeshStandardMaterial({ map:wallTex(ek), roughness:0.85, side:THREE.DoubleSide }) : new THREE.MeshStandardMaterial({ color:'#D9D9D9', roughness:0.9, side:THREE.DoubleSide });
+        for(const [y0,y1] of frs){ const geo=new THREE.PlaneGeometry(ew,y1-y0), uv=geo.attributes.uv, v0=(y0-yBot)/WALL_H, v1=(y1-yBot)/WALL_H;
+          for(let q=0;q<uv.count;q++) uv.setXY(q, uv.getX(q)<0.5? u0 : u1, uv.getY(q)<0.5? v0 : v1);   /* the art keeps its place, only the bar zones are left out */
+          const e=new THREE.Mesh(geo,mat); e.position.set((F[0]+P[0])/2,(y0+y1)/2,(F[1]+P[1])/2); e.rotation.y=Math.atan2(-(P[1]-F[1]),P[0]-F[0]); if(ek && k===0) e.scale.x=-1;   /* the left end is seen from its other face */
+          wallArtRoot.add(e); } } }
     // Wall of Ideas: A0 boards set at an angle into the scaffold, sawtooth, facing left
     if(W.ideas){ const I=W.ideas, th=I.angle*DEG, mat=new THREE.MeshStandardMaterial({ map:wallTex('R_ideas'), roughness:0.8 });
       const dir=I.dir||1, proj=I.w*Math.cos(th);   /* dir -1: boards hinge on their right edge and face left */
