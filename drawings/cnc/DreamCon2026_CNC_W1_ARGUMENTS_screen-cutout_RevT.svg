@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1196.0mm" height="2152.0mm" viewBox="-98.0 -154.0 1196.0 2152.0">
-<title>W1 · ARGUMENTS board · ply 18 · 1000 × 1900 · screen cutout 425 × 255</title>
-<g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H1000.00V1900.00H0.00Z"/><path d="M488.50 653.50H907.50A3 3 0 0 1 910.50 656.50V905.50A3 3 0 0 1 907.50 908.50H488.50A3 3 0 0 1 485.50 905.50V656.50A3 3 0 0 1 488.50 653.50Z"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1196.0mm" height="2352.0mm" viewBox="-98.0 -154.0 1196.0 2352.0">
+<title>W1 · ARGUMENTS board · ply 18 · 1000 × 2100 · screen cutout 425 × 255</title>
+<g id="CUT_through" fill="none" stroke="#E5483D" stroke-width="1.12"><path d="M0.00 0.00H1000.00V2100.00H0.00Z"/><path d="M488.50 753.50H907.50A3 3 0 0 1 910.50 756.50V1005.50A3 3 0 0 1 907.50 1008.50H488.50A3 3 0 0 1 485.50 1005.50V756.50A3 3 0 0 1 488.50 753.50Z"/></g>
 <g id="DIMENSIONS_do_not_cut" fill="none" stroke="#666" stroke-width="0.56" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14.0">
-<path d="M0.00 1900.00L0.00 1953.20M1000.00 1900.00L1000.00 1953.20M0.00 1949.00L1000.00 1949.00"/>
-<path d="M-4.90 1953.90L4.90 1944.10"/>
-<path d="M995.10 1953.90L1004.90 1944.10"/>
-<text x="500.00" y="1964.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 500.00 1964.40)">1000</text>
-<path d="M0.00 1900.00L-46.20 1900.00M0.00 0.00L-46.20 0.00M-42.00 1900.00L-42.00 0.00"/>
-<path d="M-37.10 1904.90L-46.90 1895.10"/>
+<path d="M0.00 2100.00L0.00 2153.20M1000.00 2100.00L1000.00 2153.20M0.00 2149.00L1000.00 2149.00"/>
+<path d="M-4.90 2153.90L4.90 2144.10"/>
+<path d="M995.10 2153.90L1004.90 2144.10"/>
+<text x="500.00" y="2164.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 500.00 2164.40)">1000</text>
+<path d="M0.00 2100.00L-46.20 2100.00M0.00 0.00L-46.20 0.00M-42.00 2100.00L-42.00 0.00"/>
+<path d="M-37.10 2104.90L-46.90 2095.10"/>
 <path d="M-37.10 4.90L-46.90 -4.90"/>
-<text x="-46.20" y="950.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 950.00)">1900</text>
-<path d="M485.50 653.50L485.50 628.30M910.50 653.50L910.50 628.30M485.50 632.50L910.50 632.50"/>
-<path d="M480.60 637.40L490.40 627.60"/>
-<path d="M905.60 637.40L915.40 627.60"/>
-<text x="698.00" y="628.30" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 698.00 628.30)">425</text>
-<path d="M1000.00 908.50L1025.20 908.50M1000.00 653.50L1025.20 653.50M1021.00 908.50L1021.00 653.50"/>
-<path d="M1025.90 913.40L1016.10 903.60"/>
-<path d="M1025.90 658.40L1016.10 648.60"/>
-<text x="1036.40" y="781.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 1036.40 781.00)">255</text>
-<path d="M0.00 1900.00L0.00 1925.20M485.50 1900.00L485.50 1925.20M0.00 1921.00L485.50 1921.00"/>
-<path d="M-4.90 1925.90L4.90 1916.10"/>
-<path d="M480.60 1925.90L490.40 1916.10"/>
-<text x="242.75" y="1936.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 242.75 1936.40)">485.5</text>
-<path d="M910.50 1900.00L910.50 1925.20M1000.00 1900.00L1000.00 1925.20M910.50 1921.00L1000.00 1921.00"/>
-<path d="M905.60 1925.90L915.40 1916.10"/>
-<path d="M995.10 1925.90L1004.90 1916.10"/>
-<text x="955.25" y="1936.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 955.25 1936.40)">89.5</text>
-<path d="M1000.00 1900.00L1025.20 1900.00M1000.00 908.50L1025.20 908.50M1021.00 1900.00L1021.00 908.50"/>
-<path d="M1025.90 1904.90L1016.10 1895.10"/>
-<path d="M1025.90 913.40L1016.10 903.60"/>
-<text x="1036.40" y="1404.25" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 1036.40 1404.25)">991.5</text>
-<path d="M1000.00 653.50L1025.20 653.50M1000.00 0.00L1025.20 0.00M1021.00 653.50L1021.00 0.00"/>
-<path d="M1025.90 658.40L1016.10 648.60"/>
+<text x="-46.20" y="1050.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 -46.20 1050.00)">2100</text>
+<path d="M485.50 753.50L485.50 728.30M910.50 753.50L910.50 728.30M485.50 732.50L910.50 732.50"/>
+<path d="M480.60 737.40L490.40 727.60"/>
+<path d="M905.60 737.40L915.40 727.60"/>
+<text x="698.00" y="728.30" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 698.00 728.30)">425</text>
+<path d="M1000.00 1008.50L1025.20 1008.50M1000.00 753.50L1025.20 753.50M1021.00 1008.50L1021.00 753.50"/>
+<path d="M1025.90 1013.40L1016.10 1003.60"/>
+<path d="M1025.90 758.40L1016.10 748.60"/>
+<text x="1036.40" y="881.00" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 1036.40 881.00)">255</text>
+<path d="M0.00 2100.00L0.00 2125.20M485.50 2100.00L485.50 2125.20M0.00 2121.00L485.50 2121.00"/>
+<path d="M-4.90 2125.90L4.90 2116.10"/>
+<path d="M480.60 2125.90L490.40 2116.10"/>
+<text x="242.75" y="2136.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 242.75 2136.40)">485.5</text>
+<path d="M910.50 2100.00L910.50 2125.20M1000.00 2100.00L1000.00 2125.20M910.50 2121.00L1000.00 2121.00"/>
+<path d="M905.60 2125.90L915.40 2116.10"/>
+<path d="M995.10 2125.90L1004.90 2116.10"/>
+<text x="955.25" y="2136.40" fill="#333" stroke="none" text-anchor="middle" transform="rotate(0.00 955.25 2136.40)">89.5</text>
+<path d="M1000.00 2100.00L1025.20 2100.00M1000.00 1008.50L1025.20 1008.50M1021.00 2100.00L1021.00 1008.50"/>
+<path d="M1025.90 2104.90L1016.10 2095.10"/>
+<path d="M1025.90 1013.40L1016.10 1003.60"/>
+<text x="1036.40" y="1554.25" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 1036.40 1554.25)">1091.5</text>
+<path d="M1000.00 753.50L1025.20 753.50M1000.00 0.00L1025.20 0.00M1021.00 753.50L1021.00 0.00"/>
+<path d="M1025.90 758.40L1016.10 748.60"/>
 <path d="M1025.90 4.90L1016.10 -4.90"/>
-<text x="1036.40" y="326.75" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 1036.40 326.75)">653.5</text>
-<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W1 · ARGUMENTS board · ply 18 · 1000 × 1900 · screen cutout 425 × 255</text>
+<text x="1036.40" y="376.75" fill="#333" stroke="none" text-anchor="middle" transform="rotate(90.00 1036.40 376.75)">753.5</text>
+<text x="0" y="-119.0" fill="#111" stroke="none" font-size="19.6" font-weight="700">W1 · ARGUMENTS board · ply 18 · 1000 × 2100 · screen cutout 425 × 255</text>
 <text x="0" y="-99.4" fill="#444" stroke="none" font-size="11.9">Red = cut through. Seen from the front. Screen 423 × 253 + 1 mm clearance each side. Inside corners R3 (bit radius).</text>
 </g>
 </svg>
