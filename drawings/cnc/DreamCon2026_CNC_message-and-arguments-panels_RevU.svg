@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" width="960pt" height="500pt">
 <rect width="100%" height="100%" fill="#fff"/>
-<path d="M25.00,325.00 L244.69,325.00 L244.69,105.31 L25.00,105.31 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M25.00,325.00 L244.69,325.00 L244.69,98.23 L25.00,98.23 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
 <path d="M25.00,326.50 L25.00,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
 <path d="M244.69,326.50 L244.69,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
 <path d="M23.00,335.00 L246.69,335.00" fill="none" stroke="#777" stroke-width="0.35"/>
@@ -9,47 +9,46 @@
 <path d="M242.09,337.60 L247.29,332.40" fill="none" stroke="#777" stroke-width="0.4"/>
 <text font-family="IBMPlexSans" font-weight="400" x="134.84" y="343.48" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 134.84 343.48)">1550</text>
 <path d="M246.19,325.00 L257.69,325.00" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M246.19,105.31 L257.69,105.31" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M254.69,327.00 L254.69,103.31" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M246.19,98.23 L257.69,98.23" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M254.69,327.00 L254.69,96.23" fill="none" stroke="#777" stroke-width="0.35"/>
 <path d="M257.29,327.60 L252.09,322.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M257.29,107.91 L252.09,102.71" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="256.69" y="215.16" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 256.69 215.16)">1550</text>
+<path d="M257.29,100.83 L252.09,95.63" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="256.69" y="211.61" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 256.69 211.61)">1600</text>
 <text font-family="IBMPlexSans" font-weight="700" x="25.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 25.00 52.00)">W1</text>
 <text font-family="IBMPlexThai" font-weight="400" x="25.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 25.00 68.00)">แท่นติด monitor เจาะรู + Message strip</text>
-<text font-family="IBMPlexThai" font-weight="400" x="25.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 25.00 80.00)">covers the posts and the 350 / 1850 bars · 325 to 1875 above the floor</text>
-<path d="M149.58,209.42 L210.53,209.42 L210.53,172.99 L149.58,172.99 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
-<path d="M149.58,171.49 L149.58,161.99" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M210.53,171.49 L210.53,161.99" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M147.58,164.99 L212.53,164.99" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M146.98,167.59 L152.18,162.39" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M207.93,167.59 L213.13,162.39" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="180.06" y="162.99" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 180.06 162.99)">430</text>
-<path d="M148.08,209.42 L138.58,209.42" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M148.08,172.99 L138.58,172.99" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M141.58,211.42 L141.58,170.99" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M144.18,212.02 L138.98,206.82" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M144.18,175.59 L138.98,170.39" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="133.10" y="191.20" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 133.10 191.20)">257</text>
-<path d="M23.00,219.34 L151.58,219.34" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M22.40,221.94 L27.60,216.74" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M146.98,221.94 L152.18,216.74" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="87.29" y="217.34" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 87.29 217.34)">879</text>
-<path d="M208.53,219.34 L246.69,219.34" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M207.93,221.94 L213.13,216.74" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M242.09,221.94 L247.29,216.74" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="227.61" y="217.34" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 227.61 217.34)">241</text>
-<path d="M180.06,327.00 L180.06,207.42" fill="none" stroke="#777" stroke-width="0.35"/>
+<text font-family="IBMPlexThai" font-weight="400" x="25.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 25.00 80.00)"></text>
+<path d="M149.58,205.87 L210.53,205.87 L210.53,169.45 L149.58,169.45 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
+<path d="M149.58,167.95 L149.58,158.45" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M210.53,167.95 L210.53,158.45" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M147.58,161.45 L212.53,161.45" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M146.98,164.05 L152.18,158.85" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M207.93,164.05 L213.13,158.85" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="180.06" y="159.45" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 180.06 159.45)">430</text>
+<path d="M148.08,205.87 L138.58,205.87" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M148.08,169.45 L138.58,169.45" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M141.58,207.87 L141.58,167.45" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M144.18,208.47 L138.98,203.27" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M144.18,172.05 L138.98,166.85" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="133.10" y="187.66" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 133.10 187.66)">257</text>
+<path d="M23.00,215.80 L151.58,215.80" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M22.40,218.40 L27.60,213.20" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M146.98,218.40 L152.18,213.20" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="87.29" y="213.80" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 87.29 213.80)">879</text>
+<path d="M208.53,215.80 L246.69,215.80" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M207.93,218.40 L213.13,213.20" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M242.09,218.40 L247.29,213.20" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="227.61" y="213.80" font-size="9" text-anchor="middle" fill="#222" transform="rotate(0.00 227.61 213.80)">241</text>
+<path d="M180.06,327.00 L180.06,203.87" fill="none" stroke="#777" stroke-width="0.35"/>
 <path d="M182.66,327.60 L177.46,322.40" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M182.66,212.02 L177.46,206.82" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="182.06" y="267.21" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 182.06 267.21)">815.5</text>
-<path d="M180.06,174.99 L180.06,103.31" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M182.66,175.59 L177.46,170.39" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M182.66,107.91 L177.46,102.71" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="182.06" y="139.15" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 182.06 139.15)">477.5</text>
-<text font-family="IBMPlexThai" font-weight="400" x="180.06" y="194.20" font-size="8" text-anchor="middle" fill="#777" transform="rotate(0.00 180.06 194.20)">จอ 18.5"</text>
+<path d="M182.66,208.47 L177.46,203.27" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="182.06" y="265.44" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 182.06 265.44)">840.5</text>
+<path d="M180.06,171.45 L180.06,96.23" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M182.66,172.05 L177.46,166.85" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M182.66,100.83 L177.46,95.63" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="182.06" y="133.84" font-size="9" text-anchor="middle" fill="#222" transform="rotate(90.00 182.06 133.84)">502.5</text>
+<text font-family="IBMPlexThai" font-weight="400" x="180.06" y="190.66" font-size="8" text-anchor="middle" fill="#777" transform="rotate(0.00 180.06 190.66)">จอ 18.5"</text>
 <text font-family="IBMPlexSans" font-weight="700" x="330.00" y="52.00" font-size="16" text-anchor="start" fill="#222" transform="rotate(0.00 330.00 52.00)">PEDESTAL</text>
 <text font-family="IBMPlexThai" font-weight="400" x="330.00" y="68.00" font-size="9" text-anchor="start" fill="#222" transform="rotate(0.00 330.00 68.00)">แท่นวางกระดาษ</text>
-<text font-family="IBMPlexThai" font-weight="400" x="330.00" y="80.00" font-size="8" text-anchor="start" fill="#777" transform="rotate(0.00 330.00 80.00)">0.3 × 0.35 × 0.9 m · pp board on all four sides</text>
 <path d="M330.00,325.00 L372.52,325.00 L372.52,197.44 L330.00,197.44 Z" fill="none" stroke="#e5483d" stroke-width="0.6"/>
 <path d="M330.00,326.50 L330.00,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
 <path d="M372.52,326.50 L372.52,338.00" fill="none" stroke="#777" stroke-width="0.25"/>
@@ -110,26 +109,26 @@
 <path d="M690.00,345.31 L837.29,430.35" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
 <path d="M690.00,231.93 L837.29,316.97" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
 <path d="M690.00,175.24 L837.29,260.28" fill="none" stroke="#9aa3ad" stroke-width="5.476535433070866"/>
-<path d="M683.42,349.11 L835.62,436.99 L835.62,261.24 L683.42,173.37 Z" fill="#c9daf0" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
-<path d="M837.39,435.97 L835.62,436.99 L835.62,261.24 L837.39,260.22 Z" fill="#9fb5d3" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
-<path d="M685.19,172.34 L837.39,260.22 L835.62,261.24 L683.42,173.37 Z" fill="#dfe8f5" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
+<path d="M683.42,351.95 L835.62,439.82 L835.62,258.40 L683.42,170.53 Z" fill="#c9daf0" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
+<path d="M837.39,438.80 L835.62,439.82 L835.62,258.40 L837.39,257.38 Z" fill="#9fb5d3" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
+<path d="M685.19,169.51 L837.39,257.38 L835.62,258.40 L683.42,170.53 Z" fill="#dfe8f5" fill-opacity="1" stroke="#e5483d" stroke-width="0.5"/>
 <path d="M769.73,306.48 L811.96,330.86 L811.96,301.72 L769.73,277.34 Z" fill="#14161c" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
 <path d="M656.42,410.06 L685.88,427.07 L685.88,325.02 L656.42,308.01 Z" fill="#3a55d6" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
 <path d="M720.24,407.22 L685.88,427.07 L685.88,325.02 L720.24,305.18 Z" fill="#2a42b5" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
 <path d="M690.79,288.17 L720.24,305.18 L685.88,325.02 L656.42,308.01 Z" fill="#e7d3ad" fill-opacity="1" stroke="#222" stroke-width="0.4"/>
 <path d="M688.82,299.51 L700.61,306.31 L685.88,314.81 L674.09,308.01 Z" fill="#ffffff" fill-opacity="1" stroke="#777" stroke-width="0.3"/>
-<path d="M682.67,350.41 L676.92,360.37" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M834.87,438.29 L829.12,448.25" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M676.69,356.77 L832.36,446.65" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M674.87,358.73 L681.97,356.82" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M827.07,446.60 L834.17,444.70" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="750.64" y="408.43" font-size="8" text-anchor="middle" fill="#222" transform="rotate(30.00 750.64 408.43)">1550</text>
-<path d="M837.12,436.99 L850.62,436.99" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M837.12,261.24 L850.62,261.24" fill="none" stroke="#777" stroke-width="0.25"/>
-<path d="M847.62,438.99 L847.62,259.24" fill="none" stroke="#777" stroke-width="0.35"/>
-<path d="M850.22,439.59 L845.02,434.39" fill="none" stroke="#777" stroke-width="0.4"/>
-<path d="M850.22,263.84 L845.02,258.64" fill="none" stroke="#777" stroke-width="0.4"/>
-<text font-family="IBMPlexSans" font-weight="400" x="849.62" y="349.11" font-size="8" text-anchor="middle" fill="#222" transform="rotate(90.00 849.62 349.11)">1550</text>
+<path d="M682.67,353.25 L676.92,363.21" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M834.87,441.12 L829.12,451.08" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M676.69,359.61 L832.36,449.48" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M674.87,361.56 L681.97,359.66" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M827.07,449.43 L834.17,447.53" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="750.64" y="411.27" font-size="8" text-anchor="middle" fill="#222" transform="rotate(30.00 750.64 411.27)">1550</text>
+<path d="M837.12,439.82 L850.62,439.82" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M837.12,258.40 L850.62,258.40" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M847.62,441.82 L847.62,256.40" fill="none" stroke="#777" stroke-width="0.35"/>
+<path d="M850.22,442.42 L845.02,437.22" fill="none" stroke="#777" stroke-width="0.4"/>
+<path d="M850.22,261.00 L845.02,255.80" fill="none" stroke="#777" stroke-width="0.4"/>
+<text font-family="IBMPlexSans" font-weight="400" x="849.62" y="349.11" font-size="8" text-anchor="middle" fill="#222" transform="rotate(90.00 849.62 349.11)">1600</text>
 <path d="M655.67,411.36 L649.92,421.32" fill="none" stroke="#777" stroke-width="0.25"/>
 <path d="M685.13,428.37 L679.38,438.32" fill="none" stroke="#777" stroke-width="0.25"/>
 <path d="M649.69,417.72 L682.61,436.73" fill="none" stroke="#777" stroke-width="0.35"/>
@@ -148,7 +147,7 @@
 <path d="M649.02,412.66 L643.82,407.46" fill="none" stroke="#777" stroke-width="0.4"/>
 <path d="M649.02,310.61 L643.82,305.41" fill="none" stroke="#777" stroke-width="0.4"/>
 <text font-family="IBMPlexSans" font-weight="400" x="638.66" y="359.03" font-size="8" text-anchor="middle" fill="#222" transform="rotate(90.00 638.66 359.03)">900</text>
-<text font-family="IBMPlexSans" font-weight="400" x="861.62" y="439.99" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00 861.62 439.99)">+325</text>
-<text font-family="IBMPlexSans" font-weight="400" x="861.62" y="264.24" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00 861.62 264.24)">+1875</text>
+<text font-family="IBMPlexSans" font-weight="400" x="861.62" y="442.82" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00 861.62 442.82)">+300</text>
+<text font-family="IBMPlexSans" font-weight="400" x="861.62" y="261.40" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00 861.62 261.40)">+1900</text>
 <text font-family="IBMPlexSans" font-weight="400" x="861.62" y="332.95" font-size="8" text-anchor="start" fill="#222" transform="rotate(0.00 861.62 332.95)">+1269 screen centre</text>
 </svg>
