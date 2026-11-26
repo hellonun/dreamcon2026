@@ -1,165 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 445 235" width="445pt" height="235pt" font-family="IBM Plex Thai, IBMPlexThai, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 205" width="200pt" height="205pt" font-family="IBM Plex Thai, IBMPlexThai, sans-serif">
 <rect width="100%" height="100%" fill="#fff"/>
-<text x="8" y="12" font-size="7.0" font-weight="700" fill="#333">Middle table · lower layer · scale 1:100</text>
-<text x="8" y="19.5" font-size="4.6" fill="#333">Red = cut through (holes and screen cutouts). Blue = centre lines, centre marks and screen outlines, do not cut. Hole positions are measured from the CENTRE.</text>
-<text x="8" y="25.5" font-size="4.6" fill="#333">Screen cutouts = screen + 5 mm on width and length (depth not added). Angles: anticlockwise from the +x centre line (to the right), plan seen from above. Inside corners take the bit radius.</text>
 <g id="CUT_through">
-<circle cx="100.00" cy="132.00" r="70.87" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<circle cx="84.58" cy="88.60" r="17.72" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<circle cx="141.16" cy="121.34" r="21.26" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<circle cx="75.59" cy="152.52" r="31.89" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M65.86,98.83 L56.23,102.45 L54.13,96.85 L63.76,93.23 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M123.65,103.72 L117.33,95.60 L122.05,91.93 L128.37,100.04 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M110.63,158.14 L122.40,161.29 L120.51,168.33 L108.74,165.18 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M217.70,97.26 L218.38,95.05 L219.01,92.83 L219.57,90.59 L220.08,88.34 L220.53,86.07 L220.92,83.80 L221.25,81.51 L221.52,79.22 L221.73,76.92 L221.88,74.62 L221.97,72.31 L222.00,70.00 L221.97,67.69 L221.88,65.38 L221.73,63.08 L221.52,60.78 L221.25,58.49 L220.92,56.20 L220.53,53.93 L220.08,51.66 L219.57,49.41 L219.01,47.17 L218.38,44.95 L217.70,42.74" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M239.01,55.05 L290.46,55.05 L290.46,84.95 L239.01,84.95 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M218.41,159.40 L218.98,157.16 L219.50,154.91 L219.98,152.65 L220.40,150.38 L220.77,148.10 L221.10,145.82 L221.37,143.52 L221.60,141.22 L221.77,138.92 L221.90,136.62 L221.97,134.31 L222.00,132.00 L221.97,129.69 L221.90,127.38 L221.77,125.08 L221.60,122.78 L221.37,120.48 L221.10,118.18 L220.77,115.90 L220.40,113.62 L219.98,111.35 L219.50,109.09 L218.98,106.84 L218.41,104.60" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M239.01,117.05 L290.46,117.05 L290.46,146.95 L239.01,146.95 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M219.00,224.77 L219.48,222.24 L219.92,219.69 L220.31,217.14 L220.67,214.59 L220.98,212.03 L221.25,209.46 L221.48,206.89 L221.67,204.32 L221.81,201.74 L221.92,199.16 L221.98,196.58 L222.00,194.00 L221.98,191.42 L221.92,188.84 L221.81,186.26 L221.67,183.68 L221.48,181.11 L221.25,178.54 L220.98,175.97 L220.67,173.41 L220.31,170.86 L219.92,168.31 L219.48,165.76 L219.00,163.23" fill="none" stroke="#e5483d" stroke-width="0.35"/>
-<path d="M239.01,175.79 L299.95,175.79 L299.95,212.21 L239.01,212.21 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<circle cx="100.00" cy="96.00" r="70.87" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<circle cx="84.58" cy="52.60" r="17.72" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<circle cx="141.16" cy="85.34" r="21.26" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<circle cx="75.59" cy="116.52" r="31.89" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<path d="M65.86,62.83 L56.23,66.45 L54.13,60.85 L63.76,57.23 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<path d="M123.65,67.72 L117.33,59.60 L122.05,55.93 L128.37,64.04 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<path d="M110.63,122.14 L122.40,125.29 L120.51,132.33 L108.74,129.18 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
 </g>
 <g id="MARK_centres_do_not_cut">
-<path d="M24.88,132.00 L175.12,132.00" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="3 1 0.6 1"/>
-<path d="M100.00,207.12 L100.00,56.88" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="3 1 0.6 1"/>
-<circle cx="100.00" cy="132.00" r="2.55" fill="none" stroke="#2a6fdb" stroke-width="0.35"/>
-<path d="M100.00,129.45 A2.55,2.55 0 0 1 102.55,132.00 L100.00,132.00 Z M100.00,134.55 A2.55,2.55 0 0 1 97.45,132.00 L100.00,132.00 Z" fill="#2a6fdb"/>
-<path d="M100.00,132.00 L84.58,88.60" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1.2 0.8"/>
-<path d="M82.03,88.60 L87.13,88.60" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
-<path d="M84.58,91.15 L84.58,86.05" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
-<path d="M100.00,132.00 L141.16,121.34" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1.2 0.8"/>
-<path d="M138.61,121.34 L143.71,121.34" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
-<path d="M141.16,123.89 L141.16,118.79" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
-<path d="M100.00,132.00 L75.59,152.52" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1.2 0.8"/>
-<path d="M73.04,152.52 L78.14,152.52" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
-<path d="M75.59,155.07 L75.59,149.97" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
-<text x="103.60" y="138.80" font-size="5.2" font-weight="700" text-anchor="start" fill="#2a6fdb" transform="rotate(0.00 103.60 138.80)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">CENTRE</text>
-<text x="103.60" y="144.40" font-size="4.6" font-weight="500" text-anchor="start" fill="#2a6fdb" transform="rotate(0.00 103.60 144.40)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">จุดศูนย์กลาง</text>
-<path d="M239.36,55.40 L290.10,55.40 L290.10,84.60 L239.36,84.60 Z" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1 0.7"/>
-<path d="M213.50,70.00 L298.96,70.00" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="3 1 0.6 1"/>
-<path d="M239.36,117.40 L290.10,117.40 L290.10,146.60 L239.36,146.60 Z" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1 0.7"/>
-<path d="M213.50,132.00 L298.96,132.00" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="3 1 0.6 1"/>
-<path d="M239.36,176.14 L299.60,176.14 L299.60,211.86 L239.36,211.86 Z" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1 0.7"/>
-<path d="M213.50,194.00 L308.46,194.00" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="3 1 0.6 1"/>
+<path d="M24.88,96.00 L175.12,96.00" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="3 1 0.6 1"/>
+<path d="M100.00,171.12 L100.00,20.88" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="3 1 0.6 1"/>
+<circle cx="100.00" cy="96.00" r="2.55" fill="none" stroke="#2a6fdb" stroke-width="0.35"/>
+<path d="M100.00,93.45 A2.55,2.55 0 0 1 102.55,96.00 L100.00,96.00 Z M100.00,98.55 A2.55,2.55 0 0 1 97.45,96.00 L100.00,96.00 Z" fill="#2a6fdb"/>
+<path d="M100.00,96.00 L84.58,52.60" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1.2 0.8"/>
+<path d="M82.03,52.60 L87.13,52.60" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
+<path d="M84.58,55.15 L84.58,50.05" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
+<path d="M100.00,96.00 L141.16,85.34" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1.2 0.8"/>
+<path d="M138.61,85.34 L143.71,85.34" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
+<path d="M141.16,87.89 L141.16,82.79" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
+<path d="M100.00,96.00 L75.59,116.52" fill="none" stroke="#2a6fdb" stroke-width="0.2" stroke-dasharray="1.2 0.8"/>
+<path d="M73.04,116.52 L78.14,116.52" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
+<path d="M75.59,119.07 L75.59,113.97" fill="none" stroke="#2a6fdb" stroke-width="0.3"/>
 </g>
 <g id="DIMENSIONS">
-<path d="M100.00,88.60 L84.58,88.60" fill="none" stroke="#333" stroke-width="0.22"/>
-<path d="M84.58,88.60 L86.58,87.85 L86.58,89.35 Z" fill="#333"/>
-<path d="M100.00,88.60 L98.00,89.35 L98.00,87.85 Z" fill="#333"/>
-<text x="92.29" y="87.00" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 92.29 87.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">544</text>
-<path d="M100.00,88.60 L100.00,88.60" />
-<path d="M84.58,132.00 L84.58,88.60" fill="none" stroke="#333" stroke-width="0.22"/>
-<path d="M84.58,88.60 L85.33,90.60 L83.83,90.60 Z" fill="#333"/>
-<path d="M84.58,132.00 L83.83,130.00 L85.33,130.00 Z" fill="#333"/>
-<text x="86.18" y="110.30" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 86.18 110.30)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">1531</text>
-<path d="M100.00,121.34 L141.16,121.34" fill="none" stroke="#333" stroke-width="0.22"/>
-<path d="M141.16,121.34 L139.16,122.09 L139.16,120.59 Z" fill="#333"/>
-<path d="M100.00,121.34 L102.00,120.59 L102.00,122.09 Z" fill="#333"/>
-<text x="120.58" y="119.74" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 120.58 119.74)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">1452</text>
-<path d="M142.29,132.00 L152.21,132.00" fill="none" stroke="#333" stroke-width="0.18"/>
-<path d="M142.29,121.34 L152.21,121.34" fill="none" stroke="#333" stroke-width="0.18"/>
-<path d="M150.51,132.00 L150.51,121.34" fill="none" stroke="#333" stroke-width="0.22"/>
-<path d="M150.51,121.34 L151.26,123.34 L149.76,123.34 Z" fill="#333"/>
-<path d="M150.51,132.00 L149.76,130.00 L151.26,130.00 Z" fill="#333"/>
-<text x="152.11" y="126.67" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 152.11 126.67)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">376</text>
-<path d="M100.00,152.52 L75.59,152.52" fill="none" stroke="#333" stroke-width="0.22"/>
-<path d="M75.59,152.52 L77.59,151.77 L77.59,153.27 Z" fill="#333"/>
-<path d="M100.00,152.52 L98.00,153.27 L98.00,151.77 Z" fill="#333"/>
-<text x="87.80" y="157.12" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 87.80 157.12)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">861</text>
-<path d="M75.59,132.00 L75.59,152.52" fill="none" stroke="#333" stroke-width="0.22"/>
-<path d="M75.59,152.52 L74.84,150.52 L76.34,150.52 Z" fill="#333"/>
-<path d="M75.59,132.00 L76.34,134.00 L74.84,134.00 Z" fill="#333"/>
-<text x="77.19" y="142.26" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 77.19 142.26)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">724</text>
-<text x="84.58" y="96.57" font-size="6.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 84.58 96.57)" style="paint-order:stroke" stroke="#fff" stroke-width="1.74">H1</text>
-<text x="84.58" y="102.57" font-size="5.2" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 84.58 102.57)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">Ø1250</text>
-<text x="141.16" y="130.91" font-size="6.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 141.16 130.91)" style="paint-order:stroke" stroke="#fff" stroke-width="1.74">H2</text>
-<text x="141.16" y="136.91" font-size="5.2" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 141.16 136.91)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">Ø1500</text>
-<text x="75.59" y="166.87" font-size="6.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 75.59 166.87)" style="paint-order:stroke" stroke="#fff" stroke-width="1.74">H3</text>
-<text x="75.59" y="172.87" font-size="5.2" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 75.59 172.87)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">Ø2250</text>
-<path d="M55.18,99.65 L44.04,103.84" stroke="#333" stroke-width="0.2" fill="none"/>
-<text x="44.04" y="107.84" font-size="6.0" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 44.04 107.84)" style="paint-order:stroke" stroke="#fff" stroke-width="1.68">S1</text>
-<path d="M119.69,93.76 L112.38,84.37" stroke="#333" stroke-width="0.2" fill="none"/>
-<text x="112.38" y="82.87" font-size="6.0" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 112.38 82.87)" style="paint-order:stroke" stroke="#fff" stroke-width="1.68">S2</text>
-<path d="M121.46,164.81 L132.96,167.89" stroke="#333" stroke-width="0.2" fill="none"/>
-<text x="132.96" y="171.89" font-size="6.0" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 132.96 171.89)" style="paint-order:stroke" stroke="#fff" stroke-width="1.68">S3</text>
-<text x="215.00" y="40.00" font-size="5.8" font-weight="700" text-anchor="start" fill="#333" transform="rotate(0.00 215.00 40.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.62">SCREEN CUTOUTS · details 1:20</text>
-<path d="M239.01,46.54 L290.46,46.54" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M290.46,46.54 L288.46,47.29 L288.46,45.79 Z" fill="#333"/>
-<path d="M239.01,46.54 L241.01,45.79 L241.01,47.29 Z" fill="#333"/>
-<text x="264.73" y="44.94" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 264.73 44.94)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">363</text>
-<path d="M239.01,52.92 L239.01,43.71" stroke="#333" stroke-width="0.18"/>
-<path d="M290.46,52.92 L290.46,43.71" stroke="#333" stroke-width="0.18"/>
-<path d="M300.38,84.95 L300.38,55.05" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M300.38,55.05 L301.13,57.05 L299.63,57.05 Z" fill="#333"/>
-<path d="M300.38,84.95 L299.63,82.95 L301.13,82.95 Z" fill="#333"/>
-<text x="298.78" y="70.00" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-90.00 298.78 70.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">211</text>
-<path d="M292.58,84.95 L303.21,84.95" stroke="#333" stroke-width="0.18"/>
-<path d="M292.58,55.05 L303.21,55.05" stroke="#333" stroke-width="0.18"/>
-<path d="M222.00,93.46 L239.01,93.46" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M239.01,93.46 L237.01,94.21 L237.01,92.71 Z" fill="#333"/>
-<path d="M222.00,93.46 L224.00,92.71 L224.00,94.21 Z" fill="#333"/>
-<text x="230.50" y="99.06" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 230.50 99.06)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">120</text>
-<path d="M222.00,72.13 L222.00,96.29" stroke="#333" stroke-width="0.18"/>
-<path d="M239.01,72.13 L239.01,96.29" stroke="#333" stroke-width="0.18"/>
-<text x="318.80" y="61.00" font-size="5.2" font-weight="700" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 61.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S1  cutout 211 × 363</text>
-<text x="318.80" y="67.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 67.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">screen 206 × 358 × 12 (+5 on W and L)</text>
-<text x="318.80" y="73.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 73.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">120 from the H1 edge, on the line</text>
-<text x="318.80" y="79.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 79.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">through the hole centre at 200.6°</text>
-<text x="318.80" y="85.00" font-size="4.199999999999999" font-weight="700" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 85.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">cutout centre from CENTRE: x -1411, y +1205</text>
-<text x="220.00" y="68.00" font-size="3.9999999999999996" font-weight="500" text-anchor="end" fill="#333" transform="rotate(0.00 220.00 68.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.12">H1 edge</text>
-<path d="M239.01,108.54 L290.46,108.54" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M290.46,108.54 L288.46,109.29 L288.46,107.79 Z" fill="#333"/>
-<path d="M239.01,108.54 L241.01,107.79 L241.01,109.29 Z" fill="#333"/>
-<text x="264.73" y="106.94" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 264.73 106.94)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">363</text>
-<path d="M239.01,114.92 L239.01,105.71" stroke="#333" stroke-width="0.18"/>
-<path d="M290.46,114.92 L290.46,105.71" stroke="#333" stroke-width="0.18"/>
-<path d="M300.38,146.95 L300.38,117.05" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M300.38,117.05 L301.13,119.05 L299.63,119.05 Z" fill="#333"/>
-<path d="M300.38,146.95 L299.63,144.95 L301.13,144.95 Z" fill="#333"/>
-<text x="298.78" y="132.00" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-90.00 298.78 132.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">211</text>
-<path d="M292.58,146.95 L303.21,146.95" stroke="#333" stroke-width="0.18"/>
-<path d="M292.58,117.05 L303.21,117.05" stroke="#333" stroke-width="0.18"/>
-<path d="M222.00,155.46 L239.01,155.46" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M239.01,155.46 L237.01,156.21 L237.01,154.71 Z" fill="#333"/>
-<path d="M222.00,155.46 L224.00,154.71 L224.00,156.21 Z" fill="#333"/>
-<text x="230.50" y="161.06" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 230.50 161.06)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">120</text>
-<path d="M222.00,134.13 L222.00,158.29" stroke="#333" stroke-width="0.18"/>
-<path d="M239.01,134.13 L239.01,158.29" stroke="#333" stroke-width="0.18"/>
-<text x="318.80" y="123.00" font-size="5.2" font-weight="700" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 123.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S2  cutout 211 × 363</text>
-<text x="318.80" y="129.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 129.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">screen 206 × 358 × 12 (+5 on W and L)</text>
-<text x="318.80" y="135.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 135.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">120 from the H2 edge, on the line</text>
-<text x="318.80" y="141.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 141.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">through the hole centre at 127.9°</text>
-<text x="318.80" y="147.00" font-size="4.199999999999999" font-weight="700" text-anchor="start" fill="#333" transform="rotate(0.00 318.80 147.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">cutout centre from CENTRE: x +806, y +1206</text>
-<text x="220.00" y="130.00" font-size="3.9999999999999996" font-weight="500" text-anchor="end" fill="#333" transform="rotate(0.00 220.00 130.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.12">H2 edge</text>
-<path d="M239.01,167.28 L299.95,167.28" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M299.95,167.28 L297.95,168.03 L297.95,166.53 Z" fill="#333"/>
-<path d="M239.01,167.28 L241.01,166.53 L241.01,168.03 Z" fill="#333"/>
-<text x="269.48" y="165.68" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 269.48 165.68)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">430</text>
-<path d="M239.01,173.66 L239.01,164.45" stroke="#333" stroke-width="0.18"/>
-<path d="M299.95,173.66 L299.95,164.45" stroke="#333" stroke-width="0.18"/>
-<path d="M309.87,212.21 L309.87,175.79" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M309.87,175.79 L310.62,177.79 L309.12,177.79 Z" fill="#333"/>
-<path d="M309.87,212.21 L309.12,210.21 L310.62,210.21 Z" fill="#333"/>
-<text x="308.27" y="194.00" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-90.00 308.27 194.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">257</text>
-<path d="M302.08,212.21 L312.71,212.21" stroke="#333" stroke-width="0.18"/>
-<path d="M302.08,175.79 L312.71,175.79" stroke="#333" stroke-width="0.18"/>
-<path d="M222.00,220.72 L239.01,220.72" stroke="#333" stroke-width="0.22" fill="none"/>
-<path d="M239.01,220.72 L237.01,221.47 L237.01,219.97 Z" fill="#333"/>
-<path d="M222.00,220.72 L224.00,219.97 L224.00,221.47 Z" fill="#333"/>
-<text x="230.50" y="226.32" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 230.50 226.32)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">120</text>
-<path d="M222.00,196.13 L222.00,223.55" stroke="#333" stroke-width="0.18"/>
-<path d="M239.01,196.13 L239.01,223.55" stroke="#333" stroke-width="0.18"/>
-<text x="328.30" y="185.00" font-size="5.2" font-weight="700" text-anchor="start" fill="#333" transform="rotate(0.00 328.30 185.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S3  cutout 257 × 430</text>
-<text x="328.30" y="191.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 328.30 191.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">screen 252 × 425 × 18 (+5 on W and L)</text>
-<text x="328.30" y="197.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 328.30 197.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">120 from the H3 edge, on the line</text>
-<text x="328.30" y="203.00" font-size="4.199999999999999" font-weight="500" text-anchor="start" fill="#333" transform="rotate(0.00 328.30 203.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">through the hole centre at -15°</text>
-<text x="328.30" y="209.00" font-size="4.199999999999999" font-weight="700" text-anchor="start" fill="#333" transform="rotate(0.00 328.30 209.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.18">cutout centre from CENTRE: x +549, y -1102</text>
-<text x="220.00" y="192.00" font-size="3.9999999999999996" font-weight="500" text-anchor="end" fill="#333" transform="rotate(0.00 220.00 192.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.12">H3 edge</text>
-<path d="M29.13,210.24 L170.87,210.24" fill="none" stroke="#333" stroke-width="0.22"/>
-<path d="M170.87,210.24 L168.87,210.99 L168.87,209.49 Z" fill="#333"/>
-<path d="M29.13,210.24 L31.13,209.49 L31.13,210.99 Z" fill="#333"/>
-<text x="100.00" y="208.64" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 100.00 208.64)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">Ø 5000</text>
-<path d="M29.13,133.13 L29.13,213.07" fill="none" stroke="#333" stroke-width="0.18"/>
-<path d="M170.87,133.13 L170.87,213.07" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M100.00,52.60 L84.58,52.60" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M84.58,52.60 L86.58,51.85 L86.58,53.35 Z" fill="#333"/>
+<path d="M100.00,52.60 L98.00,53.35 L98.00,51.85 Z" fill="#333"/>
+<text x="92.29" y="51.00" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 92.29 51.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">544</text>
+<path d="M100.00,52.60 L100.00,52.60" />
+<path d="M84.58,96.00 L84.58,52.60" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M84.58,52.60 L85.33,54.60 L83.83,54.60 Z" fill="#333"/>
+<path d="M84.58,96.00 L83.83,94.00 L85.33,94.00 Z" fill="#333"/>
+<text x="86.18" y="74.30" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 86.18 74.30)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">1531</text>
+<path d="M100.00,85.34 L141.16,85.34" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M141.16,85.34 L139.16,86.09 L139.16,84.59 Z" fill="#333"/>
+<path d="M100.00,85.34 L102.00,84.59 L102.00,86.09 Z" fill="#333"/>
+<text x="120.58" y="83.74" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 120.58 83.74)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">1452</text>
+<path d="M142.29,96.00 L154.77,96.00" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M142.29,85.34 L154.77,85.34" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M153.06,96.00 L153.06,85.34" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M153.06,85.34 L153.81,87.34 L152.31,87.34 Z" fill="#333"/>
+<path d="M153.06,96.00 L152.31,94.00 L153.81,94.00 Z" fill="#333"/>
+<text x="154.66" y="90.67" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 154.66 90.67)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">376</text>
+<path d="M100.00,116.52 L75.59,116.52" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M75.59,116.52 L77.59,115.77 L77.59,117.27 Z" fill="#333"/>
+<path d="M100.00,116.52 L98.00,117.27 L98.00,115.77 Z" fill="#333"/>
+<text x="87.80" y="121.12" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 87.80 121.12)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">861</text>
+<path d="M75.59,96.00 L75.59,116.52" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M75.59,116.52 L74.84,114.52 L76.34,114.52 Z" fill="#333"/>
+<path d="M75.59,96.00 L76.34,98.00 L74.84,98.00 Z" fill="#333"/>
+<text x="77.19" y="106.26" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 77.19 106.26)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">724</text>
+<text x="84.58" y="63.59" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 84.58 63.59)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">H1 Ø1250</text>
+<text x="141.16" y="98.52" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 141.16 98.52)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">H2 Ø1500</text>
+<text x="75.59" y="136.29" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 75.59 136.29)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">H3 Ø2250</text>
+<path d="M66.26,63.89 L68.46,69.73" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M56.63,67.51 L58.83,73.35" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M67.86,68.14 L58.23,71.76" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M58.23,71.76 L59.84,70.35 L60.36,71.76 Z" fill="#333"/>
+<path d="M67.86,68.14 L66.25,69.54 L65.72,68.14 Z" fill="#333"/>
+<text x="62.48" y="68.45" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-20.60 62.48 68.45)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">363</text>
+<path d="M55.17,66.85 L49.33,69.04" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M53.07,61.25 L47.23,63.45" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M50.93,68.45 L48.82,62.85" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M48.82,62.85 L50.23,64.46 L48.82,64.98 Z" fill="#333"/>
+<path d="M50.93,68.45 L49.52,66.84 L50.92,66.31 Z" fill="#333"/>
+<text x="51.37" y="65.08" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(69.40 51.37 65.08)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">211</text>
+<text x="55.65" y="51.89" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 55.65 51.89)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S1</text>
+<path d="M122.76,68.42 L117.83,72.25" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M116.43,60.30 L111.51,64.13" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M119.18,71.20 L112.86,63.08" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M112.86,63.08 L114.68,64.20 L113.49,65.12 Z" fill="#333"/>
+<path d="M119.18,71.20 L117.36,70.08 L118.54,69.16 Z" fill="#333"/>
+<text x="117.28" y="66.16" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(52.10 117.28 66.16)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">363</text>
+<path d="M116.63,58.70 L112.80,53.78" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M121.35,55.03 L117.52,50.11" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M113.85,55.13 L118.57,51.45" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M118.57,51.45 L117.45,53.27 L116.53,52.09 Z" fill="#333"/>
+<path d="M113.85,55.13 L114.96,53.31 L115.89,54.49 Z" fill="#333"/>
+<text x="115.22" y="52.03" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-37.90 115.22 52.03)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">211</text>
+<text x="132.59" y="55.84" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 132.59 55.84)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S2</text>
+<path d="M110.92,121.04 L112.53,115.02" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M122.69,124.20 L124.31,118.17" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M112.09,116.66 L123.87,119.82" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M123.87,119.82 L121.74,120.02 L122.13,118.58 Z" fill="#333"/>
+<path d="M112.09,116.66 L114.22,116.46 L113.83,117.90 Z" fill="#333"/>
+<text x="118.39" y="116.69" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(15.00 118.39 116.69)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">430</text>
+<path d="M123.49,125.59 L129.52,127.20" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M121.61,132.62 L127.63,134.24" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M127.88,126.76 L125.99,133.80" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M125.99,133.80 L125.78,131.67 L127.23,132.06 Z" fill="#333"/>
+<path d="M127.88,126.76 L128.08,128.89 L126.63,128.50 Z" fill="#333"/>
+<text x="125.39" y="129.86" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-75.00 125.39 129.86)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">257</text>
+<text x="112.21" y="141.39" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 112.21 141.39)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S3</text>
+<path d="M29.13,174.24 L170.87,174.24" fill="none" stroke="#333" stroke-width="0.22"/>
+<path d="M170.87,174.24 L168.87,174.99 L168.87,173.49 Z" fill="#333"/>
+<path d="M29.13,174.24 L31.13,173.49 L31.13,174.99 Z" fill="#333"/>
+<text x="100.00" y="172.64" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 100.00 172.64)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">Ø 5000</text>
+<path d="M29.13,97.13 L29.13,177.07" fill="none" stroke="#333" stroke-width="0.18"/>
+<path d="M170.87,97.13 L170.87,177.07" fill="none" stroke="#333" stroke-width="0.18"/>
 </g>
 </svg>
