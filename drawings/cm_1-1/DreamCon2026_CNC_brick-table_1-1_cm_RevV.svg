@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 200" width="409.222cm" height="141.111cm">
 <rect width="100%" height="100%" fill="#fff"/>
-<text font-family="IBMPlexSans" x="22" y="192" font-size="5.5" fill="#777">all dimensions in cm · real scale 1:1</text>
+<text font-family="IBMPlexSans" x="430" y="25" font-size="5.5" fill="#777">all dimensions in cm · real scale 1:1</text>
 <path d="M30.00,172.00 L384.33,172.00 L384.33,72.79 L30.00,72.79 L30.00,172.00" fill="none" stroke="#e5483d" stroke-width="0.35"/>
 <path d="M149.20,172.00 L149.20,72.79" fill="none" stroke="#333" stroke-width="0.2"/>
 <path d="M151.75,172.00 L151.75,72.79" fill="none" stroke="#333" stroke-width="0.2"/>
