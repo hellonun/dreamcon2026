@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 205" width="200pt" height="205pt" font-family="IBM Plex Thai, IBMPlexThai, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 205" width="200pt" height="205pt" font-family="IBMPlexThai">
 <rect width="100%" height="100%" fill="#fff"/>
 <g id="CUT_through">
 <circle cx="100.00" cy="96.00" r="70.87" fill="none" stroke="#e5483d" stroke-width="0.35"/>
@@ -29,76 +29,76 @@
 <path d="M100.00,52.60 L84.58,52.60" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M84.58,52.60 L86.58,51.85 L86.58,53.35 Z" fill="#333"/>
 <path d="M100.00,52.60 L98.00,53.35 L98.00,51.85 Z" fill="#333"/>
-<text x="92.29" y="51.00" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 92.29 51.00)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">544</text>
+<text font-family="IBMPlexThai" x="92.29" y="50.40" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 92.29 50.40)">544</text>
 <path d="M100.00,52.60 L100.00,52.60" />
 <path d="M84.58,96.00 L84.58,52.60" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M84.58,52.60 L85.33,54.60 L83.83,54.60 Z" fill="#333"/>
 <path d="M84.58,96.00 L83.83,94.00 L85.33,94.00 Z" fill="#333"/>
-<text x="86.18" y="74.30" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 86.18 74.30)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">1531</text>
+<text font-family="IBMPlexThai" x="86.78" y="74.30" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 86.78 74.30)">1531</text>
 <path d="M100.00,85.34 L141.16,85.34" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M141.16,85.34 L139.16,86.09 L139.16,84.59 Z" fill="#333"/>
 <path d="M100.00,85.34 L102.00,84.59 L102.00,86.09 Z" fill="#333"/>
-<text x="120.58" y="83.74" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 120.58 83.74)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">1452</text>
+<text font-family="IBMPlexThai" x="120.58" y="83.14" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 120.58 83.14)">1452</text>
 <path d="M142.29,96.00 L154.77,96.00" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M142.29,85.34 L154.77,85.34" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M153.06,96.00 L153.06,85.34" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M153.06,85.34 L153.81,87.34 L152.31,87.34 Z" fill="#333"/>
 <path d="M153.06,96.00 L152.31,94.00 L153.81,94.00 Z" fill="#333"/>
-<text x="154.66" y="90.67" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 154.66 90.67)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">376</text>
+<text font-family="IBMPlexThai" x="155.26" y="90.67" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 155.26 90.67)">376</text>
 <path d="M100.00,116.52 L75.59,116.52" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M75.59,116.52 L77.59,115.77 L77.59,117.27 Z" fill="#333"/>
 <path d="M100.00,116.52 L98.00,117.27 L98.00,115.77 Z" fill="#333"/>
-<text x="87.80" y="121.12" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 87.80 121.12)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">861</text>
+<text font-family="IBMPlexThai" x="87.80" y="121.12" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 87.80 121.12)">861</text>
 <path d="M75.59,96.00 L75.59,116.52" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M75.59,116.52 L74.84,114.52 L76.34,114.52 Z" fill="#333"/>
 <path d="M75.59,96.00 L76.34,98.00 L74.84,98.00 Z" fill="#333"/>
-<text x="77.19" y="106.26" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 77.19 106.26)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">724</text>
-<text x="84.58" y="63.59" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 84.58 63.59)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">H1 Ø1250</text>
-<text x="141.16" y="98.52" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 141.16 98.52)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">H2 Ø1500</text>
-<text x="75.59" y="136.29" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 75.59 136.29)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">H3 Ø2250</text>
+<text font-family="IBMPlexThai" x="77.79" y="106.26" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(90.00 77.79 106.26)">724</text>
+<text font-family="IBMPlexThai" x="84.58" y="63.59" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 84.58 63.59)">H1 Ø1250</text>
+<text font-family="IBMPlexThai" x="141.16" y="101.29" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 141.16 101.29)">H2 Ø1500</text>
+<text font-family="IBMPlexThai" x="75.59" y="136.29" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 75.59 136.29)">H3 Ø2250</text>
 <path d="M66.26,63.89 L68.46,69.73" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M56.63,67.51 L58.83,73.35" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M67.86,68.14 L58.23,71.76" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M58.23,71.76 L59.84,70.35 L60.36,71.76 Z" fill="#333"/>
 <path d="M67.86,68.14 L66.25,69.54 L65.72,68.14 Z" fill="#333"/>
-<text x="62.48" y="68.45" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-20.60 62.48 68.45)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">363</text>
+<text font-family="IBMPlexThai" x="62.27" y="67.89" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-20.60 62.27 67.89)">363</text>
 <path d="M55.17,66.85 L49.33,69.04" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M53.07,61.25 L47.23,63.45" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M50.93,68.45 L48.82,62.85" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M48.82,62.85 L50.23,64.46 L48.82,64.98 Z" fill="#333"/>
 <path d="M50.93,68.45 L49.52,66.84 L50.92,66.31 Z" fill="#333"/>
-<text x="51.37" y="65.08" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(69.40 51.37 65.08)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">211</text>
-<text x="55.65" y="51.89" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 55.65 51.89)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S1</text>
+<text font-family="IBMPlexThai" x="51.93" y="64.87" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(69.40 51.93 64.87)">211</text>
+<text font-family="IBMPlexThai" x="55.65" y="51.89" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 55.65 51.89)">S1</text>
 <path d="M122.76,68.42 L117.83,72.25" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M116.43,60.30 L111.51,64.13" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M119.18,71.20 L112.86,63.08" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M112.86,63.08 L114.68,64.20 L113.49,65.12 Z" fill="#333"/>
 <path d="M119.18,71.20 L117.36,70.08 L118.54,69.16 Z" fill="#333"/>
-<text x="117.28" y="66.16" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(52.10 117.28 66.16)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">363</text>
+<text font-family="IBMPlexThai" x="117.75" y="65.79" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(52.10 117.75 65.79)">363</text>
 <path d="M116.63,58.70 L112.80,53.78" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M121.35,55.03 L117.52,50.11" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M113.85,55.13 L118.57,51.45" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M118.57,51.45 L117.45,53.27 L116.53,52.09 Z" fill="#333"/>
 <path d="M113.85,55.13 L114.96,53.31 L115.89,54.49 Z" fill="#333"/>
-<text x="115.22" y="52.03" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-37.90 115.22 52.03)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">211</text>
-<text x="132.59" y="55.84" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 132.59 55.84)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S2</text>
+<text font-family="IBMPlexThai" x="114.86" y="51.55" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-37.90 114.86 51.55)">211</text>
+<text font-family="IBMPlexThai" x="132.59" y="55.84" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 132.59 55.84)">S2</text>
 <path d="M110.92,121.04 L112.53,115.02" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M122.69,124.20 L124.31,118.17" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M112.09,116.66 L123.87,119.82" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M123.87,119.82 L121.74,120.02 L122.13,118.58 Z" fill="#333"/>
 <path d="M112.09,116.66 L114.22,116.46 L113.83,117.90 Z" fill="#333"/>
-<text x="118.39" y="116.69" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(15.00 118.39 116.69)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">430</text>
+<text font-family="IBMPlexThai" x="118.55" y="116.11" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(15.00 118.55 116.11)">430</text>
 <path d="M123.49,125.59 L129.52,127.20" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M121.61,132.62 L127.63,134.24" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M127.88,126.76 L125.99,133.80" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M125.99,133.80 L125.78,131.67 L127.23,132.06 Z" fill="#333"/>
 <path d="M127.88,126.76 L128.08,128.89 L126.63,128.50 Z" fill="#333"/>
-<text x="125.39" y="129.86" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-75.00 125.39 129.86)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">257</text>
-<text x="112.21" y="141.39" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 112.21 141.39)" style="paint-order:stroke" stroke="#fff" stroke-width="1.46">S3</text>
+<text font-family="IBMPlexThai" x="124.81" y="129.71" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(-75.00 124.81 129.71)">257</text>
+<text font-family="IBMPlexThai" x="112.21" y="141.39" font-size="5.2" font-weight="700" text-anchor="middle" fill="#333" transform="rotate(0.00 112.21 141.39)">S3</text>
 <path d="M29.13,174.24 L170.87,174.24" fill="none" stroke="#333" stroke-width="0.22"/>
 <path d="M170.87,174.24 L168.87,174.99 L168.87,173.49 Z" fill="#333"/>
 <path d="M29.13,174.24 L31.13,173.49 L31.13,174.99 Z" fill="#333"/>
-<text x="100.00" y="172.64" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 100.00 172.64)" style="paint-order:stroke" stroke="#fff" stroke-width="1.29">Ø 5000</text>
+<text font-family="IBMPlexThai" x="100.00" y="172.04" font-size="4.6" font-weight="500" text-anchor="middle" fill="#333" transform="rotate(0.00 100.00 172.04)">Ø 5000</text>
 <path d="M29.13,97.13 L29.13,177.07" fill="none" stroke="#333" stroke-width="0.18"/>
 <path d="M170.87,97.13 L170.87,177.07" fill="none" stroke="#333" stroke-width="0.18"/>
 </g>
