@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 158 162" width="55.739cm" height="57.150cm">
+<rect width="158" height="162" fill="#fff"/>
+<text font-family="Arial, Helvetica, sans-serif" x="4" y="6" font-size="2.6" fill="#777">all dimensions in cm · scale 1:10</text>
+<path d="M5.86614,77.00000 L152.13386,77.00000" fill="none" stroke="#bbb" stroke-width="0.15"/>
+<path d="M79.00000,150.13386 L79.00000,3.86614" fill="none" stroke="#777" stroke-width="0.2"/>
+<circle cx="79.00000" cy="77.00000" r="70.86614" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<circle cx="63.57953" cy="33.60157" r="17.71654" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<text font-family="Arial, Helvetica, sans-serif" x="63.57953" y="31.80157" font-size="4.4" text-anchor="middle" fill="#333" transform="rotate(0.00000 63.57953 31.80157)">H1 Ø125</text>
+<circle cx="120.15906" cy="66.34173" r="21.25984" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<text font-family="Arial, Helvetica, sans-serif" x="120.15906" y="64.54173" font-size="4.4" text-anchor="middle" fill="#333" transform="rotate(0.00000 120.15906 64.54173)">H2 Ø150</text>
+<circle cx="54.59370" cy="97.52283" r="31.88976" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<text font-family="Arial, Helvetica, sans-serif" x="54.59370" y="95.72283" font-size="4.4" text-anchor="middle" fill="#333" transform="rotate(0.00000 54.59370 95.72283)">H3 Ø225</text>
+<path d="M62.44567,35.30236 L80.13386,35.30236" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M62.30394,36.57795 L64.85512,34.02677" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M77.72441,36.57795 L80.27559,34.02677" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="71.28976" y="38.90636" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(0.00000 71.28976 38.90636)">54.4</text>
+<path d="M65.28031,78.13386 L65.28031,32.46772" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M66.55591,78.27559 L64.00472,75.72441" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M66.55591,34.87717 L64.00472,32.32598" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="66.58031" y="55.30079" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(90.00000 66.58031 55.30079)">153.1</text>
+<path d="M77.86614,66.34173 L121.29291,66.34173" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M77.72441,67.61732 L80.27559,65.06614" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M118.88346,67.61732 L121.43465,65.06614" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="99.57953" y="65.04173" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(0.00000 99.57953 65.04173)">145.2</text>
+<path d="M121.85984,78.13386 L121.85984,65.20787" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M123.13543,78.27559 L120.58425,75.72441" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M123.13543,67.61732 L120.58425,65.06614" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="123.15984" y="71.67087" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(90.00000 123.15984 71.67087)">37.6</text>
+<path d="M53.45984,99.22362 L80.13386,99.22362" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M53.31811,100.49921 L55.86929,97.94803" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M77.72441,100.49921 L80.27559,97.94803" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="66.79685" y="102.82762" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(0.00000 66.79685 102.82762)">86.1</text>
+<path d="M52.89291,75.86614 L52.89291,98.65669" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M51.61732,75.72441 L54.16850,78.27559" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M51.61732,96.24724 L54.16850,98.79843" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="49.28891" y="87.26142" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(90.00000 49.28891 87.26142)">72.4</text>
+<path d="M44.86392,43.83114 L35.23209,47.45151 L33.12769,41.85284 L42.75952,38.23247 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<path d="M45.16312,44.62716 L46.95835,49.40327" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M35.53129,48.24753 L37.32652,53.02364" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M47.42130,47.41230 L35.66675,51.83054" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M47.10516,46.16840 L45.61472,49.45407" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M37.47333,49.78877 L35.98288,53.07444" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="42.76140" y="52.86018" font-size="3.0" text-anchor="middle" fill="#333" transform="rotate(-20.60000 42.76140 52.86018)">36.3</text>
+<path d="M34.43607,47.75071 L29.65995,49.54593" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M32.33167,42.15204 L27.55555,43.94727" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M31.65093,50.00889 L28.74865,42.28750" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M32.89483,49.69275 L29.60916,48.20230" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M30.79043,44.09408 L27.50476,42.60364" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="26.96103" y="47.36556" font-size="3.0" text-anchor="middle" fill="#333" transform="rotate(69.40000 26.96103 47.36556)">21.1</text>
+<text font-family="Arial, Helvetica, sans-serif" x="35.35050" y="34.24382" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(0.00000 35.35050 34.24382)">S1</text>
+<path d="M102.65012,48.71885 L96.32927,40.59936 L101.04886,36.92526 L107.36971,45.04475 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<path d="M101.97908,49.24124 L97.95289,52.37554" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M95.65823,41.12175 L91.63204,44.25605" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M99.99147,52.22548 L92.27759,42.31657" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M101.08508,51.55374 L97.50483,51.10780" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M94.76423,43.43426 L91.18398,42.98831" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="93.40430" y="49.39646" font-size="3.0" text-anchor="middle" fill="#333" transform="rotate(52.10000 93.40430 49.39646)">36.3</text>
+<path d="M95.80688,39.92833 L92.67258,35.90214" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M100.52647,36.25423 L97.39217,32.22804" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M92.82263,37.94071 L99.33165,32.87359" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M93.49437,39.03433 L93.94032,35.45408" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M98.21397,35.36022 L98.65991,31.77997" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="95.27857" y="34.38134" font-size="3.0" text-anchor="middle" fill="#333" transform="rotate(-37.90000 95.27857 34.38134)">21.1</text>
+<text font-family="Arial, Helvetica, sans-serif" x="110.02489" y="37.55767" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(0.00000 110.02489 37.55767)">S2</text>
+<path d="M89.62527,103.13850 L101.39892,106.29324 L99.51341,113.33005 L87.73976,110.17531 Z" fill="none" stroke="#e5483d" stroke-width="0.35"/>
+<path d="M89.84537,102.31708 L91.16596,97.38858" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M101.61901,105.47182 L102.93960,100.54332" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M89.63054,98.73795 L103.59463,102.47962" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M89.16349,99.93339 L92.28803,98.12944" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M100.93713,103.08813 L104.06168,101.28418" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="96.94905" y="99.35308" font-size="3.0" text-anchor="middle" fill="#333" transform="rotate(15.00000 96.94905 99.35308)">43</text>
+<path d="M102.22033,106.51334 L107.14884,107.83393" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M100.33483,113.55015 L105.26333,114.87073" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M105.79947,106.29851 L103.32703,115.52576" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M104.60402,105.83146 L106.40798,108.95600" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M102.71852,112.86827 L104.52247,115.99281" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="107.90535" y="111.80765" font-size="3.0" text-anchor="middle" fill="#333" transform="rotate(-75.00000 107.90535 111.80765)">25.7</text>
+<text font-family="Arial, Helvetica, sans-serif" x="91.71907" y="119.97163" font-size="3.2" text-anchor="middle" fill="#333" transform="rotate(0.00000 91.71907 119.97163)">S3</text>
+<path d="M8.13386,78.70079 L8.13386,158.07087" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M149.86614,78.70079 L149.86614,158.07087" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M7.00000,155.80315 L151.00000,155.80315" fill="none" stroke="#777" stroke-width="0.2"/>
+<path d="M6.85827,157.07874 L9.40945,154.52756" fill="none" stroke="#777" stroke-width="0.25"/>
+<path d="M148.59055,157.07874 L151.14173,154.52756" fill="none" stroke="#777" stroke-width="0.25"/>
+<text font-family="Arial, Helvetica, sans-serif" x="79.00000" y="160.00315" font-size="3.4" text-anchor="middle" fill="#333" transform="rotate(0.00000 79.00000 160.00315)">Ø 500</text>
+</svg>
