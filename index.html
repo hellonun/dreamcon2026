@@ -198,6 +198,13 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <span><i style="background:#8F8CF5"></i>Conference area</span>
         <span><i style="background:var(--navy)"></i>Partner booths (when shown)</span>
       </div>
+      <h3>Audience chairs</h3>
+      <div class="card" id="seat-card">
+        <div class="seat-seg" style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn" data-seat="0">Off</button><button class="btn" data-seat="1">A · Rows</button><button class="btn" data-seat="2">B · Arc</button><button class="btn" data-seat="3">C · Chevron</button>
+        </div>
+        <p class="note" id="seat-info" style="margin:8px 0 0;font-size:12px;opacity:.8"></p>
+      </div>
       <h3>Turn around the centre</h3>
       <div class="card" id="rot-card">
         <label class="fld">Exhibition walls <output id="rot-walls-v">0°</output><input type="range" id="rot-walls" min="-180" max="180" step="1" value="0"></label>
@@ -1977,7 +1984,7 @@ function setView(name){
 function setTab(t){ $$('.tab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t))); $$('.pane').forEach(p=>p.hidden=p.dataset.pane!==t); store.set(KEY+'-tab',t); }
 const stationSyncs=[];
 const ROTS=[['walls','rotWalls'],['station','rotStation'],['stage','rotStage'],['booths','rotBooths']];
-function applyRot(which){ if(which==='stage') layers.stage.rotation.y=(B.rotStage||0)*DEG; else if(which==='booths') layers.booths.rotation.y=(B.rotBooths||0)*DEG; else { proposal(); }
+function applyRot(which){ setTimeout(()=>window.buildSeating?.(),80); if(which==='stage') layers.stage.rotation.y=(B.rotStage||0)*DEG; else if(which==='booths') layers.booths.rotation.y=(B.rotBooths||0)*DEG; else { proposal(); }
   renderChecks(); }
 function syncRotUI(){ for(const [k,key] of ROTS){ const v=B[key]||0; $('#rot-'+k).value=v; $('#rot-'+k+'-v').textContent=(v>0?'+':'')+v+'°'; } const r=B.wallR||8.2; $('#wall-r').value=r; $('#wall-r-v').textContent=r.toFixed(1)+' m'; }
 function bindRot(){ for(const [k,key] of ROTS){ let t=null; $('#rot-'+k).addEventListener('input',e=>{ B[key]=+e.target.value; syncRotUI();
@@ -2107,7 +2114,59 @@ function frame(now){
   WALL_RF=B.wallR||8.2;
   bindUI(); bindBricks(); syncBrickUI(); renderLib(); bindMeasure();
   proposal();   // the layout is fixed; only the brick settings are kept between visits
-  layers.stage.rotation.y=(B.rotStage||0)*DEG; layers.booths.rotation.y=(B.rotBooths||0)*DEG; bindRot();
+
+/* ---------- audience chairs in front of the stage: 86 stacking chairs (≈ 50 × 52 cm, seat +45, back +85), three drafts ---------- */
+const SEAT_N=86, SEAT_NAMES=['Off','A · Rows','B · Arc','C · Chevron'];
+const seatRoot=new THREE.Group(); scene.add(seatRoot); layers.seats=seatRoot;
+function seatFree(x,z){
+  if(Math.hypot(x,z)>R-1.0) return false;                                            // keep the perimeter walkway
+  if(Math.hypot(x-B.cx,z-B.cz)<B.pdia/2+0.95) return false;                           // walkway round the platform
+  for(const ob of OBSTACLES) if(Math.hypot(x-ob.x,z-ob.z)<ob.r+0.45) return false;
+  if(layers.booths?.visible) for(const [bx,bz] of boothSpots()) if(Math.hypot(x-bx,z-bz)<1.7) return false;
+  for(const m of S.modules) if(distToRect(m,x,z)<0.7) return false;
+  for(const id of ['L','R']){ const g=wallGeom(id); for(let i=0;i<g.ws.length;i++){ const q=[g.fronts[i][0],g.fronts[i][1],g.backs[i][1],g.backs[i][0]];
+      let inside=false; for(let a=0,b=3;a<4;b=a++){ const [xa,za]=q[a],[xb,zb]=q[b]; if(((za>z)!==(zb>z)) && x<(xb-xa)*(z-za)/(zb-za)+xa) inside=!inside; }
+      if(inside) return false;
+      for(let a=0;a<4;a++){ const [xa,za]=q[a],[xb,zb]=q[(a+1)%4]; const dx=xb-xa, dz=zb-za, t=Math.max(0,Math.min(1,((x-xa)*dx+(z-za)*dz)/(dx*dx+dz*dz))); if(Math.hypot(x-(xa+t*dx),z-(za+t*dz))<0.75) return false; } } }
+  return true; }
+function seatCandidates(kind){            // stage-local: u across, v forward from the front edge of the stage carpet; yaw 0 = facing the stage
+  const out=[]; const P=(u,v,yaw,row)=>out.push({u,v,yaw,row});
+  if(kind===1){ for(let r=0;r<12;r++){ const v=1.1+r*0.9, cap=4.3+r*0.55; const side=[];
+      for(let j=0;j<20;j++){ const u=0.6+j*0.52+Math.floor(j/8)*0.9; if(u>cap) break; side.push(u); }
+      side.forEach(u=>{ P(-u,v,0,r); P(u,v,0,r); }); } }
+  if(kind===2){ const F=-1.2;            // rows curve round the middle of the stage
+    for(let r=0;r<12;r++){ const rho=2.5+r*0.9, lim=(58+r*4)*DEG, step=0.53/rho; const half=[];
+      for(let th=0.6/rho; th<=lim; th+=step){ const sep=[40*DEG].some(a=>Math.abs(th-a)<0.45/rho); if(sep){ th+=0.9/rho-step; continue; } half.push(th); }
+      half.forEach(th=>{ for(const sg of [-1,1]){ const t=sg*th; P(Math.sin(t)*rho, F+Math.cos(t)*rho, t, r); } }); } }
+  if(kind===3){ const ANG=22*DEG;          // two angled blocks either side of a 1.6 m centre walkway, each turned towards the middle of the stage
+    for(let r=0;r<12;r++) for(let j=0;j<16;j++) for(const sg of [-1,1]){ const bu=0.8+j*0.52+Math.floor(j/8)*0.9, bv=r*0.9;
+      const a=sg*ANG; const u=sg*(0.8)+Math.cos(a)*(sg*(bu-0.8))+Math.sin(a)*bv, v=1.1-Math.sin(a)*(sg*(bu-0.8))+Math.cos(a)*bv;   /* outer ends come forward */
+      if(j>=8+Math.floor(r/2)) continue; P(u,v,sg*ANG,r); }
+    out.sort((p,q)=>p.row-q.row || Math.abs(p.u)-Math.abs(q.u)); }
+  return out; }
+function seatPlace(kind){ const st=stagePose(), a=st.rot*DEG, c=Math.cos(a), sn=Math.sin(a); const got=[]; const rows=new Set(), blocked=new Set();
+  for(const q of seatCandidates(kind)){ const lx=q.u, lz=-(1.2+q.v); const x=st.x+lx*c+lz*sn, z=st.z-lx*sn+lz*c;
+    const key=q.row+(q.u<0?'L':'R'); if(blocked.has(key)) continue;   /* once a row half meets something it stops there: no stray single chairs beyond */
+    if(!seatFree(x,z) || got.some(g=>Math.hypot(g.x-x,g.z-z)<0.5)){ if(got.some(g=>g.key===key)) blocked.add(key); continue; }
+    got.push({ x, z, yaw:a-q.yaw, key, row:q.row }); rows.add(q.row); q.got=true; if(got.length>=SEAT_N+12) break; }
+  const keep=got.filter(g=>got.some(h=>h!==g && Math.hypot(h.x-g.x,h.z-g.z)<0.62)).slice(0,SEAT_N);   /* drop lone chairs */
+  return { got:keep, rows:new Set(keep.map(g=>g.row)).size }; }
+const SEAT_GEO=(()=>{ const seat=new THREE.BoxGeometry(0.46,0.03,0.44); seat.translate(0,0.45,0.01); const back=new THREE.BoxGeometry(0.46,0.30,0.025); back.rotateX(-0.12); back.translate(0,0.70,-0.22);
+  const leg=new THREE.CylinderGeometry(0.011,0.011,0.45,8); return { seat, back, leg }; })();
+function buildSeating(){ seatRoot.clear(); const kind=B.seatLayout||0; const info=$('#seat-info');
+  $$('#seat-card [data-seat]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.seat===kind)));
+  if(!kind){ if(info) info.textContent='No chairs placed. Pick a draft to lay out 86 chairs facing the stage.'; return; }
+  const { got, rows }=seatPlace(kind); const n=got.length;
+  const blk=new THREE.MeshStandardMaterial({ color:'#26272B', roughness:0.6 }), chrome=new THREE.MeshStandardMaterial({ color:'#C9CDD2', roughness:0.25, metalness:0.9 });
+  const ms=new THREE.InstancedMesh(SEAT_GEO.seat,blk,n), mb=new THREE.InstancedMesh(SEAT_GEO.back,blk,n), ml=new THREE.InstancedMesh(SEAT_GEO.leg,chrome,n*4);
+  const M=new THREE.Matrix4(), Q=new THREE.Quaternion(), V=new THREE.Vector3(), Y=new THREE.Vector3(0,1,0), one=new THREE.Vector3(1,1,1);
+  got.forEach((p,i)=>{ Q.setFromAxisAngle(Y,p.yaw); M.compose(V.set(p.x,0,p.z),Q,one); ms.setMatrixAt(i,M); mb.setMatrixAt(i,M);
+    [[-0.2,-0.19],[0.2,-0.19],[-0.2,0.2],[0.2,0.2]].forEach(([lx,lz],k)=>{ const c=Math.cos(p.yaw), s=Math.sin(p.yaw); M.compose(V.set(p.x+lx*c+lz*s,0.225,p.z-lx*s+lz*c),Q,one); ml.setMatrixAt(i*4+k,M); }); });
+  for(const m of [ms,mb,ml]){ m.castShadow=true; m.receiveShadow=true; seatRoot.add(m); }
+  if(info) info.textContent=`${SEAT_NAMES[kind]}: ${n} of ${SEAT_N} chairs in ${rows} rows`+(n<SEAT_N?' (no more room clear of the platform, columns, booths and walls)':'')+' · 0.9 m row pitch, aisles at least 0.9 m'; }
+window.buildSeating=buildSeating;
+$$('#seat-card [data-seat]').forEach(b=>b.onclick=()=>{ B.seatLayout=+b.dataset.seat; buildSeating(); persist?.(); });
+  layers.stage.rotation.y=(B.rotStage||0)*DEG; layers.booths.rotation.y=(B.rotBooths||0)*DEG; bindRot(); buildSeating();
   applyBrickColors(); rebuildBuild(); if(!B.messages?.length){ seedMessages(); rebuildBuild(); } drawScreen(); drawStation(); past.push(snapshot()); updateDerived(); renderInspector();
   setTab(store.get(KEY+'-tab')||'space'); setView('overview');
   $('#loading').hidden=true; requestAnimationFrame(frame);
