@@ -190,6 +190,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <label class="tg"><input type="checkbox" id="lyr-people" checked>People for scale</label>
         <label class="tg"><input type="checkbox" id="lyr-lights" checked>Clip lights</label>
         <label class="tg"><input type="checkbox" id="lyr-stage" checked>Stage &amp; LED</label>
+        <label class="tg" title="86 stacking chairs in two angled blocks either side of a 1.6 m walkway"><input type="checkbox" id="lyr-seats" checked>Audience chairs (86)</label>
         <label class="tg"><input type="checkbox" id="lyr-labels">Labels</label>
       </div>
       <div class="legend">
@@ -197,13 +198,6 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--surface-2);border:1p
         <span><i style="background:var(--royal)"></i>Sculpture core</span>
         <span><i style="background:#8F8CF5"></i>Conference area</span>
         <span><i style="background:var(--navy)"></i>Partner booths (when shown)</span>
-      </div>
-      <h3>Audience chairs</h3>
-      <div class="card" id="seat-card">
-        <div class="seat-seg" style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn" data-seat="0">Off</button><button class="btn" data-seat="1">A · Rows</button><button class="btn" data-seat="2">B · Arc</button><button class="btn" data-seat="3">C · Chevron</button>
-        </div>
-        <p class="note" id="seat-info" style="margin:8px 0 0;font-size:12px;opacity:.8"></p>
       </div>
       <h3>Turn around the centre</h3>
       <div class="card" id="rot-card">
@@ -2139,9 +2133,9 @@ function seatCandidates(kind){            // stage-local: u across, v forward fr
       for(let th=0.6/rho; th<=lim; th+=step){ const sep=[40*DEG].some(a=>Math.abs(th-a)<0.45/rho); if(sep){ th+=0.9/rho-step; continue; } half.push(th); }
       half.forEach(th=>{ for(const sg of [-1,1]){ const t=sg*th; P(Math.sin(t)*rho, F+Math.cos(t)*rho, t, r); } }); } }
   if(kind===3){ const ANG=22*DEG;          // two angled blocks either side of a 1.6 m centre walkway, each turned towards the middle of the stage
-    for(let r=0;r<12;r++) for(let j=0;j<16;j++) for(const sg of [-1,1]){ const bu=0.8+j*0.52+Math.floor(j/8)*0.9, bv=r*0.9;
+    for(let r=0;r<12;r++) for(let j=0;j<16;j++) for(const sg of [-1,1]){ const bu=0.8+j*0.52, bv=r*0.9;   /* long rows, reached from the walkway or the outer end */
       const a=sg*ANG; const u=sg*(0.8)+Math.cos(a)*(sg*(bu-0.8))+Math.sin(a)*bv, v=1.1-Math.sin(a)*(sg*(bu-0.8))+Math.cos(a)*bv;   /* outer ends come forward */
-      if(j>=8+Math.floor(r/2)) continue; P(u,v,sg*ANG,r); }
+      if(j>=11) continue; P(u,v,sg*ANG,r); }
     out.sort((p,q)=>p.row-q.row || Math.abs(p.u)-Math.abs(q.u)); }
   return out; }
 function seatPlace(kind){ const st=stagePose(), a=st.rot*DEG, c=Math.cos(a), sn=Math.sin(a); const got=[]; const rows=new Set(), blocked=new Set();
@@ -2153,9 +2147,8 @@ function seatPlace(kind){ const st=stagePose(), a=st.rot*DEG, c=Math.cos(a), sn=
   return { got:keep, rows:new Set(keep.map(g=>g.row)).size }; }
 const SEAT_GEO=(()=>{ const seat=new THREE.BoxGeometry(0.46,0.03,0.44); seat.translate(0,0.45,0.01); const back=new THREE.BoxGeometry(0.46,0.30,0.025); back.rotateX(-0.12); back.translate(0,0.70,-0.22);
   const leg=new THREE.CylinderGeometry(0.011,0.011,0.45,8); return { seat, back, leg }; })();
-function buildSeating(){ seatRoot.clear(); const kind=B.seatLayout||0; const info=$('#seat-info');
-  $$('#seat-card [data-seat]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.seat===kind)));
-  if(!kind){ if(info) info.textContent='No chairs placed. Pick a draft to lay out 86 chairs facing the stage.'; return; }
+function buildSeating(){ seatRoot.clear(); const kind=B.seatsOn===false? 0 : 3; const info=$('#lyr-seats')?.parentElement;
+  if(!kind) return;
   const { got, rows }=seatPlace(kind); const n=got.length;
   const blk=new THREE.MeshStandardMaterial({ color:'#26272B', roughness:0.6 }), chrome=new THREE.MeshStandardMaterial({ color:'#C9CDD2', roughness:0.25, metalness:0.9 });
   const ms=new THREE.InstancedMesh(SEAT_GEO.seat,blk,n), mb=new THREE.InstancedMesh(SEAT_GEO.back,blk,n), ml=new THREE.InstancedMesh(SEAT_GEO.leg,chrome,n*4);
@@ -2163,9 +2156,9 @@ function buildSeating(){ seatRoot.clear(); const kind=B.seatLayout||0; const inf
   got.forEach((p,i)=>{ Q.setFromAxisAngle(Y,p.yaw); M.compose(V.set(p.x,0,p.z),Q,one); ms.setMatrixAt(i,M); mb.setMatrixAt(i,M);
     [[-0.2,-0.19],[0.2,-0.19],[-0.2,0.2],[0.2,0.2]].forEach(([lx,lz],k)=>{ const c=Math.cos(p.yaw), s=Math.sin(p.yaw); M.compose(V.set(p.x+lx*c+lz*s,0.225,p.z-lx*s+lz*c),Q,one); ml.setMatrixAt(i*4+k,M); }); });
   for(const m of [ms,mb,ml]){ m.castShadow=true; m.receiveShadow=true; seatRoot.add(m); }
-  if(info) info.textContent=`${SEAT_NAMES[kind]}: ${n} of ${SEAT_N} chairs in ${rows} rows`+(n<SEAT_N?' (no more room clear of the platform, columns, booths and walls)':'')+' · 0.9 m row pitch, aisles at least 0.9 m'; }
+  if(info) info.title=`${n} of ${SEAT_N} chairs in ${rows} rows, two angled blocks either side of a 1.6 m walkway · 0.9 m row pitch`; }
 window.buildSeating=buildSeating;
-$$('#seat-card [data-seat]').forEach(b=>b.onclick=()=>{ B.seatLayout=+b.dataset.seat; buildSeating(); persist?.(); });
+{ const cb=$('#lyr-seats'); if(cb){ cb.checked=B.seatsOn!==false; cb.onchange=()=>{ B.seatsOn=cb.checked; buildSeating(); persist?.(); }; } }
   layers.stage.rotation.y=(B.rotStage||0)*DEG; layers.booths.rotation.y=(B.rotBooths||0)*DEG; bindRot(); buildSeating();
   applyBrickColors(); rebuildBuild(); if(!B.messages?.length){ seedMessages(); rebuildBuild(); } drawScreen(); drawStation(); past.push(snapshot()); updateDerived(); renderInspector();
   setTab(store.get(KEY+'-tab')||'space'); setView('overview');
