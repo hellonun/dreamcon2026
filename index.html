@@ -754,8 +754,9 @@ const BOXLIKE = new Set(['bay','plinth']);
 function edgesOf(m){ const { w, d, h, type } = m; const X=w/2, Z=d/2, E=[]; const s=(a,b)=>E.push([a,b]);
   if(type==='plinth' && m.bay){   /* contractor 2B: one 2.40 × 0.60 frame (2 bays of 1.20) under the three 0.80 compartments, standards to +0.60, ledgers at 0.30 and 0.50, a 1.5 m brace in each bay front and back; drawn once, by the middle bay */
     if(!m.frame) return E; const xs=[-1.2,0,1.2], Zf=0.3, tp=0.6;
-    for(const x of xs) for(const z of [-Zf,Zf]) s([x,0,z],[x,tp,z]);
-    for(const y of [0.3,0.5]){ for(const z of [-Zf,Zf]) s([-1.2,y,z],[1.2,y,z]); for(const x of xs) s([x,y,-Zf],[x,y,Zf]); }
+    const yT=m.h-S.tube;   /* top ledgers under the 18 mm ply, touching it, so the top bears on the frame (contractor standards +0.60, raised to meet the board) */
+    for(const x of xs) for(const z of [-Zf,Zf]) s([x,0,z],[x,yT,z]);
+    for(const y of [0.3,0.5,yT]){ for(const z of [-Zf,Zf]) s([-1.2,y,z],[1.2,y,z]); for(const x of xs) s([x,y,-Zf],[x,y,Zf]); }
     for(const z of [-Zf,Zf]) for(const [a,b] of [[-1.2,0],[0,1.2]]) s([a+0.04,0.12,z+(z>0?-0.035:0.035)],[b-0.04,0.48,z+(z>0?-0.035:0.035)])   /* braces just inside the ledgers, behind the C-signs */;
     return E; }
   if(BOXLIKE.has(type)){ const jl=m.joinL;   /* a bay of the brick table shares its left posts and rails with the bay beside it */
@@ -1534,11 +1535,11 @@ function buildPlatform(){ buildCarpet();
   const deck=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{ depth:PLY, bevelEnabled:false, curveSegments:72 }), [deckMat, deckEdgeMat]); deck.rotation.x=-Math.PI/2; deck.position.set(B.cx,top-PLY,B.cz); deck.castShadow=true; deck.receiveShadow=true; platGroup.add(deck);
   if(B.skirt){ const sk=new THREE.Mesh(new THREE.CylinderGeometry(R0-0.01,R0-0.01,top-PLY,96,1,true), skirtMat); sk.position.set(B.cx,(top-PLY)/2,B.cz); sk.castShadow=true; sk.receiveShadow=true; platGroup.add(sk);
     for(const q of hs){ const hk=new THREE.Mesh(new THREE.CylinderGeometry(q.r+0.01,q.r+0.01,top-PLY,64,1,true), skirtMat); hk.position.set(B.cx+q.x,(top-PLY)/2,B.cz+q.z); hk.receiveShadow=true; platGroup.add(hk); } }
-  const r=S.tube, mat=finishMats.silver, V=(x,y,z)=>new THREE.Vector3(B.cx+x,y,B.cz+z); const P=platformParts(); const yTop=top-PLY-r, yLow=Math.min(0.18,yTop-0.15);
+  const r=S.tube, mat=finishMats.silver, V=(x,y,z)=>new THREE.Vector3(B.cx+x,y,B.cz+z); const P=platformParts(); const yTop=top-PLY, yLow=Math.min(0.18,yTop-0.15);   /* standards run up to the deck underside and the top ledgers touch it, so the deck bears on the frame */
   for(const [x,z] of P.posts){ addTube(platGroup,V(x,0.008,z),V(x,yTop,z),r,mat); const bp=new THREE.Mesh(basePlateGeo,castorMat); bp.position.set(B.cx+x,0.004,B.cz+z); platGroup.add(bp); }
   if(P.contractor){   /* contractor's frame: ledgers and clamped beams just under the deck only, so the floor under the table stays clear */
     for(const [a,b] of P.ledgers) addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat);
-    for(const [a,b] of P.beams) addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r*1.15,mat); }
+    for(const [a,b] of P.beams) addTube(platGroup,V(a[0],yTop-r*1.15,a[1]),V(b[0],yTop-r*1.15,b[1]),r*1.15,mat); }
   else   for(const [a,b] of P.ledgers){ addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat); if(yTop>0.3 && !segHitsSvc(a,b,r+0.01)) addTube(platGroup,V(a[0],yLow,a[1]),V(b[0],yLow,b[1]),r,mat); }   /* the lower ledger in front of the service box is left out so its door can swing open (the upper one still ties the bay) */
   BR.deckParts=P; buildHoleFeatures(hs); buildServiceBox(CARPET_T); buildQuoteBricks();
 }
