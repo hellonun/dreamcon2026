@@ -1294,11 +1294,11 @@ function dress(kind){
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
 const B = { count:1050, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#76583E', carpetMargin:0.5, tblCarpet:true, topColor:'#E4DCC1', svcBox:true, carpetShape:'circle', pdia:5, platH:0.564, skirt:false, holeSet:'opt3', nHoles:3, defv:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.75, stnLedge:'#E4DCC1', stnLedgeTex:'matte', stnRim:'#E4DCC1', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, wallR:8.2, rotStation:37, rotStage:0, rotBooths:-11, cx:-0.315, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
-  topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
-const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
-  ['ที่ดินทำกินสำหรับเกษตรกร','agriculture'],['Fair prices for farmers','agriculture'],['น้ำพอใช้ทุกฤดู','agriculture'],['Protect our rivers','agriculture'],
-  ['Healthcare close to home','health'],['อากาศสะอาดคือสิทธิ','health'],['ผู้สูงอายุอยู่อย่างมีศักดิ์ศรี','health'],['Accessible for every body','health'],['Rest days for everyone','health'],
-  ['ค่าแรงที่อยู่ได้จริง','economy'],['ความโปร่งใสในงบประมาณ','economy'],['บ้านที่ทุกคนมีได้','economy'],['ขนส่งสาธารณะที่ทุกคนเข้าถึง','economy'],['Small shops can grow','economy']];
+  topic:'life', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
+const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','life'],['A voice for young people','life'],['ภาษาถิ่นในโรงเรียน','life'],['Teachers paid fairly','life'],['ศิลปะเป็นของทุกคน','life'],['Libraries open late','life'],
+  ['ที่ดินทำกินสำหรับเกษตรกร','rights'],['Fair prices for farmers','rights'],['น้ำพอใช้ทุกฤดู','rights'],['Protect our rivers','rights'],
+  ['Healthcare close to home','life'],['อากาศสะอาดคือสิทธิ','life'],['ผู้สูงอายุอยู่อย่างมีศักดิ์ศรี','life'],['Accessible for every body','life'],['Rest days for everyone','life'],
+  ['ค่าแรงที่อยู่ได้จริง','politics'],['ความโปร่งใสในงบประมาณ','politics'],['บ้านที่ทุกคนมีได้','politics'],['ขนส่งสาธารณะที่ทุกคนเข้าถึง','politics'],['Small shops can grow','politics']];
 const SINGLES = [['#C99A86','Peach'],['#7A8E83','Sage'],['#D3B9B0','Blush'],['#A65A5A','Brick red']];
 let brickExtent = { maxR:0 };
 const MAXB = 3000;
@@ -1625,8 +1625,9 @@ function seedMessages(){ const T=BR.targets; if(!T.length) return; const now=Dat
   B.messages=SAMPLES.map(([text,topic],k)=>({ id:'s'+k, text, topic, brick:Math.min(T.length-1, Math.floor((0.35+0.65*(k+0.5)/SAMPLES.length)*Math.min(T.length,Math.round(B.prog*T.length)||T.length)) ), t:now-(SAMPLES.length-k)*1800e3, sample:true })); }
 
 /* ---------------- topics, the circle screens and the lettering round each hole ---------------- */
-const TOPICS = [ { id:'education', en:'Education', th:'การศึกษา' }, { id:'agriculture', en:'Agriculture', th:'เกษตรกรรม' }, { id:'health', en:'Health & wellbeing', th:'สุขภาพและความเป็นอยู่ที่ดี' }, { id:'economy', en:'Economy', th:'เศรษฐกิจ' } ];
-const HOLE_TOPICS = [['education'],['agriculture','health'],['economy']];
+const TOPICS = [ { id:'rights', en:'Rights and Equality', th:'สิทธิและความเป็นธรรม' }, { id:'life', en:'Quality of Life', th:'ปากท้องและคุณภาพชีวิต' }, { id:'politics', en:'Politics and Governance', th:'อำนาจรัฐและการเมือง' }, { id:'process', en:'Constitutional Process', th:'การจัดทำและแก้ไขรัฐธรรมนูญ' } ];   // = the station app's 4 buttons
+/* die-cut ring round each hole = the station's topic buttons: H1 small, H2 medium, H3 big */
+const HOLE_TOPICS = [['rights'],['life'],['politics']];
 const topicById = id => TOPICS.find(t=>t.id===id) || TOPICS[0];
 const SCR15 = { w:0.253, h:0.423 };   // largest screen, used for clearances
 const SCR_SIZES = [ { w:0.206, h:0.358, t:0.012 }, { w:0.206, h:0.358, t:0.012 }, { w:0.252, h:0.425, t:0.018 } ];   // per circle, outer size, portrait (S1, S2, S3)
