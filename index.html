@@ -1288,7 +1288,7 @@ function dress(kind){
 }
 
 /* ---------------- bricks: round build platform, brick stock, typed messages ---------------- */
-const B = { count:1050, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#76583E', carpetMargin:0.5, tblCarpet:true, topColor:'#E4DCC1', svcBox:true, carpetShape:'circle', pdia:5.5, platH:0.564, skirt:false, holeSet:'', nHoles:3, defv:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
+const B = { count:1050, L:0.215, W:0.075, H:0.02, dens:1900, maxH:1.0, carpet:true, carpetColor:'#76583E', carpetMargin:0.5, tblCarpet:true, topColor:'#E4DCC1', svcBox:true, carpetShape:'circle', pdia:5, platH:0.564, skirt:false, holeSet:'opt3', nHoles:3, defv:3, holeSeed:0, nStruct:12, structSeed:1, types:{ pavilion:true, round:true, arch:true, twist:true, cabin:true, domino:true },
   layers:16, prog:0.75, stnLedge:'#E4DCC1', stnLedgeTex:'matte', stnRim:'#E4DCC1', stnRimTex:'matte', stnScreenBg:'#A2A5AA', stnMode:'projection', rotWalls:0, wallR:8.2, rotStation:37, rotStage:0, rotBooths:-11, cx:-0.315, cz:0, fly:true, colorMode:'multi', single:'#C99A86',
   topic:'education', prompt:'รัฐธรรมนูญใหม่ที่ฉันอยากเห็นคือ… / The new constitution I want is…', messages:[] };
 const SAMPLES = [['การศึกษาฟรีที่มีคุณภาพ','education'],['A voice for young people','education'],['ภาษาถิ่นในโรงเรียน','education'],['Teachers paid fairly','education'],['ศิลปะเป็นของทุกคน','education'],['Libraries open late','education'],
@@ -1481,8 +1481,20 @@ function applyTopColor(){ const c=B.topColor||'ply'; if(c==='ply'){ deckMat.map=
 const deckEdgeMat = new THREE.MeshStandardMaterial({ map:plyEdgeTex, roughness:0.8 });
 const skirtMat = new THREE.MeshStandardMaterial({ color:'#C4AA80', roughness:0.8, side:THREE.DoubleSide });
 const basePlateGeo = new THREE.BoxGeometry(0.15,0.008,0.15);
+/* contractor's middle-table scaffold (top plan, 2A-1 / 2A-1.4): 41 standards — 24 on the three hole rings, 5 on the outside, 12 in the towers A/B/C.
+   Solid = ledgers into the rosettes (0.6 / 0.9 / 1.2 / 1.8), dashed = welded beams with clamps. Coordinates in mm, +Y away from the stage side as drawn. */
+const DECK41={ P:{ P1:[-650,770],P2:[-70,930],P3:[230,1450],P4:[70,2025],P5:[-445,2325],P6:[-1025,2175],P7:[-1325,1655],P8:[-1175,1070],
+    P9:[1195,-565],P10:[2065,-330],P11:[2365,190],P12:[2135,1065],P13:[1610,1360],P14:[745,1130],P15:[440,610],P16:[675,-260],
+    P17:[-1400,-1890],P18:[-200,-1890],P19:[440,-1250],P20:[440,-50],P21:[-200,585],P22:[-1400,585],P23:[-2035,-50],P24:[-2035,-1250],
+    P25:[-900,-2175],P26:[900,-2175],P27:[2175,-900],P29:[-2175,900],P30:[-2175,-900],
+    A1:[650,-1650],A2:[1250,-1650],A3:[1250,-750],A4:[650,-750], B1:[400,1400],B2:[1300,1400],B3:[1300,2000],B4:[400,2000], C1:[-1950,750],C2:[-1350,750],C3:[-1350,1350],C4:[-1950,1350] },
+  ledgers:'P1-P2 P2-P3 P3-P4 P4-P5 P5-P6 P6-P7 P7-P8 P8-P1 P9-P10 P10-P11 P11-P12 P12-P13 P13-P14 P14-P15 P15-P16 P16-P9 P17-P18 P18-P19 P19-P20 P20-P21 P21-P22 P22-P23 P23-P24 P24-P17 P29-P30 P25-P26 P26-P27 A1-A2 A2-A3 A3-A4 A4-A1 B1-B2 B2-B3 B3-B4 B4-B1 C1-C2 C2-C3 C3-C4 C4-C1',
+  beams:'P5-B3 B3-P12 B2-P13 P3-B1 P1-P21 P2-P15 P20-P16 P9-A3 P11-P27 A3-P27 A4-P19 P18-A1 A2-P26 P17-P25 P24-P30 P29-C4 C4-P6 C2-P22 C3-P8' };
 function platformParts(){ const R0=B.pdia/2, h=B.platH, hs=holes(), step=0.9, ring=0.15;
   const posts=[], ledgers=[];
+  if(Math.abs(B.pdia-5)<0.01 && B.holeSet==='opt3'){   /* the 5 m table: use the contractor's layout */
+    const pt=k=>{ const [X,Y]=DECK41.P[k]; return [X/1000,-Y/1000]; }; const pairs=str=>str.split(' ').map(e=>e.split('-').map(pt));
+    return { posts:Object.keys(DECK41.P).map(pt), ledgers:pairs(DECK41.ledgers), beams:pairs(DECK41.beams), contractor:true, area:Math.PI*R0*R0-hs.reduce((a,q)=>a+Math.PI*q.r*q.r,0), cutLen:2*Math.PI*R0+hs.reduce((a,q)=>a+2*Math.PI*q.r,0) }; }
   const ringPosts=(cx,cz,rad,closed=true)=>{ const n=Math.max(4,Math.ceil(2*Math.PI*rad/step)); const pts=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2; pts.push([cx+rad*Math.cos(a),cz+rad*Math.sin(a)]); } pts.forEach((p,i)=>{ posts.push(p); ledgers.push([p,pts[(i+1)%n]]); }); return pts; };
   ringPosts(0,0,R0-ring); for(const q of hs){ /* hole rings: posts far enough out that every straight ledger stays 60 mm clear of the hole edge */ let rad=q.r+ring; for(let k=0;k<4;k++){ const n=Math.max(4,Math.ceil(2*Math.PI*rad/step)); rad=Math.max(q.r+ring,(q.r+0.06)/Math.cos(Math.PI/n)); } ringPosts(q.x,q.z,rad); }
   const ok=(x,z)=>Math.hypot(x,z)<R0-ring-0.35 && hs.every(q=>Math.hypot(q.x-x,q.z-z)>q.r+ring+0.35); const grid=new Map();
@@ -1524,7 +1536,10 @@ function buildPlatform(){ buildCarpet();
     for(const q of hs){ const hk=new THREE.Mesh(new THREE.CylinderGeometry(q.r+0.01,q.r+0.01,top-PLY,64,1,true), skirtMat); hk.position.set(B.cx+q.x,(top-PLY)/2,B.cz+q.z); hk.receiveShadow=true; platGroup.add(hk); } }
   const r=S.tube, mat=finishMats.silver, V=(x,y,z)=>new THREE.Vector3(B.cx+x,y,B.cz+z); const P=platformParts(); const yTop=top-PLY-r, yLow=Math.min(0.18,yTop-0.15);
   for(const [x,z] of P.posts){ addTube(platGroup,V(x,0.008,z),V(x,yTop,z),r,mat); const bp=new THREE.Mesh(basePlateGeo,castorMat); bp.position.set(B.cx+x,0.004,B.cz+z); platGroup.add(bp); }
-  for(const [a,b] of P.ledgers){ addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat); if(yTop>0.3 && !segHitsSvc(a,b,r+0.01)) addTube(platGroup,V(a[0],yLow,a[1]),V(b[0],yLow,b[1]),r,mat); }   /* the lower ledger in front of the service box is left out so its door can swing open (the upper one still ties the bay) */
+  if(P.contractor){   /* contractor's frame: ledgers and clamped beams just under the deck only, so the floor under the table stays clear */
+    for(const [a,b] of P.ledgers) addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat);
+    for(const [a,b] of P.beams) addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r*1.15,mat); }
+  else   for(const [a,b] of P.ledgers){ addTube(platGroup,V(a[0],yTop-r,a[1]),V(b[0],yTop-r,b[1]),r,mat); if(yTop>0.3 && !segHitsSvc(a,b,r+0.01)) addTube(platGroup,V(a[0],yLow,a[1]),V(b[0],yLow,b[1]),r,mat); }   /* the lower ledger in front of the service box is left out so its door can swing open (the upper one still ties the bay) */
   BR.deckParts=P; buildHoleFeatures(hs); buildServiceBox(CARPET_T); buildQuoteBricks();
 }
 function stockSlots(){
