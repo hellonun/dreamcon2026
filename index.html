@@ -1307,6 +1307,7 @@ const speckle = canvasTex(256,256,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,
 const brickMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ map:speckle, roughness:0.93, metalness:0 }), MAXB);
 brickMesh.castShadow=true; brickMesh.receiveShadow=true; brickMesh.frustumCulled=false; scene.add(brickMesh);
 /* the concept line round the table rim */
+const RIM_COPIES = 4;
 const RIM_TEXT = { th:'ทุกเสียงมีความหมาย • ร่วมเป็นส่วนหนึ่งของบทสนทนา • มาสร้างรัฐธรรมนูญฉบับใหม่ไปด้วยกัน', en:"Your voice matters • Be part of the conversation • Let's build a new constitution together." };
 const RIM = { in:0.13, out:0.035, px:0.058 };   // band measured in from the rim, letter size in metres
 const BRICK_COLS = SINGLES.map(([c])=>new THREE.Color(c));
@@ -1627,7 +1628,7 @@ function seedMessages(){ const T=BR.targets; if(!T.length) return; const now=Dat
 /* ---------------- topics, the circle screens and the lettering round each hole ---------------- */
 const TOPICS = [ { id:'rights', en:'Rights and Equality', th:'สิทธิและความเป็นธรรม' }, { id:'life', en:'Quality of Life', th:'ปากท้องและคุณภาพชีวิต' }, { id:'politics', en:'Politics and Governance', th:'อำนาจรัฐและการเมือง' }, { id:'process', en:'Constitutional Process', th:'การจัดทำและแก้ไขรัฐธรรมนูญ' } ];   // = the station app's 4 buttons
 /* die-cut ring round each hole = the station's topic buttons: H1 small, H2 medium, H3 big */
-const HOLE_TOPICS = [['rights'],['life'],['politics']];
+const HOLE_TOPICS = [['rights'],['life'],['politics','process']];
 const topicById = id => TOPICS.find(t=>t.id===id) || TOPICS[0];
 const SCR15 = { w:0.253, h:0.423 };   // largest screen, used for clearances
 const SCR_SIZES = [ { w:0.206, h:0.358, t:0.012 }, { w:0.206, h:0.358, t:0.012 }, { w:0.252, h:0.425, t:0.018 } ];   // per circle, outer size, portrait (S1, S2, S3)
@@ -1758,10 +1759,10 @@ function buildRimLettering(hs, spots){ spots=spots.filter(sp=>!sp.inside); const
     const wTh=measure(RIM_TEXT.th,700,1,false), wEn=measure(RIM_TEXT.en,300,1,true), gap=px*1.6;
     ctx.fillStyle='#3B2A1A'; ctx.textBaseline='middle';
     const draw=(t,w,sz,x,en)=>{ ctx.font=fontOf(w,sz,en); ctx.textAlign='left'; for(const o of [0,-Wd,Wd]) ctx.fillText(t,x+o,Ht*0.52); };
-    for(const [u0,u1] of free){ let len=(u1-u0)*Wd; let x=u0*Wd; const seq=[]; let k=0; let used=0;
-      while(true){ const isTh=k%2===0, w=isTh?wTh:wEn; if(used+w+(seq.length?gap:0) > len-px) break; used+=w+(seq.length?gap:0); seq.push(isTh); k++; }
-      if(!seq.length) continue; let cx=x+(len-used)/2;
-      seq.forEach((isTh,j)=>{ if(j){ ctx.beginPath(); ctx.arc(cx+gap/2,Ht*0.52,px*0.11,0,Math.PI*2); ctx.fill(); cx+=gap; } draw(isTh?RIM_TEXT.th:RIM_TEXT.en,isTh?700:300,1,cx,!isTh); cx+=isTh?wTh:wEn; }); }
+    /* the Thai tagline 4 times, shared out over the free arcs (longest first) and spaced evenly in each, as on the die-cut file */
+    const need=wTh+2*px, arcs=free.map(([u0,u1])=>({ x:u0*Wd, L:(u1-u0)*Wd, n:0 }));
+    for(let k=0;k<RIM_COPIES;k++){ const cand=arcs.filter(a=>(a.n+1)*need<=a.L); if(!cand.length) break; cand.reduce((m,a)=>a.L/(a.n+1)>m.L/(m.n+1)?a:m).n++; }
+    arcs.forEach(a=>{ for(let k=0;k<a.n;k++) draw(RIM_TEXT.th,700,1,a.x+(k+0.5)*a.L/a.n-wTh/2,false); });
     const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; tex.wrapS=THREE.RepeatWrapping;
     // ring geometry: u along the circle (clockwise in plan), canvas top toward the centre
     const n=360, pos=[], uv=[], idx=[]; for(let i=0;i<=n;i++){ const u=i/n, a=-u*2*Math.PI, cs=Math.cos(a), sn=Math.sin(a); pos.push(cs*r0,0,sn*r0, cs*r1,0,sn*r1); uv.push(u,1, u,0); if(i<n){ const q=i*2; idx.push(q,q+1,q+2, q+1,q+3,q+2); } }
