@@ -1762,18 +1762,20 @@ function buildRimLettering(hs, spots){ spots=spots.filter(sp=>!sp.inside); const
     ctx.fillStyle='#3B2A1A'; ctx.textBaseline='middle';
     const draw=(t,w,sz,x,en)=>{ ctx.font=fontOf(w,sz,en); ctx.textAlign='left'; for(const o of [0,-Wd,Wd]) ctx.fillText(t,x+o,Ht*0.52); };
     /* the Thai tagline 4 times, shared out over the free arcs (longest first) and spaced evenly in each, as on the die-cut file */
-    const need=wTh+2*px, arcs=free.map(([u0,u1])=>({ x:u0*Wd, L:(u1-u0)*Wd, items:[] }));
-    for(let k=0;k<RIM_COPIES;k++){ const cand=arcs.filter(a=>(a.items.length+1)*need<=a.L); if(!cand.length) break; cand.reduce((m,a)=>a.L/(a.items.length+1)>m.L/(m.items.length+1)?a:m).items.push('th'); }
-    /* partner credit: two lines right-aligned against the loqa logo, in the arc with the most room, between its copies */
+    /* the Thai tagline RIM_COPIES times, as evenly spaced as the holes allow, and the partner credit in the middle of every gap (same rule as the die-cut file) */
+    const PAD=0.01*ppm, arcs=free.flatMap(([u0,u1])=>[-1,0,1].map(s=>[(u0+s)*Wd,(u1+s)*Wd]));
+    const nudge=(cc,w)=>{ let b=null; for(const [a0,a1] of arcs){ const lo=a0+PAD+w/2, hi=a1-PAD-w/2; if(lo>hi) continue; const d= cc>=lo&&cc<=hi? 0 : (cc<lo? lo-cc : hi-cc); if(b===null||Math.abs(d)<Math.abs(b)) b=d; } return b??0; };
+    let best=null; const step=Math.max(1,Math.round(0.002*ppm));
+    for(let t=0;t<Wd/RIM_COPIES;t+=step){ const cs=[...Array(RIM_COPIES)].map((_,k)=>{ const q=t+k*Wd/RIM_COPIES; return q+nudge(q,wTh); });
+      const gaps=cs.map((q,k)=>cs[(k+1)%RIM_COPIES]+(k===RIM_COPIES-1?Wd:0)-q-wTh); if(Math.min(...gaps)<=0) continue;
+      const sp=Math.max(...gaps)-Math.min(...gaps); if(!best||sp<best.sp) best={ sp, cs, gaps }; }
     const CRP=0.030*ppm, LH=0.080*ppm, LW=377*LH/587, crF=`700 ${Math.round(CRP)}px "IBM Plex Sans","IBM Plex Sans Thai",sans-serif`; ctx.font=crF;
-    const cr=['SPECIAL THANKS TO','OUR BRICK PARTNER'], cw=cr.map(t=>ctx.measureText(t).width), crW=Math.max(...cw)+0.024*ppm+LW;
-    const slack=a=>a.L-[...a.items,'cr'].reduce((s,t)=>s+(t==='th'? need : crW+2*px),0); const ac=arcs.reduce((m,a)=>slack(a)>slack(m)?a:m);
-    if(slack(ac)>0) ac.items.splice(Math.floor(ac.items.length/2),0,'cr');
-    arcs.forEach(a=>{ const n=a.items.length; a.items.forEach((t,k)=>{ const cx=a.x+(k+0.5)*a.L/n;
-      if(t==='th'){ draw(RIM_TEXT.th,700,1,cx-wTh/2,false); return; }
-      const x0=cx-crW/2, cap=CRP*0.7, b1=(Ht-(2*cap+0.011*ppm))/2+cap, b2=b1+cap+0.011*ppm, mw=Math.max(...cw);
+    const cr=['SPECIAL THANKS TO','OUR BRICK PARTNER'], cw=cr.map(t=>ctx.measureText(t).width), mw=Math.max(...cw), crW=mw+0.024*ppm+LW;
+    if(best) best.cs.forEach((q,k)=>{ draw(RIM_TEXT.th,700,1,q-wTh/2,false);
+      const g0=q+wTh/2, g1=g0+best.gaps[k]; let cx=(g0+g1)/2; const c2=cx+nudge(cx,crW); if(c2-crW/2>=g0+0.15*ppm && c2+crW/2<=g1-0.15*ppm) cx=c2;
+      const x0=cx-crW/2, cap=CRP*0.7, b1=(Ht-(2*cap+0.011*ppm))/2+cap, b2=b1+cap+0.011*ppm;
       for(const o of [0,-Wd,Wd]){ ctx.save(); ctx.font=crF; ctx.textAlign='right'; ctx.textBaseline='alphabetic'; ctx.fillText(cr[0],x0+mw+o,b1); ctx.fillText(cr[1],x0+mw+o,b2);
-        const k_=LH/587; ctx.translate(x0+mw+0.024*ppm+LW/2+o, Ht/2); ctx.scale(k_,k_); ctx.translate(-(161+538)/2,-(56+643)/2); ctx.fill(LOGO_PATH,'evenodd'); ctx.restore(); } }); });
+        const k_=LH/587; ctx.translate(x0+mw+0.024*ppm+LW/2+o, Ht/2); ctx.scale(k_,k_); ctx.translate(-(161+538)/2,-(56+643)/2); ctx.fill(LOGO_PATH,'evenodd'); ctx.restore(); } });
     const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; tex.wrapS=THREE.RepeatWrapping;
     // ring geometry: u along the circle (clockwise in plan), canvas top toward the centre
     const n=360, pos=[], uv=[], idx=[]; for(let i=0;i<=n;i++){ const u=i/n, a=-u*2*Math.PI, cs=Math.cos(a), sn=Math.sin(a); pos.push(cs*r0,0,sn*r0, cs*r1,0,sn*r1); uv.push(u,1, u,0); if(i<n){ const q=i*2; idx.push(q,q+1,q+2, q+1,q+3,q+2); } }
