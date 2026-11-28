@@ -1679,7 +1679,7 @@ function tickScreens(now){ if(now-lastScreenT<33) return; const dt=lastScreenT? 
 function ringLetteringTexture(h, i){ const ts=(HOLE_TOPICS[i]||[]).map(topicById); if(!ts.length) return null;
   const pad=0.2, size=2*(h.r+pad), ppm=Math.min(700,2048/size), S=Math.round(size*ppm); const c=document.createElement('canvas'); c.width=c.height=S; const ctx=c.getContext('2d');
   const px=0.065*ppm; ctx.fillStyle='#3B2A1A'; ctx.textBaseline='alphabetic';
-  const fTh=`700 ${px}px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif`, fEn=`300 ${px}px "IBM Plex Sans","IBM Plex Sans Thai",sans-serif`;
+  const fTh=`700 ${px}px "IBM Plex Sans Thai","IBM Plex Sans",sans-serif`, fEn=`600 ${px}px "IBM Plex Sans","IBM Plex Sans Thai",sans-serif`;
   const unit=[], fonts=[]; const add=(str,f)=>graphemes(str).forEach(g=>{ unit.push(g); fonts.push(f); });
   ts.forEach((t,k)=>{ if(k) add('   ·   ',fEn); add(t.th,fTh); add('  ',fEn); add(t.en,fEn); });
   const wid=unit.map((g,k)=>{ ctx.font=fonts[k]; return ctx.measureText(g).width; }); const unitW=wid.reduce((a,b)=>a+b,0);
@@ -1758,7 +1758,7 @@ function buildRimLettering(hs, spots){ spots=spots.filter(sp=>!sp.inside); const
     if(free.length>1 && free[0][0]===0 && free[free.length-1][1]===1){ const f=free.pop(); free[0]=[f[0]-1, free[0][1]]; }
     
     const fontOf=(w,sz,en)=>`${w} ${Math.round(px*sz)}px ${en?'"IBM Plex Sans","IBM Plex Sans Thai"':'"IBM Plex Sans Thai","IBM Plex Sans"'},sans-serif`; const measure=(t,w,sz,en)=>{ ctx.font=fontOf(w,sz,en); return ctx.measureText(t).width; };
-    const wTh=measure(RIM_TEXT.th,700,1,false), wEn=measure(RIM_TEXT.en,300,1,true), gap=px*1.6;
+    const wTh=measure(RIM_TEXT.th,700,1,false), wEn=measure(RIM_TEXT.en,600,1,true), gap=px*1.6;
     ctx.fillStyle='#3B2A1A'; ctx.textBaseline='middle';
     const draw=(t,w,sz,x,en)=>{ ctx.font=fontOf(w,sz,en); ctx.textAlign='left'; for(const o of [0,-Wd,Wd]) ctx.fillText(t,x+o,Ht*0.52); };
     /* the Thai tagline 4 times, shared out over the free arcs (longest first) and spaced evenly in each, as on the die-cut file */
@@ -1773,7 +1773,7 @@ function buildRimLettering(hs, spots){ spots=spots.filter(sp=>!sp.inside); const
       if(!best||key[0]<best.key[0]||(key[0]===best.key[0]&&key[1]<best.key[1])) best={ key, sp, cs, gaps }; }
     const CRP=0.030*ppm, LH=0.080*ppm, LW=377*LH/587, crF=`700 ${Math.round(CRP)}px "IBM Plex Sans","IBM Plex Sans Thai",sans-serif`; ctx.font=crF;
     const cr=['SPECIAL THANKS TO','OUR BRICK PARTNER'], cw=cr.map(t=>ctx.measureText(t).width), mw=Math.max(...cw), crW=mw+0.024*ppm+LW;
-    if(best) best.cs.forEach((q,k)=>{ const en=ITEMS[k]==='en'; draw(en? RIM_TEXT.en : RIM_TEXT.th, en?300:700, 1, q-WI[k]/2, en);
+    if(best) best.cs.forEach((q,k)=>{ const en=ITEMS[k]==='en'; draw(en? RIM_TEXT.en : RIM_TEXT.th, en?600:700, 1, q-WI[k]/2, en);
       const ga=q+WI[k]/2, g1=ga+best.gaps[k], g0=ga; let cx=(g0+g1)/2; const c2=cx+nudge(cx,crW); if(c2-crW/2>=g0+0.15*ppm && c2+crW/2<=g1-0.15*ppm) cx=c2;
       const x0=cx-crW/2, cap=CRP*0.7, b1=(Ht-(2*cap+0.011*ppm))/2+cap, b2=b1+cap+0.011*ppm;
       for(const o of [0,-Wd,Wd]){ ctx.save(); ctx.font=crF; ctx.textAlign='right'; ctx.textBaseline='alphabetic'; ctx.fillText(cr[0],x0+mw+o,b1); ctx.fillText(cr[1],x0+mw+o,b2);
